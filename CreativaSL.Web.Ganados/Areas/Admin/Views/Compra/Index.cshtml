@@ -76,30 +76,33 @@
                             <table id="tblIndexCompra" class="table tCompra">
                                 <thead>
                                     <tr>
-                                        <th rowspan="2"></th>
-                                        <th rowspan="2">Folio</th>
+                                        <th rowspan="3"></th>
+                                        <th rowspan="3">Folio</th>
                                         <th colspan="2">Fecha de compra</th>
-                                        <th rowspan="2">Nombre cliente</th>
-                                        <th rowspan="2">Lugar</th>
-                                        @*<th colspan="3">Ganado pactado</th>*@
-                                        <th colspan="4">Ganado comprado</th>
-                                        <th colspan="2">Transacciones</th>
-                                        <th rowspan="2">Merma(%)</th>
-                                        <th rowspan="2">Estatus</th>
-                                        <th rowspan="2">Acción</th>
+                                        <th rowspan="3">Nombre cliente</th>
+                                        <th rowspan="3">Lugar</th>
+                                        <th colspan="6">Ganado comprado</th>
+                                        <th colspan="3">Transacciones</th>
+                                        <th rowspan="3">Merma</th>
+                                        <th rowspan="3">Estatus</th>
+                                        <th rowspan="3">Acción</th>
                                     </tr>
                                     <tr>
-                                        <th>Fecha</th>
-                                        <th>Hora</th>
-                                        @*<th>Machos</th>
-                                        <th>Hembras</th>
-                                        <th>Total ganado</th>*@
-                                        <th>Machos</th>
-                                        <th>Hembras</th>
-                                        <th>Total ganado</th>
-                                        <th>Total kilos</th>
-                                        <th>Total por cobrar</th>
-                                        <th>Total por pagar</th>
+                                        <th rowspan="2">Fecha</th>
+                                        <th rowspan="2">Hora</th>
+                                        <th colspan="2">Machos</th>
+                                        <th colspan="2">Hembras</th>
+                                        <th rowspan="2">Total ganado</th>
+                                        <th rowspan="2">Total kg.</th>
+                                        <th rowspan="2">Total por cobrar</th>
+                                        <th rowspan="2">Total por pagar</th>
+                                        <th rowspan="2">Pendiente</th>
+                                    </tr>
+                                    <tr>
+                                        <th>Cant.</th>
+                                        <th>Kg.</th>
+                                        <th>Cant.</th>
+                                        <th>Kg.</th>
                                     </tr>
                                 </thead>
                                 <tbody></tbody>
@@ -235,7 +238,7 @@
     <script>
         function format(d) {
             var fechaProgramada;
-            console.log(d);
+            //console.log(d);
             if (d.FechaProgramada === null)
                 fechaProgramada = "Sin dato";
             else {
@@ -294,6 +297,7 @@
             "language": {
                     "url": "/Content/assets/json/Spanish.json"
             },
+             "lengthMenu": [[50, 100, 150, -1], [50, 100, 150, "Todos"]],
             "ajax": {
                 "data": {
 
@@ -353,19 +357,31 @@
                 },
                 { "data": "NombreProveedor" },
                 { "data": "LugarDestino" },                
-                //{ "data": "GanadoPactadoMachos" },
-                //{ "data": "GanadoPactadoHembras" },
-                //{ "data": "GanadoPactadoTotal" },
                 { "data": "GanadoCompradoMachos" },
+                {
+                    "data": "TotalKilosGanadoMachos",  //kilosMachos
+                    "render": $.fn.dataTable.render.number(',', '.', 0, '',' kg.'),
+                }, 
                 { "data": "GanadoCompradoHembras" },
+                {
+                    "data": "TotalKilosGanadoHembras",  //kilosHembras
+                    "render": $.fn.dataTable.render.number(',', '.', 0, '',' kg.'),
+                }, 
                 { "data": "GanadoCompradoTotal" },
-                { "data": "GanadoKilosTotal" },
+                {
+                    "data": "GanadoKilosTotal",
+                    "render": $.fn.dataTable.render.number(',', '.', 0, '',' kg.'),
+                },
                 {
                     "data": "TotalCobros",
                     "render": $.fn.dataTable.render.number(',', '.', 2, '$'),
                 },
                 {
                     "data": "TotalPagos",
+                    "render": $.fn.dataTable.render.number(',', '.', 2, '$'),
+                },
+                {
+                    "data": "Pendiente",
                     "render": $.fn.dataTable.render.number(',', '.', 2, '$'),
                 },
                 {

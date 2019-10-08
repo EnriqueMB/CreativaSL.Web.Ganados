@@ -28,6 +28,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
         #region AgendarCompra
         [HttpGet]
+        [SucursalesPermitidas]
         public ActionResult AgendarCompra(string IDCompra)
         {
             try
@@ -41,35 +42,26 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
                 if (!string.IsNullOrEmpty(IDCompra))
                 {
+                    if (!ValidateCompraXSucursal(IDCompra))
+                    {
+                        return RedirectToAction("Index");
+                    }
+
                     Compra.IDCompra = IDCompra;
                     Compra = CompraDatos.GetCompraProgramada(Compra);
-                    //Compra.DocumentosPorCobrarDetallePagos = new DocumentosPorCobrarDetallePagosModels();
                     Compra = CompraDatos.GetCompraEmbarque(Compra);
                 }
-                //if (string.IsNullOrEmpty(Compra.DocumentosPorCobrarDetallePagos.ImagenBase64))
-                //{
-                //    Compra.DocumentosPorCobrarDetallePagos.ImagenMostrar = Auxiliar.SetDefaultImage();
-                //}
-                //else
-                //{
-                //    Compra.DocumentosPorCobrarDetallePagos.ImagenMostrar = Compra.DocumentosPorCobrarDetallePagos.ImagenBase64;
-                //}
-                //Compra.DocumentosPorCobrarDetallePagos.ExtensionImagenBase64 = Auxiliar.ObtenerExtensionImagenBase64(Compra.DocumentosPorCobrarDetallePagos.ImagenMostrar);
-                //Compra.DocumentosPorCobrarDetallePagos.ListaCuentasBancariasEmpresa = CompraDatos.GetListadoCuentasBancariasGrupoOcampo(Compra);
-                //Compra.DocumentosPorCobrarDetallePagos.ListaCuentasBancariasProveedor = CompraDatos.GetListadoCuentasBancariasProveedorXIDProveedor(Compra);
+
+                List<string> sucursales = (List<string>)System.Web.HttpContext.Current.Session["lista_id_sucursales"];
+
                 Compra.ListaEmpresas = CompraDatos.GetListadoEmpresas(Compra);
-                Compra.ListaSucursales = CompraDatos.GetListadoSucursales(Compra);
+                //Compra.ListaSucursales = CompraDatos.GetListadoSucursales(Compra);
+                Compra.ListaSucursales = CompraDatos.GetSucursalesPermitidas(sucursales, 1, Conexion);
                 Compra.ListaProveedores = CompraDatos.GetListaProveedores(Compra);
                 Compra.ListaLugares = CompraDatos.GetListadoLugaresLugarXIDEmpresa(Compra);
                 Compra.ListaChoferes = CompraDatos.GetChoferesXIDEmpresa(Compra);
                 Compra.ListaVehiculos = CompraDatos.GetVehiculosXIDEmpresa(Compra);
                 Compra.ListaLugaresProveedor = CompraDatos.GetListadoLugaresProveedorXIDProveedor(Compra);
-                //Compra.Flete.ListaMetodoPago = CompraDatos.GetMetodosPagos(Compra);
-                //Compra.Flete.ListaFormaPago = CompraDatos.GetListadoCFDIFormaPago(Compra);
-                //Compra.ListaFierros = CompraDatos.GetListadoFierros(Compra);
-                //Compra.Fierro.ImgFierro = Auxiliar.SetDefaultImage();
-                //Compra.Fierro.Extension = Auxiliar.ObtenerExtensionImagenBase64(Compra.Fierro.ImgFierro);
-                //Compra.ListaFierrosString = Compra.ListaFierros.ToJSON();
 
                 return View(Compra);
             }
@@ -86,6 +78,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
         #region CompraGanado
         [HttpGet]
+        [SucursalesPermitidas]
         public ActionResult GanadoCompra(string IDCompra)
         {
             Token.SaveToken();
@@ -101,12 +94,17 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 {
                     Compra = new CompraModels();
                     CompraDatos = new _Compra_Datos();
+
+                    if (!ValidateCompraXSucursal(IDCompra))
+                    {
+                        return RedirectToAction("Index");
+                    }
+
                     Compra.IDCompra = IDCompra;
                     Compra.Conexion = Conexion;
                     Compra = CompraDatos.GetGanadoCompra(Compra);
                     Compra.ListadoPrecioRangoPesoString = CompraDatos.GetListadoPrecioRangoPeso(Compra).ToJSON();
                     Compra.ListaCorralesString = CompraDatos.GetListaCorrales(Compra).ToJSON();
-                    //Compra.ListaFierrosString = CompraDatos.GetListaFierros(Compra).ToJSON();
                     Compra.ListaFierrosString = CompraDatos.GetListaFierrosXCompra(Compra).ToJSON();
 
                     return View(Compra);
@@ -123,6 +121,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
         #region RecepcionCompra
         [HttpGet]
+        [SucursalesPermitidas]
         public ActionResult RecepcionCompra(string IDCompra)
         {
             Token.SaveToken();
@@ -136,6 +135,10 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             {
                 try
                 {
+                    if (!ValidateCompraXSucursal(IDCompra))
+                    {
+                        return RedirectToAction("Index");
+                    }
                     Compra = new CompraModels();
                     CompraDatos = new _Compra_Datos();
                     Compra.IDCompra = IDCompra;
@@ -178,6 +181,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
         #region Edit
         [HttpGet]
+        [SucursalesPermitidas]
         public ActionResult Edit(string IDCompra)
         {
             Compra = new CompraModels();
@@ -185,6 +189,12 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             //Asigno valores para los querys
             Compra.Conexion = Conexion;
             Compra.IDCompra = IDCompra;
+
+            if (!ValidateCompraXSucursal(IDCompra))
+            {
+                return RedirectToAction("Index");
+            }
+
             //Obtengo los datos de la compra
             Compra.Estatus = CompraDatos.GetEstatusCompra(Compra);
 
@@ -315,12 +325,21 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         #endregion
         #region Ganado
         [HttpPost]
+        [SucursalesPermitidas]
         public ActionResult AC_Ganado(string IDCompra, string IDGanado, string numArete, string id_genero,
             decimal peso, decimal repeso, decimal merma, decimal peso_pagar, decimal costo_kilo, int id_corral, string Id_detalleDocumentoPorCobrar,
             int indiceActual, string id_fierro1, string id_fierro2, string id_fierro3)
         {
             try
             {
+                if (!ValidateCompraXSucursal(IDCompra))
+                {
+                    Compra.RespuestaAjax.Mensaje = "Verifique sus datos, sucursal no válida para el usuario.";
+                    Compra.RespuestaAjax.Success = false;
+
+                    return Content(Compra.RespuestaAjax.ToJSON(), "application/json");
+                }
+
                 CompraDatos = new _Compra_Datos();
                 Compra = new CompraModels();
                 Compra.IDCompra = IDCompra;
@@ -342,8 +361,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Compra.Conexion = Conexion;
                 Compra.Usuario = User.Identity.Name;
                 Compra = CompraDatos.Compras_ac_Ganado(Compra, indiceActual);
-                //Compra.RespuestaAjax.Mensaje = "{\"id_ganado\" : \"1\", \"id_detalleDoctoCobrar\" : \"0\", \"indiceActual\" : \"" + indiceActual + "\", \"CantidadMachos\" : \"1\", \"CantidadHembras\" : \"1\", \"CantidadTotal\" : \"1\", \"MermaMachos\" : \"1\" , \"MermaHembras\" : \"2\" , \"MermaTotal\" : \"3\", \"KilosMachos\" : \"4\" , \"KilosHembras\" : \"5\", \"KilosTotal\" : \"6\", \"MontoTotalGanado\" : \"7\"}";
-                //Compra.RespuestaAjax.Success = true;
 
                 return Content(Compra.RespuestaAjax.ToJSON(), "application/json");
             }
@@ -357,10 +374,19 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [SucursalesPermitidas]
         public ActionResult DEL_Ganado(string IDCompra, string IDGanado, string Id_detalleDocumentoPorCobrar)
         {
             try
             {
+                if (!ValidateCompraXSucursal(IDCompra))
+                {
+                    Compra.RespuestaAjax.Mensaje = "Verifique sus datos, sucursal no válida para el usuario.";
+                    Compra.RespuestaAjax.Success = false;
+
+                    return Content(Compra.RespuestaAjax.ToJSON(), "application/json");
+                }
+
                 CompraDatos = new _Compra_Datos();
                 Compra = new CompraModels();
                 string id_ganado = IDGanado.Trim();
@@ -943,12 +969,19 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         #endregion
 
         [HttpGet]
+        [SucursalesPermitidas]
         public ActionResult CambiarEstatus(string IDCompra)
         {
             Compra = new CompraModels();
             CompraDatos = new _Compra_Datos();
             Compra.Conexion = Conexion;
             Compra.IDCompra = IDCompra;
+
+            if (!ValidateCompraXSucursal(IDCompra))
+            {
+                return RedirectToAction("Index");
+            }
+
             Compra = CompraDatos.CambiarEstatusCompra(Compra);
 
             if (Compra.RespuestaAjax.Success)
@@ -975,6 +1008,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
         #region Vista Transacciones
         [HttpGet]
+        [SucursalesPermitidas]
         public ActionResult Transacciones(string IDCompra)
         {
             try
@@ -987,6 +1021,10 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 }
                 else if (IDCompra.Length == 36)
                 {
+                    if (!ValidateCompraXSucursal(IDCompra))
+                    {
+                        return RedirectToAction("Index");
+                    }
                     Token.SaveToken();
                     Compra = new CompraModels();
                     CompraDatos = new _Compra_Datos();
@@ -1150,6 +1188,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         /// <param name="Id2">Id del detalle Documento por Cobrar</param>
         /// <returns></returns>
         [HttpGet]
+        [SucursalesPermitidas]
         public ActionResult ImpuestosProductoServicioCompra(string Id_1, string Id_2)
         {
             try
@@ -1159,6 +1198,11 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
                 if ((Id_1.Length == 36) && (Id_2.Length == 36))
                 {
+                    if (!ValidateCompraXSucursal(Id_1))
+                    {
+                        return RedirectToAction("Index");
+                    }
+
                     Token.SaveToken();
                     DocumentoPorCobrarDetalleImpuesto.IDCompra = Id_1;
                     DocumentoPorCobrarDetalleImpuesto.Id_detalleDoctoCobrar = Id_2;
@@ -1191,10 +1235,16 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         /// <param name="Id3">Id documento detalle impuesto</param>
         /// <returns></returns>
         [HttpGet]
+        [SucursalesPermitidas]
         public ActionResult ImpuestoProductoServicioACCompra(string Id1, string Id2, string Id3)
         {
             try
             {
+                if (!ValidateCompraXSucursal(Id1))
+                {
+                    return RedirectToAction("Index");
+                }
+
                 Token.SaveToken();
 
                 string Id_compra = string.IsNullOrEmpty(Id1) ? string.Empty : Id1;
@@ -1434,6 +1484,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
         [HttpGet]
+        [SucursalesPermitidas]
         public ActionResult EditProductoServicioCompra(string Id_compra, string Id_documentoPorCobrar, string Id_detalleDocumento)
         {
             try
@@ -1444,6 +1495,11 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 //0 = nuevo, 36 = editar, pero ambos son válidos
                 if ((Id_compra.Length == 36) && (Id_documentoPorCobrar.Length == 36) && (Id_detalleDocumento.Length == 0 || Id_detalleDocumento.Length == 36 || string.IsNullOrEmpty(Id_detalleDocumento)))
                 {
+                    if (!ValidateCompraXSucursal(Id_compra))
+                    {
+                        return RedirectToAction("Index");
+                    }
+
                     Token.SaveToken();
                     DocumentoPorCobrarDetalle.Id_servicio = Id_compra;
                     DocumentoPorCobrarDetalle.Id_documentoCobrar = Id_documentoPorCobrar;
@@ -1552,6 +1608,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         #region Vista Detalles
 
         [HttpGet]
+        [SucursalesPermitidas]
         public ActionResult Details(string IDCompra)
         {
             try
@@ -1567,6 +1624,12 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     Compra = new CompraModels();
                     CompraDatos = new _Compra_Datos();
                     Compra.IDCompra = IDCompra;
+
+                    if (!ValidateCompraXSucursal(IDCompra))
+                    {
+                        return RedirectToAction("Index");
+                    }
+
                     Compra.Conexion = Conexion;
                     Compra.Usuario = User.Identity.Name;
                     Compra.DocumentoPorPagar = new DocumentoPorPagarModels();
@@ -1911,14 +1974,17 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         #endregion
         #region Funcion Json Index
         [HttpPost]
+        [SucursalesPermitidas]
         public ActionResult JsonIndex(CompraModels Compra)
         {
             try
             {
                 CompraDatos = new _Compra_Datos();
                 Compra.Conexion = Conexion;
+                
+                List<string> sucursales = (List<string>)System.Web.HttpContext.Current.Session["lista_id_sucursales"];
 
-                Compra.RespuestaAjax.Mensaje = CompraDatos.ObtenerCompraIndexDataTable(Compra);
+                Compra.RespuestaAjax.Mensaje = CompraDatos.ObtenerCompraIndexDataTable(Compra, sucursales);
                 Compra.RespuestaAjax.Success = true;
 
                 return Content(Compra.RespuestaAjax.Mensaje, "application/json");
@@ -1934,6 +2000,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         #endregion
         #region Funcion Json Ganado
         [HttpPost]
+        [SucursalesPermitidas]
         public ActionResult TableJsonGanadoCompra(string IDCompra)
         {
             try
@@ -1942,8 +2009,17 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Compra = new CompraModels();
                 Compra.Conexion = Conexion;
                 Compra.IDCompra = IDCompra;
-                Compra.RespuestaAjax.Mensaje = CompraDatos.TableJsonGanadoCompra(Compra);
-                Compra.RespuestaAjax.Success = true;
+
+                if (!ValidateCompraXSucursal(IDCompra))
+                {
+                    Compra.RespuestaAjax.Mensaje = string.Empty;
+                    Compra.RespuestaAjax.Success = false;
+                }
+                else
+                {
+                    Compra.RespuestaAjax.Mensaje = CompraDatos.TableJsonGanadoCompra(Compra);
+                    Compra.RespuestaAjax.Success = true;
+                }
 
                 return Content(Compra.RespuestaAjax.Mensaje, "application/json");
 
@@ -2010,6 +2086,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         /// <param name="Id_1">Id de la compra</param>
         /// <returns></returns>
         [HttpGet]
+        [SucursalesPermitidas]
         public ActionResult DocumentosCompra(string Id_1, string current)
         {
             try
@@ -2020,11 +2097,16 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 //0 = nuevo, 36 = edit, si es diferente es un id no valido
                 if (Id_compra.Length == 36)
                 {
-                    
+                    if (!ValidateCompraXSucursal(Id_compra))
+                    {
+                        return RedirectToAction("Index");
+                    }
+
                     _Compra_Datos CompraDatos = new _Compra_Datos();
                     DocumentoModels Documento = new DocumentoModels();
                     Documento.Id_servicio = Id_1;
                     Documento.Conexion = Conexion;
+
                     Documento = CompraDatos.GetGeneralesDocumentosCompra(Documento);
                     Documento.ListaConceptosSalidaDeduccion = CompraDatos.GetListadoTipoClasificacionPago(Documento);
                     try
@@ -2067,6 +2149,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
         [HttpPost]
+        [SucursalesPermitidas]
         public ActionResult AC_CostoDocumentos(DocumentoModels Documento)
         {
             try
@@ -2074,6 +2157,13 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Documento.RespuestaAjax = new RespuestaAjax();
                 if (Token.IsTokenValid())
                 {
+                    if (!ValidateCompraXSucursal(Documento.Id_servicio))
+                    {
+                        Documento.RespuestaAjax.Mensaje = "Verifique sus datos, sucursal no válida para el usuario";
+                        Documento.RespuestaAjax.Success = false;
+                        return Content(Documento.RespuestaAjax.ToJSON(), "application/json");
+                    }
+
                     CompraDatos = new _Compra_Datos();
                     Documento.Conexion = Conexion;
                     Documento.Usuario = User.Identity.Name;
@@ -2108,11 +2198,16 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
         #region Vista Documento 
         [HttpGet]
+        [SucursalesPermitidas]
         public ActionResult DocumentoCompra(string IDCompra, string IDDocumento)
         {
             {
                 if (IDCompra.Length == 0 || IDCompra.Length == 36)
                 {
+                    if (!ValidateCompraXSucursal(IDCompra))
+                    {
+                        return RedirectToAction("Index");
+                    }
 
                     CompraDatos = new _Compra_Datos();
                     DocumentoModels Documento = new DocumentoModels();
@@ -2132,6 +2227,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
         [HttpPost]
+        [SucursalesPermitidas]
         public ActionResult DocumentoCompra(DocumentoModels Documento)
         {
             try
@@ -2140,6 +2236,11 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 {
                     if (Documento.Id_servicio.Length == 36)
                     {
+                        if (!ValidateCompraXSucursal(Documento.Id_servicio))
+                        {
+                            return RedirectToAction("Index");
+                        }
+
                         CompraDatos = new _Compra_Datos();
                         Documento.Conexion = Conexion;
                         Documento.Usuario = User.Identity.Name;
@@ -2201,6 +2302,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
         [HttpPost]
+        [SucursalesPermitidas]
         public ActionResult DEL_Documento(DocumentoModels Documento)
         {
             try
@@ -2210,6 +2312,13 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 {
                     if (Documento.Id_servicio.Length == 36)
                     {
+                        if (!ValidateCompraXSucursal(Documento.Id_servicio))
+                        {
+                            Documento.RespuestaAjax.Mensaje = "Verifique sus datos, sucursal no válida para el usuario";
+                            Documento.RespuestaAjax.Success = false;
+                            return Content(Documento.RespuestaAjax.ToJSON(), "application/json");
+                        }
+
                         CompraDatos = new _Compra_Datos();
                         Documento.Conexion = Conexion;
                         Documento.Usuario = User.Identity.Name;
@@ -2482,10 +2591,15 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         /// <param name="id_2">El id del documento por pagar detalle pago</param>
         /// <returns></returns>
         [HttpGet]
+        [SucursalesPermitidas]
         public ActionResult PagoCompra(string id_1, string id_2)
         {
             try
             {
+                if (!ValidateCompraXSucursal(id_1))
+                {
+                    return RedirectToAction("Index");
+                }
                 Token.SaveToken();
                 CompraDatos = new _Compra_Datos();
                 DocumentoPorPagarDetallePagosModels DocumentoPorPagarPago = new DocumentoPorPagarDetallePagosModels();
@@ -2544,13 +2658,17 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
         [HttpPost]
+        [SucursalesPermitidas]
         public ActionResult PagoCompra(DocumentoPorPagarDetallePagosModels DocumentoPorPagarPago)
         {
             try
             {
                 if (Token.IsTokenValid())
                 {
-
+                    if (!ValidateCompraXSucursal(DocumentoPorPagarPago.Id_padre))
+                    {
+                        return RedirectToAction("Index");
+                    }
                     DocumentoPorPagarPago.Usuario = User.Identity.Name;
                     DocumentoPorPagarPago.Conexion = Conexion;
                     DocumentoPorPagarPago.RespuestaAjax = new RespuestaAjax();
@@ -2891,6 +3009,11 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
+                if (!ValidateCompraXSucursal(Id_1))
+                {
+                    return RedirectToAction("Index");
+                }
+
                 Reporte_Datos R = new Reporte_Datos();
                 List<ComprobanteCompraDetallesModels> ListaComprobanteCompraDetalles = new List<ComprobanteCompraDetallesModels>();
                 List<ComprobanteCompraPagosModels> ListaComprobanteCompraPagosDetalles = new List<ComprobanteCompraPagosModels>();
@@ -3034,11 +3157,17 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         }
 
         [HttpGet]
+        [SucursalesPermitidas]
         public ActionResult EventoCompra(string IDCompra, int Id_eventoCompra)
         {
             {
                 if (!string.IsNullOrEmpty(IDCompra))
                 {
+                    if (!ValidateCompraXSucursal(IDCompra))
+                    {
+                        return RedirectToAction("Index");
+                    }
+
                     CompraDatos = new _Compra_Datos();
                     EventoCompraModels Evento = new EventoCompraModels();
                     Evento.Id_compra = IDCompra;
@@ -3067,12 +3196,19 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [SucursalesPermitidas]
         public ActionResult EventoCompra(EventoCompraModels Evento)
         {
             try
             {
                 if (Token.IsTokenValid())
                 {
+                    if (!ValidateCompraXSucursal(Evento.Id_compra))
+                    {
+                        Evento.RespuestaAjax.Mensaje = "Verifique sus datos, sucursal no válida para el usuario";
+                        Evento.RespuestaAjax.Success = false;
+                        return Content(Evento.RespuestaAjax.ToJSON(), "application/json");
+                    }
                     CompraDatos = new _Compra_Datos();
                     Evento.Conexion = Conexion;
                     Evento.Usuario = User.Identity.Name;
@@ -3143,8 +3279,16 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 {
                     if (IDCompra.Length == 36)
                     {
-                        CompraDatos = new _Compra_Datos();
                         EventoEnvioModels Evento = new EventoEnvioModels();
+
+                        if (!ValidateCompraXSucursal(IDCompra))
+                        {
+                            Evento.RespuestaAjax.Mensaje = "Verifique sus datos, sucursal no válida para el usuario";
+                            Evento.RespuestaAjax.Success = false;
+                            return Content(Evento.RespuestaAjax.ToJSON(), "application/json");
+                        }
+                        CompraDatos = new _Compra_Datos();
+                        
                         Evento.Conexion = Conexion;
                         Evento.Usuario = User.Identity.Name;
                         Evento.IDEvento = IDEvento;
@@ -3222,6 +3366,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
         #region Vista deduccion
         [HttpGet]
+        [SucursalesPermitidas]
         public ActionResult AddDeduccion(string id)
         {
             if (string.IsNullOrEmpty(id) || id.Length != 36)
@@ -3231,6 +3376,10 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return RedirectToAction("Index");
             }
 
+            if (!ValidateCompraXSucursal(id))
+            {
+                return RedirectToAction("Index");
+            }
             _CatDeduccion_Datos datos = new _CatDeduccion_Datos();
             DeduccionModels deduccion = new DeduccionModels();
 
@@ -3246,6 +3395,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [SucursalesPermitidas]
         public ActionResult AddDeduccion(DeduccionModels deduccion)
         {
             try
@@ -3254,6 +3404,10 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 {
                     if (ModelState.IsValid)
                     {
+                        if (!ValidateCompraXSucursal(deduccion.IdGenerico))
+                        {
+                            return RedirectToAction("Index");
+                        }
                         string usuario = User.Identity.Name;
                         _Deduccion_Datos datos = new _Deduccion_Datos();
 
@@ -3415,6 +3569,20 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
        
         #endregion
 
+        private bool ValidateCompraXSucursal(string id_compra)
+        {
+            List<string> sucursales = (List<string>)System.Web.HttpContext.Current.Session["lista_id_sucursales"];
+            
+            CompraDatos = new _Compra_Datos();
+
+            if (!CompraDatos.ValidateCompraXSucursal(sucursales, id_compra, Conexion))
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "No tiene el permiso de ver esta compra en esta sucursal.";
+                return false;
+            }
+            return true;
+        }
 
     }
 }
