@@ -82,7 +82,7 @@
                                         <th rowspan="3">Nombre cliente</th>
                                         <th rowspan="3">Lugar</th>
                                         <th colspan="6">Ganado comprado</th>
-                                        <th colspan="2">Transacciones</th>
+                                        <th colspan="3">Transacciones</th>
                                         <th rowspan="3">Merma</th>
                                         <th rowspan="3">Estatus</th>
                                         <th rowspan="3">Acción</th>
@@ -90,12 +90,13 @@
                                     <tr>
                                         <th rowspan="2">Fecha</th>
                                         <th rowspan="2">Hora</th>
-                                        <th colspan="2" >Machos</th>
+                                        <th colspan="2">Machos</th>
                                         <th colspan="2">Hembras</th>
                                         <th rowspan="2">Total ganado</th>
                                         <th rowspan="2">Total kg.</th>
                                         <th rowspan="2">Total por cobrar</th>
                                         <th rowspan="2">Total por pagar</th>
+                                        <th rowspan="2">Pendiente</th>
                                     </tr>
                                     <tr>
                                         <th>Cant.</th>
@@ -377,6 +378,10 @@
                 },
                 {
                     "data": "TotalPagos",
+                    "render": $.fn.dataTable.render.number(',', '.', 2, '$'),
+                },
+                {
+                    "data": "Pendiente",
                     "render": $.fn.dataTable.render.number(',', '.', 2, '$'),
                 },
                 {
