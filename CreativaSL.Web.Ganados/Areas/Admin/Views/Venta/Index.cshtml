@@ -39,6 +39,19 @@
             border-color: #007bff !important;
             color: white !important;
         }
+        table.tVenta td {
+            border-color: #E5E5E5 !important;
+            border: 1px solid #E5E5E5;
+        }
+
+        table.tVenta > thead > tr > th {
+            background: #f1f5f9;
+            color: #56688A;
+            font-size: 12px;
+            border: 1px solid #E5E5E5;
+            text-align: center;
+            vertical-align: middle;
+        }
     </style>
 }
 
@@ -73,19 +86,32 @@
                     </div>
                     <div class="panel-body">
                         <div class="table-responsive">
-                            <table id="tblVenta" class="table">
+                            <table id="tblVenta" class="table tVenta">
                                 <thead>
                                     <tr>
-                                        <th>Folio</th>
-                                        <th>Fecha</th>
-                                        <th>Hora</th>
-                                        <th>Cliente</th>
-                                        <th>Lugar destino</th>
-                                        <th>Total ganado</th>
-                                        <th>Total ($)</th>
-                                        <th>Estatus</th>
-                                        <th>Acción</th>
+                                        <th rowspan="3">Folio</th>
+                                        <th rowspan="3">Fecha</th>
+                                        <th rowspan="3">Hora</th>
+                                        <th rowspan="3">Cliente</th>
+                                        <th rowspan="3">Lugar destino</th>
+                                        <th colspan="6">Ganado</th>
+                                        <th rowspan="3">Total ($)</th>
+                                        <th rowspan="3">Estatus</th>
+                                        <th rowspan="3">Acción</th>
                                     </tr>
+                                    <tr>
+                                        <th colspan="2"> Machos </th>
+                                        <th colspan="2"> Hembras </th>
+                                        <th rowspan="2"> Total ganado </th>
+                                        <th rowspan="2"> Total kg. </th>
+                                    </tr>
+                                    <tr>
+                                        <th>Cant.</th>
+                                        <th>Kg.</th>
+                                        <th>Cant.</th>
+                                        <th>Kg.</th>
+                                    </tr>
+                                    
                                 </thead>
                                 <tbody></tbody>
                             </table>
@@ -227,7 +253,7 @@
                     "dataSrc": ''
                 },
                 "columns": [
-                    { "data": "folio" },
+                    { "data": "folio" }, //folio
                     {
                         "data": "fecha",
                         "render": function (data, type, row) {
@@ -246,7 +272,7 @@
 
                             return fecha;
                         }
-                    },
+                    }, //fecha
                     {
                     
                         "data": null,
@@ -266,20 +292,20 @@
                             }
                             return hora;
                         }
-                    },
-                    { "data": "nombreContacto" },
-                    { "data": "lugarDestino" },
-                    { "data": "totalGanado" },
+                    }, //hora
+                    { "data": "nombreContacto" }, //cliente
+                    { "data": "lugarDestino" }, //lugar destino
+                     { "data": "totalGanado" }, //machos
                     {
                         "data": "total",
                         "render": $.fn.dataTable.render.number(',', '.', 2, '$'),
-                    },
+                    }, //total
                     {
                         "data": null,
                         "render": function (data, type, full) {
                             return "<label class = '" + full["css"] + "'>" + full["estatus"] + "</label>";
                         }
-                    },
+                    }, //estatus
                     {
                         "data": null,
                         "render": function (data, type, full) {
@@ -583,7 +609,7 @@
                             }
                             return botones;
                         }
-                    }
+                    } //accion
                 ],
                 responsive: true,
                 "drawCallback": function (settings) {

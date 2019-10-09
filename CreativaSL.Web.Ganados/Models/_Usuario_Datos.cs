@@ -336,7 +336,7 @@ namespace CreativaSL.Web.Ganados.Models
         {
             try
             {
-                SqlDataReader Dr = SqlHelper.ExecuteReader(Datos.conexion, "spCSLDB_get_MenuPermission", Datos.id_usuario, Datos.id_tipoUsuario);
+                SqlDataReader Dr = SqlHelper.ExecuteReader(Datos.conexion, "spCSLDB_get_MenuPermission", Datos.id_usuario);
                 List<MenuModels> ListaPrinc = new List<MenuModels>();
                 MenuModels Item;
                 int cont = 0;

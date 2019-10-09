@@ -8019,7 +8019,7 @@ display:none;
 /* Cambios 11 / 06 / 2019 */
 
 .panel-body .infoPreviewContainer {
-    width: 50%;
+    width: 80%;
     display: block;
     margin: auto;
 }

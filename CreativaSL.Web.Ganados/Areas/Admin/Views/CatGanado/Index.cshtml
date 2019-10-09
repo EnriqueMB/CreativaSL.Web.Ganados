@@ -3,6 +3,7 @@
 @{
     ViewBag.Title = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    bool puedeTransferirGanado = (bool)ViewBag.PuedeTransferirGanado;
 }
 
 @section featured{
@@ -29,50 +30,71 @@
                     <div class="panel-heading">
                         <h3 class="panel-title"></h3>
                         <ul class="panel-controls">
-                            <li><a href="@Url.Action("Transferir","CatGanado")" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Transferir Ganado</a></li>
+                            @if (puedeTransferirGanado)
+                            {
+                                <li><a href="@Url.Action("Transferir","CatGanado")" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Transferir Ganado</a></li>
+                            }
                             <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
                             <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
                         </ul>
                     </div>
                     <div class="panel-body">
-                        <div class="infoPreviewContainer">
-                            <h3>Información de Ganado</h3>
-                            <div class="infoItem">
-                                <div class="group">
-                                    <label>Machos:</label>
-                                    <input readonly value="0 Machos" type="text" name="numGanadoMacho" />
+                        @if (puedeTransferirGanado)
+                        {
+                            <div class="infoPreviewContainer">
+                                <h3>Información de Ganado</h3>
+                                <div class="infoItem">
+                                    <div class="group">
+                                        <label>Machos:</label>
+                                        <input readonly value="0 Machos" type="text" name="numGanadoMacho" />
+                                    </div>
+                                    <div class="group">
+                                        <label>Peso:</label>
+                                        <input readonly value="0 KG." type="text" name="pesoGanadoMacho" />
+                                    </div>
+                                    <div class="group">
+                                        <label>Dinero:</label>
+                                        <input readonly value="$ 0.00" type="text" name="dineroMachos" />
+                                    </div>
                                 </div>
-                                <div class="group">
-                                    <label>Peso:</label>
-                                    <input readonly value="0 KG." type="text" name="pesoGanadoMacho" />
+                                <div class="infoItem">
+                                    <div class="group">
+                                        <label>Hembras:</label>
+                                        <input readonly value="0 Hembras" type="text" name="numGanadoHembras" />
+                                    </div>
+                                    <div class="group">
+                                        <label>Peso:</label>
+                                        <input readonly value="0 KG." type="text" name="pesoGanadoHembras" />
+                                    </div>
+                                    <div class="group">
+                                        <label>Dinero:</label>
+                                        <input readonly value="$ 0.00" type="text" name="dineroHembras" />
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="infoItem">
-                                <div class="group">
-                                    <label>Hembras:</label>
-                                    <input readonly value="0 Hembras" type="text" name="numGanadoHembras" />
+                                <div class="infoItem">
+                                    <div class="group">
+                                        <label>Total de Ganado:</label>
+                                        <input readonly value="0" type="text" name="totalGanado" />
+                                    </div>
+                                    <div class="group">
+                                        <label>Peso Total:</label>
+                                        <input readonly value="0 KG." type="text" name="pesoTotal" />
+                                    </div>
+                                    <div class="group">
+                                        <label>Dinero Total:</label>
+                                        <input readonly value="$ 0.00" type="text" name="dineroTotal" />
+                                    </div>
                                 </div>
-                                <div class="group">
-                                    <label>Peso:</label>
-                                    <input readonly value="0 KG." type="text" name="pesoGanadoHembras" />
-                                </div>
-                            </div>
-                            <div class="infoItem">
-                                <div class="group">
-                                    <label>Total de Ganado:</label>
-                                    <input readonly value="0" type="text" name="totalGanado" />
-                                </div>
-                                <div class="group">
-                                    <label>Peso Total:</label>
-                                    <input readonly value="0 KG." type="text" name="pesoTotal" />
-                                </div>
-                            </div>
 
-                        </div>
+                            </div>
+                        }
+                        <br />
+                        <br />
                         <div class="table-responsive">
                             <table id="Jtabla" class="table">
                                 <thead>
                                     <tr>
+                                        <th>Dinero</th>
                                         <th>Fecha</th>
                                         <th>N° de Arete</th>
                                         <th>Proveedor</th>
@@ -88,6 +110,7 @@
                                     @foreach (var Ganado in Model.ListaGanados)
                                     {
                                         <tr id="@Ganado.IDGanado">
+                                            <td>@Ganado.Dinero</td>
                                             <td>@Ganado.FechaCompra.ToShortDateString()</td>
                                             <td>@Ganado.NumArete</td>
                                             <td>@Ganado.Proveedor</td>
@@ -145,39 +168,57 @@
         $(document).ready(function () {
             var table = $('#Jtabla').DataTable();
 
+            table.columns([0]).visible(false);
+
+            const formatter = new Intl.NumberFormat('es-MX', {
+                style: 'currency',
+                currency: 'MXN',
+                minimumFractionDigits: 2
+            });
+
             table.on('search.dt', function () {
                 var valueSearch = table.rows({ search: 'applied' }).data();
                 var hembras = 0;
                 var machos = 0;
                 var pesoMachos = 0;
                 var pesoHembras = 0;
+                var dineroMachos = 0;
+                var dineroHembras = 0;
+
+                console.log(valueSearch);
 
                 for (var i = 0; i < valueSearch.length; i++)
                 {
-                    var genero = String(valueSearch[i][3]).trim();
+                    var genero = String(valueSearch[i][4]).trim();
                     
                     if (genero.localeCompare("MACHO") == 0){
                         machos++;
-                        pesoMachos += Number.parseInt(valueSearch[i][4]);
+                        pesoMachos += Number.parseInt(valueSearch[i][5]);
+                        dineroMachos += Number.parseFloat(valueSearch[i][0]);
                     }
                     else if (genero.localeCompare("HEMBRA") == 0){
                         hembras++;
-                        pesoHembras += Number.parseInt(valueSearch[i][4]);
+                        pesoHembras += Number.parseInt(valueSearch[i][5]);
+                        dineroHembras += Number.parseFloat(valueSearch[i][0]);
                     }
                 }
 
                 $(".infoPreviewContainer .infoItem .group input[name='numGanadoMacho']").val(machos + " Machos");
                 $(".infoPreviewContainer .infoItem .group input[name='numGanadoHembras']").val(hembras + " Hembras");
 
-                
                 $(".infoPreviewContainer .infoItem .group input[name='pesoGanadoMacho']").val(pesoMachos + " KG.");
                 $(".infoPreviewContainer .infoItem .group input[name='pesoGanadoHembras']").val(pesoHembras + " KG.");
 
+                $(".infoPreviewContainer .infoItem .group input[name='dineroMachos']").val(formatter.format(dineroMachos));
+                $(".infoPreviewContainer .infoItem .group input[name='dineroHembras']").val(formatter.format(dineroHembras));
+
                 var totalGanado = machos + hembras;
                 var totalPeso = pesoMachos + pesoHembras;
+                var dineroTotal = dineroMachos + dineroHembras;
 
                 $(".infoPreviewContainer .infoItem .group input[name='totalGanado']").val(totalGanado + " de ganado");
                 $(".infoPreviewContainer .infoItem .group input[name='pesoTotal']").val(totalPeso + " KG.");
+                $(".infoPreviewContainer .infoItem .group input[name='dineroTotal']").val(formatter.format(dineroTotal));
 
             });
         });

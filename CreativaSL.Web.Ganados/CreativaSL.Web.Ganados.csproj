@@ -1679,6 +1679,7 @@
     <Compile Include="Filters\AutorizadoAttribute.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="Filters\SucursalesPermitidas.cs" />
+    <Compile Include="Filters\TransferenciaGanadoAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
