@@ -591,5 +591,31 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 throw;
             }
         }
+
+        [HttpGet]
+        public ActionResult MetaXSucursal(string id_sucursal, string id_empresa, string nombre_empresa)
+        {
+            if (id_sucursal == null || id_empresa == null || nombre_empresa == null || string.IsNullOrEmpty(id_empresa) || string.IsNullOrEmpty(nombre_empresa))
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Verifique sus datos.";
+                return RedirectToAction("Index");
+            }
+
+            _CatSucursal_Datos sucursal_Datos = new _CatSucursal_Datos();
+
+            MetaXSucursal metaXSucursal = sucursal_Datos.GetMetaXSucursal(id_sucursal, Conexion);
+            ViewBag.Id_empresa = id_empresa;
+            ViewBag.Nombre_empresa = nombre_empresa;
+
+            if(!metaXSucursal.Success)
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = metaXSucursal.Mensaje;
+                return RedirectToAction("Index");
+            }
+
+            return View(metaXSucursal);
+        }
     }
 }

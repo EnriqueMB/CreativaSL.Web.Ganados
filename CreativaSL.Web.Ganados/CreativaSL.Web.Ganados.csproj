@@ -487,6 +487,7 @@
     <Content Include="Content\js\catDocumentos.js" />
     <Content Include="Content\js\catFierro.js" />
     <Content Include="Content\js\CatFierroSubir.js" />
+    <Content Include="Content\js\MetaXSucursal.js" />
     <Content Include="Content\js\plugins\nvd3\src\models\backup\bullet.js" />
     <Content Include="Content\js\PrestamoHerramientasDetalle.js" />
     <Content Include="Content\js\ReporteTipoFlete.js" />
@@ -1569,6 +1570,7 @@
     <Content Include="Areas\Admin\Views\Prestamos\EditDetails.cshtml" />
     <Content Include="Areas\Admin\Views\Prestamos\Devolucion.cshtml" />
     <Content Include="Areas\Admin\Views\CatUsuarios\Sucursales.cshtml" />
+    <Content Include="Areas\Admin\Views\CatEmpresa\MetaXSucursal.cshtml" />
     <None Include="Properties\PublishProfiles\Ocampo.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
@@ -1679,6 +1681,7 @@
     <Compile Include="Filters\AutorizadoAttribute.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="Filters\SucursalesPermitidas.cs" />
+    <Compile Include="Filters\TransferenciaGanadoAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -1837,6 +1840,7 @@
     <Compile Include="Models\LicenciaChoferModels.cs" />
     <Compile Include="Models\ComprobanteCompraDetallesOtrasPercepciones.cs" />
     <Compile Include="Models\MenuModels.cs" />
+    <Compile Include="Models\MetaXSucursal.cs" />
     <Compile Include="Models\MovimientosCajaChicaModels.cs" />
     <Compile Include="Models\MovimientosProductosModels.cs" />
     <Compile Include="Models\MunicipioModels.cs" />

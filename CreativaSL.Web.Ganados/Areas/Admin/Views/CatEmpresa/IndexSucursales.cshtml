@@ -54,6 +54,7 @@
                                             <td style="text-align:center;">
                                                 <div class="visible-md visible-lg hidden-sm hidden-xs">
                                                     <a title="Editar" class="btn btn-yellow" href="@Url.Action("EditSucursal", "CatEmpresa", new { id = Sucursal.IDSucursal,nombreEmpresa = Model.NombreSucursalMatriz })"><i class="fa fa-edit"></i></a>
+                                                    <a title="Meta semanal" class="btn btn-info" href="@Url.Action("MetaXSucursal", "CatEmpresa", new { id_sucursal = Sucursal.IDSucursal, id_empresa = Sucursal.IDSucursal, nombre_empresa = Model.NombreSucursalMatriz })"><i class="fa fa-bar-chart-o"></i></a>
                                                     <a title="Eliminar" id="delete-@Sucursal.IDSucursal" data-hrefa="@Url.Action("DeleteSucursal", "CatEmpresa", new { id = Sucursal.IDSucursal })" onClick="delete_row('@Sucursal.IDSucursal');" class="btn btn-danger tooltips" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
                                                 </div>
                                                 <div class="visible-xs visible-sm hidden-md hidden-lg">

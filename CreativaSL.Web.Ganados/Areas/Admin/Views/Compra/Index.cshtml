@@ -6,7 +6,6 @@
 }
 @section css
 {
-    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/css/compra.css")" />
     <style>
         td.details-control {
             background: url("@Url.Content("~/Content/img/details_open.png")") no-repeat center center;
@@ -38,6 +37,29 @@
             background-color:#007bff !important;
             border-color: #007bff !important;
             color: white !important;
+        }
+
+        table.tCompra td  {
+            border-color: #E5E5E5 !important;
+            border: 1px solid #E5E5E5;
+        }
+
+         table.tCompra > thead > tr > th {
+            background: #f1f5f9;
+            color: #56688A;
+            font-size: 12px;
+            border: 1px solid #E5E5E5;
+            text-align: center;
+            vertical-align: middle;
+            padding: 8px;
+        }
+        td {
+            vertical-align: middle;
+            text-align: center;
+        }
+        a.btn.btn-sm {
+            width: 30% !important;
+            margin: 1px !important;
         }
     </style>
 }
@@ -73,7 +95,7 @@
                     </div>
                     <div class="panel-body">
                         <div class="table-responsive">
-                            <table id="tblIndexCompra" class="table tCompra">
+                            <table id="tblIndexCompra" class=" tCompra table-long">
                                 <thead>
                                     <tr>
                                         <th rowspan="3"></th>
@@ -230,6 +252,7 @@
     <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
+
     <script>
         jQuery(document).ready(function () {
             Mensaje(message, typemessage);
@@ -265,7 +288,7 @@
             }
 
 
-            return '<table class="table" cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
+            return '<table class="table" cellpadding="1" cellspacing="0" border="0" style="padding-left:50px;">' +
                 '<tr>' +
                 '<td>Fecha programada:</td>' +
                 '<td>' + fechaProgramada + '</td>' +
@@ -295,13 +318,13 @@
 
         var tblIndexCompra1 = $("#tblIndexCompra").DataTable({
             "language": {
-                    "url": "/Content/assets/json/Spanish.json"
+                "url": "/Content/assets/json/Spanish.json"
             },
-             "lengthMenu": [[50, 100, 150, -1], [50, 100, 150, "Todos"]],
+            "lengthMenu": [[50, 100, 150, -1], [50, 100, 150, "Todos"]],
             "ajax": {
                 "data": {
 
-            },
+                },
                 "url": "/Admin/Compra/JsonIndex/",
                 "type": "POST",
                 "datatype": "json",
@@ -313,13 +336,16 @@
                     "orderable": false,
                     "data": null,
                     "defaultContent": "",
-                    "width": "5%"
+                    "width": "3%"
                 },
-                { "data": "Folio" },
+                {
+                    "data": "Folio"
+                    ,"width": "7%"
+                },
                 {
                     "data": null,
                     "render": function (data, type, full) {
-                        var fecha= full["FechaProgramada"] ;
+                        var fecha = full["FechaProgramada"];
                         if (fecha === null)
                             fecha = "Sin concluir";
                         else {
@@ -335,6 +361,7 @@
                         }
                         return fecha;
                     }
+                    ,"width": "7%"
                 },
                 {
                     "data": null,
@@ -350,27 +377,30 @@
                             var S = dia.split(':');
                             var H = S[0];
                             var M = S[1];
-                            hora = H +':'+ M+' Horas';
+                            hora = H + ':' + M + ' Horas';
                         }
                         return hora;
                     }
+                    ,"width": "7%"
                 },
                 { "data": "NombreProveedor" },
-                { "data": "LugarDestino" },                
-                { "data": "GanadoCompradoMachos" },
+                { "data": "LugarDestino" },
+                { "data": "GanadoCompradoMachos" ,"width": "5%" },
                 {
                     "data": "TotalKilosGanadoMachos",  //kilosMachos
-                    "render": $.fn.dataTable.render.number(',', '.', 0, '',' kg.'),
-                }, 
+                    "render": $.fn.dataTable.render.number(',', '.', 0, '', ' kg.')
+                    ,"width": "5%"
+                },
                 { "data": "GanadoCompradoHembras" },
                 {
                     "data": "TotalKilosGanadoHembras",  //kilosHembras
-                    "render": $.fn.dataTable.render.number(',', '.', 0, '',' kg.'),
-                }, 
-                { "data": "GanadoCompradoTotal" },
+                    "render": $.fn.dataTable.render.number(',', '.', 0, '', ' kg.')
+                    ,"width": "5%"
+                },
+                { "data": "GanadoCompradoTotal", "width": "5%" },
                 {
                     "data": "GanadoKilosTotal",
-                    "render": $.fn.dataTable.render.number(',', '.', 0, '',' kg.'),
+                    "render": $.fn.dataTable.render.number(',', '.', 0, '', ' kg.'),
                 },
                 {
                     "data": "TotalCobros",
@@ -386,7 +416,7 @@
                 },
                 {
                     "data": "MermaPromedio",
-                        "render": $.fn.dataTable.render.number(',', '.', 2, '' , '%'),
+                    "render": $.fn.dataTable.render.number(',', '.', 2, '', '%'),
                 },
                 {
                     "data": null,
@@ -397,7 +427,7 @@
                 {
                     "data": null,
                     "render": function (data, type, full) {
-                        var botones = "<div class='visible-md visible-lg hidden-sm hidden-xs'>";
+                        var botones = "<div class='hidden-md hidden-sm'>";
                         var status_actual = full["Estatus"];
                         var agendado = "Programado";
                         var en_camino = "En camino";
@@ -414,7 +444,7 @@
                                 "<a data-id='" + full["id_compra"] + "' class='btn btn-yellow tooltips btn-sm edit' title='Editar'  data-placement='top' data-original-title='Editar'><i class='fa fa-clock-o'></i></a>" +
                                 "<a data-id='" + full["id_compra"] + "' class='btn btn-danger tooltips btn-sm eliminar' data-placement='top' data-original-title='Eliminar' title='Eliminar'  data-hrefa='/Admin/Compra/DEL_Compra/' ><i class='fa fa-trash-o'></i></a>" +
                                 "</div>" +
-                                "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
+                                "<div class='visible-xs visible-sm visible-md hidden-lg'>" +
                                 "<div class='btn-group'>" +
                                 "<a class='btn btn-danger dropdown-toggle btn-sm' data-toggle='dropdown' href='#'" +
                                 "<i class='fa fa-cog'></i> <span class='caret'></span>" +
@@ -463,7 +493,7 @@
                                 "<a data-id='" + full["id_compra"] + "' class='btn tooltips btn-sm documentos' title='Documentos'  data-placement='top' data-original-title='Documentos'><i class='fa fa-archive'></i></a>" +
                                 "<a data-id='" + full["id_compra"] + "' class='btn btn-danger tooltips btn-sm eliminar' data-placement='top' data-original-title='Eliminar' title='Eliminar' data-hrefa='/Admin/Compra/DEL_Compra/'><i class='fa fa-trash-o'></i></a>" +
                                 "</div>" +
-                                "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
+                                "<div class='visible-xs visible-sm visible-md hidden-lg'>" +
                                 "<div class='btn-group'>" +
                                 "<a class='btn btn-danger dropdown-toggle btn-sm' data-toggle='dropdown' href='#'" +
                                 "<i class='fa fa-cog'></i> <span class='caret'></span>" +
@@ -508,7 +538,7 @@
                                 "<a data-id='" + full["id_compra"] + "' class='btn btn-yellow tooltips btn-sm edit' title='Editar'  data-placement='top' data-original-title='Editar'><i class='icon-ocampo-head'></i></a>" +
                                 "<a data-id='" + full["id_compra"] + "' class='btn btn-danger tooltips btn-sm eliminar' data-placement='top' data-original-title='Eliminar' title='Eliminar' data-hrefa='/Admin/Compra/DEL_Compra/'><i class='fa fa-trash-o'></i></a>" +
                                 "</div>" +
-                                "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
+                                "<div class='visible-xs visible-sm visible-md hidden-lg'>" +
                                 "<div class='btn-group'>" +
                                 "<a class='btn btn-danger dropdown-toggle btn-sm' data-toggle='dropdown' href='#'" +
                                 "<i class='fa fa-cog'></i> <span class='caret'></span>" +
@@ -558,7 +588,7 @@
                                 "<a data-id='" + full["id_compra"] + "' class='btn btn-yellow tooltips btn-sm edit' title='Editar'  data-placement='top' data-original-title='Editar'><i class='fa fa-book'></i></a>" +
                                 "<a data-id='" + full["id_compra"] + "' class='btn btn-danger tooltips btn-sm eliminar' data-placement='top' data-original-title='Eliminar' title='Eliminar' data-hrefa='/Admin/Compra/DEL_Compra/'><i class='fa fa-trash-o'></i></a>" +
                                 "</div>" +
-                                "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
+                                "<div class='visible-xs visible-sm visible-md hidden-lg'>" +
                                 "<div class='btn-group'>" +
                                 "<a class='btn btn-danger dropdown-toggle btn-sm' data-toggle='dropdown' href='#'" +
                                 "<i class='fa fa-cog'></i> <span class='caret'></span>" +
@@ -602,7 +632,7 @@
                         if (igual == 0) {
                             botones = botones + "<a data-id='" + full["id_compra"] + "' class='btn tooltips btn-sm btn-primary details' title='Detalles'  data-placement='top' data-original-title='Detalles'><i class='fa fa-eye'></i></a>" +
                                 "</div>" +
-                                "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
+                                "<div class='visible-xs visible-sm visible-md hidden-lg'>" +
                                 "<div class='btn-group'>" +
                                 "<a class='btn btn-danger dropdown-toggle btn-sm' data-toggle='dropdown' href='#'" +
                                 "<i class='fa fa-cog'></i> <span class='caret'></span>" +
@@ -618,10 +648,10 @@
                                 "</div>";
                         }
                         return botones;
-                    }
+                    },
+                    "width": "40%"
                 }
             ],
-            responsive: true,
             "drawCallback": function (settings) {
                 $(".edit").on("click", function () {
                     //edito el estado actual de la compra
@@ -681,7 +711,7 @@
                     window.location.href = '/Admin/Compra/DocumentosCompra?Id_1=' + IDCompra;
                 });
                 $(".eliminar").on("click", function () {
-                   //Elimino la compra seleccionada
+                    //Elimino la compra seleccionada
 
                     var url = $(this).attr('data-hrefa');
                     var IDCompra = $(this).attr('data-id');
@@ -709,14 +739,12 @@
             "order": [[1, 'desc']]
         });
 
-        tblIndexCompra1.on('page.dt', function () {
-            onresize(100);
-        });
+
 
         // Add event listener for opening and closing details
         $('#tblIndexCompra tbody').on('click', 'td.details-control', function () {
             var tr = $(this).closest('tr');
-            var row = tblIndexCompra1.row(tr);           
+            var row = tblIndexCompra1.row(tr);
             if (row.child.isShown()) {
                 // This row is already open - close it
                 row.child.hide();

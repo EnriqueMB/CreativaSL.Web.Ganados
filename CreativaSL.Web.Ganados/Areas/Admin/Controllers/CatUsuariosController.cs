@@ -261,7 +261,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 _Usuario_Datos UsuarioDatos = new _Usuario_Datos();
                 usuario.conexion = Conexion;
                 usuario.id_usuario = id;
-                usuario.id_tipoUsuario = 1;
                 usuario.listaMenu = UsuarioDatos.ObtenerListaPermisosUsuario(usuario);
                 if (usuario.ListaPermisos != null)
                 {

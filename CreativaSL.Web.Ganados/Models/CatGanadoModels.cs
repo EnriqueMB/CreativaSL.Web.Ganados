@@ -160,6 +160,7 @@ namespace CreativaSL.Web.Ganados.Models
         }
 
         public RespuestaAjax RespuestaAjax { get; set; }
+        public decimal Dinero { get; set; }
 
         #region Datos De Control
         public string Conexion { get; set; }

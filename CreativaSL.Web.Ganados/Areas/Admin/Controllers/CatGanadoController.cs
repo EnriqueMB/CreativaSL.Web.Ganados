@@ -2,12 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Configuration;
-using CreativaSL.Web.Ganados.ViewModels;
 using CreativaSL.Web.Ganados.Models;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using System.Data;
+using CreativaSL.Web.Ganados.Filters;
 
 namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 {
@@ -15,7 +13,10 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
     {
         private TokenProcessor Token = TokenProcessor.GetInstance();
         string Conexion = ConfigurationManager.AppSettings.Get("strConnection");
+
+        
         // GET: Admin/CatGanado
+        [TransferenciaGanado]
         public ActionResult Index()
         {
             try
@@ -24,6 +25,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 _CatGanado_Datos GanadoD = new _CatGanado_Datos();
                 GanadoM.Conexion = Conexion;
                 GanadoM = GanadoD.ObtenerGanado(GanadoM);
+                ViewBag.PuedeTransferirGanado = (bool)System.Web.HttpContext.Current.Session["PuedeTransferirGanado"];
+
                 return View(GanadoM);
             }
             catch (Exception)
@@ -37,10 +40,17 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         }
 
         // GET: Admin/CatGanado/Transferir/5
+        [TransferenciaGanado]
         public ActionResult Transferir()
         {
             try
             {
+                bool puedeTransferirGanado = (bool)System.Web.HttpContext.Current.Session["PuedeTransferirGanado"];
+                if (!puedeTransferirGanado)
+                {
+                    return RedirectToAction("Index");
+                }
+
                 CatGanadoModels Ganado = new CatGanadoModels();
                 Ganado.Conexion = Conexion;
                 _Combos_Datos Datos = new _Combos_Datos();
@@ -55,11 +65,17 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         }
 
         //POST: Admin/CatGanado/Tranferir/1
+        [TransferenciaGanado]
         [HttpPost]
         public ActionResult Transferir(List<GanadoParaVender> ListaGanadosParaVender, string IDSucursal, Int64 IDCorral)
         {
             try
             {
+                bool puedeTransferirGanado = (bool)System.Web.HttpContext.Current.Session["PuedeTransferirGanado"];
+                if (!puedeTransferirGanado)
+                {
+                    return RedirectToAction("Index");
+                }
                 _CatGanado_Datos Datos = new _CatGanado_Datos();
                 DataTable dataTable;
                 dataTable = new DataTable("Items");

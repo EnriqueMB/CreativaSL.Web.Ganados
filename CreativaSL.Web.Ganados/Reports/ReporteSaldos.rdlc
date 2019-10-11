@@ -374,28 +374,28 @@
                   <Width>3.78739cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>2.0904cm</Width>
+                  <Width>1.93165cm</Width>
                 </TablixColumn>
                 <TablixColumn>
                   <Width>1.3572cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>2.16008cm</Width>
+                  <Width>1.73918cm</Width>
                 </TablixColumn>
                 <TablixColumn>
                   <Width>1.85313cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>2.4529cm</Width>
+                  <Width>2.03218cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>2.3587cm</Width>
+                  <Width>2.06094cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.57383cm</Width>
+                  <Width>1.87159cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.41501cm</Width>
+                  <Width>2.4154cm</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -430,6 +430,7 @@
                               <Style>Solid</Style>
                             </Border>
                             <BackgroundColor>Gray</BackgroundColor>
+                            <VerticalAlign>Middle</VerticalAlign>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -466,6 +467,7 @@
                               <Style>Solid</Style>
                             </Border>
                             <BackgroundColor>Gray</BackgroundColor>
+                            <VerticalAlign>Middle</VerticalAlign>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -502,6 +504,7 @@
                               <Style>Solid</Style>
                             </Border>
                             <BackgroundColor>Gray</BackgroundColor>
+                            <VerticalAlign>Middle</VerticalAlign>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -521,7 +524,7 @@
                                 <TextRun>
                                   <Value>DÍAS TRABAJADOS</Value>
                                   <Style>
-                                    <FontSize>8pt</FontSize>
+                                    <FontSize>6pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -538,6 +541,7 @@
                               <Style>Solid</Style>
                             </Border>
                             <BackgroundColor>Gray</BackgroundColor>
+                            <VerticalAlign>Middle</VerticalAlign>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -574,6 +578,7 @@
                               <Style>Solid</Style>
                             </Border>
                             <BackgroundColor>Gray</BackgroundColor>
+                            <VerticalAlign>Middle</VerticalAlign>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -593,7 +598,7 @@
                                 <TextRun>
                                   <Value>PERCEPCIONES</Value>
                                   <Style>
-                                    <FontSize>8pt</FontSize>
+                                    <FontSize>6pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -610,6 +615,7 @@
                               <Style>Solid</Style>
                             </Border>
                             <BackgroundColor>Gray</BackgroundColor>
+                            <VerticalAlign>Middle</VerticalAlign>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -629,7 +635,7 @@
                                 <TextRun>
                                   <Value>DEDUCCIONES</Value>
                                   <Style>
-                                    <FontSize>8pt</FontSize>
+                                    <FontSize>6pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -641,11 +647,9 @@
                           </Paragraphs>
                           <rd:DefaultName>Textbox19</rd:DefaultName>
                           <Style>
-                            <Border>
-                              <Color>LightGrey</Color>
-                              <Style>Solid</Style>
-                            </Border>
+                            <Border />
                             <BackgroundColor>Gray</BackgroundColor>
+                            <VerticalAlign>Middle</VerticalAlign>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -682,6 +686,7 @@
                               <Style>Solid</Style>
                             </Border>
                             <BackgroundColor>Gray</BackgroundColor>
+                            <VerticalAlign>Middle</VerticalAlign>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -718,6 +723,7 @@
                               <Style>Solid</Style>
                             </Border>
                             <BackgroundColor>Gray</BackgroundColor>
+                            <VerticalAlign>Middle</VerticalAlign>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -729,7 +735,7 @@
                   </TablixCells>
                 </TablixRow>
                 <TablixRow>
-                  <Height>0.67333cm</Height>
+                  <Height>0.99083cm</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
@@ -742,7 +748,7 @@
                                 <TextRun>
                                   <Value>=UCase(Fields!NombreEmpleado.Value)</Value>
                                   <Style>
-                                    <FontSize>8pt</FontSize>
+                                    <FontSize>=iif(len(Fields!NombreEmpleado.Value) &gt; 10, "8pt", "6pt")</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -757,6 +763,7 @@
                               <Color>LightGrey</Color>
                               <Style>Solid</Style>
                             </Border>
+                            <VerticalAlign>Middle</VerticalAlign>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -776,7 +783,7 @@
                                 <TextRun>
                                   <Value>=Fields!Puesto.Value</Value>
                                   <Style>
-                                    <FontSize>8pt</FontSize>
+                                    <FontSize>=iif(len(Fields!Puesto.Value) &gt; 8, "6pt", "8pt")</FontSize>
                                     <Language>es-MX</Language>
                                   </Style>
                                 </TextRun>
@@ -792,6 +799,7 @@
                               <Color>LightGrey</Color>
                               <Style>Solid</Style>
                             </Border>
+                            <VerticalAlign>Middle</VerticalAlign>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -811,7 +819,7 @@
                                 <TextRun>
                                   <Value>=Fields!Sueldo.Value</Value>
                                   <Style>
-                                    <FontSize>8pt</FontSize>
+                                    <FontSize>=iif(len(Fields!Sueldo.Value) &gt; 7, "8pt", "6pt")</FontSize>
                                     <Format>'$'#,0.00</Format>
                                     <Language>es-MX</Language>
                                   </Style>
@@ -828,6 +836,7 @@
                               <Color>LightGrey</Color>
                               <Style>Solid</Style>
                             </Border>
+                            <VerticalAlign>Middle</VerticalAlign>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -864,6 +873,7 @@
                               <Color>LightGrey</Color>
                               <Style>Solid</Style>
                             </Border>
+                            <VerticalAlign>Middle</VerticalAlign>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -883,7 +893,7 @@
                                 <TextRun>
                                   <Value>=Fields!Sueldo.Value*Fields!DiasLaborados.Value</Value>
                                   <Style>
-                                    <FontSize>8pt</FontSize>
+                                    <FontSize>=iif(len(Fields!Sueldo.Value*Fields!DiasLaborados.Value) &gt; 7, "8pt", "6pt")</FontSize>
                                     <Format>'$'#,0.00</Format>
                                     <Language>es-MX</Language>
                                   </Style>
@@ -900,6 +910,7 @@
                               <Color>LightGrey</Color>
                               <Style>Solid</Style>
                             </Border>
+                            <VerticalAlign>Middle</VerticalAlign>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -920,7 +931,7 @@
                                 <TextRun>
                                   <Value>=IIf(Fields!Percepciones.Value = 0,"$0.00", Fields!Percepciones.Value)</Value>
                                   <Style>
-                                    <FontSize>8pt</FontSize>
+                                    <FontSize>=iif(len(Fields!Percepciones.Value) &gt; 7, "8pt", "6pt")</FontSize>
                                     <Format>'$'#,0.00;-'$'#,0.00;'0'</Format>
                                     <Language>es-MX</Language>
                                     <rd:FormatSymbolCulture>es-MX</rd:FormatSymbolCulture>
@@ -938,13 +949,13 @@
                               <Color>LightGrey</Color>
                               <Style>Solid</Style>
                             </Border>
+                            <VerticalAlign>Middle</VerticalAlign>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
                             <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
-                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>
@@ -958,7 +969,7 @@
                                 <TextRun>
                                   <Value>=Fields!Deducciones.Value</Value>
                                   <Style>
-                                    <FontSize>8pt</FontSize>
+                                    <FontSize>=iif(len(Fields!Deducciones.Value) &gt; 7, "8pt", "6pt")</FontSize>
                                     <Format>'$'#,0.00</Format>
                                     <Language>es-MX</Language>
                                     <rd:FormatSymbolCulture>es-MX</rd:FormatSymbolCulture>
@@ -976,6 +987,7 @@
                               <Color>LightGrey</Color>
                               <Style>Solid</Style>
                             </Border>
+                            <VerticalAlign>Middle</VerticalAlign>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -996,7 +1008,7 @@
                                 <TextRun>
                                   <Value>=(Fields!Sueldo.Value*Fields!DiasLaborados.Value)+Fields!Percepciones.Value-Fields!Deducciones.Value</Value>
                                   <Style>
-                                    <FontSize>8pt</FontSize>
+                                    <FontSize>=iif(len((Fields!Sueldo.Value*Fields!DiasLaborados.Value)+Fields!Percepciones.Value-Fields!Deducciones.Value) &gt; 7, "8pt", "6pt")</FontSize>
                                     <Format>'$'#,0.00;('$'#,0.00)</Format>
                                   </Style>
                                 </TextRun>
@@ -1012,6 +1024,7 @@
                               <Color>LightGrey</Color>
                               <Style>Solid</Style>
                             </Border>
+                            <VerticalAlign>Middle</VerticalAlign>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -1019,6 +1032,7 @@
                             <rd:FormatSymbolCulture>es-MX</rd:FormatSymbolCulture>
                           </Style>
                         </Textbox>
+                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>
@@ -1175,8 +1189,8 @@
             <DataSetName>NominaDetalle</DataSetName>
             <Top>1.10808cm</Top>
             <Left>0.20108cm</Left>
-            <Height>2.44354cm</Height>
-            <Width>19.04864cm</Width>
+            <Height>2.76104cm</Height>
+            <Width>19.04866cm</Width>
             <ZIndex>5</ZIndex>
             <Style>
               <Border>
