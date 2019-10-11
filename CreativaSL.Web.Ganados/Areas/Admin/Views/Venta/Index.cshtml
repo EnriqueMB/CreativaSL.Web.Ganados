@@ -83,7 +83,7 @@
                     </div>
                     <div class="panel-body">
                         <div class="table-responsive">
-                            <table id="tblVenta" class="table tVenta">
+                            <table id="tblVenta" class="table tVenta table-long">
                                 <thead>
                                     <tr>
                                         <th rowspan="3">Folio</th>
@@ -320,7 +320,7 @@
                     {
                         "data": null,
                         "render": function (data, type, full) {
-                            var botones = "<div class='visible-md visible-lg hidden-sm hidden-xs'>";
+                            var botones = "<div class='hidden-md hidden-sm'>";
                             var status_actual = full["estatus"];
                             var Agendada = "Agendada";
                             var Ganado = "Ganado";
@@ -339,7 +339,7 @@
                                     "<a data-id='" + full["id_venta"] + "' data-id_estatus = '" + full["id_estatus"] + "' class='btn btn-yellow tooltips btn-sm edit' title='Agendado'  data-placement='top' data-original-title='Agendado'><i class='fa fa-clock-o'></i></a>" +
                                     "<a data-id='" + full["id_venta"] + "' data-hrefa='/Admin/Venta/DEL_Venta/' class='btn btn-danger tooltips btn-sm eliminar' data-placement='top' data-original-title='Eliminar' title='Eliminar' ><i class='fa fa-trash-o'></i></a>" +
                                     "</div>" +
-                                    "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
+                                    "<div class='visible-xs visible-sm visible-md hidden-lg'>" +
                                     "<div class='btn-group'>" +
                                     "<a class='btn btn-danger dropdown-toggle btn-sm' data-toggle='dropdown' href='#'" +
                                     "<i class='fa fa-cog'></i> <span class='caret'></span>" +
@@ -392,7 +392,7 @@
                                     "<a data-id='" + full["id_venta"] + "' data-id_estatus = '" + full["id_estatus"] + "' class='btn btn-yellow tooltips btn-sm edit' title='Ganado'  data-placement='top' data-original-title='Ganado'><span class='icon-ocampo-head'></span></a>" +
                                     "<a data-id='" + full["id_venta"] + "' data-hrefa='/Admin/Venta/DEL_Venta/' class='btn btn-danger tooltips btn-sm' data-placement='top' data-original-title='Eliminar' title='Eliminar' ><i class='fa fa-trash-o'></i></a>" +
                                     "</div>" +
-                                    "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
+                                    "<div class='visible-xs visible-sm visible-md hidden-lg'>" +
                                     "<div class='btn-group'>" +
                                     "<a class='btn btn-danger dropdown-toggle btn-sm' data-toggle='dropdown' href='#'" +
                                     "<i class='fa fa-cog'></i> <span class='caret'></span>" +
@@ -444,7 +444,7 @@
                                     "<a data-id='" + full["id_venta"] + "' class='btn tooltips btn-sm btn-warning correo' title='Correo'  data-placement='top' data-original-title='Correo'><i class='fa fa-envelope'></i></a>" +
                                     "<a data-id='" + full["id_venta"] + "' data-hrefa='/Admin/Venta/DEL_Venta/' class='btn btn-danger tooltips btn-sm eliminar' data-placement='top' data-original-title='Eliminar' title='Eliminar' ><i class='fa fa-trash-o'></i></a>" +
                                     "</div>" +
-                                    "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
+                                    "<div class='visible-xs visible-sm visible-md hidden-lg'>" +
                                     "<div class='btn-group'>" +
                                     "<a class='btn btn-danger dropdown-toggle btn-sm' data-toggle='dropdown' href='#'" +
                                     "<i class='fa fa-cog'></i> <span class='caret'></span>" +
@@ -496,7 +496,7 @@
                                     "<a data-id='" + full["id_venta"] + "' class='btn tooltips btn-sm btn-warning correo' title='Correo'  data-placement='top' data-original-title='Correo'><i class='fa fa-envelope'></i></a>" +
                                     "<a data-id='" + full["id_venta"] + "' data-hrefa='/Admin/Venta/DEL_Venta/' class='btn btn-danger tooltips btn-sm eliminar' data-placement='top' data-original-title='Eliminar' title='Eliminar' ><i class='fa fa-trash-o'></i></a>" +
                                     "</div>" +
-                                    "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
+                                    "<div class='visible-xs visible-sm visible-md hidden-lg'>" +
                                     "<div class='btn-group'>" +
                                     "<a class='btn btn-danger dropdown-toggle btn-sm' data-toggle='dropdown' href='#'" +
                                     "<i class='fa fa-cog'></i> <span class='caret'></span>" +
@@ -546,7 +546,7 @@
                             if (igual == 0) {
                                 botones = botones + "<a data-id='" + full["id_venta"] + "' class='btn tooltips btn-sm btn-primary details' title='Detalles'  data-placement='top' data-original-title='Detalles'><i class='fa fa-eye'></i></a>" +
                                     "</div>" +
-                                    "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
+                                    "<div class='visible-xs visible-sm visible-md hidden-lg'>" +
                                     "<div class='btn-group'>" +
                                     "<a class='btn btn-danger dropdown-toggle btn-sm' data-toggle='dropdown' href='#'" +
                                     "<i class='fa fa-cog'></i> <span class='caret'></span>" +
@@ -572,7 +572,7 @@
                                     "<a data-id='" + full["id_venta"] + "' data-id_estatus = '" + full["id_estatus"] + "' class='btn btn-yellow tooltips btn-sm edit' title='Ganado'  data-placement='top' data-original-title='Ganado'><span class='icon-ocampo-head'></span></a>" +
                                     "<a data-id='" + full["id_venta"] + "' data-hrefa='/Admin/Venta/DEL_Venta/' class='btn btn-danger tooltips btn-sm eliminar' data-placement='top' data-original-title='Eliminar' title='Eliminar' ><i class='fa fa-trash-o'></i></a>" +
                                     "</div>" +
-                                    "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
+                                    "<div class='visible-xs visible-sm visible-md visible-lg'>" +
                                     "<div class='btn-group'>" +
                                     "<a class='btn btn-danger dropdown-toggle btn-sm' data-toggle='dropdown' href='#'" +
                                     "<i class='fa fa-cog'></i> <span class='caret'></span>" +

@@ -8043,3 +8043,28 @@ display:none;
         padding: 2% 4%;
     }
 /*End cambios*/
+
+/* Cambios 11 octubre 2019 */
+
+
+
+.table-long tr td:last-child .btn-group{
+    display: block; margin: auto;
+    width: 100px;
+}
+.table-long a.btn{
+    width: 100% !important;
+}
+
+@media only screen and (max-width: 1024px) and (min-width: 300px) {
+    .table-responsive{
+        overflow-x: scroll !important;
+    }
+    .table-long {
+        width: 3000px !important;
+    }
+    .table-long a.btn.btn-sm{
+        width: 100% !important;
+    }
+}
+/* Enc cambios */

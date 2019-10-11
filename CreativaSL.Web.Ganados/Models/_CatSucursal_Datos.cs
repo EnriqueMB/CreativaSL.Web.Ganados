@@ -3,8 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Web;
 
 namespace CreativaSL.Web.Ganados.Models
 {
@@ -172,7 +170,6 @@ namespace CreativaSL.Web.Ganados.Models
             sqlDataReader.Close();
             return lista;
         }
-
         public List<CatSucursalesModels> GetSucursalesXPersona(string conexion, string id_persona)
         {
             List<CatSucursalesModels> lista = new List<CatSucursalesModels>();
@@ -240,6 +237,37 @@ namespace CreativaSL.Web.Ganados.Models
             }
             
             return respuestaAjax;
+        }
+
+        public MetaXSucursal GetMetaXSucursal(string id_sucursal, string conexion)
+        {
+            MetaXSucursal metaXSucursal = new MetaXSucursal();
+            metaXSucursal.Success = true;
+            SqlDataReader sqlDataReader = null;
+            object[] parametros =
+            {
+                id_sucursal
+            };
+            sqlDataReader = SqlHelper.ExecuteReader(conexion, "[Meta].[GetMetaXSucursal]", parametros);
+
+            while (sqlDataReader.Read())
+            {
+                metaXSucursal.Success = !sqlDataReader.IsDBNull(sqlDataReader.GetOrdinal("success")) ? sqlDataReader.GetBoolean(sqlDataReader.GetOrdinal("success")) : false;
+                metaXSucursal.Mensaje = !sqlDataReader.IsDBNull(sqlDataReader.GetOrdinal("mensaje")) ? sqlDataReader.GetString(sqlDataReader.GetOrdinal("mensaje")) : string.Empty;
+                metaXSucursal.MensajeErrorSQL = !sqlDataReader.IsDBNull(sqlDataReader.GetOrdinal("mensajeErrorSQL")) ? sqlDataReader.GetString(sqlDataReader.GetOrdinal("mensajeErrorSQL")) : string.Empty;
+
+                if (metaXSucursal.Success)
+                {
+                    metaXSucursal.Id = !sqlDataReader.IsDBNull(sqlDataReader.GetOrdinal("id")) ? sqlDataReader.GetString(sqlDataReader.GetOrdinal("id")) : string.Empty;
+                    metaXSucursal.Id_sucursal = !sqlDataReader.IsDBNull(sqlDataReader.GetOrdinal("id_sucursal")) ? sqlDataReader.GetString(sqlDataReader.GetOrdinal("id_sucursal")) : string.Empty;
+                    metaXSucursal.CantidadKilo = !sqlDataReader.IsDBNull(sqlDataReader.GetOrdinal("cantidadKilo")) ? sqlDataReader.GetDecimal(sqlDataReader.GetOrdinal("cantidadKilo")) : 0;
+                    metaXSucursal.CantidadGanado = !sqlDataReader.IsDBNull(sqlDataReader.GetOrdinal("cantidadGanado")) ? sqlDataReader.GetInt32(sqlDataReader.GetOrdinal("cantidadGanado")) : 0;
+                }
+            }
+
+            sqlDataReader.Close();
+
+            return metaXSucursal;
         }
     }
 }
