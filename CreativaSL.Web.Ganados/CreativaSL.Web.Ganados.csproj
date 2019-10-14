@@ -1835,6 +1835,7 @@
     <Compile Include="Models\GanadoParaVender.cs" />
     <Compile Include="Models\GeneroGanadoModels.cs" />
     <Compile Include="Models\ArchivoEmpresaModels.cs" />
+    <Compile Include="Models\HomeMetaXSucursalDTO.cs" />
     <Compile Include="Models\ImpuestoModels.cs" />
     <Compile Include="Models\IncidenteFleteModels.cs" />
     <Compile Include="Models\LicenciaChoferModels.cs" />

@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Mvc;
 using CreativaSL.Web.Ganados.Models;
 using CreativaSL.Web.Ganados.Filters;
@@ -15,14 +12,21 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
     {
         string Conexion = ConfigurationManager.AppSettings.Get("strConnection");
         [HttpGet]
+        [SucursalesPermitidas]
         public ActionResult Index()
         {
             try
             {
+
                 CalendarioModels Compra = new CalendarioModels();
                 _Compra_Datos CompraDatos = new _Compra_Datos();
                 Compra.Conexion = Conexion;
-                //Compra.listaCompra = CompraDatos.GetListaComprasNofinalizadas(Compra);
+
+                //obtenemos la meta x sucursal
+                List<string> sucursales = (List<string>)System.Web.HttpContext.Current.Session["lista_id_sucursales"];
+                _CatSucursal_Datos sucursal_Datos = new _CatSucursal_Datos();
+                List<HomeMetaXSucursalDTO> listaMetaXSucursal = sucursal_Datos.GetMetasXSucursalToday(sucursales, Conexion);
+                ViewBag.ListaMetasXSucursal = listaMetaXSucursal;
                 return View(Compra);
             }
             catch (Exception)
