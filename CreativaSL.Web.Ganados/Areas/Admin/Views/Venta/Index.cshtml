@@ -7,6 +7,9 @@
 @section css
 {
     <style>
+        table.tVenta{
+            width: 100% !important;
+        }
         table.tVenta td  {
             border-color: #E5E5E5 !important;
             border: 1px solid #E5E5E5;
@@ -19,6 +22,7 @@
             border: 1px solid #E5E5E5;
             text-align: center;
             vertical-align: middle;
+            padding: 8px;
         }
 
         .transaccionesCompra{
@@ -48,6 +52,10 @@
         a.btn.btn-sm {
             width: 25% !important;
             margin: 1px !important;
+        }
+        td {
+            vertical-align: middle;
+            text-align: center;
         }
     </style>
 }
@@ -83,7 +91,7 @@
                     </div>
                     <div class="panel-body">
                         <div class="table-responsive">
-                            <table id="tblVenta" class="table tVenta table-long">
+                            <table id="tblVenta" class="tVenta table-long">
                                 <thead>
                                     <tr>
                                         <th rowspan="3">Folio</th>
@@ -334,9 +342,10 @@
                                 botones = botones +
                                     "<a data-id='" + full["id_venta"] + "' class='btn tooltips btn-sm btn-primary details' title='Detalles'  data-placement='top' data-original-title='Detalles'><i class='fa fa-eye'></i></a>" +
                                     "<a data-id='" + full["id_venta"] + "' class='btn btn-blue tooltips btn-sm ganado' title='Ganado'  data-placement='top' data-original-title='Ganado'><i class='icon-ocampo-head'></i></a>" +
-                                    "<a data-id='" + full["id_venta"] + "' class='btn btn-blue tooltips btn-sm transacciones' title='Transacciones ($)'  data-placement='top' data-original-title='Transaciones'><i class='fa fa-money'></i></a></br>" +
+                                    "<a data-id='" + full["id_venta"] + "' class='btn btn-blue tooltips btn-sm transacciones' title='Transacciones ($)'  data-placement='top' data-original-title='Transaciones'><i class='fa fa-money'></i></a>" +
                                     "<a data-id='" + full["id_venta"] + "' class='btn btn-blue tooltips btn-sm documentos' title='Documentos'  data-placement='top' data-original-title='Documentos'><i class='fa fa-archive'></i></a>" +
                                     "<a data-id='" + full["id_venta"] + "' data-id_estatus = '" + full["id_estatus"] + "' class='btn btn-yellow tooltips btn-sm edit' title='Agendado'  data-placement='top' data-original-title='Agendado'><i class='fa fa-clock-o'></i></a>" +
+                                    "<a data-id='" + full["id_venta"] + "' class='btn btn-info tooltips btn-sm costoExtra' title='Costo extra'  data-placement='top' data-original-title='Costo extra'><i class='fa fa-search-plus'></i></a>" +
                                     "<a data-id='" + full["id_venta"] + "' data-hrefa='/Admin/Venta/DEL_Venta/' class='btn btn-danger tooltips btn-sm eliminar' data-placement='top' data-original-title='Eliminar' title='Eliminar' ><i class='fa fa-trash-o'></i></a>" +
                                     "</div>" +
                                     "<div class='visible-xs visible-sm visible-md hidden-lg'>" +
@@ -367,10 +376,14 @@
                                     "</li>" +
                                      "<li>" +
                                     "<a class='edit' data-id='" + full["id_venta"] + "' data-id_estatus = '" + full["id_estatus"] + "' role='menuitem' tabindex='-1'>" +
-                                    "<i class='fa fa-trash-o'></i> Agendado" +
+                                    "<i class='fa fa-clock-o'></i> Agendado" +
                                     "</a>" +
                                     "</li>" +
                                     "<li>" +
+                                    "<a class='costoExtra' data-id='" + full["id_venta"] + "' role='menuitem' tabindex='-1'>" +
+                                    "<i class='fa fa-search-plus'></i> Costo extra" +
+                                    "</a>" +
+                                    "</li>" +
                                     "<li>" +
                                     "<a class='eliminar' role='menuitem' tabindex='-1' data-id='" + full["id_venta"] + "' data-hrefa='/Admin/Venta/DEL_Venta/'>" +
                                     "<i class='fa fa-trash-o'></i> Eliminar" +
@@ -390,6 +403,7 @@
                                     "<a data-id='" + full["id_venta"] + "' class='btn tooltips btn-blue btn-sm transacciones' title='Transacciones ($)'  data-placement='top' data-original-title='Transaciones'><i class='fa fa-money'></i></a>" +
                                     "<a data-id='" + full["id_venta"] + "' class='btn tooltips btn-blue btn-sm documentos' title='Documentos'  data-placement='top' data-original-title='Documentos'><i class='fa fa-archive'></i></a>" +
                                     "<a data-id='" + full["id_venta"] + "' data-id_estatus = '" + full["id_estatus"] + "' class='btn btn-yellow tooltips btn-sm edit' title='Ganado'  data-placement='top' data-original-title='Ganado'><span class='icon-ocampo-head'></span></a>" +
+                                    "<a data-id='" + full["id_venta"] + "' class='btn btn-info tooltips btn-sm costoExtra' title='Costo extra'  data-placement='top' data-original-title='Costo extra'><i class='fa fa-search-plus'></i></a>" +
                                     "<a data-id='" + full["id_venta"] + "' data-hrefa='/Admin/Venta/DEL_Venta/' class='btn btn-danger tooltips btn-sm' data-placement='top' data-original-title='Eliminar' title='Eliminar' ><i class='fa fa-trash-o'></i></a>" +
                                     "</div>" +
                                     "<div class='visible-xs visible-sm visible-md hidden-lg'>" +
@@ -419,9 +433,14 @@
                                     "</a>" +
                                     "</li>" +
                                     "<li>" +
-                                    "<a class='edit' data-id='" + full["id_venta"] + "'   data-id_estatus = '" + full["id_estatus"] + "' role='menuitem' tabindex='-1'>" +
-                                    "<i class='fa fa-archive'></i> Ganado" +
-                                    "</a>" +
+                                        "<a class='edit' data-id='" + full["id_venta"] + "'   data-id_estatus = '" + full["id_estatus"] + "' role='menuitem' tabindex='-1'>" +
+                                        "<i class='icon-ocampo-head'></i> Ganado" +
+                                        "</a>" +
+                                    "</li>" +
+                                    "<li>" +
+                                        "<a class='costoExtra' data-id='" + full["id_venta"] + "' role='menuitem' tabindex='-1'>" +
+                                        "<i class='fa fa-search-plus'></i> Costo extra" +
+                                        "</a>" +
                                     "</li>" +
                                     "<li>" +
                                     "<a class='Eliminar' role='menuitem' tabindex='-1' data-id='" + full["id_venta"] + "' data-hrefa='/Admin/Venta/DEL_Venta/'>" +
@@ -442,6 +461,7 @@
                                     "<a data-id='" + full["id_venta"] + "' class='btn tooltips btn-sm transacciones' title='Transacciones ($)'  data-placement='top' data-original-title='Transaciones'><i class='fa fa-money'></i></a>" +
                                     "<a data-id='" + full["id_venta"] + "' class='btn tooltips btn-sm documentos' title='Documentos'  data-placement='top' data-original-title='Documentos'><i class='fa fa-archive'></i></a>" +
                                     "<a data-id='" + full["id_venta"] + "' class='btn tooltips btn-sm btn-warning correo' title='Correo'  data-placement='top' data-original-title='Correo'><i class='fa fa-envelope'></i></a>" +
+                                    "<a data-id='" + full["id_venta"] + "' class='btn btn-info tooltips btn-sm costoExtra' title='Costo extra'  data-placement='top' data-original-title='Costo extra'><i class='fa fa-search-plus'></i></a>" +
                                     "<a data-id='" + full["id_venta"] + "' data-hrefa='/Admin/Venta/DEL_Venta/' class='btn btn-danger tooltips btn-sm eliminar' data-placement='top' data-original-title='Eliminar' title='Eliminar' ><i class='fa fa-trash-o'></i></a>" +
                                     "</div>" +
                                     "<div class='visible-xs visible-sm visible-md hidden-lg'>" +
@@ -476,6 +496,11 @@
                                     "</a>" +
                                     "</li>" +
                                     "<li>" +
+                                        "<a class='costoExtra' data-id='" + full["id_venta"] + "' role='menuitem' tabindex='-1'>" +
+                                        "<i class='fa fa-search-plus'></i> Costo extra" +
+                                        "</a>" +
+                                    "</li>" +
+                                    "<li>" +
                                     "<a class='eliminar' role='menuitem' tabindex='-1' data-id='" + full["id_venta"] + "' data-hrefa='/Admin/Venta/DEL_Venta/'>" +
                                     "<i class='fa fa-trash-o'></i> Eliminar" +
                                     "</a>" +
@@ -494,6 +519,7 @@
                                     "<a data-id='" + full["id_venta"] + "' class='btn tooltips btn-sm documentos' title='Documentos'  data-placement='top' data-original-title='Documentos'><i class='fa fa-archive'></i></a>" +
                                     "<a data-id='" + full["id_venta"] + "' data-id_estatus = '" + full["id_estatus"] + "' class='btn btn-yellow tooltips btn-sm edit' title='Eventos y recepción'  data-placement='top' data-original-title='Eventos y recepción'><i class='fa fa-book'></i></a>" +
                                     "<a data-id='" + full["id_venta"] + "' class='btn tooltips btn-sm btn-warning correo' title='Correo'  data-placement='top' data-original-title='Correo'><i class='fa fa-envelope'></i></a>" +
+                                    "<a data-id='" + full["id_venta"] + "' class='btn btn-info tooltips btn-sm costoExtra' title='Costo extra'  data-placement='top' data-original-title='Costo extra'><i class='fa fa-search-plus'></i></a>" +
                                     "<a data-id='" + full["id_venta"] + "' data-hrefa='/Admin/Venta/DEL_Venta/' class='btn btn-danger tooltips btn-sm eliminar' data-placement='top' data-original-title='Eliminar' title='Eliminar' ><i class='fa fa-trash-o'></i></a>" +
                                     "</div>" +
                                     "<div class='visible-xs visible-sm visible-md hidden-lg'>" +
@@ -533,6 +559,11 @@
                                     "</a>" +
                                     "</li>" +
                                     "<li>" +
+                                        "<a class='costoExtra' data-id='" + full["id_venta"] + "' role='menuitem' tabindex='-1'>" +
+                                        "<i class='fa fa-search-plus'></i> Costo extra" +
+                                        "</a>" +
+                                    "</li>" +
+                                    "<li>" +
                                     "<a class='eliminar' role='menuitem' tabindex='-1' data-id='" + full["id_venta"] + "' data-hrefa='/Admin/Venta/DEL_Venta/'>" +
                                     "<i class='fa fa-trash-o'></i> Eliminar" +
                                     "</a>" +
@@ -570,6 +601,7 @@
                                     "<a data-id='" + full["id_venta"] + "' class='btn tooltips btn-sm transacciones' title='Transacciones ($)'  data-placement='top' data-original-title='Transaciones'><i class='fa fa-money'></i></a>" +
                                     "<a data-id='" + full["id_venta"] + "' class='btn tooltips btn-sm documentos' title='Documentos'  data-placement='top' data-original-title='Documentos'><i class='fa fa-archive'></i></a>" +
                                     "<a data-id='" + full["id_venta"] + "' data-id_estatus = '" + full["id_estatus"] + "' class='btn btn-yellow tooltips btn-sm edit' title='Ganado'  data-placement='top' data-original-title='Ganado'><span class='icon-ocampo-head'></span></a>" +
+                                    "<a data-id='" + full["id_venta"] + "' class='btn btn-info tooltips btn-sm costoExtra' title='Costo extra'  data-placement='top' data-original-title='Costo extra'><i class='fa fa-search-plus'></i></a>" +
                                     "<a data-id='" + full["id_venta"] + "' data-hrefa='/Admin/Venta/DEL_Venta/' class='btn btn-danger tooltips btn-sm eliminar' data-placement='top' data-original-title='Eliminar' title='Eliminar' ><i class='fa fa-trash-o'></i></a>" +
                                     "</div>" +
                                     "<div class='visible-xs visible-sm visible-md visible-lg'>" +
@@ -608,7 +640,13 @@
                                     "</li>" +
 
                                     "<li>" +
-                                    "<a class='eliminar' role='menuitem' tabindex='-1' id='" + full["id_venta"] + "' data-hrefa='/Admin/Venta/DEL_Venta/'>" +
+                                        "<a class='costoExtra' data-id='" + full["id_venta"] + "' role='menuitem' tabindex='-1'>" +
+                                        "<i class='fa fa-search-plus'></i> Costo extra" +
+                                        "</a>" +
+                                    "</li>" +
+
+                                    "<li>" +
+                                    "<a class='eliminar' data-id='" + full["id_venta"] + "' role='menuitem' tabindex='-1' id='" + full["id_venta"] + "' data-hrefa='/Admin/Venta/DEL_Venta/'>" +
                                     "<i class='fa fa-trash-o'></i> Eliminar" +
                                     "</a>" +
                                     "</li>" +
@@ -683,6 +721,10 @@
                     $(".documentos").on("click", function () {
                         var id = $(this).data("id")
                         window.location.href = '/Admin/Venta/VentaDocumentos?id_1=' + id;
+                    });
+                    $(".costoExtra").on("click", function () {
+                        var id = $(this).data("id")
+                        window.location.href = '/Admin/Venta/CostosExtras?idVenta=' + id;
                     });
                     $(".eliminar").on("click", function () {
                         //Elimino la venta seleccionada

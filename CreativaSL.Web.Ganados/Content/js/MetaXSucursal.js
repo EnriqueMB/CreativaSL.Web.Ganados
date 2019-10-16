@@ -1,6 +1,25 @@
 ﻿var MetaXSucursal = function () {
     "use strict";
-    
+
+    var Configuracion = function () {
+        $(".ganado").maskMoney(
+            {
+                allowZero: true,
+                precision: 0
+            }
+        );
+
+        $(".kg").maskMoney(
+            {
+                allowZero: true,
+                precision: 0,
+                suffix: ' Kg.'
+            }
+        );
+
+        $(".kg").maskMoney('mask');
+        $(".ganado").maskMoney('mask');
+    };
 
     var Validaciones = function () {
         var form1 = $('#frmMetaXSucursal');
@@ -26,21 +45,21 @@
             rules: {
                 CantidadKilo: {
                     required: true,
-                    digits: true
+                    numeroConComas: true
                 },
                 CantidadGanado: {
                     required: true,
-                    digits: true
+                    numeroConComas: true
                 }
             },
             messages: {
                 CantidadKilo: {
                     required: "-El campo: Cantidad de kilos a la semana, es requerido",
-                    digits: "-El campo: Cantidad de kilos a la semana, debe ser igual o mayor que 0 (solo números enteros)."
+                    numeroConComas: "-El campo: Cantidad de kilos a la semana, debe ser igual o mayor que 0 (solo números enteros)."
                 },
                 CantidadGanado: {
                     required: "-El campo: Cantidad de ganado a la semana, es requerido",
-                    digits: "-El campo: Cantidad de kilos a la semana, debe ser igual o mayor que 0 (solo números enteros)."
+                    numeroConComas: "-El campo: Cantidad de kilos a la semana, debe ser igual o mayor que 0 (solo números enteros)."
                 }
             },
             invalidHandler: function (event, validator) {
@@ -66,10 +85,10 @@
             }
         });
     };
-
   
     return {
         init: function (option) {
+            Configuracion();
             Validaciones();
         }
     };

@@ -31,12 +31,14 @@
 
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title"><strong>Meta por sucursal semanal</strong></h3>
+                        <h3 class="panel-title"><strong>Meta semanal, sucursal: @ViewBag.NombreSucursal</strong></h3>
                         <ul class="panel-controls"></ul>
                     </div>
                     <div class="panel-body">
                         @Html.HiddenFor(model => model.Id)
-                        @Html.HiddenFor(model => model.Id_sucursal) 
+                        @Html.HiddenFor(model => model.Id_sucursal)
+                        @Html.Hidden("Id_empresa", (string)ViewBag.Id_empresa)
+                        @Html.Hidden("Nombre_empresa", (string)ViewBag.Nombre_empresa)
 
                         <div class="form-group">
                             <div class="col-md-12">
@@ -51,7 +53,7 @@
                                 <div class="col-md-8 col-xs-12">
                                     <div class="input-group">
                                         <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                        @Html.TextBoxFor(model => model.CantidadKilo, new { @class = "form-control", placeholder = "Ingrese la cantidad de kilos para la meta semanal" })
+                                        @Html.TextBoxFor(model => model.CantidadKilo, "{0:f0}", new { @class = "form-control kg", placeholder = "Ingrese la cantidad de kilos para la meta semanal" })
                                     </div>
                                     <span class="help-block"></span>
                                 </div>
@@ -63,7 +65,7 @@
                                 <div class="col-md-8 col-xs-12">
                                     <div class="input-group">
                                         <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                        @Html.TextBoxFor(model => model.CantidadGanado, new { @class = "form-control", placeholder = "Ingrese la cantidad de ganado para la meta semanal" })
+                                        @Html.TextBoxFor(model => model.CantidadGanado, new { @class = "form-control ganado", placeholder = "Ingrese la cantidad de ganado para la meta semanal" })
                                     </div>
                                     <span class="help-block"></span>
                                 </div>
@@ -95,6 +97,7 @@
     <!--VALIDACIONES-->
     <script type="text/javascript" src="@Url.Content("~/Content/js/validaciones/additionals.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/MetaXSucursal.js")"></script>
+    <script src="~/Content/js/plugins/jquery.maskMoney.min.js"></script>
 
     <script>
         jQuery(document).ready(function () {

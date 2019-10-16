@@ -1134,6 +1134,8 @@
     <Content Include="Content\js\VentaGeneral.js" />
     <Content Include="Content\js\ventaImpuestoProductoServicio.js" />
     <Content Include="Content\js\ventaTransacciones.js" />
+    <Content Include="Content\js\Venta\CostoExtra\CostoExtra_ACJS.js" />
+    <Content Include="Content\js\Venta\CostoExtra\CostosExtrasJS.js" />
     <Content Include="Content\js\venta_ProductoServicio.js" />
     <Content Include="Content\Ocampo.ico" />
     <Content Include="Content\js\RangoCompra.js" />
@@ -1571,6 +1573,8 @@
     <Content Include="Areas\Admin\Views\Prestamos\Devolucion.cshtml" />
     <Content Include="Areas\Admin\Views\CatUsuarios\Sucursales.cshtml" />
     <Content Include="Areas\Admin\Views\CatEmpresa\MetaXSucursal.cshtml" />
+    <Content Include="Areas\Admin\Views\Venta\CostosExtras.cshtml" />
+    <Content Include="Areas\Admin\Views\Venta\CostoExtra_AC.cshtml" />
     <None Include="Properties\PublishProfiles\Ocampo.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
@@ -1793,6 +1797,7 @@
     <Compile Include="Models\ConceptosCajaChicaModels.cs" />
     <Compile Include="Models\ConciliacionAlmacenDetalleModel.cs" />
     <Compile Include="Models\ConciliacionAlmacenModels.cs" />
+    <Compile Include="Models\CostoExtra.cs" />
     <Compile Include="Models\CuentaBancariaModels.cs" />
     <Compile Include="Models\CuentaBancariaProveedorModels.cs" />
     <Compile Include="Models\CuentaBancariasProveedorAlmacenModels.cs" />
@@ -1835,6 +1840,7 @@
     <Compile Include="Models\GanadoParaVender.cs" />
     <Compile Include="Models\GeneroGanadoModels.cs" />
     <Compile Include="Models\ArchivoEmpresaModels.cs" />
+    <Compile Include="Models\HomeMetaXSucursalDTO.cs" />
     <Compile Include="Models\ImpuestoModels.cs" />
     <Compile Include="Models\IncidenteFleteModels.cs" />
     <Compile Include="Models\LicenciaChoferModels.cs" />
@@ -2041,6 +2047,7 @@
       <DependentUpon>DatatableServ.asmx</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="ViewModel\Venta\CostosExtrasViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />

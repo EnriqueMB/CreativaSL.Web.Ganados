@@ -255,6 +255,33 @@ $.validator.addMethod("numeroConComas", function (value, element, params) {
 
 }, 'Por favor, escriba un número mayor a 0.');
 
+$.validator.addMethod("StringMoneyGreaterOrEqualToZero", function (value, element, params) {
+    //Checamos que tenga un dato el input
+    if (value === '') {
+        return false;
+    }
+
+    var number = String(element.value).replace('$ ', '').replace(/,/g, '');
+
+    return IsNumber(number);
+
+}, 'Por favor, escriba un número mayor a 0.');
+
+function IsNumber(number) {
+
+    if (Number.isNaN(number)) {
+        return false;
+    }
+    else {
+        if (number >= 0) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+}
+
 $.validator.addMethod("horas24", function (value, element) {
     return this.optional(element) || /^([0-5]?[0-9])(:[0-5][0-9])$/i.test(value);
 }, "Por favor, seleccione una hora válida (hh:mm).");

@@ -11,5 +11,6 @@ namespace CreativaSL.Web.Ganados.Models
         public string Id_sucursal { get; set; }
         public decimal CantidadKilo { get; set; }
         public decimal CantidadGanado { get; set; }
+        public string NombreSucursal { get; set; }
     }
 }
