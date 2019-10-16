@@ -4,71 +4,95 @@
     ViewBag.Title = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 
-    var listaMetasXSucursal 
+    var listaMetasXSucursal
         = ViewBag.ListaMetasXSucursal as List<CreativaSL.Web.Ganados.Models.HomeMetaXSucursalDTO>;
 }
 
+@section css{
+    <style>
+        table.tblDefault td  {
+            border-color: #E5E5E5 !important;
+            border: 1px solid #E5E5E5;
+        }
+
+         table.tblDefault > thead > tr > th {
+            background: #f1f5f9;
+            color: #56688A;
+            font-size: 12px;
+            border: 1px solid #E5E5E5;
+            text-align: center;
+            vertical-align: middle;
+            padding: 8px;
+        }
+        td {
+            vertical-align: middle;
+            text-align: center;
+        }
+    </style>
+}
+
 @section featured{
-<div class="page-title">
-    <h2><span class="fa fa-arrow-circle-o-left"></span> AG Chapala </h2>
-</div>
-<div class="page-content-wrap">
-    <div class="row">
-        <div class="panel panel-default">
-            <div class="col-md-3  col-md-offset-9">
-            </div>
-            <div class="panel-body">
-                <div class="col-md-4">
-                    Ganado:
-                    <span class="label label-default" style="background:#ffd633">Programada</span>
-                    <span class="label label-primary" style="background:#ff8533">En camino</span>
-                    <span class="label label-success" style="background:#3377ff">Recepción</span>
-                    <span class="label label-info" style="background:#00cc00">Pago</span>
-                    <br />
-                    <br />
-                    Flete:
-                    <span class="label label-default" style="background:#949494">Agendado</span>
-                    <span class="label label-primary" style="background:#983da9">En camino</span>
-                    <br />
-                    <br />
-                    Servicios:
-                    <span class="label label-default" style="background:#873737">Procesado</span>
+    <div class="page-title">
+        <h2><span class="fa fa-arrow-circle-o-left"></span> AG Chapala </h2>
+    </div>
+    <div class="page-content-wrap">
+        <div class="row">
+            <div class="panel panel-default">
+                <div class="col-md-3  col-md-offset-9">
                 </div>
-                <div class="col-md-8">
-                    <div class="panel">
-                        <div class="panel-heading">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th rowspan="2">Sucursal</th>
-                                        <th colspan="2">Meta</th>
-                                        <th colspan="2">Actual</th>
-                                    </tr>
-                                    <tr>
-                                        <th>Cantidad de ganado</th>
-                                        <th>Cantidad de kilos</th>
-                                        <th>Cantidad de ganado</th>
-                                        <th>Cantidad de kilos</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach(var meta in listaMetasXSucursal)
-                                    {
-                                    <tr>
-                                        <td>@meta.NombreSucursal</td>
-                                        <td>@meta.MetaCantidadGanado</td>
-                                        <td>@meta.MetaCantidadKilo</td>
-                                        <td>@meta.SucursalCantidadGanado</td>
-                                        <td>@meta.SucursalCantidadKilo</td>
-                                    </tr>    
-                                    }
-                                </tbody>
-                            </table>
+                <div class="panel-body">
+                    <div class="col-md-4">
+                        Ganado:
+                        <span class="label label-default" style="background:#ffd633">Programada</span>
+                        <span class="label label-primary" style="background:#ff8533">En camino</span>
+                        <span class="label label-success" style="background:#3377ff">Recepción</span>
+                        <span class="label label-info" style="background:#00cc00">Pago</span>
+                        <br />
+                        <br />
+                        Flete:
+                        <span class="label label-default" style="background:#949494">Agendado</span>
+                        <span class="label label-primary" style="background:#983da9">En camino</span>
+                        <br />
+                        <br />
+                        Servicios:
+                        <span class="label label-default" style="background:#873737">Procesado</span>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="panel">
+                            <div class="panel-heading">
+                                <table class="table tblDefault">
+                                    <thead>
+                                        <tr>
+                                            <th rowspan="2">Sucursal</th>
+                                            <th colspan="2">Meta</th>
+                                            <th colspan="2">Actual</th>
+                                        </tr>
+                                        <tr>
+                                            <th>Cantidad de ganado</th>
+                                            <th>Cantidad de kilos</th>
+                                            <th>Cantidad de ganado</th>
+                                            <th>Cantidad de kilos</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var meta in listaMetasXSucursal)
+                                        {
+                                            <tr>
+                                                <td>@meta.NombreSucursal</td>
+                                                <td>@meta.MetaCantidadGanado.ToString("N0")</td>
+                                                <td>@meta.MetaCantidadKilo.ToString("N0") Kg. </td>
+                                                <td>@meta.SucursalCantidadGanado.ToString("N0")</td>
+                                                <td>@meta.SucursalCantidadKilo.ToString("N0") Kg.</td>
+                                            </tr>
+
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-            </div>
+                </div>
 
                 <div class="row">
                     <div class="col-md-12">
@@ -78,24 +102,24 @@
                         </div>
                     </div>
                 </div>
-        </div>
-        </div>
-    <!-- END WIDGETS -->
-    </div>
-<div id="fullCalModal" class="modal fade">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span> <span class="sr-only">close</span></button>
-                <h4 id="modalTitle" class="modal-title"></h4>
-            </div>
-            <div id="modalBody" class="modal-body"></div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>
         </div>
+        <!-- END WIDGETS -->
     </div>
-</div>
+    <div id="fullCalModal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span> <span class="sr-only">close</span></button>
+                    <h4 id="modalTitle" class="modal-title"></h4>
+                </div>
+                <div id="modalBody" class="modal-body"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 }
 @section script{
     <script src="@Url.Content("~/Content/js/Canvas.js")"></script>
@@ -104,16 +128,16 @@
     <script src="@Url.Content("~/Content/js/plugins/fullcalendar/lang/es.js")"></script>
     <script>
         jQuery(document).ready(function () {
-           
+
             $('#guardar-img').click(function () {
                 var canvas = document.getElementById('canvas');
                 var dataURL = canvas.toDataURL();
-               alert(dataURL);
+                alert(dataURL);
             });
 
             $('#calendar').fullCalendar({
                 lang: 'es',
-               
+
                 height: 600,
                 firstDay: 1,
                 handleWindowResize: true,
@@ -122,19 +146,19 @@
                 displayEventTime: true,
                 events: function (start, end, timezone, callback) {
                     var events2 = [];
-                    
+
                     $.ajax({
                         url: '/Admin/HomeAdmin/Eventos',
                         dataType: 'json',
                         method: 'post',
                         data: {
-                           
-                            start:start.format('YYYY-MM-DD'),
-                            end:  end.format('YYYY-MM-DD') 
+
+                            start: start.format('YYYY-MM-DD'),
+                            end: end.format('YYYY-MM-DD')
                         },
                         success: function (doc) {
                             var color = "";
-                            
+
                             $(doc).each(function (item, value) {
                                 switch (value.Estatus) {
                                     case 0: color = "#ffd633";
@@ -163,7 +187,7 @@
                                         "<p> <strong>Estatus : </strong>" + value.estatusDesc + "</p>" +
                                         "<p> <strong>Hembras pactados : </strong>" + value.GanadosPactadoHembras + "</p>" +
                                         "<p> <strong>Machos pactados: </strong>" + value.GanadosPactadoMachos + " </p>",
-                                    color:color,
+                                    color: color,
                                 });
                             });
 
@@ -226,7 +250,7 @@
                                                         "<p> <strong>Proveedor: </strong>" + value.Proveedor + "</p>" +
                                                         "<p> <strong>Fecha Último Servicio : </strong>" + value.FechaUltServicio + "</p>" +
                                                         "<p> <strong>Fecha Próximo Servicio : </strong>" + value.FechaProxServicio + "</p>" +
-                                                    "<p> <strong>Estatus : </strong>" + value.Estatus + "</p>",
+                                                        "<p> <strong>Estatus : </strong>" + value.Estatus + "</p>",
                                                     color: value.ColorEstatus,
                                                 });
                                             });
@@ -250,7 +274,7 @@
                         }
                     });
 
-             
+
                 },
 
                 eventClick: function (event, jsEvent, view) {

@@ -12,6 +12,7 @@ using System.Configuration;
 using Microsoft.Reporting.WebForms;
 using System.Drawing;
 using System.Drawing.Imaging;
+using CreativaSL.Web.Ganados.ViewModel.Venta;
 
 namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 {
@@ -2750,6 +2751,43 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
             ViewBag.ListaDeducciones = datosDeduccion.SpCIDDB_Combo_get_CatDeduccion(Conexion);
             ViewBag.ListaConceptosDocumentos = oDatos.GetTiposDeduccionVentaGanado(new VentaModels2 { Conexion = Conexion });
+        }
+
+        [HttpGet]
+        public ActionResult CostosExtras(string idVenta)
+        {
+            if(string.IsNullOrEmpty(idVenta))
+            {
+                return RedirectToAction("Index");
+            }
+
+            CostosExtrasViewModel costosExtrasViewModel = new CostosExtrasViewModel();
+            _Venta2_Datos venta2_Datos = new _Venta2_Datos();
+
+            costosExtrasViewModel = venta2_Datos.GetCostosExtrasViewModel(Conexion, idVenta);
+
+            return View(costosExtrasViewModel);
+        }
+
+        [HttpGet]
+        public ActionResult CostoExtra_AC(string idVenta, string id)
+        {
+            if(string.IsNullOrEmpty(idVenta) || string.IsNullOrEmpty(id))
+            {
+                return RedirectToAction("Index");
+            }
+
+            _Venta2_Datos venta2_Datos = new _Venta2_Datos();
+
+            CostoExtra costoExtra = venta2_Datos.GetCostoExtra(idVenta, id, Conexion);
+
+            return View(costoExtra);
+        }
+
+        [HttpPost]
+        public ActionResult CostoExtra_AC(CostoExtra costoExtra)
+        {
+            return View();
         }
     }
 }
