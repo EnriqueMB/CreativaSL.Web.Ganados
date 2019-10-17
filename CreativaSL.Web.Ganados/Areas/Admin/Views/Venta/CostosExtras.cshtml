@@ -109,7 +109,7 @@
                                             <td>@costoExtra.Subtotal.ToString("C2")</td>
                                             <td style="text-align:center;">
                                                 <div class="visible-md visible-lg hidden-sm hidden-xs">
-                                                    <a title="Editar" href="@Url.Action("EditCostoExtra", "Venta", new { IdVenta = costoExtra.IdVenta, Id = costoExtra.Id })" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
+                                                    <a title="Editar" href="@Url.Action("CostoExtra_AC", "Venta", new { IdVenta = costoExtra.IdVenta, Id = costoExtra.Id })" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
                                                     <a title="Eliminar" id="delete-@costoExtra.Id" data-id="@costoExtra.Id" data-idventa="@costoExtra.IdVenta" data-hrefa="@Url.Action("DeleteCostoExtra", "Venta")" class="btn btn-danger tooltips" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
                                                 </div>
                                                 <div class="visible-xs visible-sm hidden-md hidden-lg">
@@ -119,7 +119,7 @@
                                                         </a>
                                                         <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
                                                             <li>
-                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("EditCostoExtra", "Venta", new { IdVenta = costoExtra.IdVenta, Id = costoExtra.Id })">
+                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("CostoExtra_AC", "Venta", new { IdVenta = costoExtra.IdVenta, Id = costoExtra.Id })">
                                                                     <i class="fa fa-edit"></i> Editar
                                                                 </a>
                                                             </li>

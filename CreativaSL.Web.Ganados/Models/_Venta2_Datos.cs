@@ -2667,25 +2667,23 @@ namespace CreativaSL.Web.Ganados.Models
         {
             CostoExtra costoExtra = new CostoExtra();
 
-            SqlDataReader sqlDataReader = null;
             object[] parametros =
             {
                 id
                 , idVenta
             };
-            sqlDataReader = SqlHelper.ExecuteReader(conexion, "[Venta].[GetCostoExtra]", parametros);
+            SqlDataReader sqlDataReader = SqlHelper.ExecuteReader(conexion, "[Venta].[GetCostoExtra]", parametros);
 
             while (sqlDataReader.Read())
             {
-                CostoExtra item = new CostoExtra();
-                item.Id = !sqlDataReader.IsDBNull(sqlDataReader.GetOrdinal("Id")) ? sqlDataReader.GetString(sqlDataReader.GetOrdinal("Id")) : string.Empty;
-                item.IdVenta = !sqlDataReader.IsDBNull(sqlDataReader.GetOrdinal("IdVenta")) ? sqlDataReader.GetString(sqlDataReader.GetOrdinal("IdVenta")) : string.Empty;
-                item.NombreProducto = !sqlDataReader.IsDBNull(sqlDataReader.GetOrdinal("NombreProducto")) ? sqlDataReader.GetString(sqlDataReader.GetOrdinal("NombreProducto")) : string.Empty;
-                item.NombreUnidadMedida = !sqlDataReader.IsDBNull(sqlDataReader.GetOrdinal("NombreUnidadMedida")) ? sqlDataReader.GetString(sqlDataReader.GetOrdinal("NombreUnidadMedida")) : string.Empty;
-                item.Cantidad = !sqlDataReader.IsDBNull(sqlDataReader.GetOrdinal("Cantidad")) ? sqlDataReader.GetDecimal(sqlDataReader.GetOrdinal("Cantidad")) : 0;
-                item.PrecioUnitario = !sqlDataReader.IsDBNull(sqlDataReader.GetOrdinal("PrecioUnitario")) ? sqlDataReader.GetDecimal(sqlDataReader.GetOrdinal("PrecioUnitario")) : 0;
-                item.Subtotal = !sqlDataReader.IsDBNull(sqlDataReader.GetOrdinal("Subtotal")) ? sqlDataReader.GetDecimal(sqlDataReader.GetOrdinal("Subtotal")) : 0;
-                item.Observacion = !sqlDataReader.IsDBNull(sqlDataReader.GetOrdinal("Observacion")) ? sqlDataReader.GetString(sqlDataReader.GetOrdinal("Observacion")) : string.Empty;
+                costoExtra.Id = !sqlDataReader.IsDBNull(sqlDataReader.GetOrdinal("Id")) ? sqlDataReader.GetString(sqlDataReader.GetOrdinal("Id")) : string.Empty;
+                costoExtra.IdVenta = !sqlDataReader.IsDBNull(sqlDataReader.GetOrdinal("IdVenta")) ? sqlDataReader.GetString(sqlDataReader.GetOrdinal("IdVenta")) : string.Empty;
+                costoExtra.NombreProducto = !sqlDataReader.IsDBNull(sqlDataReader.GetOrdinal("NombreProducto")) ? sqlDataReader.GetString(sqlDataReader.GetOrdinal("NombreProducto")) : string.Empty;
+                costoExtra.NombreUnidadMedida = !sqlDataReader.IsDBNull(sqlDataReader.GetOrdinal("NombreUnidadMedida")) ? sqlDataReader.GetString(sqlDataReader.GetOrdinal("NombreUnidadMedida")) : string.Empty;
+                costoExtra.Cantidad = !sqlDataReader.IsDBNull(sqlDataReader.GetOrdinal("Cantidad")) ? sqlDataReader.GetDecimal(sqlDataReader.GetOrdinal("Cantidad")) : 0;
+                costoExtra.PrecioUnitario = !sqlDataReader.IsDBNull(sqlDataReader.GetOrdinal("PrecioUnitario")) ? sqlDataReader.GetDecimal(sqlDataReader.GetOrdinal("PrecioUnitario")) : 0;
+                costoExtra.Subtotal = !sqlDataReader.IsDBNull(sqlDataReader.GetOrdinal("Subtotal")) ? sqlDataReader.GetDecimal(sqlDataReader.GetOrdinal("Subtotal")) : 0;
+                costoExtra.Observacion = !sqlDataReader.IsDBNull(sqlDataReader.GetOrdinal("Observacion")) ? sqlDataReader.GetString(sqlDataReader.GetOrdinal("Observacion")) : string.Empty;
             }
 
             sqlDataReader.Close();
@@ -2722,6 +2720,35 @@ namespace CreativaSL.Web.Ganados.Models
             sqlDataReader.Close();
 
             return lista;
+        }
+
+        public RespuestaAjax CostosExtras_AC(CostoExtra costoExtra, string conexion, string idUsuario)
+        {
+            RespuestaAjax respuestaAjax = new RespuestaAjax();
+            object[] parametros =
+            {
+                costoExtra.Id
+                , costoExtra.IdVenta
+                , costoExtra.NombreProducto
+                , costoExtra.NombreUnidadMedida
+                , costoExtra.Cantidad
+                , costoExtra.PrecioUnitario
+                , costoExtra.Observacion
+                , idUsuario
+
+            };
+            SqlDataReader sqlDataReader = SqlHelper.ExecuteReader(conexion, "[Venta].[CostosExtras_AC]", parametros);
+
+            while (sqlDataReader.Read())
+            {
+                respuestaAjax.Success = !sqlDataReader.IsDBNull(sqlDataReader.GetOrdinal("Success")) ? sqlDataReader.GetBoolean(sqlDataReader.GetOrdinal("Success")) : false;
+                respuestaAjax.Mensaje = !sqlDataReader.IsDBNull(sqlDataReader.GetOrdinal("Mensaje")) ? sqlDataReader.GetString(sqlDataReader.GetOrdinal("Mensaje")) : string.Empty;
+                respuestaAjax.MensajeErrorSQL = !sqlDataReader.IsDBNull(sqlDataReader.GetOrdinal("MensajeErrorSQL")) ? sqlDataReader.GetString(sqlDataReader.GetOrdinal("MensajeErrorSQL")) : string.Empty;
+            }
+
+            sqlDataReader.Close();
+
+            return respuestaAjax;
         }
     }
 }

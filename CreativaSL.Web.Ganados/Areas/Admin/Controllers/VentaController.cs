@@ -2760,7 +2760,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             {
                 return RedirectToAction("Index");
             }
-
+            Token.SaveToken();
             CostosExtrasViewModel costosExtrasViewModel = new CostosExtrasViewModel();
             _Venta2_Datos venta2_Datos = new _Venta2_Datos();
 
@@ -2787,7 +2787,31 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult CostoExtra_AC(CostoExtra costoExtra)
         {
-            return View();
+            RespuestaAjax respuestaAjax = new RespuestaAjax
+            {
+                Success = false,
+                Mensaje = "Ocurrio un error al intentar guardar los datos. Contacte a soporte técnico."
+            };
+
+            if (ModelState.IsValid)
+            {
+                if (Token.IsTokenValid())
+                {
+                    _Venta2_Datos venta2_Datos = new _Venta2_Datos();
+                    respuestaAjax = venta2_Datos.CostosExtras_AC(costoExtra, Conexion, User.Identity.Name);
+                }
+            }
+            TempData["typemessage"] = respuestaAjax.Success ? "1": "2";
+            TempData["message"] = respuestaAjax.Mensaje;
+            
+            if(respuestaAjax.Success)
+            {
+                return RedirectToAction("CostosExtras", "Venta", new { idVenta = costoExtra.IdVenta });
+            }
+            else
+            {
+                return View(costoExtra);
+            }
         }
     }
 }
