@@ -58,40 +58,42 @@
                         <span class="label label-default" style="background:#873737">Procesado</span>
                     </div>
                     <div class="col-md-8">
-                        <div class="panel">
-                            <div class="panel-heading">
-                                <table class="table tblDefault">
-                                    <thead>
-                                        <tr>
-                                            <th rowspan="2">Sucursal</th>
-                                            <th colspan="2">Meta</th>
-                                            <th colspan="2">Actual</th>
-                                        </tr>
-                                        <tr>
-                                            <th>Cantidad de ganado</th>
-                                            <th>Cantidad de kilos</th>
-                                            <th>Cantidad de ganado</th>
-                                            <th>Cantidad de kilos</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach (var meta in listaMetasXSucursal)
-                                        {
+                        @if (listaMetasXSucursal.Count > 0)
+                        {
+                            <div class="panel">
+                                <div class="panel-heading">
+                                    <table class="table tblDefault">
+                                        <thead>
                                             <tr>
-                                                <td>@meta.NombreSucursal</td>
-                                                <td>@meta.MetaCantidadGanado.ToString("N0")</td>
-                                                <td>@meta.MetaCantidadKilo.ToString("N0") Kg. </td>
-                                                <td>@meta.SucursalCantidadGanado.ToString("N0")</td>
-                                                <td>@meta.SucursalCantidadKilo.ToString("N0") Kg.</td>
+                                                <th rowspan="2">Sucursal</th>
+                                                <th colspan="2">Meta</th>
+                                                <th colspan="2">Actual</th>
                                             </tr>
+                                            <tr>
+                                                <th>Cantidad de ganado</th>
+                                                <th>Cantidad de kilos</th>
+                                                <th>Cantidad de ganado</th>
+                                                <th>Cantidad de kilos</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var meta in listaMetasXSucursal)
+                                            {
+                                                <tr>
+                                                    <td>@meta.NombreSucursal</td>
+                                                    <td>@meta.MetaCantidadGanado.ToString("N0")</td>
+                                                    <td>@meta.MetaCantidadKilo.ToString("N0") Kg. </td>
+                                                    <td>@meta.SucursalCantidadGanado.ToString("N0")</td>
+                                                    <td>@meta.SucursalCantidadKilo.ToString("N0") Kg.</td>
+                                                </tr>
 
-                                        }
-                                    </tbody>
-                                </table>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
-                        </div>
+                        }
                     </div>
-
                 </div>
 
                 <div class="row">

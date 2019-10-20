@@ -1899,6 +1899,7 @@
     <Compile Include="Models\RptSociosModels.cs" />
     <Compile Include="Models\RptUltCompraProveedorModels.cs" />
     <Compile Include="Models\RptCorralesModels.cs" />
+    <Compile Include="Models\RptVentaCompraDetalles.cs" />
     <Compile Include="Models\RptVentasMermasModels.cs" />
     <Compile Include="Models\SalidaAlmacenDetalle.cs" />
     <Compile Include="Models\SalidaAlmacenDetalleModels.cs" />
@@ -2177,6 +2178,7 @@
     <EmbeddedResource Include="Reports\ReporteCombustible.rdlc" />
     <EmbeddedResource Include="Reports\ReportePagosProveedor.rdlc" />
     <EmbeddedResource Include="Reports\ReporteTipoFlete.rdlc" />
+    <EmbeddedResource Include="Reports\RptUtilidadVentaCompra.rdlc" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

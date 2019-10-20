@@ -773,8 +773,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return RedirectToAction("Index", "Reportes");
             }
         }
-        
-
 
         public ActionResult RptAlmacen(string id, string id2, string id3, string id4)
         {
@@ -1125,6 +1123,87 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             catch (Exception)
             {
                 throw;
+            }
+        }
+
+        public ActionResult RptUtilidadVentaCompra(string id, string id2, string id3, string id4)
+        {
+            try
+            {
+                ReportViewer Rtp = new ReportViewer();
+                Rtp.ProcessingMode = ProcessingMode.Local;
+                //Rtp.SizeToReportContent = true;
+                Rtp.Width = Unit.Percentage(100);
+                Rtp.Height = Unit.Percentage(100);
+                Reporte_Datos RDEntra = new Reporte_Datos();
+                RptEntradaModels REntradas = new RptEntradaModels();
+                
+                DateTime Fecha1;
+                DateTime Fecha2;
+
+                string fromFormat = "dd/MM/yyyy";
+                string toFormat = "yyyy-MM-dd";
+
+                Fecha1 = DateTime.ParseExact(id2, fromFormat, null);
+                Fecha2 = DateTime.ParseExact(id3, fromFormat, null);
+
+                string fecha1 = Fecha1.ToString(toFormat);
+                string fecha2 = Fecha2.ToString(toFormat);
+
+                string idSucursal = id4;
+                REntradas.DatosEmpresa =
+                    string.IsNullOrEmpty(id4) ? RDEntra.ObtenerDatosEmpresaGeneral(Conexion)
+                                                : RDEntra.ObtenerDatosEmpresaTipoIDSucursal(Conexion, idSucursal);
+
+                List<RptVentaCompraDetalles> listaRptVentaCompraDetalles = RDEntra.GetUtilidadVentaCompra(Conexion, fecha1, fecha2, idSucursal);
+
+                REntradas.DatosEmpresa.NombreSucursal = string.IsNullOrEmpty(REntradas.DatosEmpresa.NombreSucursal) ? TODAS_SUCURSALES : REntradas.DatosEmpresa.NombreSucursal;
+                Rtp.LocalReport.EnableExternalImages = true;
+                Rtp.LocalReport.DataSources.Clear();
+                string path = Path.Combine(Server.MapPath("~/Reports"), "RptUtilidadVentaCompra.rdlc");
+                if (System.IO.File.Exists(path))
+                {
+                    Rtp.LocalReport.ReportPath = path;
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Reportes");
+                }
+                ReportParameter[] Parametros = new ReportParameter[5];
+                Parametros[0] = new ReportParameter("Empresa", REntradas.DatosEmpresa.RazonFiscal);
+                Parametros[1] = new ReportParameter("NombreSucursal", REntradas.DatosEmpresa.NombreSucursal);
+                Parametros[2] = new ReportParameter("UrlLogo", REntradas.DatosEmpresa.LogoEmpresa);
+                Parametros[3] = new ReportParameter("FechaInicio", id2);
+                Parametros[4] = new ReportParameter("FechaFin", id3);
+                Rtp.LocalReport.SetParameters(Parametros);
+                Rtp.LocalReport.DataSources.Add(new ReportDataSource("ListaRptUtilidadVentaCompraDetalles", listaRptVentaCompraDetalles));
+                string reportType = id;
+                string mimeType;
+                string encoding;
+                string fileNameExtension;
+
+                string deviceInfo = "<DeviceInfo>" +
+                "  <OutputFormat>" + id + "</OutputFormat>" +
+                "</DeviceInfo>";
+
+                Warning[] warnings;
+                string[] streams;
+                byte[] renderedBytes;
+
+                renderedBytes = Rtp.LocalReport.Render(
+                    reportType,
+                    deviceInfo,
+                    out mimeType,
+                    out encoding,
+                    out fileNameExtension,
+                    out streams,
+                    out warnings);
+
+                return File(renderedBytes, mimeType);
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("Index", "Reportes");
             }
         }
 

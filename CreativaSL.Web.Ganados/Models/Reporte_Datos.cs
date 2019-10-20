@@ -871,5 +871,38 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
         //-------------------------------------FINAL----------------------------
+
+        //-------------------------------INICIO----utilidad venta-compra -------------------------
+        public List<RptVentaCompraDetalles> GetUtilidadVentaCompra(string conexion, string fechaInicio, string fechaFin, string idSucursal)
+        {
+            try
+            {
+                object[] parametros = { fechaInicio, fechaFin, idSucursal };
+                List<RptVentaCompraDetalles> Lista = new List<RptVentaCompraDetalles>();
+                RptVentaCompraDetalles item;
+                SqlDataReader ds = null;
+                ds = SqlHelper.ExecuteReader(conexion, "[dbo].[GetUtilidadVentaCompra]", parametros);
+                while (ds.Read())
+                {
+                    item = new RptVentaCompraDetalles();
+                    item.IdSucursalVenta = !ds.IsDBNull(ds.GetOrdinal("IdSucursalVenta")) ? ds.GetString(ds.GetOrdinal("IdSucursalVenta")) : string.Empty;
+                    item.NombreSucursal = !ds.IsDBNull(ds.GetOrdinal("NombreSucursalVenta")) ? ds.GetString(ds.GetOrdinal("NombreSucursalVenta")) : string.Empty;
+                    item.IdVenta = !ds.IsDBNull(ds.GetOrdinal("IdVenta")) ? ds.GetString(ds.GetOrdinal("IdVenta")) : string.Empty;
+                    item.FolioVenta = !ds.IsDBNull(ds.GetOrdinal("FolioVenta")) ? ds.GetInt64(ds.GetOrdinal("FolioVenta")) : 0;
+                    item.Compra = !ds.IsDBNull(ds.GetOrdinal("Compra")) ? ds.GetDecimal(ds.GetOrdinal("Compra")) : 0;
+                    item.Venta = !ds.IsDBNull(ds.GetOrdinal("Venta")) ? ds.GetDecimal(ds.GetOrdinal("Venta")) : 0;
+                    item.Utilidad = !ds.IsDBNull(ds.GetOrdinal("Utilidad")) ? ds.GetDecimal(ds.GetOrdinal("Utilidad")) : 0;
+
+                    Lista.Add(item);
+                }
+                ds.Close();
+                return Lista;
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+        }
     }
 }

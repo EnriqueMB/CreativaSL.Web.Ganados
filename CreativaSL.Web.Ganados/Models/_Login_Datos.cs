@@ -74,6 +74,9 @@ namespace CreativaSL.Web.Ganados.Models
                     item.NombreUrl = !dr.IsDBNull(dr.GetOrdinal("NombreUrl")) ? dr.GetString(dr.GetOrdinal("NombreUrl")) : string.Empty;
                     lista.Add(item);
                 }
+
+                dr.Close();
+
                 datos.ListaPermisos = lista;
                 return datos;
             }
