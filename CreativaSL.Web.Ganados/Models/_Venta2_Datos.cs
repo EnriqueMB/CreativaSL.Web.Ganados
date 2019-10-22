@@ -2750,5 +2750,28 @@ namespace CreativaSL.Web.Ganados.Models
 
             return respuestaAjax;
         }
+
+        public RespuestaAjax CostosExtras_Del(string id, string idVenta, string idUsuario, string conexion)
+        {
+            RespuestaAjax respuestaAjax = new RespuestaAjax();
+            object[] parametros =
+            {
+                id
+                , idVenta
+                , idUsuario
+            };
+            SqlDataReader sqlDataReader = SqlHelper.ExecuteReader(conexion, "[Venta].[CostosExtras_Del]", parametros);
+
+            while (sqlDataReader.Read())
+            {
+                respuestaAjax.Success = !sqlDataReader.IsDBNull(sqlDataReader.GetOrdinal("Success")) ? sqlDataReader.GetBoolean(sqlDataReader.GetOrdinal("Success")) : false;
+                respuestaAjax.Mensaje = !sqlDataReader.IsDBNull(sqlDataReader.GetOrdinal("Mensaje")) ? sqlDataReader.GetString(sqlDataReader.GetOrdinal("Mensaje")) : string.Empty;
+                respuestaAjax.MensajeErrorSQL = !sqlDataReader.IsDBNull(sqlDataReader.GetOrdinal("MensajeErrorSQL")) ? sqlDataReader.GetString(sqlDataReader.GetOrdinal("MensajeErrorSQL")) : string.Empty;
+            }
+
+            sqlDataReader.Close();
+
+            return respuestaAjax;
+        }
     }
 }
