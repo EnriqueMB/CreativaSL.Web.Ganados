@@ -110,7 +110,7 @@
                                             <td style="text-align:center;">
                                                 <div class="visible-md visible-lg hidden-sm hidden-xs">
                                                     <a title="Editar" href="@Url.Action("CostoExtra_AC", "Venta", new { IdVenta = costoExtra.IdVenta, Id = costoExtra.Id })" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
-                                                    <a title="Eliminar" id="delete-@costoExtra.Id" data-id="@costoExtra.Id" data-idventa="@costoExtra.IdVenta" data-hrefa="@Url.Action("DeleteCostoExtra", "Venta")" class="btn btn-danger tooltips" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
+                                                    <a title="Eliminar" id="delete-@costoExtra.Id" data-id="@costoExtra.Id" data-idventa="@costoExtra.IdVenta" data-hrefa="@Url.Action("DeleteCostoExtra", "Venta")" class="btn btn-danger tooltips eliminarCostoextra" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
                                                 </div>
                                                 <div class="visible-xs visible-sm hidden-md hidden-lg">
                                                     <div class="btn-group">
@@ -124,7 +124,7 @@
                                                                 </a>
                                                             </li>
                                                             <li>
-                                                                <a role="menuitem" tabindex="-1" id="delete-@costoExtra.Id" data-id="@costoExtra.Id" data-idventa="@costoExtra.IdVenta" data-hrefa="@Url.Action("DeleteCostoExtra", "Venta")">
+                                                                <a class="eliminarCostoextra" role="menuitem" tabindex="-1" id="delete-@costoExtra.Id" data-id="@costoExtra.Id" data-idventa="@costoExtra.IdVenta" data-hrefa="@Url.Action("DeleteCostoExtra", "Venta")">
                                                                     <i class="fa fa-trash-o"></i> Eliminar
                                                                 </a>
                                                             </li>
@@ -152,12 +152,12 @@
 
             </div>
         </div>
-        <div class="message-box animated fadeIn" data-sound="alert" id="mb-deleteDocumento">
+        <div class="message-box animated fadeIn" data-sound="alert" id="mb-eliminar">
             <div class="mb-container">
                 <div class="mb-middle">
-                    <div class="mb-title"><span class="fa fa-times"></span> Eliminar <strong>Registro</strong> ?</div>
+                    <div class="mb-title"><span class="fa fa-times"></span> Eliminar <strong>Costo Extra</strong> ?</div>
                     <div class="mb-content">
-                        <p>¿Seguro que quieres eliminar este documento?</p>
+                        <p>¿Seguro que quieres eliminar este costo extra?</p>
                         <p>Presione "sí" si está seguro.</p>
                     </div>
                     <div class="mb-footer">

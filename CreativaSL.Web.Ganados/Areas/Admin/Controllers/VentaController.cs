@@ -2754,7 +2754,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public ActionResult CostosExtras(string idVenta)
+        public ActionResult CostosExtra(string idVenta)
         {
             if(string.IsNullOrEmpty(idVenta))
             {
@@ -2780,6 +2780,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             _Venta2_Datos venta2_Datos = new _Venta2_Datos();
 
             CostoExtra costoExtra = venta2_Datos.GetCostoExtra(idVenta, id, Conexion);
+            costoExtra.IdVenta = idVenta;
 
             return View(costoExtra);
         }
@@ -2806,12 +2807,37 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             
             if(respuestaAjax.Success)
             {
-                return RedirectToAction("CostosExtras", "Venta", new { idVenta = costoExtra.IdVenta });
+                return RedirectToAction("CostosExtra", "Venta", new { idVenta = costoExtra.IdVenta });
             }
             else
             {
                 return View(costoExtra);
             }
+        }
+
+        [HttpPost]
+        public ActionResult DeleteCostoExtra(string id, string idVenta)
+        {
+            RespuestaAjax respuestaAjax = new RespuestaAjax
+            {
+                Success = false,
+                Mensaje = "Ocurrio un error al intentar guardar los datos."
+            };
+
+            if (string.IsNullOrEmpty(id) || string.IsNullOrEmpty(idVenta))
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Verifique sus datos.";
+                return Content(respuestaAjax.ToJSON(), "application/json");
+            }
+            
+            _Venta2_Datos venta2_Datos = new _Venta2_Datos();
+            respuestaAjax = venta2_Datos.CostosExtras_Del(id, idVenta, User.Identity.Name, Conexion);
+            
+            TempData["typemessage"] = respuestaAjax.Success ? "1" : "2";
+            TempData["message"] = respuestaAjax.Mensaje;
+
+            return Content(respuestaAjax.ToJSON(), "application/json");
         }
     }
 }
