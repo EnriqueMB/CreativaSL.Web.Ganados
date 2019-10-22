@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using Microsoft.ApplicationBlocks.Data;
 using System.Xml;
 using System.Linq;
+using Microsoft.ApplicationBlocks.Data;
 
 namespace CreativaSL.Web.Ganados.Models
 {
@@ -336,7 +336,7 @@ namespace CreativaSL.Web.Ganados.Models
         {
             try
             {
-                SqlDataReader Dr = SqlHelper.ExecuteReader(Datos.conexion, "spCSLDB_get_MenuPermission", Datos.id_usuario, Datos.id_tipoUsuario);
+                SqlDataReader Dr = SqlHelper.ExecuteReader(Datos.conexion, "spCSLDB_get_MenuPermission", Datos.id_usuario);
                 List<MenuModels> ListaPrinc = new List<MenuModels>();
                 MenuModels Item;
                 int cont = 0;

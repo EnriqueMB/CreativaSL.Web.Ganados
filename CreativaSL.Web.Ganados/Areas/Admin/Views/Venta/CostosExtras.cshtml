@@ -1,0 +1,196 @@
+﻿@model CreativaSL.Web.Ganados.ViewModel.Venta.CostosExtrasViewModel
+
+@{
+    ViewBag.Title = "Costos extras";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@section css
+{
+    <style>
+        .form-control[disabled], .form-control[readonly] {
+            color: #000 !important; 
+        }
+
+        #divRowTblCostosExtras{
+            margin-top: 50px;
+        }
+    </style>
+}
+
+@section featured
+{
+    @{
+        var message = TempData["message"] ?? string.Empty;
+        var typemessage = TempData["typemessage"] ?? string.Empty;
+    }
+
+    <div class="">
+        <div id="Error" class="progress-bar progress-bar-striped active errorCSL" style="display:none; width:100%">
+            <h3></h3>
+        </div>
+        <div id="Success" class="progress-bar progress-bar-striped active successCSL" style="display:none; width:100%">
+            <h3></h3>
+        </div>
+       
+        <div id="validation_summary" class="field_error "> </div> 
+
+        @Html.HiddenFor(model => model.IdVenta)
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><strong>Costo extra</strong></h3>
+                    <ul class="panel-controls">
+                        <li><a id="btnCostoExtra_AC" class="btn btn-default btnCrear"><span class="fa fa-plus"></span>Agregar costo extra</a></li>
+                    </ul>
+                </div>
+                <div class="panel-body">
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-md-5 control-label">Total de la venta SIN costo extra</label>
+                                <div class="col-md-7">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-money"></span></span>
+                                        @Html.TextBoxFor(model => model.TotalVentaSinCostoExtra, "{0:c2}", new { @class = "form-control", disabled = "disabled" })
+                                    </div>
+                                    <span class="help-block">Total de la venta sin costo extra</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-md-5 control-label">Total del costo extra</label>
+                                <div class="col-md-7">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-money"></span></span>
+                                        @Html.TextBoxFor(model => model.TotalCostoExtra, "{0:c2}", new { @class = "form-control", disabled = "disabled" })
+                                    </div>
+                                    <span class="help-block">Total del costo extra</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-md-5 control-label">Total de la venta CON costo extra</label>
+                                <div class="col-md-7">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-money"></span></span>
+                                        @Html.TextBoxFor(model => model.TotalVentaConCostoExtra, "{0:c2}", new { @class = "form-control", disabled = "disabled" })
+                                    </div>
+                                    <span class="help-block">Total de la venta con costo extra</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="divRowTblCostosExtras" class="row">
+                        <div class="col-md-12">
+                            <table id="tblCostoExtra" class="display table datatable" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>Nombre del producto</th>
+                                        <th>Unidad de medida</th>
+                                        <th>Cantidad</th>
+                                        <th>Precio unitario</th>
+                                        <th>Subtotal</th>
+                                        <th>Acción</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var costoExtra in Model.ListaCostosExtras)
+                                    {
+                                        <tr id="@costoExtra.Id">
+                                            <td>@costoExtra.NombreProducto</td>
+                                            <td>@costoExtra.NombreUnidadMedida</td>
+                                            <td>@costoExtra.Cantidad</td>
+                                            <td>@costoExtra.PrecioUnitario.ToString("C2")</td>
+                                            <td>@costoExtra.Subtotal.ToString("C2")</td>
+                                            <td style="text-align:center;">
+                                                <div class="visible-md visible-lg hidden-sm hidden-xs">
+                                                    <a title="Editar" href="@Url.Action("CostoExtra_AC", "Venta", new { IdVenta = costoExtra.IdVenta, Id = costoExtra.Id })" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
+                                                    <a title="Eliminar" id="delete-@costoExtra.Id" data-id="@costoExtra.Id" data-idventa="@costoExtra.IdVenta" data-hrefa="@Url.Action("DeleteCostoExtra", "Venta")" class="btn btn-danger tooltips" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
+                                                </div>
+                                                <div class="visible-xs visible-sm hidden-md hidden-lg">
+                                                    <div class="btn-group">
+                                                        <a class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
+                                                            <i class="fa fa-cog"></i> <span class="caret"></span>
+                                                        </a>
+                                                        <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
+                                                            <li>
+                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("CostoExtra_AC", "Venta", new { IdVenta = costoExtra.IdVenta, Id = costoExtra.Id })">
+                                                                    <i class="fa fa-edit"></i> Editar
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a role="menuitem" tabindex="-1" id="delete-@costoExtra.Id" data-id="@costoExtra.Id" data-idventa="@costoExtra.IdVenta" data-hrefa="@Url.Action("DeleteCostoExtra", "Venta")">
+                                                                    <i class="fa fa-trash-o"></i> Eliminar
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="panel-footer">
+                    <a href="@Url.Action("Index", "Venta")" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
+                </div>
+            </div>
+            
+        <div id="Modal" class="modal fade" role="dialog" style="display:none" aria-hidden="true">
+            <div class="modal-dialog modal-lg" id="ContenidoModal">
+
+            </div>
+        </div>
+        <div class="message-box animated fadeIn" data-sound="alert" id="mb-deleteDocumento">
+            <div class="mb-container">
+                <div class="mb-middle">
+                    <div class="mb-title"><span class="fa fa-times"></span> Eliminar <strong>Registro</strong> ?</div>
+                    <div class="mb-content">
+                        <p>¿Seguro que quieres eliminar este documento?</p>
+                        <p>Presione "sí" si está seguro.</p>
+                    </div>
+                    <div class="mb-footer">
+                        <div class="pull-right">
+                            <button class="btn btn-success btn-lg mb-control-yes">Si</button>
+                            <button class="btn btn-default btn-lg mb-control-close">No</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    var message     = '@message';
+    var typemessage = '@typemessage';
+    </script>
+}
+
+@section script
+{
+    <script src="@Url.Content("~/Scripts/jquery.validate.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")"></script>
+    <script src="@Url.Content("~/Content/js/validaciones/additionals.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
+    <script src="~/Content/js/Venta/CostoExtra/CostosExtrasJS.js"></script>
+    <script>
+        jQuery(document).ready(function () {
+            Mensaje(message, typemessage);
+           
+            CostoExtra.init();
+        });
+    </script>
+}

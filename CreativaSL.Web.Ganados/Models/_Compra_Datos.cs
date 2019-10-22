@@ -186,14 +186,43 @@ namespace CreativaSL.Web.Ganados.Models
 
 
         #region Index
-        public string ObtenerCompraIndexDataTable(CompraModels CompraModels)
+        public string ObtenerCompraIndexDataTable(CompraModels CompraModels, List<string> sucursales)
         {
             try
             {
-                SqlDataReader dr = null;
-                dr = SqlHelper.ExecuteReader(CompraModels.Conexion, "spCSLDB_Compras_IndexVentas");
-                string datatable = Auxiliar.SqlReaderToJson(dr);
-                dr.Close();
+                string datatable = string.Empty;
+                using (SqlConnection sqlcon = new SqlConnection(CompraModels.Conexion))
+                {
+                    using (SqlCommand cmd = new SqlCommand("spCSLDB_Compras_IndexVentas", sqlcon))
+                    {
+                        //parametros de entrada
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        DataTable dataTable;
+                        dataTable = new DataTable();
+
+                        dataTable.Columns.Add("Id", typeof(string));
+                        if (sucursales != null)
+                        {
+                            foreach (var item in sucursales)
+                            {
+                                dataTable.Rows.Add(item);
+                            }
+                        }
+
+
+                        cmd.Parameters.Add("@UDTT_Sucursales", SqlDbType.Structured).Value = dataTable;
+
+                        // execute
+                        sqlcon.Open();
+
+                        SqlDataReader reader = cmd.ExecuteReader();
+
+                        datatable = Auxiliar.SqlReaderToJson(reader);
+                        reader.Close();
+                    }
+                }
+
                 return datatable;
             }
             catch (Exception ex)
@@ -470,6 +499,53 @@ namespace CreativaSL.Web.Ganados.Models
             }
             dr.Close();
             return Compra.ListaSucursales;
+        }
+
+        public List<CatSucursalesModels> GetSucursalesPermitidas(List<string> sucursales, int tipo, string conexion)
+        {
+            List<CatSucursalesModels> lista  = new List<CatSucursalesModels>();
+            using (SqlConnection sqlcon = new SqlConnection(conexion))
+            {
+                using (SqlCommand cmd = new SqlCommand("spCSLDB_Combo_get_SucursalesPermitidas", sqlcon))
+                {
+                    //parametros de entrada
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    DataTable dataTable;
+                    dataTable = new DataTable();
+
+                    dataTable.Columns.Add("Id", typeof(string));
+                    if (sucursales != null)
+                    {
+                        foreach (var item in sucursales)
+                        {
+                            dataTable.Rows.Add(item);
+                        }
+                    }
+
+                    cmd.Parameters.Add("@tipo", SqlDbType.Int).Value = tipo;
+                    cmd.Parameters.Add("@UDTT_Sucursales", SqlDbType.Structured).Value = dataTable;
+
+                    // execute
+                    sqlcon.Open();
+
+                    SqlDataReader sqlDataReader = cmd.ExecuteReader();
+
+                    while (sqlDataReader.Read())
+                    {
+                        CatSucursalesModels Sucursal = new CatSucursalesModels
+                        {
+                            IDSucursal = !sqlDataReader.IsDBNull(sqlDataReader.GetOrdinal("IDSucursal")) ? sqlDataReader.GetString(sqlDataReader.GetOrdinal("IDSucursal")) : string.Empty,
+                            NombreSucursal = !sqlDataReader.IsDBNull(sqlDataReader.GetOrdinal("NombreSucursal")) ? sqlDataReader.GetString(sqlDataReader.GetOrdinal("NombreSucursal")) : string.Empty,
+                        };
+
+                        lista.Add(Sucursal);
+                    }
+                    sqlDataReader.Close();
+                }
+            }
+
+            return lista;
         }
         #endregion
         #region Proveedores
@@ -3514,6 +3590,49 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
 
+        #endregion
+
+        #region Validar persona a compra
+        public bool ValidateCompraXSucursal(List<string>sucursales, string id_compra, string conexion)
+        {
+            bool success = false;
+            using (SqlConnection sqlcon = new SqlConnection(conexion))
+            {
+                using (SqlCommand cmd = new SqlCommand("[dbo].[spCSLDB_Compras_ValidateCompraXSucursal]", sqlcon))
+                {
+                    //parametros de entrada
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    DataTable dataTable;
+                    dataTable = new DataTable();
+
+                    dataTable.Columns.Add("Id", typeof(string));
+                    if (sucursales != null)
+                    {
+                        foreach (var item in sucursales)
+                        {
+                            dataTable.Rows.Add(item);
+                        }
+                    }
+
+
+                    cmd.Parameters.Add("@id_compra", SqlDbType.Char).Value = id_compra;
+                    cmd.Parameters.Add("@UDTT_Sucursales", SqlDbType.Structured).Value = dataTable;
+
+                    //parametros de salida
+                    cmd.Parameters.Add(new SqlParameter("@success", SqlDbType.Bit));
+                    cmd.Parameters["@success"].Direction = ParameterDirection.Output;
+                    // execute
+                    sqlcon.Open();
+
+                    cmd.ExecuteNonQuery();
+
+                    Boolean.TryParse(cmd.Parameters["@success"].Value.ToString(), out success);
+                }
+            }
+
+            return success;
+        }
         #endregion
     }
 }

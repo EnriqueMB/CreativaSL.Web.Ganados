@@ -12,6 +12,7 @@ using System.Configuration;
 using Microsoft.Reporting.WebForms;
 using System.Drawing;
 using System.Drawing.Imaging;
+using CreativaSL.Web.Ganados.ViewModel.Venta;
 
 namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 {
@@ -1546,7 +1547,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
                 Venta.Id_venta = id;
                 Venta.Conexion = Conexion;
-                Listareporte = reporteDatos.GetReporteGanadoDetalles(Venta);
+                Listareporte = reporteDatos.GetReporteGanadoDetallesNuevo(Venta);
                 Cabezera = reporteDatos.GetReporteCabeceraGanadoDetalles(Venta);
                 ListaFierros = reporteDatos.GetReporteFierrosVenta(Venta);
 
@@ -1564,7 +1565,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 }
                 ReporteGanadoModels ReporteGanado = new ReporteGanadoModels();
 
-                ReportParameter[] Parametros = new ReportParameter[19];
+                ReportParameter[] Parametros = new ReportParameter[21];
                 Parametros[0] = new ReportParameter("NombreChofer", Cabezera.NombreChofer);
                 Parametros[1] = new ReportParameter("UnidadVehiculo", Cabezera.UnidadVehiculo);
                 Parametros[2] = new ReportParameter("ModeloVehiculo", Cabezera.ModeloVehiculo);
@@ -1584,6 +1585,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Parametros[16] = new ReportParameter("TotalKilosGanado", Cabezera.TotalKilosGanado.ToString("N2"));
                 Parametros[17] = new ReportParameter("PlacaTracto", Cabezera.PlacaTracto);
                 Parametros[18] = new ReportParameter("PlacaJaula", Cabezera.PlacaJaula);
+                Parametros[19] = new ReportParameter("TotalKilosGanadoMachos", Cabezera.TotalKilosGanadoMachos.ToString("N2"));
+                Parametros[20] = new ReportParameter("TotalKilosGanadoHembras", Cabezera.TotalKilosGanadoHembras.ToString("N2"));
 
                 Rtp.SetParameters(Parametros);
                 Rtp.DataSources.Add(new ReportDataSource("ListaGanado", Listareporte));
@@ -2748,6 +2751,67 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
             ViewBag.ListaDeducciones = datosDeduccion.SpCIDDB_Combo_get_CatDeduccion(Conexion);
             ViewBag.ListaConceptosDocumentos = oDatos.GetTiposDeduccionVentaGanado(new VentaModels2 { Conexion = Conexion });
+        }
+
+        [HttpGet]
+        public ActionResult CostosExtras(string idVenta)
+        {
+            if(string.IsNullOrEmpty(idVenta))
+            {
+                return RedirectToAction("Index");
+            }
+            Token.SaveToken();
+            CostosExtrasViewModel costosExtrasViewModel = new CostosExtrasViewModel();
+            _Venta2_Datos venta2_Datos = new _Venta2_Datos();
+
+            costosExtrasViewModel = venta2_Datos.GetCostosExtrasViewModel(Conexion, idVenta);
+
+            return View(costosExtrasViewModel);
+        }
+
+        [HttpGet]
+        public ActionResult CostoExtra_AC(string idVenta, string id)
+        {
+            if(string.IsNullOrEmpty(idVenta) || string.IsNullOrEmpty(id))
+            {
+                return RedirectToAction("Index");
+            }
+
+            _Venta2_Datos venta2_Datos = new _Venta2_Datos();
+
+            CostoExtra costoExtra = venta2_Datos.GetCostoExtra(idVenta, id, Conexion);
+
+            return View(costoExtra);
+        }
+
+        [HttpPost]
+        public ActionResult CostoExtra_AC(CostoExtra costoExtra)
+        {
+            RespuestaAjax respuestaAjax = new RespuestaAjax
+            {
+                Success = false,
+                Mensaje = "Ocurrio un error al intentar guardar los datos. Contacte a soporte técnico."
+            };
+
+            if (ModelState.IsValid)
+            {
+                if (Token.IsTokenValid())
+                {
+                    _Venta2_Datos venta2_Datos = new _Venta2_Datos();
+                    respuestaAjax = venta2_Datos.CostosExtras_AC(costoExtra, Conexion, User.Identity.Name);
+                }
+            }
+            TempData["typemessage"] = respuestaAjax.Success ? "1": "2";
+            TempData["message"] = respuestaAjax.Mensaje;
+            
+            if(respuestaAjax.Success)
+            {
+                return RedirectToAction("CostosExtras", "Venta", new { idVenta = costoExtra.IdVenta });
+            }
+            else
+            {
+                return View(costoExtra);
+            }
         }
     }
 }

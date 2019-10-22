@@ -24,18 +24,18 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 UsuarioModels usuario = new UsuarioModels();
                 _Usuario_Datos UsuarioDatos = new _Usuario_Datos();
                 usuario.conexion = Conexion;
-                usuario= UsuarioDatos.ObtenerUsuarios(usuario);
+                usuario = UsuarioDatos.ObtenerUsuarios(usuario);
                 return View(usuario);
             }
-            catch (Exception )
+            catch (Exception)
             {
                 UsuarioModels usuario = new UsuarioModels();
-               
+
                 TempData["typemessage"] = "2";
                 TempData["message"] = "No se puede cargar la vista";
                 return View(usuario);
             }
-            
+
         }
 
         // GET: Admin/CatUsuarios/Details/5
@@ -85,7 +85,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         usuario.conexion = Conexion;
                         usuario.opcion = 1;
                         usuario.user = User.Identity.Name;
-                        usuario = UsuarioDatos.AbcCatUsuarios(usuario,false);
+                        usuario = UsuarioDatos.AbcCatUsuarios(usuario, false);
                         if (usuario.Completado == true)
                         {
                             TempData["typemessage"] = "1";
@@ -126,7 +126,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         // GET: Admin/CatUsuarios/Edit/5
         public ActionResult Edit(string id)
         {
-            
+
             try
             {
                 Token.SaveToken();
@@ -175,7 +175,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                             var = true;
                         else
                             var = false;
-                        
+
 
                         usuario.conexion = Conexion;
                         usuario.opcion = 2;
@@ -235,7 +235,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 _Usuario_Datos UsuarioDatos = new _Usuario_Datos();
                 usuario.conexion = Conexion;
                 usuario.id_usuario = id;
-                
+
                 usuario.opcion = 3;
                 usuario.user = User.Identity.Name;
                 usuario = UsuarioDatos.EliminarUsuario(usuario);
@@ -261,7 +261,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 _Usuario_Datos UsuarioDatos = new _Usuario_Datos();
                 usuario.conexion = Conexion;
                 usuario.id_usuario = id;
-                usuario.id_tipoUsuario = 1;
                 usuario.listaMenu = UsuarioDatos.ObtenerListaPermisosUsuario(usuario);
                 if (usuario.ListaPermisos != null)
                 {
@@ -330,6 +329,53 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 TempData["message"] = "Los permisos no se guardaron correctamente. Contacte a soporte técnico.";
                 return RedirectToAction("Index");
             }
+        }
+
+        [HttpGet]
+        public ActionResult Sucursales(string id)
+        {
+            //validamos
+            if (id == null || string.IsNullOrEmpty(id.Trim()))
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Verifique sus datos.";
+                return RedirectToAction("Index");
+            }
+
+            _CatSucursal_Datos sucursal_Datos = new _CatSucursal_Datos();
+
+            ViewBag.Id_persona = id.Trim();
+            //Obtenemos las sucursales dadas de alta
+            ViewBag.Sucursales = sucursal_Datos.GetSucursales(Conexion);
+            //Obtenemos las sucursales que tiene la persona
+            ViewBag.PersonaXSucursal = sucursal_Datos.GetSucursalesXPersona(Conexion, id);
+
+            return View();
+        }
+        [HttpPost]
+        //public ActionResult Sucursales(string[] sucursales, string id_persona)
+        public ActionResult Sucursales(List<string> sucursales, string id_persona)
+        {
+            //validamos
+            if (id_persona == null || string.IsNullOrEmpty(id_persona))
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Verifique sus datos.";
+                return RedirectToAction("Index");
+            }
+            _CatSucursal_Datos sucursal_Datos = new _CatSucursal_Datos();
+            //RespuestaAjax respuestaAjax = sucursal_Datos.SetSucursalesXPersona(sucursales, id_persona, Conexion);
+            RespuestaAjax respuestaAjax = sucursal_Datos.SetSucursalesXPersona(sucursales, id_persona, Conexion);
+
+            TempData["typemessage"] = respuestaAjax.Success ? "1" : "2";
+            TempData["message"] = respuestaAjax.Success ? respuestaAjax.Mensaje : "Ocurrió un error el intentar guardar. Contacte a soporte técnico";
+
+            if(respuestaAjax.Success)
+            {
+                System.Web.HttpContext.Current.Session["lista_id_sucursales"] = sucursales;
+            }
+
+            return RedirectToAction("Index");
         }
     }
 }

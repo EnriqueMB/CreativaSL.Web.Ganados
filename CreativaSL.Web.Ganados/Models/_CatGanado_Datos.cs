@@ -30,6 +30,8 @@ namespace CreativaSL.Web.Ganados.Models
                     Item.PesoGanado = !dr.IsDBNull(dr.GetOrdinal("Peso")) ? dr.GetInt32(dr.GetOrdinal("Peso")) : 0;
                     Item.FechaCompra = !dr.IsDBNull(dr.GetOrdinal("Fecha")) ? dr.GetDateTime(dr.GetOrdinal("Fecha")) : DateTime.Today;
                     Item.Proveedor = !dr.IsDBNull(dr.GetOrdinal("Proveedor")) ? dr.GetString(dr.GetOrdinal("Proveedor")) : string.Empty;
+                    Item.Dinero = !dr.IsDBNull(dr.GetOrdinal("dinero")) ? dr.GetDecimal(dr.GetOrdinal("dinero")) : 0;
+
                     Lista.Add(Item);
                 }
                 dr.Close();
@@ -155,5 +157,18 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
 
+        public bool PuedeTransferirGanado(string conexion, string id_persona)
+        {
+            SqlDataReader Dr = SqlHelper.ExecuteReader(conexion, "[dbo].[spCSLDB_ganado_puedeTransferirGanado]", id_persona);
+            RespuestaAjax respuesta = new RespuestaAjax();
+
+            while (Dr.Read())
+            {
+                respuesta.Success = !Dr.IsDBNull(Dr.GetOrdinal("success")) ? Dr.GetBoolean(Dr.GetOrdinal("success")) : false;
+            }
+            Dr.Close();
+
+            return respuesta.Success;
+        }
     }
 }

@@ -117,8 +117,9 @@
       <HintPath>..\packages\Microsoft.ApplicationInsights.WindowsServer.2.2.0\lib\net45\Microsoft.AI.WindowsServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.ApplicationBlocks.Data">
-      <HintPath>..\..\..\UTILIDADES\Dll\Microsoft.ApplicationBlocks.Data.dll</HintPath>
+    <Reference Include="Microsoft.ApplicationBlocks.Data, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Utileria\Dll\Microsoft.ApplicationBlocks.Data.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.ApplicationInsights, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ApplicationInsights.2.2.0\lib\net45\Microsoft.ApplicationInsights.dll</HintPath>
@@ -486,6 +487,7 @@
     <Content Include="Content\js\catDocumentos.js" />
     <Content Include="Content\js\catFierro.js" />
     <Content Include="Content\js\CatFierroSubir.js" />
+    <Content Include="Content\js\MetaXSucursal.js" />
     <Content Include="Content\js\plugins\nvd3\src\models\backup\bullet.js" />
     <Content Include="Content\js\PrestamoHerramientasDetalle.js" />
     <Content Include="Content\js\ReporteTipoFlete.js" />
@@ -1132,6 +1134,8 @@
     <Content Include="Content\js\VentaGeneral.js" />
     <Content Include="Content\js\ventaImpuestoProductoServicio.js" />
     <Content Include="Content\js\ventaTransacciones.js" />
+    <Content Include="Content\js\Venta\CostoExtra\CostoExtra_ACJS.js" />
+    <Content Include="Content\js\Venta\CostoExtra\CostosExtrasJS.js" />
     <Content Include="Content\js\venta_ProductoServicio.js" />
     <Content Include="Content\Ocampo.ico" />
     <Content Include="Content\js\RangoCompra.js" />
@@ -1567,6 +1571,10 @@
     <Content Include="Areas\Admin\Views\Prestamos\CreateDetails.cshtml" />
     <Content Include="Areas\Admin\Views\Prestamos\EditDetails.cshtml" />
     <Content Include="Areas\Admin\Views\Prestamos\Devolucion.cshtml" />
+    <Content Include="Areas\Admin\Views\CatUsuarios\Sucursales.cshtml" />
+    <Content Include="Areas\Admin\Views\CatEmpresa\MetaXSucursal.cshtml" />
+    <Content Include="Areas\Admin\Views\Venta\CostosExtras.cshtml" />
+    <Content Include="Areas\Admin\Views\Venta\CostoExtra_AC.cshtml" />
     <None Include="Properties\PublishProfiles\Ocampo.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
@@ -1676,6 +1684,8 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Filters\AutorizadoAttribute.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
+    <Compile Include="Filters\SucursalesPermitidas.cs" />
+    <Compile Include="Filters\TransferenciaGanadoAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -1787,6 +1797,7 @@
     <Compile Include="Models\ConceptosCajaChicaModels.cs" />
     <Compile Include="Models\ConciliacionAlmacenDetalleModel.cs" />
     <Compile Include="Models\ConciliacionAlmacenModels.cs" />
+    <Compile Include="Models\CostoExtra.cs" />
     <Compile Include="Models\CuentaBancariaModels.cs" />
     <Compile Include="Models\CuentaBancariaProveedorModels.cs" />
     <Compile Include="Models\CuentaBancariasProveedorAlmacenModels.cs" />
@@ -1829,11 +1840,13 @@
     <Compile Include="Models\GanadoParaVender.cs" />
     <Compile Include="Models\GeneroGanadoModels.cs" />
     <Compile Include="Models\ArchivoEmpresaModels.cs" />
+    <Compile Include="Models\HomeMetaXSucursalDTO.cs" />
     <Compile Include="Models\ImpuestoModels.cs" />
     <Compile Include="Models\IncidenteFleteModels.cs" />
     <Compile Include="Models\LicenciaChoferModels.cs" />
     <Compile Include="Models\ComprobanteCompraDetallesOtrasPercepciones.cs" />
     <Compile Include="Models\MenuModels.cs" />
+    <Compile Include="Models\MetaXSucursal.cs" />
     <Compile Include="Models\MovimientosCajaChicaModels.cs" />
     <Compile Include="Models\MovimientosProductosModels.cs" />
     <Compile Include="Models\MunicipioModels.cs" />
@@ -1886,6 +1899,7 @@
     <Compile Include="Models\RptSociosModels.cs" />
     <Compile Include="Models\RptUltCompraProveedorModels.cs" />
     <Compile Include="Models\RptCorralesModels.cs" />
+    <Compile Include="Models\RptVentaCompraDetalles.cs" />
     <Compile Include="Models\RptVentasMermasModels.cs" />
     <Compile Include="Models\SalidaAlmacenDetalle.cs" />
     <Compile Include="Models\SalidaAlmacenDetalleModels.cs" />
@@ -2034,6 +2048,7 @@
       <DependentUpon>DatatableServ.asmx</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="ViewModel\Venta\CostosExtrasViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />
@@ -2163,6 +2178,7 @@
     <EmbeddedResource Include="Reports\ReporteCombustible.rdlc" />
     <EmbeddedResource Include="Reports\ReportePagosProveedor.rdlc" />
     <EmbeddedResource Include="Reports\ReporteTipoFlete.rdlc" />
+    <EmbeddedResource Include="Reports\RptUtilidadVentaCompra.rdlc" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

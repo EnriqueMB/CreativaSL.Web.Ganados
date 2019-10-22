@@ -1,53 +1,100 @@
 ﻿@model CreativaSL.Web.Ganados.Models.CalendarioModels
+
 @{
     ViewBag.Title = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+
+    var listaMetasXSucursal
+        = ViewBag.ListaMetasXSucursal as List<CreativaSL.Web.Ganados.Models.HomeMetaXSucursalDTO>;
 }
+
+@section css{
+    <style>
+        table.tblDefault td  {
+            border-color: #E5E5E5 !important;
+            border: 1px solid #E5E5E5;
+        }
+
+         table.tblDefault > thead > tr > th {
+            background: #f1f5f9;
+            color: #56688A;
+            font-size: 12px;
+            border: 1px solid #E5E5E5;
+            text-align: center;
+            vertical-align: middle;
+            padding: 8px;
+        }
+        td {
+            vertical-align: middle;
+            text-align: center;
+        }
+    </style>
+}
+
 @section featured{
-<div class="page-title">
-    <h2><span class="fa fa-arrow-circle-o-left"></span> AG Chapala </h2>
-</div>
-<div class="page-content-wrap">
-    <div class="row">
-        <div class="panel panel-default">
-            <div class="col-md-3  col-md-offset-9">
-                <!-- START WIDGET CLOCK -->
-                @*<div class="widget widget-info widget-padding-sm">
-                    <div class="widget-big-int plugin-clock">00:00</div>
-                    <div class="widget-subtitle plugin-date">Loading...</div>
-                    <div class="widget-controls">
-                        <a href="#" class="widget-control-right widget-remove" data-toggle="tooltip" data-placement="left" title="Remove Widget"><span class="fa fa-times"></span></a>
+    <div class="page-title">
+        <h2><span class="fa fa-arrow-circle-o-left"></span> AG Chapala </h2>
+    </div>
+    <div class="page-content-wrap">
+        <div class="row">
+            <div class="panel panel-default">
+                <div class="col-md-3  col-md-offset-9">
+                </div>
+                <div class="panel-body">
+                    <div class="col-md-4">
+                        Ganado:
+                        <span class="label label-default" style="background:#ffd633">Programada</span>
+                        <span class="label label-primary" style="background:#ff8533">En camino</span>
+                        <span class="label label-success" style="background:#3377ff">Recepción</span>
+                        <span class="label label-info" style="background:#00cc00">Pago</span>
+                        <br />
+                        <br />
+                        Flete:
+                        <span class="label label-default" style="background:#949494">Agendado</span>
+                        <span class="label label-primary" style="background:#983da9">En camino</span>
+                        <br />
+                        <br />
+                        Servicios:
+                        <span class="label label-default" style="background:#873737">Procesado</span>
                     </div>
-                    <div class="widget-buttons widget-c3">
-                        <div class="col">
-                            <a href="#"><span class="fa fa-clock-o"></span></a>
-                        </div>
-                        <div class="col">
-                            <a href="#"><span class="fa fa-bell"></span></a>
-                        </div>
-                        <div class="col">
-                            <a href="#" id="calendario"><span class="fa fa-calendar"></span></a>
-                        </div>
+                    <div class="col-md-8">
+                        @if (listaMetasXSucursal.Count > 0)
+                        {
+                            <div class="panel">
+                                <div class="panel-heading">
+                                    <table class="table tblDefault">
+                                        <thead>
+                                            <tr>
+                                                <th rowspan="2">Sucursal</th>
+                                                <th colspan="2">Meta</th>
+                                                <th colspan="2">Actual</th>
+                                            </tr>
+                                            <tr>
+                                                <th>Cantidad de ganado</th>
+                                                <th>Cantidad de kilos</th>
+                                                <th>Cantidad de ganado</th>
+                                                <th>Cantidad de kilos</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var meta in listaMetasXSucursal)
+                                            {
+                                                <tr>
+                                                    <td>@meta.NombreSucursal</td>
+                                                    <td>@meta.MetaCantidadGanado.ToString("N0")</td>
+                                                    <td>@meta.MetaCantidadKilo.ToString("N0") Kg. </td>
+                                                    <td>@meta.SucursalCantidadGanado.ToString("N0")</td>
+                                                    <td>@meta.SucursalCantidadKilo.ToString("N0") Kg.</td>
+                                                </tr>
+
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        }
                     </div>
-                </div>*@
-                <!-- END WIDGET CLOCK -->
-            </div>
-            <div class="panel-body">
-                Ganado:
-                <span class="label label-default" style="background:#ffd633">Programada</span>
-                <span class="label label-primary" style="background:#ff8533">En camino</span>
-                <span class="label label-success" style="background:#3377ff">Recepción</span>
-                <span class="label label-info" style="background:#00cc00">Pago</span>
-                <br />
-                <br />
-                Flete:
-                <span class="label label-default" style="background:#949494">Agendado</span>
-                <span class="label label-primary" style="background:#983da9">En camino</span>
-                <br />
-                <br />
-                Servicios:
-                <span class="label label-default" style="background:#873737">Procesado</span>
-            </div>
+                </div>
 
                 <div class="row">
                     <div class="col-md-12">
@@ -57,45 +104,24 @@
                         </div>
                     </div>
                 </div>
-
-            @*<div class="row">
-                <div class="col-md-12">
-
-                    
-                    <div class="form-group">
-                        <canvas id="canvas">Su navegador no soporta canvas :( </canvas>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-md-12 text-center">
-                            <button id="limpiar" class=" btn btn-group"><i class="fa fa-eraser"></i> Limpiar</button>
-                            <button id="guardar-img" class="btn btn-group"><i class="fa fa-save"></i> Guardar Imagen</button>
-                        </div>
-
-                    </div>
-
+            </div>
+        </div>
+        <!-- END WIDGETS -->
+    </div>
+    <div id="fullCalModal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span> <span class="sr-only">close</span></button>
+                    <h4 id="modalTitle" class="modal-title"></h4>
                 </div>
-            </div>*@
-
-            
-        </div>
-        </div>
-    <!-- END WIDGETS -->
-    </div>
-<div id="fullCalModal" class="modal fade">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span> <span class="sr-only">close</span></button>
-                <h4 id="modalTitle" class="modal-title"></h4>
-            </div>
-            <div id="modalBody" class="modal-body"></div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                @*<button class="btn btn-success"><a id="eventUrl" target="_blank">Event Page</a></button>*@
+                <div id="modalBody" class="modal-body"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
 }
 @section script{
     <script src="@Url.Content("~/Content/js/Canvas.js")"></script>
@@ -104,63 +130,16 @@
     <script src="@Url.Content("~/Content/js/plugins/fullcalendar/lang/es.js")"></script>
     <script>
         jQuery(document).ready(function () {
-           
+
             $('#guardar-img').click(function () {
                 var canvas = document.getElementById('canvas');
                 var dataURL = canvas.toDataURL();
-               //imprime base64 de imagen
-               alert(dataURL);
+                alert(dataURL);
             });
-            
-
-
-            @*@{
-            string color = "";
-            int switchcase= 0;
-
-                  <text>  var a =[</text>
-                foreach (var item in Model.listaCompra) {
-                    switchcase = @item.Estatus;
-                     <text>
-
-          {
-        title: '@item.IDProveedor',
-              start: ' @item.FechaHoraProgramada.ToString("yyyy-MM-dd")',
-             
-              @switch (switchcase)
-              {
-                  case 1:
-                      color = "#6699ff";
-                      break;
-                  case 2:
-                      color = "#ff5533";
-                      break;
-                  case 3:
-                      color = "#BBFF13";
-                      break;
-                  case 4:
-                      color = "#BB8866";
-                      break;
-                  default:
-                      color = "#ffcc00";
-
-                      break;
-              }
-              color: '@color',
-              description:'<p> <strong>Estatus : </strong> @item.estatusDesc</p>'+'<p><strong>Guia de transito : </strong> @item.GuiaTransito</p>'+
-                  '<p><strong>Hembras pactados : </strong>@item.GanadosPactadoHembras</p>' + '<p><strong>Machos pactados: </strong>@item.GanadosPactadoMachos</p>'
-
-          },
-
-
-            </text>
-                }
-                <text>]</text>
-            }*@
 
             $('#calendar').fullCalendar({
                 lang: 'es',
-               
+
                 height: 600,
                 firstDay: 1,
                 handleWindowResize: true,
@@ -169,19 +148,19 @@
                 displayEventTime: true,
                 events: function (start, end, timezone, callback) {
                     var events2 = [];
-                    
+
                     $.ajax({
                         url: '/Admin/HomeAdmin/Eventos',
                         dataType: 'json',
                         method: 'post',
                         data: {
-                           
-                            start:start.format('YYYY-MM-DD'),
-                            end:  end.format('YYYY-MM-DD') 
+
+                            start: start.format('YYYY-MM-DD'),
+                            end: end.format('YYYY-MM-DD')
                         },
                         success: function (doc) {
                             var color = "";
-                            
+
                             $(doc).each(function (item, value) {
                                 switch (value.Estatus) {
                                     case 0: color = "#ffd633";
@@ -210,7 +189,7 @@
                                         "<p> <strong>Estatus : </strong>" + value.estatusDesc + "</p>" +
                                         "<p> <strong>Hembras pactados : </strong>" + value.GanadosPactadoHembras + "</p>" +
                                         "<p> <strong>Machos pactados: </strong>" + value.GanadosPactadoMachos + " </p>",
-                                    color:color,
+                                    color: color,
                                 });
                             });
 
@@ -273,14 +252,9 @@
                                                         "<p> <strong>Proveedor: </strong>" + value.Proveedor + "</p>" +
                                                         "<p> <strong>Fecha Último Servicio : </strong>" + value.FechaUltServicio + "</p>" +
                                                         "<p> <strong>Fecha Próximo Servicio : </strong>" + value.FechaProxServicio + "</p>" +
-                                                        //"<p> <strong>GastoTotal : </strong>" + value.GastoTotal + "</p>" +
-                                                    "<p> <strong>Estatus : </strong>" + value.Estatus + "</p>",
+                                                        "<p> <strong>Estatus : </strong>" + value.Estatus + "</p>",
                                                     color: value.ColorEstatus,
                                                 });
-
-
-
-
                                             });
                                             callback(events2);
                                         },
@@ -302,13 +276,12 @@
                         }
                     });
 
-             
+
                 },
 
                 eventClick: function (event, jsEvent, view) {
                     $('#modalTitle').html(event.title);
                     $('#modalBody').html(event.description);
-                    //$('#eventUrl').attr('href', event.url);
                     $('#fullCalModal').modal();
                 },
 

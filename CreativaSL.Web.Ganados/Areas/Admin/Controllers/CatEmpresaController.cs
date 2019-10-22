@@ -591,5 +591,78 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 throw;
             }
         }
+
+        [HttpGet]
+        public ActionResult MetaXSucursal(string id_sucursal, string id_empresa, string nombre_empresa, string nombreSucursal)
+        {
+            if (string.IsNullOrEmpty(id_sucursal) || string.IsNullOrEmpty(id_empresa) || string.IsNullOrEmpty(nombre_empresa) || string.IsNullOrEmpty(nombreSucursal))
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Verifique sus datos.";
+                return RedirectToAction("Index");
+            }
+
+            _CatSucursal_Datos sucursal_Datos = new _CatSucursal_Datos();
+
+            MetaXSucursal metaXSucursal = sucursal_Datos.GetMetaXSucursal(id_sucursal, Conexion);
+            ViewBag.Id_empresa = id_empresa;
+            ViewBag.Nombre_empresa = nombre_empresa;
+            ViewBag.NombreSucursal = nombreSucursal;
+
+            if(!metaXSucursal.Success)
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = metaXSucursal.Mensaje;
+                return RedirectToAction("Index");
+            }
+
+            return View(metaXSucursal);
+        }
+
+        [HttpPost]
+        public ActionResult MetaXSucursal(string Id, string Id_sucursal, string CantidadKilo, string CantidadGanado, string Id_empresa, string Nombre_empresa)
+        {
+            if(string.IsNullOrEmpty(Id) || string.IsNullOrEmpty(Id_sucursal) || string.IsNullOrEmpty(CantidadKilo) || string.IsNullOrEmpty(CantidadGanado) || string.IsNullOrEmpty(Id_empresa) || string.IsNullOrEmpty(Nombre_empresa))
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Verifique sus datos";
+                return RedirectToAction("Index");
+            }
+
+            if (!CantidadKilo.Contains(" Kg."))
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Verifique sus datos";
+                return RedirectToAction("Index");
+            }
+
+            CantidadKilo = CantidadKilo.Remove(CantidadKilo.Length - 4);
+
+            decimal cantidadKilo = 0, cantidadGanado = 0;
+
+            if(!decimal.TryParse(CantidadKilo, out cantidadKilo) || !decimal.TryParse(CantidadGanado, out cantidadGanado))
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Verifique sus datos";
+                return RedirectToAction("Index");
+            }
+
+            MetaXSucursal metaXSucursal = new MetaXSucursal()
+            {
+                Id = Id,
+                Id_sucursal = Id_sucursal,
+                CantidadGanado = cantidadGanado,
+                CantidadKilo = cantidadKilo
+            };
+
+            _CatSucursal_Datos catSucursal_Datos = new _CatSucursal_Datos();
+
+            metaXSucursal = catSucursal_Datos.SetMetaXSucursal(Conexion, metaXSucursal);
+
+            TempData["typemessage"] = metaXSucursal.Success ? 1 : 2;
+            TempData["message"] = metaXSucursal.Mensaje;
+
+            return RedirectToAction("IndexSucursales", new { id = Id_empresa, nombreEmpresa = Nombre_empresa });
+        }
     }
 }
