@@ -98,11 +98,11 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
 
-        public List<RptProvedorVendioMasModels> obtenerListaProveedoresMermaAlta(RptProvedorVendioMasModels Datos)
+        public List<RptProvedorVendioMasModels> obtenerListaProveedoresMermaAlta(RptProvedorVendioMasModels Datos, string fecha1, string fecha2)
         {
             try
             {
-                object[] parametros = { Datos.FechaInicio, Datos.FechaFin, Datos.IdSucursal };
+                object[] parametros = { fecha1, fecha2, Datos.IdSucursal };
                 List<RptProvedorVendioMasModels> lista = new List<RptProvedorVendioMasModels>();
                 RptProvedorVendioMasModels item;
                 SqlDataReader dr = null;

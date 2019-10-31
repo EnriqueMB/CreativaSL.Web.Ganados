@@ -134,15 +134,15 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Fecha1 = DateTime.ParseExact(id2, fromFormat, null);
                 Fecha2 = DateTime.ParseExact(id3, fromFormat, null);
 
+                string fecha1 = Fecha1.ToString(toFormat);
+                string fecha2 = Fecha2.ToString(toFormat);
 
-                //DateTime.TryParse(id2.ToString(), out Fecha1);
-                //DateTime.TryParse(id3.ToString(), out Fecha2);
                 ReporteVMas.FechaInicio = Fecha1;
                 ReporteVMas.FechaFin = Fecha2;
                 ReporteVMas.Conexion = Conexion;
                 ReporteVMas.IdSucursal = id4;
                 ReporteVMas.DatosEmpresa = RDatos.ObtenerDatosEmpresaTipoIDSucursal(ReporteVMas.Conexion, ReporteVMas.IdSucursal);
-                ReporteVMas.ListaProveedorVendioMas = RDatos.obtenerListaProveedoresMermaAlta(ReporteVMas);
+                ReporteVMas.ListaProveedorVendioMas = RDatos.obtenerListaProveedoresMermaAlta(ReporteVMas, fecha1, fecha2);
                 LocalReport Rtp = new LocalReport();
                 Rtp.EnableExternalImages = true;
                 Rtp.DataSources.Clear();
