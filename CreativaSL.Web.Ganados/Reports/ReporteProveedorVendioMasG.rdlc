@@ -394,9 +394,11 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!NombreCompra.Value</Value>
+                                  <Value>=CInt(Fields!NombreCompra.Value)</Value>
                                   <Style>
                                     <FontSize>9pt</FontSize>
+                                    <Format>n0</Format>
+                                    <Language>es-MX</Language>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -431,6 +433,8 @@
                                   <Value>=Fields!GanadoCompradoMachos.Value</Value>
                                   <Style>
                                     <FontSize>9pt</FontSize>
+                                    <Format>n0</Format>
+                                    <Language>es-MX</Language>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -465,7 +469,8 @@
                                   <Value>=Fields!KilosMachos.Value</Value>
                                   <Style>
                                     <FontSize>9pt</FontSize>
-                                    <Format>0</Format>
+                                    <Format>n0</Format>
+                                    <Language>es-MX</Language>
                                   </Style>
                                 </TextRun>
                                 <TextRun>
@@ -515,6 +520,8 @@
                                   <Value>=Fields!GanadoCompradoHembra.Value</Value>
                                   <Style>
                                     <FontSize>9pt</FontSize>
+                                    <Format>n0</Format>
+                                    <Language>es-MX</Language>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -549,6 +556,8 @@
                                   <Value>=Fields!KilosHembra.Value</Value>
                                   <Style>
                                     <FontSize>9pt</FontSize>
+                                    <Format>n0</Format>
+                                    <Language>es-MX</Language>
                                   </Style>
                                 </TextRun>
                                 <TextRun>
@@ -596,6 +605,8 @@
                                   <Value>=Fields!TotalGanado.Value</Value>
                                   <Style>
                                     <FontSize>9pt</FontSize>
+                                    <Format>n0</Format>
+                                    <Language>es-MX</Language>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -630,6 +641,8 @@
                                   <Value>=Fields!TotalKilos.Value</Value>
                                   <Style>
                                     <FontSize>9pt</FontSize>
+                                    <Format>n0</Format>
+                                    <Language>es-MX</Language>
                                   </Style>
                                 </TextRun>
                                 <TextRun>
@@ -719,6 +732,8 @@
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
+                                    <Format>n0</Format>
+                                    <Language>es-MX</Language>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -755,6 +770,8 @@
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
+                                    <Format>n0</Format>
+                                    <Language>es-MX</Language>
                                   </Style>
                                 </TextRun>
                                 <TextRun>
@@ -762,6 +779,7 @@
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
+                                    <Language>es-MX</Language>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -798,6 +816,8 @@
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
+                                    <Format>n0</Format>
+                                    <Language>es-MX</Language>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -834,6 +854,8 @@
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
+                                    <Format>n0</Format>
+                                    <Language>es-MX</Language>
                                   </Style>
                                 </TextRun>
                                 <TextRun>
@@ -841,6 +863,8 @@
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
+                                    <Format>n0</Format>
+                                    <Language>es-MX</Language>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -877,6 +901,8 @@
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
+                                    <Format>n0</Format>
+                                    <Language>es-MX</Language>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -913,6 +939,8 @@
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
+                                    <Format>n0</Format>
+                                    <Language>es-MX</Language>
                                   </Style>
                                 </TextRun>
                                 <TextRun>
@@ -920,6 +948,7 @@
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
+                                    <Language>es-MX</Language>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -998,7 +1027,9 @@
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
+                                    <Format>n0</Format>
                                     <Color>White</Color>
+                                    <Language>es-MX</Language>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -1035,7 +1066,9 @@
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
+                                    <Format>n0</Format>
                                     <Color>White</Color>
+                                    <Language>es-MX</Language>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -1051,6 +1084,7 @@
                                     <FontSize>8pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                     <Color>White</Color>
+                                    <Language>es-MX</Language>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -1087,7 +1121,9 @@
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
+                                    <Format>n0</Format>
                                     <Color>White</Color>
+                                    <Language>es-MX</Language>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -1124,7 +1160,9 @@
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
+                                    <Format>n0</Format>
                                     <Color>White</Color>
+                                    <Language>es-MX</Language>
                                   </Style>
                                 </TextRun>
                                 <TextRun>
@@ -1132,7 +1170,9 @@
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
+                                    <Format>n0</Format>
                                     <Color>White</Color>
+                                    <Language>es-MX</Language>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -1169,7 +1209,9 @@
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
+                                    <Format>n0</Format>
                                     <Color>White</Color>
+                                    <Language>es-MX</Language>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -1206,7 +1248,9 @@
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
+                                    <Format>n0</Format>
                                     <Color>White</Color>
+                                    <Language>es-MX</Language>
                                   </Style>
                                 </TextRun>
                                 <TextRun>
@@ -1215,6 +1259,7 @@
                                     <FontSize>8pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                     <Color>White</Color>
+                                    <Language>es-MX</Language>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -1620,6 +1665,7 @@
                         <Style />
                         <UseValueAsLabel>true</UseValueAsLabel>
                         <Visible>true</Visible>
+                        <Position>Outside</Position>
                       </ChartDataLabel>
                       <Style />
                       <ChartMarker>
@@ -1874,6 +1920,11 @@
                     </ChartAxisScaleBreak>
                   </ChartAxis>
                 </ChartValueAxes>
+                <ChartThreeDProperties>
+                  <Enabled>true</Enabled>
+                  <Rotation>0</Rotation>
+                  <Inclination>0</Inclination>
+                </ChartThreeDProperties>
                 <Style>
                   <BackgroundColor>#00ffffff</BackgroundColor>
                   <BackgroundGradientType>None</BackgroundGradientType>
