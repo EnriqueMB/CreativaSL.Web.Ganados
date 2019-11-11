@@ -85,10 +85,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     {
                         return RedirectToAction("Index", "HomeAdmin", new { Area = "Admin" });
                     }
-                    //else if (id_tipoUsuario == "1")
-                    //{
-                    //    return RedirectToAction("Index", "HomeProfesor", new { Area = "Profesor" });
-                    //}
                     else
                     {
                         ModelState.AddModelError("", "No tienes permisos");
