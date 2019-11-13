@@ -185,11 +185,9 @@
                 var dineroMachos = 0;
                 var dineroHembras = 0;
 
-                console.log(valueSearch);
-
                 for (var i = 0; i < valueSearch.length; i++)
                 {
-                    var genero = String(valueSearch[i][4]).trim();
+                    var genero = String(valueSearch[i][4]).toUpperCase().trim();
                     
                     if (genero.localeCompare("MACHO") == 0){
                         machos++;
