@@ -10,7 +10,10 @@
     <link href="~/Content/js/plugins/select.bootstrap.min.css" rel="stylesheet" />
 
     <style>
-
+        .dataTables_filter {
+            display: none;
+        }
+    
         .errorTableCSL {
             border: 1px solid #ff004d;
         }
@@ -282,75 +285,78 @@
                         </div>
                         <div class="row">
                             <div class="col-md-6">
-                                <table id="tblGanadoCorral" class="display table " style="width:100%">
-                                    <thead>
-                                        <tr>
-                                            <th>Id ganado</th>
-                                            <th>Id detalle</th>
-                                            <th>Núm. arete</th>
-                                            <th>Corral</th>
-                                            <th>Genero</th>
-                                            <th>Merma</th>
-                                            <th>Peso pagado</th>
-                                            <th>Precio/kilo (pagado)</th>
-                                            <th>Costo</th>
+                                <div class="table-responsive">
+                                    <table id="tblGanadoCorral" class="display table " style="width: 100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Id ganado</th>
+                                                <th>Id detalle</th>
+                                                <th>Núm. arete</th>
+                                                <th>Corral</th>
+                                                <th>Genero</th>
+                                                <th>Merma</th>
+                                                <th>Peso pagado</th>
+                                                <th>Precio/kilo (pagado)</th>
+                                                <th>Costo</th>
+                                                <th>PC</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <th>Id ganado</th>
+                                                <th>Id detalle</th>
+                                                <th>Núm. arete</th>
+                                                <th>Corral</th>
+                                                <th>Genero</th>
+                                                <th>Merma</th>
+                                                <th>Peso</th>
+                                                <th>Precio/kilo</th>
+                                                <th>Subtotal</th>
                                             <th>PC</th>
                                         </tr>
-                                    </thead>
-                                    <tbody></tbody>
-                                    <tfoot>
-                                        <tr>
-                                            <th>Id ganado</th>
-                                            <th>Id detalle</th>
-                                            <th>Núm. arete</th>
-                                            <th>Corral</th>
-                                            <th>Genero</th>
-                                            <th>Merma</th>
-                                            <th>Peso</th>
-                                            <th>Precio/kilo</th>
-                                            <th>Subtotal</th>
-                                            <th>PC</th>
-                                        </tr>
-                                    </tfoot>
-                                </table>
+                                        </tfoot>
+                                    </table>
+                                </div>
                             </div>
-
                             <div class="col-md-6">
-                                <table id="tblGanadoJaula" class="display table " style="width:100%">
-                                    <thead>
-                                        <tr>
-                                            <th>Id ganado</th>
-                                            <th>Id detalle</th>
-                                            <th>Núm. arete</th>
-                                            <th>Corral</th>
-                                            <th>Genero</th>
-                                            <th>Merma</th>
-                                            <th>Peso</th>
-                                            <th>Precio/kilo</th>
-                                            <th>Nuevo Precio/kilo</th>
-                                            <th>M.E.</th>
-                                            <th>Subtotal</th>
-                                            <th>PC</th>
+                                <div class="table-responsive">
+                                    <table id="tblGanadoJaula" class="display table " style="width: 100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Id ganado</th>
+                                                <th>Id detalle</th>
+                                                <th>Núm. arete</th>
+                                                <th>Corral</th>
+                                                <th>Genero</th>
+                                                <th>Merma</th>
+                                                <th>Peso</th>
+                                                <th>Precio/kilo</th>
+                                                <th>Nuevo Precio/kilo</th>
+                                                <th>M.E.</th>
+                                                <th>Subtotal</th>
+                                                <th>PC</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <th>Id ganado</th>
+                                                <th>Id detalle</th>
+                                                <th>Núm. arete</th>
+                                                <th>Corral</th>
+                                                <th>Genero</th>
+                                                <th>Merma</th>
+                                                <th>Peso</th>
+                                                <th>Precio/kilo</th>
+                                                <th>Nuevo Precio/kilo</th>
+                                                <th>M.E.</th>
+                                                <th>Subtotal</th>
+                                                <th>PC</th>
                                         </tr>
-                                    </thead>
-                                    <tbody></tbody>
-                                    <tfoot>
-                                        <tr>
-                                            <th>Id ganado</th>
-                                            <th>Id detalle</th>
-                                            <th>Núm. arete</th>
-                                            <th>Corral</th>
-                                            <th>Genero</th>
-                                            <th>Merma</th>
-                                            <th>Peso</th>
-                                            <th>Precio/kilo</th>
-                                            <th>Nuevo Precio/kilo</th>
-                                            <th>M.E.</th>
-                                            <th>Subtotal</th>
-                                            <th>PC</th>
-                                        </tr>
-                                    </tfoot>
-                                </table>
+                                        </tfoot>
+                                    </table>
+                                </div>
                             </div>
                         </div>
 
