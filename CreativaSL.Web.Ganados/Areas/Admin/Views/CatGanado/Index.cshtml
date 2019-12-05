@@ -5,6 +5,13 @@
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
     bool puedeTransferirGanado = (bool)ViewBag.PuedeTransferirGanado;
 }
+@section css{
+    <style>
+        .dataTables_filter {
+            display: none;
+        }
+    </style>
+}
 
 @section featured{
     @{
@@ -14,7 +21,9 @@
     <div id="Error" class="progress-bar progress-bar-striped active errorCSL" style="display:none; width:100%">
         <h3></h3>
     </div>
-    <div id="Success" class="progress-bar progress-bar-striped active successCSL" style="display:none; width:100%">
+    <div id="Success" class="progress-bar progress-bar-striped active successCSL" style="        display: none;
+        width: 100%
+">
         <h3></h3>
     </div>
     <div class="page-title">
@@ -160,65 +169,88 @@
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
     <script>
-        jQuery(document).ready(function () {
+        jQuery(document).ready(function() {
             Mensaje(message, typemessage);
         });
     </script>
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
+
+            $('#Jtabla thead th').each(function() {
+                var title = $('#Jtabla thead th').eq($(this).index()).text();
+                $(this).html('<input type="text" placeholder="Buscar: ' + title + '" />');
+            });
+
             var table = $('#Jtabla').DataTable();
 
             table.columns([0]).visible(false);
 
-            const formatter = new Intl.NumberFormat('es-MX', {
-                style: 'currency',
-                currency: 'MXN',
-                minimumFractionDigits: 2
+            table.columns().eq(0).each(function(colIdx) {
+                $('input', table.column(colIdx).header()).on('keyup change',
+                    function() {
+                        table
+                            .column(colIdx)
+                            .search(this.value)
+                            .draw();
+                    });
             });
 
-            table.on('search.dt', function () {
-                var valueSearch = table.rows({ search: 'applied' }).data();
-                var hembras = 0;
-                var machos = 0;
-                var pesoMachos = 0;
-                var pesoHembras = 0;
-                var dineroMachos = 0;
-                var dineroHembras = 0;
-
-                for (var i = 0; i < valueSearch.length; i++)
+            const formatter = new Intl.NumberFormat('es-MX',
                 {
-                    var genero = String(valueSearch[i][4]).toUpperCase().trim();
-                    
-                    if (genero.localeCompare("MACHO") == 0){
-                        machos++;
-                        pesoMachos += Number.parseInt(valueSearch[i][5]);
-                        dineroMachos += Number.parseFloat(valueSearch[i][0]);
+                    style: 'currency',
+                    currency: 'MXN',
+                    minimumFractionDigits: 2
+                });
+
+            table.on('search.dt',
+                function() {
+
+                    var valueSearch = table.rows({ search: 'applied' }).data();
+                    var hembras = 0;
+                    var machos = 0;
+                    var pesoMachos = 0;
+                    var pesoHembras = 0;
+                    var dineroMachos = 0;
+                    var dineroHembras = 0;
+
+                    for (var i = 0; i < valueSearch.length; i++) {
+                        var genero = String(valueSearch[i][4]).toUpperCase().trim();
+
+                        if (genero.localeCompare("MACHO") == 0) {
+                            machos++;
+                            pesoMachos += Number.parseInt(valueSearch[i][5]);
+                            dineroMachos += Number.parseFloat(valueSearch[i][0]);
+                        } else if (genero.localeCompare("HEMBRA") == 0) {
+                            hembras++;
+                            pesoHembras += Number.parseInt(valueSearch[i][5]);
+                            dineroHembras += Number.parseFloat(valueSearch[i][0]);
+                        }
                     }
-                    else if (genero.localeCompare("HEMBRA") == 0){
-                        hembras++;
-                        pesoHembras += Number.parseInt(valueSearch[i][5]);
-                        dineroHembras += Number.parseFloat(valueSearch[i][0]);
-                    }
-                }
 
-                $(".infoPreviewContainer .infoItem .group input[name='numGanadoMacho']").val(machos + " Machos");
-                $(".infoPreviewContainer .infoItem .group input[name='numGanadoHembras']").val(hembras + " Hembras");
+                    $(".infoPreviewContainer .infoItem .group input[name='numGanadoMacho']").val(machos + " Machos");
+                    $(".infoPreviewContainer .infoItem .group input[name='numGanadoHembras']")
+                        .val(hembras + " Hembras");
 
-                $(".infoPreviewContainer .infoItem .group input[name='pesoGanadoMacho']").val(pesoMachos + " KG.");
-                $(".infoPreviewContainer .infoItem .group input[name='pesoGanadoHembras']").val(pesoHembras + " KG.");
+                    $(".infoPreviewContainer .infoItem .group input[name='pesoGanadoMacho']").val(pesoMachos + " KG.");
+                    $(".infoPreviewContainer .infoItem .group input[name='pesoGanadoHembras']")
+                        .val(pesoHembras + " KG.");
 
-                $(".infoPreviewContainer .infoItem .group input[name='dineroMachos']").val(formatter.format(dineroMachos));
-                $(".infoPreviewContainer .infoItem .group input[name='dineroHembras']").val(formatter.format(dineroHembras));
+                    $(".infoPreviewContainer .infoItem .group input[name='dineroMachos']")
+                        .val(formatter.format(dineroMachos));
+                    $(".infoPreviewContainer .infoItem .group input[name='dineroHembras']")
+                        .val(formatter.format(dineroHembras));
 
-                var totalGanado = machos + hembras;
-                var totalPeso = pesoMachos + pesoHembras;
-                var dineroTotal = dineroMachos + dineroHembras;
+                    var totalGanado = machos + hembras;
+                    var totalPeso = pesoMachos + pesoHembras;
+                    var dineroTotal = dineroMachos + dineroHembras;
 
-                $(".infoPreviewContainer .infoItem .group input[name='totalGanado']").val(totalGanado + " de ganado");
-                $(".infoPreviewContainer .infoItem .group input[name='pesoTotal']").val(totalPeso + " KG.");
-                $(".infoPreviewContainer .infoItem .group input[name='dineroTotal']").val(formatter.format(dineroTotal));
+                    $(".infoPreviewContainer .infoItem .group input[name='totalGanado']")
+                        .val(totalGanado + " de ganado");
+                    $(".infoPreviewContainer .infoItem .group input[name='pesoTotal']").val(totalPeso + " KG.");
+                    $(".infoPreviewContainer .infoItem .group input[name='dineroTotal']")
+                        .val(formatter.format(dineroTotal));
 
-            });
+                });
         });
     </script>
 }
