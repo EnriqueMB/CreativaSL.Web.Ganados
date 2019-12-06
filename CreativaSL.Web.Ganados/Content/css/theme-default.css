@@ -8024,9 +8024,9 @@ display:none;
 /* Cambios 11 / 06 / 2019 */
 
 .panel-body .infoPreviewContainer {
-    width: 80%;
-    display: block;
-    margin: auto;
+    margin: 1rem;
+    padding: 1rem;
+    text-align: center;
 }
     .panel-body .infoPreviewContainer h3 {
         text-align:center;

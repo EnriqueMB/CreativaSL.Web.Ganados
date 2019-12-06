@@ -56,11 +56,11 @@
                                 <div class="infoItem">
                                     <div class="group">
                                         <label>Machos:</label>
-                                        <input readonly value="0 Machos" type="text" name="numGanadoMacho" />
+                                        <input readonly value="0 Machos" type="text" name="numGanadoMacho" class="Machos" />
                                     </div>
                                     <div class="group">
                                         <label>Peso:</label>
-                                        <input readonly value="0 KG." type="text" name="pesoGanadoMacho" />
+                                        <input readonly value="0 KG." type="text" name="pesoGanadoMacho" class="Kg" />
                                     </div>
                                     <div class="group">
                                         <label>Dinero:</label>
@@ -70,11 +70,11 @@
                                 <div class="infoItem">
                                     <div class="group">
                                         <label>Hembras:</label>
-                                        <input readonly value="0 Hembras" type="text" name="numGanadoHembras" />
+                                        <input readonly value="0 Hembras" type="text" name="numGanadoHembras" class="Hembras" />
                                     </div>
                                     <div class="group">
                                         <label>Peso:</label>
-                                        <input readonly value="0 KG." type="text" name="pesoGanadoHembras" />
+                                        <input readonly value="0 KG." type="text" name="pesoGanadoHembras" class="Kg"/>
                                     </div>
                                     <div class="group">
                                         <label>Dinero:</label>
@@ -84,11 +84,11 @@
                                 <div class="infoItem">
                                     <div class="group">
                                         <label>Total de Ganado:</label>
-                                        <input readonly value="0" type="text" name="totalGanado" />
+                                        <input readonly value="0" type="text" name="totalGanado" class="Ganado"/>
                                     </div>
                                     <div class="group">
                                         <label>Peso Total:</label>
-                                        <input readonly value="0 KG." type="text" name="pesoTotal" />
+                                        <input readonly value="0 KG." type="text" name="pesoTotal" class="Kg"/>
                                     </div>
                                     <div class="group">
                                         <label>Dinero Total:</label>
@@ -169,26 +169,30 @@
     <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
+    <script src="~/Content/js/plugins/jquery.maskMoney.min.js"></script>
+
     <script>
-        jQuery(document).ready(function() {
+        jQuery(document).ready(function () {
             Mensaje(message, typemessage);
         });
     </script>
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
 
-            $('#Jtabla thead th').each(function() {
-                var title = $('#Jtabla thead th').eq($(this).index()).text();
-                $(this).html('<input type="text" placeholder="Buscar: ' + title + '" />');
+            $('#Jtabla thead th').each(function () {
+                var title = $('#Jtabla thead th').eq($(this).index()).text().trim();
+
+                if (title.localeCompare("Acción") != 0)
+                    $(this).html('<input type="text" placeholder="Buscar: ' + title + '" />');
             });
 
             var table = $('#Jtabla').DataTable();
 
             table.columns([0]).visible(false);
 
-            table.columns().eq(0).each(function(colIdx) {
+            table.columns().eq(0).each(function (colIdx) {
                 $('input', table.column(colIdx).header()).on('keyup change',
-                    function() {
+                    function () {
                         table
                             .column(colIdx)
                             .search(this.value)
@@ -196,15 +200,56 @@
                     });
             });
 
-            const formatter = new Intl.NumberFormat('es-MX',
+            const formatterMoney = new Intl.NumberFormat('es-MX',
                 {
                     style: 'currency',
                     currency: 'MXN',
                     minimumFractionDigits: 2
                 });
 
+            $(".Kg").maskMoney(
+                {
+                    allowNegative: true,
+                    allowZero: true,
+                    precision: 0,
+                    suffix: " KG."
+                }
+            );
+
+            $(".Ganado").maskMoney(
+                {
+                    allowNegative: true,
+                    allowZero: true,
+                    precision: 0,
+                    suffix: " de ganado."
+                }
+            );
+
+            $(".Hembras").maskMoney(
+                {
+                    allowNegative: true,
+                    allowZero: true,
+                    precision: 0,
+                    suffix: " Hembras."
+                }
+            );
+
+            $(".Machos").maskMoney(
+                {
+                    allowNegative: true,
+                    allowZero: true,
+                    precision: 0,
+                    suffix: " Machos."
+                }
+            );
+
+            $(".Kg").maskMoney('mask');
+            $(".Ganado").maskMoney('mask');
+            $(".Hembras").maskMoney('mask');
+            $(".Machos").maskMoney('mask');
+
             table.on('search.dt',
-                function() {
+                function () {
 
                     var valueSearch = table.rows({ search: 'applied' }).data();
                     var hembras = 0;
@@ -228,28 +273,38 @@
                         }
                     }
 
-                    $(".infoPreviewContainer .infoItem .group input[name='numGanadoMacho']").val(machos + " Machos");
+                    $(".infoPreviewContainer .infoItem .group input[name='numGanadoMacho']")
+                        .val(machos);
                     $(".infoPreviewContainer .infoItem .group input[name='numGanadoHembras']")
-                        .val(hembras + " Hembras");
+                        .val(hembras);
 
-                    $(".infoPreviewContainer .infoItem .group input[name='pesoGanadoMacho']").val(pesoMachos + " KG.");
+                    $(".infoPreviewContainer .infoItem .group input[name='pesoGanadoMacho']")
+                        .val(pesoMachos);
                     $(".infoPreviewContainer .infoItem .group input[name='pesoGanadoHembras']")
-                        .val(pesoHembras + " KG.");
+                        .val(pesoHembras);
 
                     $(".infoPreviewContainer .infoItem .group input[name='dineroMachos']")
-                        .val(formatter.format(dineroMachos));
+                        .val(formatterMoney.format(dineroMachos));
                     $(".infoPreviewContainer .infoItem .group input[name='dineroHembras']")
-                        .val(formatter.format(dineroHembras));
+                        .val(formatterMoney.format(dineroHembras));
 
                     var totalGanado = machos + hembras;
                     var totalPeso = pesoMachos + pesoHembras;
                     var dineroTotal = dineroMachos + dineroHembras;
 
                     $(".infoPreviewContainer .infoItem .group input[name='totalGanado']")
-                        .val(totalGanado + " de ganado");
-                    $(".infoPreviewContainer .infoItem .group input[name='pesoTotal']").val(totalPeso + " KG.");
+                        .val(totalGanado);
+                        
+                    $(".infoPreviewContainer .infoItem .group input[name='pesoTotal']")
+                        .val(totalPeso);
+                        
                     $(".infoPreviewContainer .infoItem .group input[name='dineroTotal']")
-                        .val(formatter.format(dineroTotal));
+                        .val(formatterMoney.format(dineroTotal));
+
+                    $(".Kg").maskMoney('mask');
+                    $(".Ganado").maskMoney('mask');
+                    $(".Hembras").maskMoney('mask');
+                    $(".Machos").maskMoney('mask');
 
                 });
         });
