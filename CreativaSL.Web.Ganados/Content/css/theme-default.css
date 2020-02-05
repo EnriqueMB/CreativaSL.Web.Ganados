@@ -144,11 +144,15 @@ body {
 .page-container .page-sidebar {
   width: 220px;
   float: left;
-  position: fixed;
-  z-index: 3;
+    position: fixed;
+    height: 100% !important;
+    z-index: 3;
+}
+.page-container .mCSB_container.mCS_y_hidden.mCS_no_scrollbar_y {
+    height: 100%;
 }
 .page-container .page-sidebar.page-sidebar-fixed {
-  position: fixed;
+    position: fixed;
 }
 .page-container.page-container-wide .page-sidebar {
   width: 50px;
@@ -316,7 +320,8 @@ body.page-container-boxed .page-container {
   float: left;
   list-style: none;
   display: block;
-  z-index: 3;
+    z-index: 3;
+    height: 100%;
 }
 .field_error span {
    color: #E04B4A !important;
@@ -8019,9 +8024,9 @@ display:none;
 /* Cambios 11 / 06 / 2019 */
 
 .panel-body .infoPreviewContainer {
-    width: 80%;
-    display: block;
-    margin: auto;
+    margin: 1rem;
+    padding: 1rem;
+    text-align: center;
 }
     .panel-body .infoPreviewContainer h3 {
         text-align:center;

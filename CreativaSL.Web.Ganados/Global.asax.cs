@@ -48,14 +48,15 @@ namespace CreativaSL.Web.Ganados
                         }
                         else
                         {
-                            //LoginDatos login = new LoginDatos();
-                            //login.xxxxxx(new CatAdministrativoModels { conexion = ConfigurationManager.AppSettings.Get("strConnection"), nombre = URLValida });
                             if (string.IsNullOrEmpty(ListaPermiso.Find(x => x.Equals(URLValida))))
                             {
                                 if (TipoUsuario == 3 || TipoUsuario == 1)
                                 {
-                                    Response.Redirect("/Admin/Account");
-                                    //mandar a login
+                                    if (ListaPermiso.Count == 0)
+                                    {
+                                        //mandar a login si no tiene permisos
+                                        Response.Redirect("/Admin/Account");
+                                    }
                                 }
                             }
                         }

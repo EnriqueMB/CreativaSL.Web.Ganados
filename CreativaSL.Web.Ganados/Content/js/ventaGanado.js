@@ -29,8 +29,39 @@
     var montoTotalGanado = Number.parseFloat($("#MontoTotalGanado").val().replace("$", '').replace(/,/g, ""));
     var genero;
 
+    function ColumnaValida(columnaActual) {
+        var arrayColumnasValidas = ['M.E.', 'Subtotal'];
+        var valida = true;
+
+        arrayColumnasValidas.forEach(function (entry) {
+            if (entry.localeCompare(columnaActual) == 0) {
+                valida = false;
+            }
+        });
+
+        return valida;
+    }
+
     /*INICIA GANADO*/
     var initDataTables = function () {
+
+        $('#tblGanadoCorral thead th').each(function () {
+            var title = $('#tblGanadoCorral thead th').eq($(this).index()).text();
+            $(this).html('<input type="text"  placeholder="Buscar: ' + title + '" />');
+        });
+
+        $('#tblGanadoJaula thead th').each(function () {
+            var title = $('#tblGanadoJaula thead th').eq($(this).index()).text().trim();
+
+            //console.log(title + "function value: " +ColumnaValida(title));
+            if (ColumnaValida(title)) {
+                $(this).html('<input type="text"  placeholder="Buscar: ' + title + '" />');
+            }
+        });
+
+
+
+
         tblGanadoCorral = $('#tblGanadoCorral').DataTable({
             "language": {
                 "url": "/Content/assets/json/Spanish.json"
@@ -214,7 +245,24 @@
             }
         });
 
-        
+        tblGanadoCorral.columns().eq(0).each(function (colIdx) {
+            $('input', tblGanadoCorral.column(colIdx).header()).on('keyup change',
+                function () {
+                    tblGanadoCorral
+                        .column(colIdx)
+                        .search(this.value)
+                        .draw();
+                });
+        });
+        tblGanadoJaula.columns().eq(0).each(function (colIdx) {
+            $('input', tblGanadoJaula.column(colIdx).header()).on('keyup change',
+                function () {
+                    tblGanadoJaula
+                        .column(colIdx)
+                        .search(this.value)
+                        .draw();
+                });
+        });
 
     };
 

@@ -622,7 +622,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult MetaXSucursal(string Id, string Id_sucursal, string CantidadKilo, string CantidadGanado, string Id_empresa, string Nombre_empresa)
         {
-            if(string.IsNullOrEmpty(Id) || string.IsNullOrEmpty(Id_sucursal) || string.IsNullOrEmpty(CantidadKilo) || string.IsNullOrEmpty(CantidadGanado) || string.IsNullOrEmpty(Id_empresa) || string.IsNullOrEmpty(Nombre_empresa))
+            if(string.IsNullOrEmpty(Id_sucursal) || string.IsNullOrEmpty(CantidadKilo) || string.IsNullOrEmpty(CantidadGanado) || string.IsNullOrEmpty(Id_empresa) || string.IsNullOrEmpty(Nombre_empresa))
             {
                 TempData["typemessage"] = "2";
                 TempData["message"] = "Verifique sus datos";

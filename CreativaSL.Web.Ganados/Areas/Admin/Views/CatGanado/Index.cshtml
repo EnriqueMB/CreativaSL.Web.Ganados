@@ -6,6 +6,14 @@
     bool puedeTransferirGanado = (bool)ViewBag.PuedeTransferirGanado;
 }
 
+@section css{
+    <style>
+        .dataTables_filter {
+            display: none;
+        }
+    </style>
+}
+
 @section featured{
     @{
         var message = TempData["message"] ?? string.Empty;
@@ -14,7 +22,9 @@
     <div id="Error" class="progress-bar progress-bar-striped active errorCSL" style="display:none; width:100%">
         <h3></h3>
     </div>
-    <div id="Success" class="progress-bar progress-bar-striped active successCSL" style="display:none; width:100%">
+    <div id="Success" class="progress-bar progress-bar-striped active successCSL" style="        display: none;
+        width: 100%
+">
         <h3></h3>
     </div>
     <div class="page-title">
@@ -46,11 +56,11 @@
                                 <div class="infoItem">
                                     <div class="group">
                                         <label>Machos:</label>
-                                        <input readonly value="0 Machos" type="text" name="numGanadoMacho" />
+                                        <input readonly value="0 Machos" type="text" name="numGanadoMacho" class="Machos" />
                                     </div>
                                     <div class="group">
                                         <label>Peso:</label>
-                                        <input readonly value="0 KG." type="text" name="pesoGanadoMacho" />
+                                        <input readonly value="0 KG." type="text" name="pesoGanadoMacho" class="Kg" />
                                     </div>
                                     <div class="group">
                                         <label>Dinero:</label>
@@ -60,11 +70,11 @@
                                 <div class="infoItem">
                                     <div class="group">
                                         <label>Hembras:</label>
-                                        <input readonly value="0 Hembras" type="text" name="numGanadoHembras" />
+                                        <input readonly value="0 Hembras" type="text" name="numGanadoHembras" class="Hembras" />
                                     </div>
                                     <div class="group">
                                         <label>Peso:</label>
-                                        <input readonly value="0 KG." type="text" name="pesoGanadoHembras" />
+                                        <input readonly value="0 KG." type="text" name="pesoGanadoHembras" class="Kg"/>
                                     </div>
                                     <div class="group">
                                         <label>Dinero:</label>
@@ -74,11 +84,11 @@
                                 <div class="infoItem">
                                     <div class="group">
                                         <label>Total de Ganado:</label>
-                                        <input readonly value="0" type="text" name="totalGanado" />
+                                        <input readonly value="0" type="text" name="totalGanado" class="Ganado"/>
                                     </div>
                                     <div class="group">
                                         <label>Peso Total:</label>
-                                        <input readonly value="0 KG." type="text" name="pesoTotal" />
+                                        <input readonly value="0 KG." type="text" name="pesoTotal" class="Kg"/>
                                     </div>
                                     <div class="group">
                                         <label>Dinero Total:</label>
@@ -159,6 +169,8 @@
     <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
+    <script src="~/Content/js/plugins/jquery.maskMoney.min.js"></script>
+
     <script>
         jQuery(document).ready(function () {
             Mensaje(message, typemessage);
@@ -166,61 +178,135 @@
     </script>
     <script>
         $(document).ready(function () {
+
+            $('#Jtabla thead th').each(function () {
+                var title = $('#Jtabla thead th').eq($(this).index()).text().trim();
+
+                if (title.localeCompare("Acción") != 0)
+                    $(this).html('<input type="text" placeholder="Buscar: ' + title + '" />');
+            });
+
             var table = $('#Jtabla').DataTable();
 
             table.columns([0]).visible(false);
 
-            const formatter = new Intl.NumberFormat('es-MX', {
-                style: 'currency',
-                currency: 'MXN',
-                minimumFractionDigits: 2
+            table.columns().eq(0).each(function (colIdx) {
+                $('input', table.column(colIdx).header()).on('keyup change',
+                    function () {
+                        table
+                            .column(colIdx)
+                            .search(this.value)
+                            .draw();
+                    });
             });
 
-            table.on('search.dt', function () {
-                var valueSearch = table.rows({ search: 'applied' }).data();
-                var hembras = 0;
-                var machos = 0;
-                var pesoMachos = 0;
-                var pesoHembras = 0;
-                var dineroMachos = 0;
-                var dineroHembras = 0;
-
-                console.log(valueSearch);
-
-                for (var i = 0; i < valueSearch.length; i++)
+            const formatterMoney = new Intl.NumberFormat('es-MX',
                 {
-                    var genero = String(valueSearch[i][4]).trim();
-                    
-                    if (genero.localeCompare("MACHO") == 0){
-                        machos++;
-                        pesoMachos += Number.parseInt(valueSearch[i][5]);
-                        dineroMachos += Number.parseFloat(valueSearch[i][0]);
-                    }
-                    else if (genero.localeCompare("HEMBRA") == 0){
-                        hembras++;
-                        pesoHembras += Number.parseInt(valueSearch[i][5]);
-                        dineroHembras += Number.parseFloat(valueSearch[i][0]);
-                    }
+                    style: 'currency',
+                    currency: 'MXN',
+                    minimumFractionDigits: 2
+                });
+
+            $(".Kg").maskMoney(
+                {
+                    allowNegative: true,
+                    allowZero: true,
+                    precision: 0,
+                    suffix: " KG."
                 }
+            );
 
-                $(".infoPreviewContainer .infoItem .group input[name='numGanadoMacho']").val(machos + " Machos");
-                $(".infoPreviewContainer .infoItem .group input[name='numGanadoHembras']").val(hembras + " Hembras");
+            $(".Ganado").maskMoney(
+                {
+                    allowNegative: true,
+                    allowZero: true,
+                    precision: 0,
+                    suffix: " de ganado."
+                }
+            );
 
-                $(".infoPreviewContainer .infoItem .group input[name='pesoGanadoMacho']").val(pesoMachos + " KG.");
-                $(".infoPreviewContainer .infoItem .group input[name='pesoGanadoHembras']").val(pesoHembras + " KG.");
+            $(".Hembras").maskMoney(
+                {
+                    allowNegative: true,
+                    allowZero: true,
+                    precision: 0,
+                    suffix: " Hembras."
+                }
+            );
 
-                $(".infoPreviewContainer .infoItem .group input[name='dineroMachos']").val(formatter.format(dineroMachos));
-                $(".infoPreviewContainer .infoItem .group input[name='dineroHembras']").val(formatter.format(dineroHembras));
+            $(".Machos").maskMoney(
+                {
+                    allowNegative: true,
+                    allowZero: true,
+                    precision: 0,
+                    suffix: " Machos."
+                }
+            );
 
-                var totalGanado = machos + hembras;
-                var totalPeso = pesoMachos + pesoHembras;
-                var dineroTotal = dineroMachos + dineroHembras;
+            $(".Kg").maskMoney('mask');
+            $(".Ganado").maskMoney('mask');
+            $(".Hembras").maskMoney('mask');
+            $(".Machos").maskMoney('mask');
 
-                $(".infoPreviewContainer .infoItem .group input[name='totalGanado']").val(totalGanado + " de ganado");
-                $(".infoPreviewContainer .infoItem .group input[name='pesoTotal']").val(totalPeso + " KG.");
-                $(".infoPreviewContainer .infoItem .group input[name='dineroTotal']").val(formatter.format(dineroTotal));
+            table.on('search.dt',
+                function () {
 
-            });
+                    var valueSearch = table.rows({ search: 'applied' }).data();
+                    var hembras = 0;
+                    var machos = 0;
+                    var pesoMachos = 0;
+                    var pesoHembras = 0;
+                    var dineroMachos = 0;
+                    var dineroHembras = 0;
+
+                    for (var i = 0; i < valueSearch.length; i++) {
+                        var genero = String(valueSearch[i][4]).toUpperCase().trim();
+
+                        if (genero.localeCompare("MACHO") == 0) {
+                            machos++;
+                            pesoMachos += Number.parseInt(valueSearch[i][5]);
+                            dineroMachos += Number.parseFloat(valueSearch[i][0]);
+                        } else if (genero.localeCompare("HEMBRA") == 0) {
+                            hembras++;
+                            pesoHembras += Number.parseInt(valueSearch[i][5]);
+                            dineroHembras += Number.parseFloat(valueSearch[i][0]);
+                        }
+                    }
+
+                    $(".infoPreviewContainer .infoItem .group input[name='numGanadoMacho']")
+                        .val(machos);
+                    $(".infoPreviewContainer .infoItem .group input[name='numGanadoHembras']")
+                        .val(hembras);
+
+                    $(".infoPreviewContainer .infoItem .group input[name='pesoGanadoMacho']")
+                        .val(pesoMachos);
+                    $(".infoPreviewContainer .infoItem .group input[name='pesoGanadoHembras']")
+                        .val(pesoHembras);
+
+                    $(".infoPreviewContainer .infoItem .group input[name='dineroMachos']")
+                        .val(formatterMoney.format(dineroMachos));
+                    $(".infoPreviewContainer .infoItem .group input[name='dineroHembras']")
+                        .val(formatterMoney.format(dineroHembras));
+
+                    var totalGanado = machos + hembras;
+                    var totalPeso = pesoMachos + pesoHembras;
+                    var dineroTotal = dineroMachos + dineroHembras;
+
+                    $(".infoPreviewContainer .infoItem .group input[name='totalGanado']")
+                        .val(totalGanado);
+                        
+                    $(".infoPreviewContainer .infoItem .group input[name='pesoTotal']")
+                        .val(totalPeso);
+                        
+                    $(".infoPreviewContainer .infoItem .group input[name='dineroTotal']")
+                        .val(formatterMoney.format(dineroTotal));
+
+                    $(".Kg").maskMoney('mask');
+                    $(".Ganado").maskMoney('mask');
+                    $(".Hembras").maskMoney('mask');
+                    $(".Machos").maskMoney('mask');
+
+                });
         });
     </script>
 }
