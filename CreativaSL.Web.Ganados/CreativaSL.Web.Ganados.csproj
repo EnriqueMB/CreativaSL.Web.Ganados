@@ -357,6 +357,7 @@
     <Content Include="Content\css\codemirror\theme\xq-dark.css" />
     <Content Include="Content\css\codemirror\theme\xq-light.css" />
     <Content Include="Content\css\compra.css" />
+    <Content Include="Content\css\datatable\jquery.dataTables.min.css" />
     <Content Include="Content\css\dd.css" />
     <Content Include="Content\css\dropzone\dropzone.css" />
     <Content Include="Content\css\fontawesome\font-awesome.min.css" />

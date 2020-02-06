@@ -6,6 +6,7 @@
 }
 @section css
 {
+    <link href="~/Content/css/datatable/jquery.dataTables.min.css" rel="stylesheet" />
     <style>
         td.details-control {
             background: url("@Url.Content("~/Content/img/details_open.png")") no-repeat center center;
@@ -261,29 +262,26 @@
     <script>
         function format(d) {
             var fechaProgramada;
-            //console.log(d);
-            if (d.FechaProgramada === null)
+            if (!d.FechaProgramada || d.FechaProgramada === "")
                 fechaProgramada = "Sin dato";
             else {
-                var dateSplit = d.FechaProgramada.split('-');
-                var dia = dateSplit[2];
-                dia = dia.split('T');
-                dia = dia[0];
+                var dateSplit = d.FechaProgramada.split('/');
+                var dia = dateSplit[0];
                 var mes = dateSplit[1];
-                var año = dateSplit[0];
+                var añoSplit = dateSplit[2].split(' ');
+                var año = añoSplit[0];
                 fechaProgramada = dia + '-' + mes + '-' + año;
             }
 
             var fechaTerminada;
-            if (d.FechaTerminada === null)
+            if (!d.FechaTerminada || d.FechaTerminada === "")
                 fechaTerminada = "Sin concluir";
             else {
-                var dateSplit = d.FechaTerminada.split('-');
-                var dia = dateSplit[2];
-                dia = dia.split('T');
-                dia = dia[0];
+                var dateSplit = d.FechaTerminada.split('/');
+                var dia = dateSplit[0];
                 var mes = dateSplit[1];
-                var año = dateSplit[0];
+                var añoSplit = dateSplit[2].split(' ');
+                var año = añoSplit[0];
                 fechaTerminada = dia + '-' + mes + '-' + año;
             }
 
@@ -322,7 +320,7 @@
             "language": {
                 "url": "/Content/assets/json/Spanish.json"
             },
-            "lengthMenu": [[5, 10, 15, -1], [5, 10, 15, "Todos"]],
+            "lengthMenu": [[50, 100, 150, -1], [50, 100, 150, "Todos"]],
             "ajax": {
                 "url": "/Admin/Compra/JsonIndex/",
                 "method": "POST",
@@ -351,18 +349,16 @@
                     "data": null,
                     "render": function (data, type, full) {
                         var fecha = full["FechaProgramada"];
-                        console.log(fecha);
 
-                        if (fecha === null)
+                        if (!fecha || fecha === "")
                             fecha = "Sin concluir";
                         else {
                             var dateSplit = fecha.split('/');
-                            console.log(dateSplit);
-                            var dia = dateSplit[2];
-                            dia = dia.split(' ');
-                            dia = dia[0];
+                            var dia = dateSplit[0];
                             var mes = dateSplit[1];
-                            var año = dateSplit[0];
+                            var añoSplit = dateSplit[2].split(' ');
+                            var año = añoSplit[0];
+
                             fecha = dia + '-' + mes + '-' + año;
                         }
                         return fecha;
@@ -373,7 +369,8 @@
                     "data": null,
                     "render": function (data, type, full) {
                         var hora = full["FechaProgramada"];
-                        if (hora === null)
+
+                        if (!hora || hora === "")
                             hora = "Sin concluir";
                         else {
                             var dateSplit = hora.split('/');
