@@ -6,6 +6,7 @@
 }
 @section css
 {
+    <link href="~/Content/css/datatable/jquery.dataTables.min.css" rel="stylesheet" />
     <style>
         td.details-control {
             background: url("@Url.Content("~/Content/img/details_open.png")") no-repeat center center;
@@ -261,29 +262,26 @@
     <script>
         function format(d) {
             var fechaProgramada;
-            //console.log(d);
-            if (d.FechaProgramada === null)
+            if (!d.FechaProgramada || d.FechaProgramada === "")
                 fechaProgramada = "Sin dato";
             else {
-                var dateSplit = d.FechaProgramada.split('-');
-                var dia = dateSplit[2];
-                dia = dia.split('T');
-                dia = dia[0];
+                var dateSplit = d.FechaProgramada.split('/');
+                var dia = dateSplit[0];
                 var mes = dateSplit[1];
-                var año = dateSplit[0];
+                var añoSplit = dateSplit[2].split(' ');
+                var año = añoSplit[0];
                 fechaProgramada = dia + '-' + mes + '-' + año;
             }
 
             var fechaTerminada;
-            if (d.FechaTerminada === null)
+            if (!d.FechaTerminada || d.FechaTerminada === "")
                 fechaTerminada = "Sin concluir";
             else {
-                var dateSplit = d.FechaTerminada.split('-');
-                var dia = dateSplit[2];
-                dia = dia.split('T');
-                dia = dia[0];
+                var dateSplit = d.FechaTerminada.split('/');
+                var dia = dateSplit[0];
                 var mes = dateSplit[1];
-                var año = dateSplit[0];
+                var añoSplit = dateSplit[2].split(' ');
+                var año = añoSplit[0];
                 fechaTerminada = dia + '-' + mes + '-' + año;
             }
 
@@ -317,18 +315,23 @@
         }
 
         var tblIndexCompra1 = $("#tblIndexCompra").DataTable({
+            "processing": true,
+            "serverSide": true,
             "language": {
                 "url": "/Content/assets/json/Spanish.json"
             },
             "lengthMenu": [[50, 100, 150, -1], [50, 100, 150, "Todos"]],
             "ajax": {
-                "data": {
-
-                },
                 "url": "/Admin/Compra/JsonIndex/",
-                "type": "POST",
-                "datatype": "json",
-                "dataSrc": ''
+                "method": "POST",
+                "dataType": "json",
+                "dataSrc" : function (json) {
+                    
+                    if(json.data === null)
+                        return [];
+                    else 
+                        return json.data;
+                }
             },
             "columns": [
                 {
@@ -346,18 +349,17 @@
                     "data": null,
                     "render": function (data, type, full) {
                         var fecha = full["FechaProgramada"];
-                        if (fecha === null)
+
+                        if (!fecha || fecha === "")
                             fecha = "Sin concluir";
                         else {
-                            var dateSplit = fecha.split('-');
-                            var dia = dateSplit[2];
-                            dia = dia.split('T');
-                            dia = dia[0];
+                            var dateSplit = fecha.split('/');
+                            var dia = dateSplit[0];
                             var mes = dateSplit[1];
-                            var año = dateSplit[0];
+                            var añoSplit = dateSplit[2].split(' ');
+                            var año = añoSplit[0];
+
                             fecha = dia + '-' + mes + '-' + año;
-                            //console.log(dia);
-                            //console.log(dateSplit);
                         }
                         return fecha;
                     }
@@ -367,12 +369,13 @@
                     "data": null,
                     "render": function (data, type, full) {
                         var hora = full["FechaProgramada"];
-                        if (hora === null)
+
+                        if (!hora || hora === "")
                             hora = "Sin concluir";
                         else {
-                            var dateSplit = hora.split('-');
+                            var dateSplit = hora.split('/');
                             var dia = dateSplit[2];
-                            dia = dia.split('T');
+                            dia = dia.split(' ');
                             dia = dia[1];
                             var S = dia.split(':');
                             var H = S[0];

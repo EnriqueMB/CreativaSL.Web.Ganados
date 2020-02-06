@@ -357,6 +357,7 @@
     <Content Include="Content\css\codemirror\theme\xq-dark.css" />
     <Content Include="Content\css\codemirror\theme\xq-light.css" />
     <Content Include="Content\css\compra.css" />
+    <Content Include="Content\css\datatable\jquery.dataTables.min.css" />
     <Content Include="Content\css\dd.css" />
     <Content Include="Content\css\dropzone\dropzone.css" />
     <Content Include="Content\css\fontawesome\font-awesome.min.css" />
@@ -1805,6 +1806,7 @@
     <Compile Include="Models\CuentaUserModels.cs" />
     <Compile Include="Models\DataTableParameters.cs" />
     <Compile Include="Models\DataTableResultSet.cs" />
+    <Compile Include="Models\Datatable\DataTableAjaxPostModel.cs" />
     <Compile Include="Models\DatosGeneralesGanados.cs" />
     <Compile Include="Models\DeduccionModels.cs" />
     <Compile Include="Models\DevolucionHerramientaDetalleModels.cs" />
@@ -1818,6 +1820,8 @@
     <Compile Include="Models\DocumentosPorCobrarDetallePagosBancarizadoModels.cs" />
     <Compile Include="Models\DocumentosPorCobrarDetallePagosModels.cs" />
     <Compile Include="Models\DocumentosPorCobrarModels.cs" />
+    <Compile Include="Models\Dto\IndexCompraDto.cs" />
+    <Compile Include="Models\Dto\IndexDatatableDto.cs" />
     <Compile Include="Models\EntradaAlmacenDetalleModels.cs" />
     <Compile Include="Models\EntradaAlmacenModels.cs" />
     <Compile Include="Models\EntregaCombustibleModels.cs" />
