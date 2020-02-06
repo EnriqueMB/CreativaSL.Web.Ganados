@@ -317,18 +317,23 @@
         }
 
         var tblIndexCompra1 = $("#tblIndexCompra").DataTable({
+            "processing": true,
+            "serverSide": true,
             "language": {
                 "url": "/Content/assets/json/Spanish.json"
             },
-            "lengthMenu": [[50, 100, 150, -1], [50, 100, 150, "Todos"]],
+            "lengthMenu": [[5, 10, 15, -1], [5, 10, 15, "Todos"]],
             "ajax": {
-                "data": {
-
-                },
                 "url": "/Admin/Compra/JsonIndex/",
-                "type": "POST",
-                "datatype": "json",
-                "dataSrc": ''
+                "method": "POST",
+                "dataType": "json",
+                "dataSrc" : function (json) {
+                    
+                    if(json.data === null)
+                        return [];
+                    else 
+                        return json.data;
+                }
             },
             "columns": [
                 {
@@ -346,18 +351,19 @@
                     "data": null,
                     "render": function (data, type, full) {
                         var fecha = full["FechaProgramada"];
+                        console.log(fecha);
+
                         if (fecha === null)
                             fecha = "Sin concluir";
                         else {
-                            var dateSplit = fecha.split('-');
+                            var dateSplit = fecha.split('/');
+                            console.log(dateSplit);
                             var dia = dateSplit[2];
-                            dia = dia.split('T');
+                            dia = dia.split(' ');
                             dia = dia[0];
                             var mes = dateSplit[1];
                             var año = dateSplit[0];
                             fecha = dia + '-' + mes + '-' + año;
-                            //console.log(dia);
-                            //console.log(dateSplit);
                         }
                         return fecha;
                     }
@@ -370,9 +376,9 @@
                         if (hora === null)
                             hora = "Sin concluir";
                         else {
-                            var dateSplit = hora.split('-');
+                            var dateSplit = hora.split('/');
                             var dia = dateSplit[2];
-                            dia = dia.split('T');
+                            dia = dia.split(' ');
                             dia = dia[1];
                             var S = dia.split(':');
                             var H = S[0];

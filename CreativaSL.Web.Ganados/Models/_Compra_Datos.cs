@@ -6,6 +6,8 @@ using System.Data.SqlClient;
 using System.Globalization;
 using System.Text;
 using System.IO;
+using CreativaSL.Web.Ganados.Models.Datatable;
+using CreativaSL.Web.Ganados.Models.Dto;
 using Newtonsoft.Json;
 
 namespace CreativaSL.Web.Ganados.Models
@@ -186,7 +188,7 @@ namespace CreativaSL.Web.Ganados.Models
 
 
         #region Index
-        public string ObtenerCompraIndexDataTable(CompraModels CompraModels, List<string> sucursales)
+        public string ObtenerCompraIndexDataTable(CompraModels CompraModels, List<string> sucursales, DataTableAjaxPostModel dataTableAjaxPostModel)
         {
             try
             {
@@ -210,16 +212,71 @@ namespace CreativaSL.Web.Ganados.Models
                             }
                         }
 
-
                         cmd.Parameters.Add("@UDTT_Sucursales", SqlDbType.Structured).Value = dataTable;
+                        cmd.Parameters.Add("@Start", SqlDbType.Int).Value = dataTableAjaxPostModel.start;
+                        cmd.Parameters.Add("@Length", SqlDbType.Int).Value = dataTableAjaxPostModel.length;
+                        cmd.Parameters.Add("@SearchValue", SqlDbType.NVarChar).Value = dataTableAjaxPostModel.search.value;
+                        cmd.Parameters.Add("@Draw", SqlDbType.Int).Value = dataTableAjaxPostModel.draw;
+                        cmd.Parameters.Add("@ColumnNumber", SqlDbType.Int).Value = dataTableAjaxPostModel.order[0].column;
+                        cmd.Parameters.Add("@ColumnDir", SqlDbType.NVarChar).Value = dataTableAjaxPostModel.order[0].dir;
 
                         // execute
                         sqlcon.Open();
 
                         SqlDataReader reader = cmd.ExecuteReader();
 
-                        datatable = Auxiliar.SqlReaderToJson(reader);
+                        //datatable = Auxiliar.SqlReaderToJson(reader);
+                        
+                        var indexDatatableDto = new IndexDatatableDto();
+
+                        if (reader.HasRows)
+                        {
+                            indexDatatableDto.Data = new List<object>();
+                            bool firstData = true;
+
+                            while (reader.Read())
+                            {
+                                if (firstData)
+                                {
+                                    indexDatatableDto.Draw = 0;
+                                    indexDatatableDto.RecordsFiltered = int.Parse(reader["RecordsFiltered"].ToString());
+                                    indexDatatableDto.RecordsTotal = int.Parse(reader["RecordsTotal"].ToString());
+                                    firstData = false;
+                                }
+
+                                var indexCompraDto = new IndexCompraDto();
+
+                                indexCompraDto.IdCompra = reader["id_compra"].ToString();
+                                indexCompraDto.NombreProveedor = reader["NombreProveedor"].ToString();
+                                indexCompraDto.LugarDestino = reader["LugarDestino"].ToString();
+                                indexCompraDto.GanadoPactadoMachos = int.Parse(reader["GanadoPactadoMachos"].ToString());
+                                indexCompraDto.GanadoPactadoHembras = int.Parse(reader["GanadoPactadoHembras"].ToString());
+                                indexCompraDto.GanadoPactadoTotal = int.Parse(reader["GanadoPactadoTotal"].ToString());
+                                indexCompraDto.GanadoCompradoMachos = int.Parse(reader["GanadoCompradoMachos"].ToString());
+                                indexCompraDto.GanadoCompradoHembras = int.Parse(reader["GanadoCompradoHembras"].ToString());
+                                indexCompraDto.GanadoCompradoTotal = int.Parse(reader["GanadoCompradoTotal"].ToString());
+                                indexCompraDto.GanadoKilosTotal = decimal.Parse(reader["GanadoKilosTotal"].ToString());
+                                indexCompraDto.MermaPromedio = decimal.Parse(reader["MermaPromedio"].ToString());
+                                indexCompraDto.Estatus = reader["Estatus"].ToString();
+                                indexCompraDto.ClassEstatus = reader["ClassEstatus"].ToString();
+                                indexCompraDto.TotalCobros = decimal.Parse(reader["TotalCobros"].ToString());
+                                indexCompraDto.TotalPagos = decimal.Parse(reader["TotalPagos"].ToString());
+                                indexCompraDto.Folio = reader["Folio"].ToString();
+                                indexCompraDto.FechaProgramada = reader["FechaProgramada"].ToString();
+                                indexCompraDto.FechaTerminada = reader["FechaTerminada"].ToString();
+                                indexCompraDto.TotalKilosGanadoMachos = decimal.Parse(reader["TotalKilosGanadoMachos"].ToString());
+                                indexCompraDto.TotalKilosGanadoHembras = decimal.Parse(reader["TotalKilosGanadoHembras"].ToString());
+                                indexCompraDto.Pendiente = decimal.Parse(reader["Pendiente"].ToString());
+
+                                indexDatatableDto.Data.Add(indexCompraDto);
+                            }
+                        }
+
+                        var json = JsonConvert.SerializeObject(indexDatatableDto);
+
                         reader.Close();
+                        
+                        return json;
                     }
                 }
 

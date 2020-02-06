@@ -15,6 +15,8 @@ using Microsoft.Reporting.WebForms;
 using System.Data;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Text;
+using CreativaSL.Web.Ganados.Models.Datatable;
 
 namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 {
@@ -1975,16 +1977,22 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         #region Funcion Json Index
         [HttpPost]
         [SucursalesPermitidas]
-        public ActionResult JsonIndex(CompraModels Compra)
+        public ActionResult JsonIndex(DataTableAjaxPostModel dataTableAjaxPostModel)
         {
             try
             {
+                CompraModels Compra = new CompraModels();
+                Stream req = Request.InputStream;
+                req.Seek(0, System.IO.SeekOrigin.Begin);
+                string json = new StreamReader(req, Request.ContentEncoding).ReadToEnd();
+                
+
                 CompraDatos = new _Compra_Datos();
                 Compra.Conexion = Conexion;
                 
                 List<string> sucursales = (List<string>)System.Web.HttpContext.Current.Session["lista_id_sucursales"];
 
-                Compra.RespuestaAjax.Mensaje = CompraDatos.ObtenerCompraIndexDataTable(Compra, sucursales);
+                Compra.RespuestaAjax.Mensaje = CompraDatos.ObtenerCompraIndexDataTable(Compra, sucursales, dataTableAjaxPostModel);
                 Compra.RespuestaAjax.Success = true;
 
                 return Content(Compra.RespuestaAjax.Mensaje, "application/json");
@@ -1994,7 +2002,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             {
                 Compra.RespuestaAjax.Mensaje = ex.ToString();
                 Compra.RespuestaAjax.Success = false;
-                return Content(Compra.RespuestaAjax.ToJSON(), "application/json");
+                
+                return Content(Compra.RespuestaAjax.Mensaje, "application/json");
             }
         }
         #endregion
