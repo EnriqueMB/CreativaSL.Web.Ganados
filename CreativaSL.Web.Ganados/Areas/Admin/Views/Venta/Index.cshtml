@@ -6,53 +6,60 @@
 }
 @section css
 {
+    <link href="~/Content/css/datatable/jquery.dataTables.min.css" rel="stylesheet" />
     <style>
-        table.tVenta{
+        table.tVenta {
             width: 100% !important;
         }
-        table.tVenta td  {
-            border-color: #E5E5E5 !important;
-            border: 1px solid #E5E5E5;
-        }
 
-        table.tVenta > thead > tr > th {
-            background: #f1f5f9;
-            color: #56688A;
-            font-size: 12px;
-            border: 1px solid #E5E5E5;
-            text-align: center;
-            vertical-align: middle;
-            padding: 8px;
-        }
+            table.tVenta td {
+                border-color: #E5E5E5 !important;
+                border: 1px solid #E5E5E5;
+            }
 
-        .transaccionesCompra{
+            table.tVenta > thead > tr > th {
+                background: #f1f5f9;
+                color: #56688A;
+                font-size: 12px;
+                border: 1px solid #E5E5E5;
+                text-align: center;
+                vertical-align: middle;
+                padding: 8px;
+            }
+
+        .transaccionesCompra {
             background-color: #95b75d !important;
             border-color: #95b75d !important;
             color: white !important;
         }
 
         .transacciones {
-        background-color: #95b75d !important;
-        border-color: #95b75d !important;
-        color: white !important;
+            background-color: #95b75d !important;
+            border-color: #95b75d !important;
+            color: white !important;
         }
+
         .recepcion {
-        background-color: orange !important;
-        border-color: orange !important;
-        color: white !important;
+            background-color: orange !important;
+            border-color: orange !important;
+            color: white !important;
         }
+
         .page-content {
             height: 100% !important;
         }
-        .documentos{
-            background-color:#007bff !important;
+
+        .documentos {
+            background-color: #007bff !important;
             border-color: #007bff !important;
             color: white !important;
         }
+
         a.btn.btn-sm {
             width: 25% !important;
             margin: 1px !important;
         }
+
         td {
             vertical-align: middle;
             text-align: center;
@@ -116,7 +123,7 @@
                                         <th>Cant.</th>
                                         <th>Kg.</th>
                                     </tr>
-                                    
+
                                 </thead>
                                 <tbody></tbody>
                             </table>
@@ -213,23 +220,23 @@
             </div>
         </div>
     </div>
-<div class="message-box animated fadeIn" data-sound="alert" id="mb-eliminar">
-    <div class="mb-container">
-        <div class="mb-middle">
-            <div class="mb-title"><span class="fa fa-mail-forward"></span><strong>¿Seguro que desea eliminar esta venta?</strong></div>
-            <div class="mb-content">
-                <p>¿Desea eliminar esta venta?</p>
-                <p>Presione "sí" si está seguro.</p>
-            </div>
-            <div class="mb-footer">
-                <div class="pull-right">
-                    <button class="btn btn-success btn-lg mb-control-yes">Si</button>
-                    <button class="btn btn-default btn-lg mb-control-close">No</button>
+    <div class="message-box animated fadeIn" data-sound="alert" id="mb-eliminar">
+        <div class="mb-container">
+            <div class="mb-middle">
+                <div class="mb-title"><span class="fa fa-mail-forward"></span><strong>¿Seguro que desea eliminar esta venta?</strong></div>
+                <div class="mb-content">
+                    <p>¿Desea eliminar esta venta?</p>
+                    <p>Presione "sí" si está seguro.</p>
+                </div>
+                <div class="mb-footer">
+                    <div class="pull-right">
+                        <button class="btn btn-success btn-lg mb-control-yes">Si</button>
+                        <button class="btn btn-default btn-lg mb-control-close">No</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
     <script>
     var message = '@message';
     var typemessage = '@typemessage';
@@ -245,33 +252,37 @@
             Mensaje(message, typemessage);
 
             var tblVenta = $("#tblVenta").DataTable({
+                "processing": true,
+                "serverSide": true,
                 "language": {
                     "url": "/Content/assets/json/Spanish.json"
                 },
                 "ajax": {
-                    "data": {
-
-                    },
                     "url": "/Admin/Venta/DatatableIndex/",
-                    "type": "POST",
-                    "datatype": "json",
-                    "dataSrc": ''
+                    "method": "POST",
+                    "dataType": "json",
+                    "dataSrc" : function (json) {
+                    
+                        if(json.data === null)
+                            return [];
+                        else 
+                            return json.data;
+                    }
                 },
                 "columns": [
                     { "data": "folio" }, //folio
                     {
                         "data": "fecha",
                         "render": function (data, type, row) {
-                            var fecha;
-                            if (data === null)
+                            var fecha = row["fecha"];
+                            if (!fecha || fecha === "")
                                 fecha = "Sin dato";
                             else {
-                                var dateSplit = data.split('-');
-                                var dia = dateSplit[2];
-                                dia = dia.split('T');
-                                dia = dia[0];
+                                var dateSplit = fecha.split('/');
+                                var dia = dateSplit[0];
                                 var mes = dateSplit[1];
-                                var año = dateSplit[0];
+                                var añoSplit = dateSplit[2].split(' ');
+                                var año = añoSplit[0];
                                 fecha = dia + '-' + mes + '-' + año;
                             }
 
@@ -279,21 +290,23 @@
                         }
                     }, //fecha
                     {
-                    
+
                         "data": null,
-                        "render": function (data, type, full) {
-                            var hora = full["fecha"];
-                            if (hora === null)
+                        "render": function (data, type, row) {
+                            var hora = row["fecha"];
+                            if (!hora || hora === "")
                                 hora = "Sin Hora";
                             else {
-                                var dateSplit = hora.split('-');
+
+                                var dateSplit = hora.split('/');
                                 var dia = dateSplit[2];
-                                dia = dia.split('T');
+                                dia = dia.split(' ');
                                 dia = dia[1];
+                                console.log(dia);
                                 var S = dia.split(':');
                                 var H = S[0];
                                 var M = S[1];
-                                hora = H +':'+ M+' Horas';                                
+                                hora = H + ':' + M + ' Horas';
                             }
                             return hora;
                         }
@@ -369,12 +382,12 @@
                                     "<i class='fa fa-money'></i> transacciones ($)" +
                                     "</a>" +
                                     "</li>" +
-                                     "<li>" +
+                                    "<li>" +
                                     "<a class='documentos' data-id='" + full["id_venta"] + "'  role='menuitem' tabindex='-1'>" +
                                     "<i class='fa fa-archive'></i> Documentos" +
                                     "</a>" +
                                     "</li>" +
-                                     "<li>" +
+                                    "<li>" +
                                     "<a class='edit' data-id='" + full["id_venta"] + "' data-id_estatus = '" + full["id_estatus"] + "' role='menuitem' tabindex='-1'>" +
                                     "<i class='fa fa-clock-o'></i> Agendado" +
                                     "</a>" +
@@ -433,14 +446,14 @@
                                     "</a>" +
                                     "</li>" +
                                     "<li>" +
-                                        "<a class='edit' data-id='" + full["id_venta"] + "'   data-id_estatus = '" + full["id_estatus"] + "' role='menuitem' tabindex='-1'>" +
-                                        "<i class='icon-ocampo-head'></i> Ganado" +
-                                        "</a>" +
+                                    "<a class='edit' data-id='" + full["id_venta"] + "'   data-id_estatus = '" + full["id_estatus"] + "' role='menuitem' tabindex='-1'>" +
+                                    "<i class='icon-ocampo-head'></i> Ganado" +
+                                    "</a>" +
                                     "</li>" +
                                     "<li>" +
-                                        "<a class='costoExtra' data-id='" + full["id_venta"] + "' role='menuitem' tabindex='-1'>" +
-                                        "<i class='fa fa-search-plus'></i> Costo extra" +
-                                        "</a>" +
+                                    "<a class='costoExtra' data-id='" + full["id_venta"] + "' role='menuitem' tabindex='-1'>" +
+                                    "<i class='fa fa-search-plus'></i> Costo extra" +
+                                    "</a>" +
                                     "</li>" +
                                     "<li>" +
                                     "<a class='Eliminar' role='menuitem' tabindex='-1' data-id='" + full["id_venta"] + "' data-hrefa='/Admin/Venta/DEL_Venta/'>" +
@@ -496,9 +509,9 @@
                                     "</a>" +
                                     "</li>" +
                                     "<li>" +
-                                        "<a class='costoExtra' data-id='" + full["id_venta"] + "' role='menuitem' tabindex='-1'>" +
-                                        "<i class='fa fa-search-plus'></i> Costo extra" +
-                                        "</a>" +
+                                    "<a class='costoExtra' data-id='" + full["id_venta"] + "' role='menuitem' tabindex='-1'>" +
+                                    "<i class='fa fa-search-plus'></i> Costo extra" +
+                                    "</a>" +
                                     "</li>" +
                                     "<li>" +
                                     "<a class='eliminar' role='menuitem' tabindex='-1' data-id='" + full["id_venta"] + "' data-hrefa='/Admin/Venta/DEL_Venta/'>" +
@@ -550,7 +563,7 @@
                                     "</li>" +
                                     "<li>" +
                                     "<a class='edit' role='menuitem' tabindex='-1' data-id='" + full["id_venta"] + "' data-id_estatus = '" + full["id_estatus"] + "'>"
-                                    "<i class='fa fa-trash-o'></i> Eventos y recepción" +
+                                "<i class='fa fa-trash-o'></i> Eventos y recepción" +
                                     "</a>" +
                                     "</li>" +
                                     "<li>" +
@@ -559,9 +572,9 @@
                                     "</a>" +
                                     "</li>" +
                                     "<li>" +
-                                        "<a class='costoExtra' data-id='" + full["id_venta"] + "' role='menuitem' tabindex='-1'>" +
-                                        "<i class='fa fa-search-plus'></i> Costo extra" +
-                                        "</a>" +
+                                    "<a class='costoExtra' data-id='" + full["id_venta"] + "' role='menuitem' tabindex='-1'>" +
+                                    "<i class='fa fa-search-plus'></i> Costo extra" +
+                                    "</a>" +
                                     "</li>" +
                                     "<li>" +
                                     "<a class='eliminar' role='menuitem' tabindex='-1' data-id='" + full["id_venta"] + "' data-hrefa='/Admin/Venta/DEL_Venta/'>" +
@@ -620,7 +633,7 @@
                                     "<i class='fa fa-check'></i> Concluir" +
                                     "</a>" +
                                     "</li>" +
-                                    
+
                                     "<li>" +
                                     "<a class='transacciones' data-id='" + full["id_venta"] + "'  role='menuitem' tabindex='-1'>" +
                                     "<i class='fa fa-money'></i> Transacciones ($)" +
@@ -640,9 +653,9 @@
                                     "</li>" +
 
                                     "<li>" +
-                                        "<a class='costoExtra' data-id='" + full["id_venta"] + "' role='menuitem' tabindex='-1'>" +
-                                        "<i class='fa fa-search-plus'></i> Costo extra" +
-                                        "</a>" +
+                                    "<a class='costoExtra' data-id='" + full["id_venta"] + "' role='menuitem' tabindex='-1'>" +
+                                    "<i class='fa fa-search-plus'></i> Costo extra" +
+                                    "</a>" +
                                     "</li>" +
 
                                     "<li>" +

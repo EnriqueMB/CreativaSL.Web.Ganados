@@ -9,13 +9,11 @@ using CreativaSL.Web.Ganados.Filters;
 using CreativaSL.Web.Ganados.Models;
 using System.IO;
 using System.Net;
-using Newtonsoft.Json;
 using CreativaSL.Web.Ganados.App_Start;
 using Microsoft.Reporting.WebForms;
 using System.Data;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.Text;
 using CreativaSL.Web.Ganados.Models.Datatable;
 
 namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
@@ -1982,10 +1980,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             try
             {
                 CompraModels Compra = new CompraModels();
-                Stream req = Request.InputStream;
-                req.Seek(0, System.IO.SeekOrigin.Begin);
-                string json = new StreamReader(req, Request.ContentEncoding).ReadToEnd();
-                
 
                 CompraDatos = new _Compra_Datos();
                 Compra.Conexion = Conexion;

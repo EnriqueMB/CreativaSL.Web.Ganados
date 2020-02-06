@@ -192,7 +192,7 @@ namespace CreativaSL.Web.Ganados.Models
         {
             try
             {
-                string datatable = string.Empty;
+                var datatable = string.Empty;
                 using (SqlConnection sqlcon = new SqlConnection(CompraModels.Conexion))
                 {
                     using (SqlCommand cmd = new SqlCommand("spCSLDB_Compras_IndexVentas", sqlcon))
@@ -233,12 +233,13 @@ namespace CreativaSL.Web.Ganados.Models
                         {
                             indexDatatableDto.Data = new List<object>();
                             bool firstData = true;
+                            IFormatProvider culture = new CultureInfo("es-MX", true);
 
                             while (reader.Read())
                             {
                                 if (firstData)
                                 {
-                                    indexDatatableDto.Draw = 0;
+                                    indexDatatableDto.Draw = int.Parse(reader["Draw"].ToString()); ;
                                     indexDatatableDto.RecordsFiltered = int.Parse(reader["RecordsFiltered"].ToString());
                                     indexDatatableDto.RecordsTotal = int.Parse(reader["RecordsTotal"].ToString());
                                     firstData = false;
@@ -262,8 +263,19 @@ namespace CreativaSL.Web.Ganados.Models
                                 indexCompraDto.TotalCobros = decimal.Parse(reader["TotalCobros"].ToString());
                                 indexCompraDto.TotalPagos = decimal.Parse(reader["TotalPagos"].ToString());
                                 indexCompraDto.Folio = reader["Folio"].ToString();
-                                indexCompraDto.FechaProgramada = reader["FechaProgramada"].ToString();
-                                indexCompraDto.FechaTerminada = reader["FechaTerminada"].ToString();
+
+                                if (!string.IsNullOrEmpty(reader["FechaProgramada"].ToString()))
+                                {
+                                    indexCompraDto.FechaProgramada = DateTime.ParseExact(reader["FechaProgramada"].ToString(), "dd/MM/yyyy hh:mm:ss tt",
+                                        culture).ToString("dd/MM/yyyy HH:mm", culture);
+                                }
+
+                                if (!string.IsNullOrEmpty(reader["FechaTerminada"].ToString()))
+                                {
+                                    indexCompraDto.FechaTerminada = DateTime.ParseExact(reader["FechaTerminada"].ToString(), "dd/MM/yyyy hh:mm:ss tt",
+                                        culture).ToString("dd/MM/yyyy HH:mm", culture);
+                                }
+
                                 indexCompraDto.TotalKilosGanadoMachos = decimal.Parse(reader["TotalKilosGanadoMachos"].ToString());
                                 indexCompraDto.TotalKilosGanadoHembras = decimal.Parse(reader["TotalKilosGanadoHembras"].ToString());
                                 indexCompraDto.Pendiente = decimal.Parse(reader["Pendiente"].ToString());

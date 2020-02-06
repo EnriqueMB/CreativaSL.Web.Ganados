@@ -2,16 +2,13 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using System.Web.UI;
-using System.Web.UI.WebControls;
 using CreativaSL.Web.Ganados.Models;
 using System.Configuration;
 using Microsoft.Reporting.WebForms;
 using System.Drawing;
 using System.Drawing.Imaging;
+using CreativaSL.Web.Ganados.Models.Datatable;
 using CreativaSL.Web.Ganados.ViewModel.Venta;
 
 namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
@@ -23,7 +20,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
        
         #region Datatables
         [HttpPost]
-        public ActionResult DatatableIndex()
+        public ActionResult DatatableIndex(DataTableAjaxPostModel dataTableAjaxPostModel)
         {
             try
             {
@@ -32,7 +29,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 venta.Conexion = Conexion;
 
                 venta.RespuestaAjax = new RespuestaAjax();
-                venta.RespuestaAjax.Mensaje = ventaDatos.DatatableIndex(venta);
+                venta.RespuestaAjax.Mensaje = ventaDatos.DatatableIndex(venta, dataTableAjaxPostModel);
                 venta.RespuestaAjax.Success = true;
 
                 return Content(venta.RespuestaAjax.Mensaje, "application/json");
@@ -40,11 +37,10 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
             catch (Exception ex)
             {
-                string Mensaje = ex.Message.Replace("\r\n", "").Replace("\r", "").Replace("\n", "");
-                VentaModels2 venta = new VentaModels2();
+                var Mensaje = ex.Message.Replace("\r\n", "").Replace("\r", "").Replace("\n", "");
+                var venta = new VentaModels2();
                 venta.RespuestaAjax.Mensaje = Mensaje;
-                venta.RespuestaAjax.Success = false;
-                return Content(venta.RespuestaAjax.ToJSON(), "application/json");
+                return Content(venta.RespuestaAjax.Mensaje, "application/json");
             }
         }
         [HttpPost]
