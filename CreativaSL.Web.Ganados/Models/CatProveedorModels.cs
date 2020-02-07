@@ -9,7 +9,9 @@ namespace CreativaSL.Web.Ganados.Models
 {
     public class CatProveedorModels
     {
-        public CatProveedorModels() {
+        public CatProveedorModels()
+        {
+            _fotoPerfil = string.Empty;
             _IDProveedor = string.Empty;
             _IDTipoProveedor = 0;
             _IDSucursal = string.Empty;
@@ -347,7 +349,15 @@ namespace CreativaSL.Web.Ganados.Models
             get { return _TodaSucursale; }
             set { _TodaSucursale = value; }
         }
-        
+
+        private string _fotoPerfil;
+
+        public string FotoPerfil
+        {
+            get { return  _fotoPerfil; }
+            set {  _fotoPerfil = value; }
+        }
+
 
         #region Datos De Control
         public string Conexion { get; set; }

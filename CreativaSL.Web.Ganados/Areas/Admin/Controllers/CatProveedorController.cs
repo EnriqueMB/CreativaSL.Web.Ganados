@@ -89,14 +89,13 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 {
                     if (ModelState.IsValid)
                     {
+                      
+
                         HttpPostedFileBase bannerImage = Request.Files[0] as HttpPostedFileBase;
                         if (bannerImage != null && bannerImage.ContentLength > 0)
                         {
-                            string baseDir = Server.MapPath("~/Imagenes/Proveedor/INE/");
-                            Stream s = bannerImage.InputStream;
-                            //Image img = new Bitmap(s);
-                            //Bitmap IMG3 = ComprimirImagen.SaveJpeg("", img, 50, false);
-                            //Proveedor.ImgINE = IMG3.ToBase64String(ImageFormat.Jpeg);
+                            var baseDir = Server.MapPath("~/Imagenes/Proveedor/INE/");
+                            var s = bannerImage.InputStream;
 
                             if (Path.GetExtension(bannerImage.FileName).ToLower() == ".heic")
                             {
@@ -118,9 +117,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         if (bannerImage2 != null && bannerImage2.ContentLength > 0)
                         {
                             Stream s = bannerImage2.InputStream;
-                            //Image img = new Bitmap(s);
-                            //Bitmap IMG3 = ComprimirImagen.SaveJpeg("", img, 50, false);
-                            //Proveedor.ImgManifestacionFierro = IMG3.ToBase64String(ImageFormat.Jpeg);
 
                             if (Path.GetExtension(bannerImage2.FileName).ToLower() == ".heic")
                             {
@@ -144,6 +140,31 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         Proveedor = ProveedorDatos.AcCatProveedor(Proveedor);
                         if (Proveedor.Completado)
                         {
+                            var fotoPerfilPostedFileBase = Request.Files["FotoPerfil"];
+                            if (fotoPerfilPostedFileBase != null && fotoPerfilPostedFileBase.ContentLength > 0)
+                            {
+                                var baseDirFotoPerfil = Server.MapPath("~/Imagenes/Proveedor/FotoPerfil/");
+                                var fileExtension = Path.GetExtension(fotoPerfilPostedFileBase.FileName);
+                                fileExtension = fileExtension == (".heic") ? ".png" : fileExtension;
+
+                                var fileNameFotoPerfil = "fp_" + Proveedor.IDProveedor + fileExtension;
+                                Bitmap btmFotoPerfil = null;
+                                var streamFotoPerfil = fotoPerfilPostedFileBase.InputStream;
+
+                                if (Path.GetExtension(fotoPerfilPostedFileBase.FileName) == ".heic")
+                                {
+                                    var img = (Image)Auxiliar.ProcessFile(streamFotoPerfil);
+                                    btmFotoPerfil = ComprimirImagen.SaveJpeg(baseDirFotoPerfil + fileNameFotoPerfil, img, 50, true);
+                                    Proveedor.FotoPerfil = btmFotoPerfil.ToBase64String(ImageFormat.Jpeg);
+                                }
+                                else
+                                {
+                                    var img = new Bitmap(streamFotoPerfil);
+                                    btmFotoPerfil = ComprimirImagen.SaveJpeg(baseDirFotoPerfil + fileNameFotoPerfil, img, 50, true);
+                                    Proveedor.FotoPerfil = btmFotoPerfil.ToBase64String(img.RawFormat);
+                                }
+                            }
+
                             TempData["typemessage"] = "1";
                             TempData["message"] = "Los datos se guardaron correctamente.";
                             Token.ResetToken();

@@ -2122,6 +2122,7 @@
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Admin\Views\CatBodega\" />
     <Folder Include="Imagenes\Fierro\" />
+    <Folder Include="Imagenes\Proveedor\FotoPerfil\" />
     <Folder Include="Imagenes\Proveedor\INE\" />
     <Folder Include="Imagenes\Proveedor\ManifestacionFierro\" />
     <Folder Include="Views\Home\" />
