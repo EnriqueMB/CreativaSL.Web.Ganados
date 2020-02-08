@@ -9,7 +9,10 @@ namespace CreativaSL.Web.Ganados.Models
 {
     public class CatProveedorModels
     {
-        public CatProveedorModels() {
+        public CatProveedorModels()
+        {
+            _deleteFotoPerfilFromServer = false;
+            _fotoPerfil = string.Empty;
             _IDProveedor = string.Empty;
             _IDTipoProveedor = 0;
             _IDSucursal = string.Empty;
@@ -245,9 +248,7 @@ namespace CreativaSL.Web.Ganados.Models
 
 
         private string _ImgINE;
-        //[Required(ErrorMessage = "La Imagen es obligatorio")]
-        //[Display(Name = "Imagen")]
-        //[FileExtensions(Extensions = "png,jpg,jpeg", ErrorMessage = "Solo imagenes")]
+        
         public string ImgINE
         {
             get { return _ImgINE; }
@@ -255,9 +256,7 @@ namespace CreativaSL.Web.Ganados.Models
         }
 
         private string _ImgManifestacionFierro;
-        //[Required(ErrorMessage = "La Imagen es obligatorio")]
-        //[Display(Name = "Imagen")]
-        //[FileExtensions(Extensions = "png,jpg,jpeg", ErrorMessage = "Solo imagenes")]
+        
         public string ImgManifestacionFierro
         {
             get { return _ImgManifestacionFierro; }
@@ -347,7 +346,25 @@ namespace CreativaSL.Web.Ganados.Models
             get { return _TodaSucursale; }
             set { _TodaSucursale = value; }
         }
-        
+
+        private string _fotoPerfil;
+
+        public string FotoPerfil
+        {
+            get { return  _fotoPerfil; }
+            set {  _fotoPerfil = value; }
+        }
+
+        private bool _deleteFotoPerfilFromServer;
+        /// <summary>
+        /// Indica cuando borrar la imagen del server, puede ser que cuando se edite no se quiera borrar
+        /// </summary>
+        public bool DeleteFotoPerfilFromServer
+        {
+            get { return _deleteFotoPerfilFromServer; }
+            set { _deleteFotoPerfilFromServer = value; }
+        }
+
 
         #region Datos De Control
         public string Conexion { get; set; }

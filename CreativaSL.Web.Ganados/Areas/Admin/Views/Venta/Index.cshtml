@@ -102,6 +102,7 @@
                                 <thead>
                                     <tr>
                                         <th rowspan="3">Folio</th>
+                                        <th rowspan="3">Sucursal</th>
                                         <th rowspan="3">Fecha</th>
                                         <th rowspan="3">Hora</th>
                                         <th rowspan="3">Cliente</th>
@@ -270,7 +271,8 @@
                     }
                 },
                 "columns": [
-                    { "data": "folio" }, //folio
+                    { "data": "folio" }, 
+                    { "data": "nombreSucursal" },
                     {
                         "data": "fecha",
                         "render": function (data, type, row) {
@@ -288,7 +290,7 @@
 
                             return fecha;
                         }
-                    }, //fecha
+                    }, 
                     {
 
                         "data": null,

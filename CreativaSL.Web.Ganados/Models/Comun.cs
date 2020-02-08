@@ -586,68 +586,6 @@ namespace CreativaSL.Web.Ganados.Models
             return html;
         }
 
-        private static string ConcatParams(Dictionary<string, string> parameters)
-        {
-            bool FirstParam = true;
-            StringBuilder Parametros = null;
-
-            if (parameters != null)
-            {
-                Parametros = new StringBuilder();
-                foreach (KeyValuePair<string, string> param in parameters)
-                {
-                    Parametros.Append(FirstParam ? "" : " & ");
-                    Parametros.Append(param.Key + "=" + System.Web.HttpUtility.UrlEncode(param.Value));
-                    FirstParam = false;
-                }
-            }
-
-            return Parametros == null ? string.Empty : Parametros.ToString();
-        }
-
-        public static string GetResponse_POST(string url, Dictionary<string, string> parameters)
-        {
-            try
-            {
-                //Concatenamos los parametros, OJO: NO se añade el caracter "?"
-                string parametrosConcatenados = ConcatParams(parameters);
-
-                System.Net.WebRequest wr = (System.Net.HttpWebRequest)System.Net.WebRequest.Create(url);
-                wr.Method = "POST";
-
-                wr.ContentType = "application/x-www-form-urlencoded";
-
-                System.IO.Stream newStream;
-                //Codificación del mensaje
-                System.Text.ASCIIEncoding encoding = new System.Text.ASCIIEncoding();
-                byte[] byte1 = encoding.GetBytes(parametrosConcatenados);
-                wr.ContentLength = byte1.Length;
-                //Envio de parametros
-                newStream = wr.GetRequestStream();
-                newStream.Write(byte1, 0, byte1.Length);
-
-                // Obtiene la respuesta
-                System.Net.WebResponse response = wr.GetResponse();
-                // Stream con el contenido recibido del servidor
-                newStream = response.GetResponseStream();
-                System.IO.StreamReader reader = new System.IO.StreamReader(newStream);
-                // Leemos el contenido
-                string responseFromServer = reader.ReadToEnd();
-
-                // Cerramos los streams
-                reader.Close();
-                newStream.Close();
-                response.Close();
-                return responseFromServer;
-            }
-            catch (System.Web.HttpException ex)
-            {
-                if (ex.ErrorCode == 404)
-                    throw new Exception("Not found remote service " + url);
-                else throw ex;
-            }
-        }
-
         public static string EnviarMensaje(string deviceId, string title, string message, int Badge, int IDTipoCelular)
         {
             try

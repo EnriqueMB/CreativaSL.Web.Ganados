@@ -81,32 +81,91 @@ $.validator.addMethod("imagenExtesion", function (value, element, params) {
 $.validator.addMethod("ImagenRequerida", function (value, element, params) {
     //Checamos que tenga un archivo el input file
     if (element.value.length === 0) {
+        console.log("element === 0");
         var imagenServidor = document.getElementById(params[0]).value;
 
-        if (imagenServidor === "0") {
-            
+        if (imagenServidor === "0" || !imagenServidor)
+        {
+            //validamos el defaultValue, nos sirve para el edit 
+            var defaultValue = document.getElementById(params[0]).defaultValue;
+
+            var isBase64DefaultValue = ValidarBase64(defaultValue);
+
+            if (isBase64DefaultValue)
+                return true;
+
             return false;
         }
-        else {
-            
+        else
+        {
             return true;
         }
     }
     else {
         //Si hay obtenemos la extensión
-        var arrayString = element.value.split(".");
-        var longitud = arrayString.length;
-        var extension = arrayString[longitud - 1].trim().toLowerCase();
-        console.log("extension: " + extension);
-
-        if (extension.localeCompare("png") == 0 || extension.localeCompare("jpg") == 0 || extension.localeCompare("jpeg") == 0 || extension.localeCompare("bmp") == 0 || extension.localeCompare("heic") == 0) {
+        var extension = (element.value.substring(element.value.lastIndexOf("."))).toLowerCase();
+        console.log(extension);        
+        if (extension.localeCompare(".png") == 0 || extension.localeCompare(".jpg") == 0 || extension.localeCompare(".jpeg") == 0 || extension.localeCompare(".bmp") == 0 || extension.localeCompare(".heic") == 0)
+        {
             return true;
         }
-        else {
+        else
+        {
             return false;
         }
     }
 }, 'Solo archivos con formato PNG, JPG, JPEG, HEIC y BMP.');
+
+function ValidarExtensionPermitidaImagen(fileName)
+{
+    var extension = (fileName.substring(fileName.lastIndexOf("."))).toLowerCase();
+    console.log("Extension: " + extension);
+    //validamos la extension
+    if (extension.localeCompare("png") == 0 || extension.localeCompare("jpg") == 0 || extension.localeCompare("jpeg") == 0 || extension.localeCompare("bmp") == 0 || extension.localeCompare("heic") == 0) {
+        
+        return true;
+    }
+    else {
+        //si no tiene validamos que no sea una imagen base 64
+        
+        var isBase64 = ValidarBase64(fileName);
+
+        if (isBase64)
+            return true;
+
+        return false;
+    }
+}
+
+function ValidarBase64(archivo) {
+    var archivoSubstringPng = archivo.substring(0, 5);
+    //console.log(archivoSubstringPng);
+    if (archivoSubstringPng === "iVBOR")
+        return true;
+
+    var archivoSubstringJpg = archivo.substring(0, 5);
+    //console.log(archivoSubstringJpg);
+    if (archivoSubstringJpg === "/9j/4")
+        return true;
+
+    var archivoSubstringBmp = archivo.substring(0, 3);
+    //console.log(archivoSubstringBmp);
+    if (archivoSubstringBmp === "Qk3")
+        return true;
+
+    var archivoSubstringBmpMonocromatico = archivo.substring(0, 3);
+    //console.log(archivoSubstringBmpMonocromatico);
+    if (archivoSubstringBmpMonocromatico === "Qk2")
+        return true;
+
+    var archivoSubstringBmp16Colores = archivo.substring(0, 3);
+    //console.log(archivoSubstringBmp16Colores);
+    if (archivoSubstringBmp16Colores === "Qk1")
+        return true;
+
+    return false;
+}
+
 
 $.validator.addMethod("formatoPNG", function (value, element, params) {
     //Bandera que me indica si hay o no imagen en el servidor
@@ -313,4 +372,20 @@ jQuery.validator.addMethod("notEqual", function (value, element, param) {
     return this.optional(element) || value != param;
 }, "Please specify a different (non-default) value");
 
-
+$.validator.addMethod("ImagenNoRequerida_ValidarExtension", function (value, element, params) {
+    //Checamos que tenga un archivo el input file
+    if (element.value.length !== 0)
+    {
+        //Si hay obtenemos la extensión
+        var arrayString = element.value.split(".");
+        var longitud = arrayString.length;
+        var extension = arrayString[longitud - 1].trim().toLowerCase();
+        if (extension.localeCompare("png") == 0 || extension.localeCompare("jpg") == 0 || extension.localeCompare("jpeg") == 0 || extension.localeCompare("bmp") == 0 || extension.localeCompare("heic") == 0) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    return true;
+}, 'Solo archivos con formato PNG, JPG, JPEG, HEIC y BMP.');

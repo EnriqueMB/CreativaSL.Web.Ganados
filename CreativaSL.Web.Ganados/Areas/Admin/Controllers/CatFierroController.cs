@@ -309,7 +309,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                             
                             string fileName = Fierro.IDFierro + fileExtension;
                             Bitmap IMG3 = null;
-                            
 
                             if (Path.GetExtension(bannerImage.FileName) == ".heic")
                             {
