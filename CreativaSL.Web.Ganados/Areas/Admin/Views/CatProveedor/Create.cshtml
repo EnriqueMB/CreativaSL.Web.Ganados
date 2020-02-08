@@ -270,9 +270,9 @@
                                                 <div class="col-md-9 col-xs-12">
                                                     <div class="input-group">
                                                         <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                        @Html.TextBoxFor(model => model.ImgINEE, new { id = "ImgINEE", @type = "file", @class = "form-control" })
+                                                        @Html.TextBoxFor(model => model.ImgINE, new { id = "ImgINE", @type = "file", @class = "form-control" })
                                                     </div>
-                                                    @Html.ValidationMessageFor(model => model.ImgINEE)
+                                                    @Html.ValidationMessageFor(model => model.ImgINE)
                                                     <span class="help-block">Ingrese por lo menos 1 imagen.</span>
                                                 </div>
                                             </div>
@@ -327,7 +327,7 @@
             Mensaje(message, typemessage);
             Proveedor.init();
 
-            $('#ImgINEE').fileinput({
+            $('#ImgINE').fileinput({
                 theme: 'fa',
                 language: 'es',
                 minFileCount: 1,

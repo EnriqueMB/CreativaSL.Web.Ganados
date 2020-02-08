@@ -85,7 +85,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 {
                     if (ModelState.IsValid)
                     {
-                        HttpPostedFileBase bannerImage = Request.Files["ImgINEE"] as HttpPostedFileBase;
+                        HttpPostedFileBase bannerImage = Request.Files["ImgINE"] as HttpPostedFileBase;
                         if (bannerImage != null && bannerImage.ContentLength > 0)
                         {
                             var baseDir = Server.MapPath("~/Imagenes/Proveedor/INE/");
@@ -105,7 +105,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                                 Proveedor.ImgINE = IMG3.ToBase64String(img.RawFormat);
                             }
                         }
-                        HttpPostedFileBase bannerImage2 = Request.Files["ImgManifestacionFierros"] as HttpPostedFileBase;
+                        HttpPostedFileBase bannerImage2 = Request.Files["ImgManifestacionFierro"] as HttpPostedFileBase;
                         if (bannerImage2 != null && bannerImage2.ContentLength > 0)
                         {
                             Stream s = bannerImage2.InputStream;
@@ -131,36 +131,37 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
                         if (Proveedor.Completado)
                         {
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "Los datos se guardaron correctamente.";
+
                             var fotoPerfilPostedFileBase = Request.Files["FotoPerfil"] as HttpPostedFileBase;
-                            var uploadImageToserver = new UploadImageToServerModel();
-                            uploadImageToserver.FileBase = fotoPerfilPostedFileBase;
-                            uploadImageToserver.BaseDir = "/Imagenes/Proveedor/FotoPerfil/";
-                            uploadImageToserver.FileName = "fp_" + Proveedor.IDProveedor;
-
-                            CidFaresHelper.UploadImageToServer(uploadImageToserver);
-
-                            if (uploadImageToserver.Success)
+                            if (fotoPerfilPostedFileBase != null && fotoPerfilPostedFileBase.ContentLength > 0)
                             {
-                                var responseDb = ProveedorDatos.ActualizarFotoPerfil(Proveedor.IDProveedor,
-                                    User.Identity.Name,  uploadImageToserver.UrlComplete, Proveedor.Conexion);
+                                var uploadImageToserver = new UploadImageToServerModel();
+                                uploadImageToserver.FileBase = fotoPerfilPostedFileBase;
+                                uploadImageToserver.BaseDir = "/Imagenes/Proveedor/FotoPerfil/";
+                                uploadImageToserver.FileName = "fp_" + Proveedor.IDProveedor;
+                                CidFaresHelper.UploadImageToServer(uploadImageToserver);
 
-                                if (responseDb.Success)
+                                if (uploadImageToserver.Success)
                                 {
-                                    TempData["typemessage"] = "1";
-                                    TempData["message"] = "Los datos se guardaron correctamente.";
+                                    var responseDb = ProveedorDatos.ActualizarFotoPerfil(Proveedor.IDProveedor,
+                                        User.Identity.Name, uploadImageToserver.UrlComplete, Proveedor.Conexion);
+
+                                    if (!responseDb.Success)
+                                    {
+                                        TempData["typemessage"] = "2";
+                                        TempData["message"] = "Ha ocurrido un error al guardar la imagen de perfil al proveedor, intenlo subir de nuevo o contacte con soporte técnico.";
+                                    }
                                 }
                                 else
                                 {
                                     TempData["typemessage"] = "2";
-                                    TempData["message"] = "Ha ocurrido un error al guardar la imagen de perfil al proveedor, intenlo subir de nuevo o contacte con soporte técnico.";
+                                    TempData["message"] = "Ha ocurrido un error al guardar en el servidor la imagen de perfil, intenlo subir de nuevo o contacte con soporte técnico.";
+
                                 }
                             }
-                            else
-                            {
-                                TempData["typemessage"] = "2";
-                                TempData["message"] = "Ha ocurrido un error al guardar en el servidor la imagen de perfil, intenlo subir de nuevo o contacte con soporte técnico.";
-                                
-                            }
+                           
                             Token.ResetToken();
                             return RedirectToAction("Index");
                         }
@@ -244,11 +245,12 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             {
                 if (Token.IsTokenValid())
                 {
-                    ModelState.Remove("ImgINEE");
-                    ModelState.Remove("ImgManifestacionFierros");
                     if (ModelState.IsValid)
                     {
-                        HttpPostedFileBase bannerImage = Request.Files["ImgINEE"] as HttpPostedFileBase;
+                        Proveedor.Conexion = Conexion;
+                        Proveedor.Usuario = User.Identity.Name;
+
+                        HttpPostedFileBase bannerImage = Request.Files["ImgINE"] as HttpPostedFileBase;
                         
                         if (bannerImage != null && bannerImage.ContentLength > 0)
                         {
@@ -298,15 +300,19 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         }
 
                         var fotoPerfilPostedFileBase = Request.Files["FotoPerfil"] as HttpPostedFileBase;
-                        //hay una imagen nueva
+                        //foto de perfil
+                        var uploadImageToserver = new UploadImageToServerModel();
+                        uploadImageToserver.FileBase = fotoPerfilPostedFileBase;
+                        uploadImageToserver.BaseDir = "/Imagenes/Proveedor/FotoPerfil/";
+                        uploadImageToserver.FileName = "fp_" + Proveedor.IDProveedor;
+
                         if (fotoPerfilPostedFileBase != null && fotoPerfilPostedFileBase.ContentLength > 0)
                         {
-                            var uploadImageToserver = new UploadImageToServerModel();
-                            uploadImageToserver.FileBase = fotoPerfilPostedFileBase;
-                            uploadImageToserver.BaseDir = "/Imagenes/Proveedor/FotoPerfil/";
-                            uploadImageToserver.FileName = "fp_" + Proveedor.IDProveedor;
-
+                            //borramos la anterior
+                            CidFaresHelper.DeleteFilesWithOutExtensionFromServer(uploadImageToserver);
+                            //hay foto nueva
                             CidFaresHelper.UploadImageToServer(uploadImageToserver);
+
                             if (!uploadImageToserver.Success)
                             {
                                 Proveedor.listaSucursal = ProveedorDatos.obtenerListaSucursales(Proveedor);
@@ -317,10 +323,23 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                                 TempData["message"] = "Ocurrio un error al intentar guardar la imagen de perfil, intentelo más tarde.";
                                 return View(Proveedor);
                             }
+                            
+                            var responseDb = ProveedorDatos.ActualizarFotoPerfil(Proveedor.IDProveedor,
+                                User.Identity.Name, uploadImageToserver.UrlComplete, Proveedor.Conexion);
                         }
+                        else
+                        {
+                            if (Proveedor.DeleteFotoPerfilFromServer)
+                            {
+                                CidFaresHelper.DeleteFilesWithOutExtensionFromServer(uploadImageToserver);
+                                //eliminar la imagen de perfil, lo borramos de la bd
+                                var responseDb = ProveedorDatos.ActualizarFotoPerfil(Proveedor.IDProveedor,
+                                    User.Identity.Name, "", Proveedor.Conexion);
+                            }
+                        }
+                        
 
-                        Proveedor.Conexion = Conexion;
-                        Proveedor.Usuario = User.Identity.Name;
+                        
                         Proveedor.Opcion = 2;
                         Proveedor = ProveedorDatos.AcCatProveedor(Proveedor);
                         if (Proveedor.Completado)
@@ -381,6 +400,11 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Proveedor.IDProveedor = id;
                 Proveedor.Usuario = User.Identity.Name;
                 Proveedor = ProveedorDatos.EliminarProveedor(Proveedor);
+
+                var uploadImageToserver = new UploadImageToServerModel();
+                uploadImageToserver.BaseDir = "/Imagenes/Proveedor/FotoPerfil/";
+                uploadImageToserver.FileName = "fp_" + Proveedor.IDProveedor;
+                CidFaresHelper.DeleteFilesWithOutExtensionFromServer(uploadImageToserver);
 
                 return Json("");
                 // TODO: Add delete logic here

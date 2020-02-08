@@ -28,7 +28,7 @@
                 IDSucursal: { required: true },
                 IDTipoProveedor: { CMBINT: true },
                 NombreRazonSocial: { required: true, texto: true, maxlength: 300 },
-                ImgINEE:
+                ImgINE:
                 {
                     ImagenRequerida: ["ImgINE"]
                 }
@@ -56,7 +56,7 @@
                     texto: "Ingrese un nombre o razón social válido.",
                     maxlength: "El campo nombre o razón social admite máximo 300 caracteres."
                 }
-                , ImgINEE:
+                , ImgINE:
                 {
                     ImagenRequerida:
                         "Seleccione una imagén válida del ine, formatos válidos: PNG, JPG, JPEG, HEIC y BMP."

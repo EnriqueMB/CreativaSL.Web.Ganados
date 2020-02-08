@@ -122,6 +122,7 @@ namespace CreativaSL.Web.Ganados.Models
 
             return extension;
         }
+
         public static IEnumerable<ErrorModelState> AllErrors(this ModelStateDictionary modelState)
         {
             var result = from ms in modelState

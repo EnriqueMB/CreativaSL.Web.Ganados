@@ -8,6 +8,24 @@ namespace CreativaSL.Web.Ganados.Models.Helpers
 {
     public static class CidFaresHelper
     {
+        public static void DeleteFilesWithOutExtensionFromServer(UploadImageToServerModel uploadImageToServer)
+        {
+            try
+            {
+                var path = HostingEnvironment.MapPath(uploadImageToServer.BaseDir);
+                var files = Directory.GetFiles(path, uploadImageToServer.FileName + ".*");
+                foreach (var f in files)
+                {
+                    File.Delete(f);
+                }
+                uploadImageToServer.Success = true;
+            }
+            catch (Exception ex)
+            {
+                uploadImageToServer.Exception = ex;
+                uploadImageToServer.Success = false;
+            }
+        }
         public static void UploadImageToServer(UploadImageToServerModel uploadImageToServer)
         {
             try

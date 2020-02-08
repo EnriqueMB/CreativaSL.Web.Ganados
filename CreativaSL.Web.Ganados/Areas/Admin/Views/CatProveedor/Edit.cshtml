@@ -55,9 +55,7 @@
                 @Html.AntiForgeryToken()
                 @*@Html.ValidationSummary(true)*@
                 @Html.HiddenFor(model => model.IDProveedor)
-                @Html.Hidden(Model.ImgINE, new { @id = "hiddenImgINE" })
-                @Html.Hidden(Model.FotoPerfil, new { @id = "hiddenFotoPerfil" })
-                @Html.Hidden(Model.ImgManifestacionFierro, new { @id = "hiddenImgManifestacionFierro" })
+                @Html.HiddenFor(model=>model.DeleteFotoPerfilFromServer)
                 @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
 
                 <div id="validation_summary" class="field_error "></div> //JS
@@ -151,7 +149,7 @@
                                                             <span class="input-group-addon"><span class="fa fa-camera"></span></span>
                                                             <div class="kv-avatar">
                                                                 <div class="file-loading">
-                                                                    @Html.TextBoxFor(model => model.FotoPerfil, new { id = "FotoPerfil", @type = "file", @class = "form-control" })
+                                                                    @Html.TextBoxFor(model => model.FotoPerfil, new { @type = "file", @class = "form-control" })
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -329,7 +327,7 @@
             Proveedor.init();
         });
 
-        $('#ImgINE').fileinput({
+        $('input[name="ImgINE"]').fileinput({
             language: 'es',
             maxFileCount: 1,
             autoReplace: true,
@@ -362,7 +360,7 @@
             }
         });
 
-        $('#ImgManifestacionFierro').fileinput({
+        $('input[name="ImgManifestacionFierro"]').fileinput({
             language: 'es',
             uploadUrl: "#",
             autoReplace: true,
@@ -395,7 +393,7 @@
             }
         });
 
-        $("#FotoPerfil").fileinput({
+        $('input[name="FotoPerfil"]').fileinput({
             language: 'es',
             autoReplace: true,
             overwriteInitial: true,
@@ -427,5 +425,8 @@
             }
         });
 
+        $('input[name="FotoPerfil"]').on('filecleared', function(event) {
+            $("#DeleteFotoPerfilFromServer").val(true);
+        });
     </script>
 }

@@ -11,6 +11,7 @@ namespace CreativaSL.Web.Ganados.Models
     {
         public CatProveedorModels()
         {
+            _deleteFotoPerfilFromServer = false;
             _fotoPerfil = string.Empty;
             _IDProveedor = string.Empty;
             _IDTipoProveedor = 0;
@@ -352,6 +353,16 @@ namespace CreativaSL.Web.Ganados.Models
         {
             get { return  _fotoPerfil; }
             set {  _fotoPerfil = value; }
+        }
+
+        private bool _deleteFotoPerfilFromServer;
+        /// <summary>
+        /// Indica cuando borrar la imagen del server, puede ser que cuando se edite no se quiera borrar
+        /// </summary>
+        public bool DeleteFotoPerfilFromServer
+        {
+            get { return _deleteFotoPerfilFromServer; }
+            set { _deleteFotoPerfilFromServer = value; }
         }
 
 
