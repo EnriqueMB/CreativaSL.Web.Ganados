@@ -8050,9 +8050,6 @@ display:none;
 /*End cambios*/
 
 /* Cambios 11 octubre 2019 */
-
-
-
 .table-long tr td:last-child .btn-group{
     display: block; margin: auto;
     width: 100px;
@@ -8073,3 +8070,17 @@ display:none;
     }
 }
 /* Enc cambios */
+
+/*INICIA CAMBIOS 08/02/2020*/
+.btn .fa {
+    width: 15px;
+    height: 15px;
+}
+.btn {
+    margin: 2px;
+}
+
+.page-content {
+    height: 100% !important;
+}
+/*TERMNINA CAMBIOS 08/02/2020*/

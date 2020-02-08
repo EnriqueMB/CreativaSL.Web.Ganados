@@ -9,9 +9,16 @@
     var ListaProvServicio = ViewBag.LProveddorServicio;
     var ListaProvTransporte = ViewBag.LProveddorTransporte;
 }
+@section css{
+    <link href="~/Content/css/datatable/jquery.dataTables.min.css" rel="stylesheet" />
+    <style>
+        
+    </style>
+}
+
 
 @section featured{
-    @{        var message = TempData["message"] ?? string.Empty;
+    @{ var message = TempData["message"] ?? string.Empty;
         var typemessage = TempData["typemessage"] ?? string.Empty;
     }
     <div id="Error" class="progress-bar progress-bar-striped active errorCSL" style="display:none; width:100%">
@@ -51,7 +58,7 @@
                                     </div>
                                     <div class="panel-body">
                                         <div class="table-responsive">
-                                            <table class="table datatable">
+                                            <table class="table" id="tblProveedorGanado">
                                                 <thead>
                                                     <tr>
                                                         <th>Sucursal</th>
@@ -61,67 +68,7 @@
                                                         <th>Acción</th>
                                                     </tr>
                                                 </thead>
-                                                <tbody>
-                                                    @foreach (var proveedor in Model.listaProveedores)
-                                                    {
-                                                        <tr id="@proveedor.IDProveedor">
-                                                            <td>@proveedor.nombreSucursal</td>
-                                                            <td>@proveedor.NombreRazonSocial</td>
-                                                            <td>@proveedor.nombreProveedor</td>
-                                                            <td>@proveedor.Tolerancia %</td>
-                                                            <td style="text-align:center;">
-                                                                <div class="visible-md visible-lg hidden-sm hidden-xs">
-                                                                    <a title="Precios Rango" class="btn btn-primary" href="@Url.Action("PrecioProveedor", "CatProveedor", new { id = proveedor.IDProveedor})"><i class="fa fa-dollar"></i></a>
-                                                                    <a title="Lugar Proveedor" class="btn btn-primary" href="@Url.Action("LugarProveedor", "CatProveedor", new { id = proveedor.IDProveedor, id2 = proveedor.IDSucursal})"><i class="fa fa-map-marker"></i></a>
-                                                                    <a title="Datos de contacto" class="btn btn-blue" href="@Url.Action("DatosContacto", "CatProveedor", new { id = proveedor.IDProveedor, id2 = proveedor.IDSucursal})"><i class="fa fa-user"></i></a>
-                                                                    <a title="Datos bancarios" class="btn btn-green" href="@Url.Action("Cuentas", "CatProveedor", new { id = proveedor.IDProveedor })"><i class="fa fa-money"></i></a>
-                                                                    <a title="UPPProveedor" class="btn btn-green" href="@Url.Action("UPPProveedor", "CatProveedor", new { id = proveedor.IDProveedor })"><i class="fa fa-plus"></i></a>
-                                                                    <a title="Editar" href="@Url.Action("Edit", "CatProveedor", new { id = proveedor.IDProveedor})" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
-                                                                    <a title="Eliminar" id="delete-@proveedor.IDProveedor" data-hrefa="@Url.Action("Delete", "CatProveedor", new { id =  proveedor.IDProveedor })" onClick="delete_row('@proveedor.IDProveedor');" class="btn btn-danger tooltips" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
-                                                                </div>
-                                                                <div class="visible-xs visible-sm hidden-md hidden-lg">
-                                                                    <div class="btn-group">
-                                                                        <a class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
-                                                                            <i class="fa fa-cog"></i> <span class="caret"></span>
-                                                                        </a>
-                                                                        <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
-                                                                            <li>
-                                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("PrecioProveedor", "CatProveedor", new { id = proveedor.IDProveedor})">
-                                                                                    <i class="fa fa-dollar"></i> Precios Proveedor
-                                                                                </a>
-                                                                            </li>
-                                                                            <li>
-                                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("LugarProveedor", "CatProveedor", new { id = proveedor.IDProveedor, id2 = proveedor.IDSucursal })">
-                                                                                    <i class="fa fa-map-marker"></i> Lugar Proveedor
-                                                                                </a>
-                                                                            </li>
-                                                                            <li>
-                                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("Cuentas", "CatProveedor", new { id = proveedor.IDProveedor })">
-                                                                                    <i class="fa fa-money"></i> Datos bancarios
-                                                                                </a>
-                                                                            </li>
-                                                                            <li>
-                                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("UPPProveedor", "CatProveedor", new { id = proveedor.IDProveedor })">
-                                                                                    <i class="fa fa-plus"></i> UPPProveedor
-                                                                                </a>
-                                                                            </li>
-                                                                            <li>
-                                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("Edit", "CatProveedor", new { id = proveedor.IDProveedor})">
-                                                                                    <i class="fa fa-edit"></i> Editar
-                                                                                </a>
-                                                                            </li>
-                                                                            <li>
-                                                                                <a role="menuitem" tabindex="-1" id="delete-@proveedor.IDProveedor" data-hrefa="@Url.Action("Delete", "CatProveedor", new { id =  proveedor.IDProveedor })" onClick="delete_row('@proveedor.IDProveedor');">
-                                                                                    <i class="fa fa-trash-o"></i> Eliminar
-                                                                                </a>
-                                                                            </li>
-                                                                        </ul>
-                                                                    </div>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                    }
-                                                </tbody>
+                                                <tbody> </tbody>
                                             </table>
                                         </div>
                                     </div>
@@ -357,7 +304,6 @@
                                     </div>
                                 </div>
                             </div>
-
                             <div class="tab-pane" id="tab-Transporte">
                                 <div class="panel panel-default">
                                     <div class="panel-heading">
@@ -385,37 +331,37 @@
                                                     {
                                                         foreach (var Tranporte in ListaProvTransporte)
                                                         {
-                                                    <tr id="@Tranporte.Id">
-                                                        <td>@Tranporte.RazonFiscal</td>
-                                                        <td>@Tranporte.RFC</td>
-                                                        <td>@Tranporte.PsgEmpresa</td>
-                                                        <td>@Tranporte.DireccionFiscal</td>
-                                                        <td style="text-align:center;">
-                                                            <div class="visible-md visible-lg hidden-sm hidden-xs">
-                                                                <a title="Editar" href="@Url.Action("Edit", "CatProveedorTransporte", new { id = Tranporte.Id })" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
-                                                                <a title="Eliminar" id="delete-@Tranporte.Id" data-hrefa="@Url.Action("Delete", "CatProveedorTransporte", new { id = Tranporte.Id })" onClick="delete_row('@Tranporte.Id');" class="btn btn-danger tooltips" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
-                                                            </div>
-                                                            <div class="visible-xs visible-sm hidden-md hidden-lg">
-                                                                <div class="btn-group">
-                                                                    <a class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
-                                                                        <i class="fa fa-cog"></i> <span class="caret"></span>
-                                                                    </a>
-                                                                    <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
-                                                                        <li>
-                                                                            <a role="menuitem" tabindex="-1" href="@Url.Action("Edit", "CatProveedorTransporte", new { id = Tranporte.Id })">
-                                                                                <i class="fa fa-edit"></i> Editar
+                                                            <tr id="@Tranporte.Id">
+                                                                <td>@Tranporte.RazonFiscal</td>
+                                                                <td>@Tranporte.RFC</td>
+                                                                <td>@Tranporte.PsgEmpresa</td>
+                                                                <td>@Tranporte.DireccionFiscal</td>
+                                                                <td style="text-align:center;">
+                                                                    <div class="visible-md visible-lg hidden-sm hidden-xs">
+                                                                        <a title="Editar" href="@Url.Action("Edit", "CatProveedorTransporte", new { id = Tranporte.Id })" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
+                                                                        <a title="Eliminar" id="delete-@Tranporte.Id" data-hrefa="@Url.Action("Delete", "CatProveedorTransporte", new { id = Tranporte.Id })" onClick="delete_row('@Tranporte.Id');" class="btn btn-danger tooltips" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
+                                                                    </div>
+                                                                    <div class="visible-xs visible-sm hidden-md hidden-lg">
+                                                                        <div class="btn-group">
+                                                                            <a class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
+                                                                                <i class="fa fa-cog"></i> <span class="caret"></span>
                                                                             </a>
-                                                                        </li>
-                                                                        <li>
-                                                                            <a role="menuitem" tabindex="-1" id="delete-@Tranporte.Id" data-hrefa="@Url.Action("Delete", "CatProveedorTransporte", new { id = Tranporte.Id })" onClick="delete_row('@Tranporte.Id');">
-                                                                                <i class="fa fa-trash-o"></i> Eliminar
-                                                                            </a>
-                                                                        </li>
-                                                                    </ul>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
+                                                                            <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
+                                                                                <li>
+                                                                                    <a role="menuitem" tabindex="-1" href="@Url.Action("Edit", "CatProveedorTransporte", new { id = Tranporte.Id })">
+                                                                                        <i class="fa fa-edit"></i> Editar
+                                                                                    </a>
+                                                                                </li>
+                                                                                <li>
+                                                                                    <a role="menuitem" tabindex="-1" id="delete-@Tranporte.Id" data-hrefa="@Url.Action("Delete", "CatProveedorTransporte", new { id = Tranporte.Id })" onClick="delete_row('@Tranporte.Id');">
+                                                                                        <i class="fa fa-trash-o"></i> Eliminar
+                                                                                    </a>
+                                                                                </li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
                                                         }
                                                     }
 
@@ -460,8 +406,155 @@
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
     <script>
-    jQuery(document).ready(function () {
-        Mensaje(message, typemessage);
+        jQuery(document).ready(function () {
+            Mensaje(message, typemessage);
+        });
+
+        $("#tblProveedorGanado").DataTable({
+            "processing": true,
+            "serverSide": true,
+            "language": {
+                "url": "/Content/assets/json/Spanish.json"
+            },
+            "ajax": {
+                "url": "/Admin/CatProveedor/JsonIndex/",
+                "method": "POST",
+                "dataType": "json",
+                "dataSrc": function (json) {
+
+                    if (json.data === null)
+                        return [];
+                    else
+                        return json.data;
+                }
+            },
+            "columns": [
+                { "data": "NombreSucursal" },
+                { "data": "NombreRazonSocial" },
+                { "data": "TipoProveedor" },
+                {
+                    "data": "Tolerancia"
+                    , "render": $.fn.dataTable.render.number(',', '.', 2, '', ' %')
+                },
+                {
+                    "data": null,
+                    "render": function (data, type, full) {
+                        var botones =
+                            "<div class='visible-md visible-lg hidden-sm hidden-xs' style='text-align:center'=>" +
+                            "<a title='Precios Rango' class='btn btn-primary' href='/Admin/CatProveedor/PrecioProveedor/" +
+                            full["IdProveedor"] +
+                            "'><i class='fa fa-dollar'></i></a>" +
+                            "<a title='Lugar Proveedor' class='btn btn-primary' href='/Admin/CatProveedor/LugarProveedor/" +
+                            full["IdProveedor"] +
+                            "/" +
+                            full["IdSucursal"] +
+                            "'><i class='fa fa-map-marker'></i></a>" +
+                            "<a title='Datos de contacto' class='btn btn-blue' href='/Admin/CatProveedor/DatosContacto/" +
+                            full["IdProveedor"] +
+                            "/" +
+                            full["IdSucursal"] +
+                            "'><i class='fa fa-user'></i></a>" +
+                            "<a title='Datos bancarios' class='btn btn-green' href='/Admin/CatProveedor/Cuentas/" +
+                            full["IdProveedor"] +
+                            "'><i class='fa fa-money'></i></a>" +
+                            "<a title='UPPProveedor' class='btn btn-green' href='/Admin/CatProveedor/UPPProveedor/" +
+                            full["IdProveedor"] +
+                            "'><i class='fa fa-plus'></i></a>" +
+                            "<a title='Editar' href='/Admin/CatProveedor/Edit/" +
+                            full["IdProveedor"] +
+                            "' class='btn btn-yellow tooltips' data-placement='top' data-original-title='Edit'><i class='fa fa-edit'></i></a>" +
+                            "<a title='Eliminar' data-id='" +
+                            full["IdProveedor"] +
+                            "' data-hrefa='/Admin/CatProveedor/Delete/" +
+                            full["IdProveedor"] +
+                            "' class='btn btn-danger tooltips eliminarProveedor' data-placement='top' data-original-title='Eliminar'><i class='fa fa-trash-o'></i></a>" +
+                            "</div>" +
+                            "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
+                            "<div class='btn-group'>" +
+                            "<a class='btn btn-danger dropdown-toggle btn-sm' data-toggle='dropdown' href='#'>" +
+                            "<i class='fa fa-cog'></i> <span class='caret'></span>" +
+                            "</a>" +
+                            "<ul role='menu' class='dropdown-menu pull-right dropdown-dark'>" +
+                            "<li>" +
+                            "<a role='menuitem' tabindex='-1' href='/Admin/CatProveedor/PrecioProveedor/" +
+                            full["IdProveedor"] +
+                            "'>" +
+                            "<i class='fa fa-dollar'></i> Precios Proveedor" +
+                            "</a>" +
+                            "</li>" +
+                            "<li>" +
+                            "<a role='menuitem' tabindex='-1' href='/Admin/CatProveedor/LugarProveedor/" +
+                            full["IdProveedor"] +
+                            "/" +
+                            full["IdSucursal"] +
+                            "'>" +
+                            "<i class='fa fa-map-marker'></i> Lugar Proveedor" +
+                            "</a>" +
+                            "</li>" +
+                            "<li>" +
+                            "<a role='menuitem' tabindex='-1' href='/Admin/CatProveedor/Cuentas/" +
+                            full["IdProveedor"] +
+                            "'>" +
+                            "<i class='fa fa-money'></i> Datos bancarios" +
+                            "</a>" +
+                            "</li>" +
+                            "<li>" +
+                            "<a role='menuitem' tabindex='-1' href='/Admin/CatProveedor/UPPProveedor/" +
+                            full["IdProveedor"] +
+                            "'>" +
+                            "<i class='fa fa-plus'></i> UPPProveedor" +
+                            "</a>" +
+                            "</li>" +
+                            "<li>" +
+                            "<a role='menuitem' tabindex='-1' href='/Admin/CatProveedor/Edit/" +
+                            full["IdProveedor"] +
+                            "'>" +
+                            "<i class='fa fa-edit'></i> Editar" +
+                            "</a>" +
+                            "</li>" +
+                            "<li>" +
+                            "<a role='menuitem' tabindex='-1' data-id='" +
+                            full["IdProveedor"] +
+                            "' data-hrefa='/Admin/CatProveedor/Delete/" +
+                            full["IdProveedor"] + "'" +
+                            " class='eliminarProveedor'>'<i class='fa fa-trash-o'" +
+                            "></i> Eliminar" +
+                            "</a>" +
+                            "</li>" +
+                            "</ul>" +
+                            "</div>" +
+                            "</div>";
+                        return botones;
+                    }
+                }
+            ]
+            , responsive: true
+            , "drawCallback": function (settings) {
+                $(".eliminarProveedor").on("click", function () {
+                    console.log("delete");
+                    var url = $(this).attr('data-hrefa');
+                    var id = $(this).attr('data-id');
+                    var box = $("#mb-remove-row");
+                    box.addClass("open");
+                    box.find(".mb-control-yes").on("click", function () {
+                        box.removeClass("open");
+                        $.ajax({
+                            url: url,
+                            data: { id: id },
+                            type: 'POST',
+                            dataType: 'json',
+                            success: function (result) {
+                                window.location.href = '/Admin/CatProveedor/Index';
+                            },
+                            error: function (result) {
+                                window.location.href = '/Admin/CatProveedor/Index';
+                            }
+                        });
+                    });
+
+                });
+            }
+            , "order": [[0, "desc"]]
         });
     </script>
 }

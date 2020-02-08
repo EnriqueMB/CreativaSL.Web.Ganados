@@ -10,6 +10,7 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using CreativaSL.Web.Ganados.Models.Datatable;
 using CreativaSL.Web.Ganados.Models.Helpers;
 using CreativaSL.Web.Ganados.Models.System;
 
@@ -19,21 +20,35 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
     public class CatProveedorController : Controller
     {
         private TokenProcessor Token = TokenProcessor.GetInstance();
-        string Conexion = ConfigurationManager.AppSettings.Get("strConnection");    
+        string Conexion = ConfigurationManager.AppSettings.Get("strConnection");
+
+        #region Datatable
+
+        public ActionResult JsonIndex(DataTableAjaxPostModel dataTableAjaxPostModel)
+        {
+            var Proveedor = new CatProveedorModels();
+            Proveedor.Conexion = Conexion;
+            var ProveedorDatos = new _CatProveedor_Datos();
+
+            var json = ProveedorDatos.ObtenerCatProveedores(Proveedor, dataTableAjaxPostModel);
+
+            return Content(json, "application/json");
+        }
+
+        #endregion
+
         // GET: Admin/CatProveedor
         public ActionResult Index()
         {
             try
             {
                 CatProveedorModels Proveedor = new CatProveedorModels();
-                _CatProveedor_Datos ProveedorDatos = new _CatProveedor_Datos();
                 _CatProveedorAlmacen_Datos ProveedorDAlmacen = new _CatProveedorAlmacen_Datos();
                 _CatProveedorCombustible_Datos ProveedorDCombustible = new _CatProveedorCombustible_Datos();
                 _CatProveedorServicio_Datos ProveedorDServicio = new _CatProveedorServicio_Datos();
                 _CatProveedorTransporte_Datos ProveedorDTransporte = new _CatProveedorTransporte_Datos();
 
                 Proveedor.Conexion = Conexion;
-                Proveedor.listaProveedores = ProveedorDatos.ObtenerCatProveedores(Proveedor);
                 ViewBag.LProveedorAlmacen = ProveedorDAlmacen.ObtenerListaProveedorAlmacen(Conexion);
                 ViewBag.LProveedorCombistible = ProveedorDCombustible.ObtenerCatProveedores(Conexion);
                 ViewBag.LProveddorServicio = ProveedorDServicio.ObtenerCatProveedores(Conexion);
@@ -406,8 +421,18 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 uploadImageToserver.FileName = "fp_" + Proveedor.IDProveedor;
                 CidFaresHelper.DeleteFilesWithOutExtensionFromServer(uploadImageToserver);
 
+                if (Proveedor.Completado)
+                {
+                    TempData["typemessage"] = "1";
+                    TempData["message"] = "Registro eliminado correctamente.";
+                }
+                else
+                {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "No se pudo eliminar el registro contacte con soporte técnico.";
+                }
+
                 return Json("");
-                // TODO: Add delete logic here
             }
             catch
             {

@@ -1,9 +1,14 @@
 ﻿using Microsoft.ApplicationBlocks.Data;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
+using System.Globalization;
 using System.Linq;
 using System.Web;
+using CreativaSL.Web.Ganados.Models.Datatable;
+using CreativaSL.Web.Ganados.Models.Dto;
+using Newtonsoft.Json;
 
 namespace CreativaSL.Web.Ganados.Models
 {
@@ -252,29 +257,72 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
         //LISTA DE PROVEEDORES MOSTRADA EN EL INDEX DE 'CatProveedor'
-        public List<CatProveedorModels> ObtenerCatProveedores(CatProveedorModels Datos)
+        public string ObtenerCatProveedores(CatProveedorModels Datos, DataTableAjaxPostModel dataTableAjaxPostModel)
         {
             try
             {
-                List<CatProveedorModels> lista = new List<CatProveedorModels>();
-                CatProveedorModels item;
-                SqlDataReader dr = null;
-                dr = SqlHelper.ExecuteReader(Datos.Conexion, "spCSLDB_Catalogo_get_CatProveedores");
-                while (dr.Read())
-                {
-                    item = new CatProveedorModels();
-                    item.IDProveedor = dr["id_proveedor"].ToString();
-                    item.NombreRazonSocial = dr["nombreRazonSocial"].ToString();
-                    item.RFC = dr["rfc"].ToString();
-                    item.nombreProveedor = dr["tipoProveedor"].ToString();
-                    item.nombreSucursal = dr["sucursal"].ToString();
-                    item.IDSucursal = !dr.IsDBNull(dr.GetOrdinal("id_sucursal")) ? dr.GetString(dr.GetOrdinal("id_sucursal")) : string.Empty;
-                    item.Tolerancia = !dr.IsDBNull(dr.GetOrdinal("tolerancia")) ? dr.GetDecimal(dr.GetOrdinal("tolerancia")) : 0;
 
-                    lista.Add(item);
+
+                using (SqlConnection sqlcon = new SqlConnection(Datos.Conexion))
+                {
+                    using (SqlCommand cmd = new SqlCommand("spCSLDB_Catalogo_get_CatProveedores", sqlcon))
+                    {
+                        //parametros de entrada
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        cmd.Parameters.Add("@Start", SqlDbType.Int).Value = dataTableAjaxPostModel.start;
+                        cmd.Parameters.Add("@Length", SqlDbType.Int).Value = dataTableAjaxPostModel.length;
+                        cmd.Parameters.Add("@SearchValue", SqlDbType.NVarChar).Value = dataTableAjaxPostModel.search.value;
+                        cmd.Parameters.Add("@Draw", SqlDbType.Int).Value = dataTableAjaxPostModel.draw;
+                        cmd.Parameters.Add("@ColumnNumber", SqlDbType.Int).Value = dataTableAjaxPostModel.order[0].column;
+                        cmd.Parameters.Add("@ColumnDir", SqlDbType.NVarChar).Value = dataTableAjaxPostModel.order[0].dir;
+
+                        // execute
+                        sqlcon.Open();
+
+                        SqlDataReader reader = cmd.ExecuteReader();
+
+                        //datatable = Auxiliar.SqlReaderToJson(reader);
+
+                        var indexDatatableDto = new IndexDatatableDto();
+
+                        if (reader.HasRows)
+                        {
+                            indexDatatableDto.Data = new List<object>();
+                            bool firstData = true;
+                            IFormatProvider culture = new CultureInfo("es-MX", true);
+
+                            while (reader.Read())
+                            {
+                                if (firstData)
+                                {
+                                    indexDatatableDto.Draw = int.Parse(reader["Draw"].ToString()); ;
+                                    indexDatatableDto.RecordsFiltered = int.Parse(reader["RecordsFiltered"].ToString());
+                                    indexDatatableDto.RecordsTotal = int.Parse(reader["RecordsTotal"].ToString());
+                                    firstData = false;
+                                }
+
+                                var indexDto = new IndexProveedorGanadoDto();
+
+                                indexDto.DT_RowId = reader["DT_RowId"].ToString();
+                                indexDto.IdProveedor = reader["IdProveedor"].ToString();
+                                indexDto.NombreRazonSocial = reader["NombreRazonSocial"].ToString();
+                                indexDto.IdSucursal = reader["IdSucursal"].ToString();
+                                indexDto.TipoProveedor = reader["TipoProveedor"].ToString();
+                                indexDto.NombreSucursal = reader["NombreSucursal"].ToString();
+                                indexDto.Tolerancia = decimal.Parse(reader["Tolerancia"].ToString());
+
+                                indexDatatableDto.Data.Add(indexDto);
+                            }
+                        }
+
+                        var json = JsonConvert.SerializeObject(indexDatatableDto);
+
+                        reader.Close();
+
+                        return json;
+                    }
                 }
-                dr.Close();
-                return lista;
             }
             catch (Exception ex)
             {
