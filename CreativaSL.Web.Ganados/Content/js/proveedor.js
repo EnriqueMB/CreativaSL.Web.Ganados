@@ -5,28 +5,9 @@
         var form1 = $('#form-dg');
         var errorHandler1 = $('.errorHandler', form1);
         var successHandler1 = $('.successHandler', form1);
-        $.validator.addMethod("validarImagen2", function () {
-            if (document.getElementById("ImgManifestacionFierros").value === '') {
-                if ((document.getElementById("ImgManifestacionFierros").value === ''))
-                    return false;
-                else
-                    return true;
-            }
-            else
-                return true;
-        }, 'Debe seleccionar una imagen.');
-        $.validator.addMethod("validarImagen", function () {
-
-            if (document.getElementById("ImgINEE").value === '') {
-                if ((document.getElementById("ImgINEE").value === ''))
-                    return false;
-                else
-                    return true;
-            }
-            else
-                return true;
-        }, 'Debe seleccionar una imagen.');
+        
         $('#form-dg').validate({
+            debug: true,
             errorElement: "span", // contain the error msg in a span tag
             errorClass: 'help-block color',
             errorLabelContainer: $("#validation_summary"),
@@ -35,7 +16,7 @@
                     error.insertAfter($(element).closest('.form-group').children('div').children().last());
                 } else if (element.attr("name") == "dd" || element.attr("name") == "mm" || element.attr("name") == "yyyy") {
                     error.insertAfter($(element).closest('.form-group').children('div'));
-                } else if (element.attr("type") == "text" ) {
+                } else if (element.attr("type") == "text") {
                     error.insertAfter($(element).closest('.input-group').children('div'));
                 } else {
                     error.insertAfter(element);
@@ -46,43 +27,51 @@
             rules: {
                 IDSucursal: { required: true },
                 IDTipoProveedor: { CMBINT: true },
-                NombreRazonSocial: { required: true, texto: true, maxlength: 300 }
-               
-                //IDRegimenFiscal: { required: true },
-                //RFC: { required: true, rfc: true },
-                //Direccion: {direccion: true, maxlength: 300 },
-                //FechaIngreso: { required: true },
-                
-                //Tolerancia: { number: true },
-                //merma: { number: true },
-                //telefonoCelular: { telefono: true },
-                //telefonoCasa: { telefono: true },
-                //correo: { required: true, email: true },
-                //ImgINEE: { validarImagen: true },
-                //ImgManifestacionFierros: { validarImagen2: true },
-                //CantidadPeriodo: { required: true, number: true },
-                //IDPeriodo: { CMBINT: true }
+                NombreRazonSocial: { required: true, texto: true, maxlength: 300 },
+                ImgINEE:
+                {
+                    ImagenRequerida: ["ImgINE"]
+                }
+                , ImgManifestacionFierro:
+                {
+                    ImagenRequerida: ["ImgManifestacionFierro"]
+                }
+                , FotoPerfil:
+                {
+                    ImagenNoRequerida_ValidarExtension: ["FotoPerfil"]
+                }
             },
             messages: {
-                IDSucursal: { required: "Seleccione una sucursal." },
-                IDTipoProveedor: { CMBINT: "Seleccione un tipo proveedor válido." }, 
-                NombreRazonSocial: { required: "Ingrese el nombre o Razón social.", texto: "Ingrese un nombre o razón social válido.", maxlength: "El campo nombre o razón social admite máximo 300 caracteres." }
-                //IDRegimenFiscal: { required: "Seleccione un régimen fiscal." },
-                //RFC: { required: "Ingrese el RFC del cliente.", rfc: "Ingrese un RFC válido." },
-                //Direccion: { direccion: "Ingrese un dirección válida.", maxlength: "El campo domicilio fiscal admite máximo 300 caracteres." },
-                //FechaIngreso: { required: "Ingrese la fecha de inicio de relación." },
-                
-                //Tolerancia: { number: "Ingrese un número de merma válido." },
-                //merma: { number: "Ingrese un número de merma válido." },
-                //telefonoCelular: { telefono: "Ingrese un número de teléfono celular válido." },
-                //telefonoCasa: { telefono: "Ingrese un número de teléfono válido." },
-                //correo: { required: "Ingrese el correo electrónico del proveedor.", email: "Ingrese un correo electrónico válido." },
-                //ImgINEE: { validarImagen: "Seleccione una imagén válida del ine" },
-                //ImgManifestacionFierros: { validarImagen2: "Seleccione una imagén válida de manifestación de fierro" },
-                //CantidadPeriodo: { required: "Ingrese una frecuancia estimada de compra", number: "Ingrese un dato válido" },
-                //IDPeriodo: { CMBINT: "Seleccione un tipo de periodo." }
-
-            },
+                IDSucursal:
+                {
+                     required: "Seleccione una sucursal."
+                }
+                , IDTipoProveedor:
+                {
+                     CMBINT: "Seleccione un tipo proveedor válido."
+                }
+                , NombreRazonSocial:
+                {
+                    required: "Ingrese el nombre o Razón social.",
+                    texto: "Ingrese un nombre o razón social válido.",
+                    maxlength: "El campo nombre o razón social admite máximo 300 caracteres."
+                }
+                , ImgINEE:
+                {
+                    ImagenRequerida:
+                        "Seleccione una imagén válida del ine, formatos válidos: PNG, JPG, JPEG, HEIC y BMP."
+                }
+                , ImgManifestacionFierro:
+                {
+                    ImagenRequerida:
+                        "Seleccione una imagén válida de manifestación de fierro, formatos válidos: PNG, JPG, JPEG, HEIC y BMP."
+                }
+                , FotoPerfil:
+                {
+                    ImagenNoRequerida_ValidarExtension:
+                    "Seleccione una imagen válida para la foto de perfil, formatos válidos: PNG, JPG, JPEG, HEIC y BMP."
+                }
+        },
             invalidHandler: function (event, validator) { //display error alert on form submit
                 successHandler1.hide();
                 errorHandler1.show();
@@ -108,7 +97,6 @@
                 successHandler1.show();
                 errorHandler1.hide();
                 form.submit();
-                //this.submit();
             }
         });
     };

@@ -80,10 +80,13 @@ $.validator.addMethod("imagenExtesion", function (value, element, params) {
 
 $.validator.addMethod("ImagenRequerida", function (value, element, params) {
     //Checamos que tenga un archivo el input file
+    
+
     if (element.value.length === 0) {
+
         var imagenServidor = document.getElementById(params[0]).value;
 
-        if (imagenServidor === "0") {
+        if (imagenServidor === "0" || !imagenServidor) {
             
             return false;
         }
@@ -97,7 +100,6 @@ $.validator.addMethod("ImagenRequerida", function (value, element, params) {
         var arrayString = element.value.split(".");
         var longitud = arrayString.length;
         var extension = arrayString[longitud - 1].trim().toLowerCase();
-        console.log("extension: " + extension);
 
         if (extension.localeCompare("png") == 0 || extension.localeCompare("jpg") == 0 || extension.localeCompare("jpeg") == 0 || extension.localeCompare("bmp") == 0 || extension.localeCompare("heic") == 0) {
             return true;
@@ -313,4 +315,20 @@ jQuery.validator.addMethod("notEqual", function (value, element, param) {
     return this.optional(element) || value != param;
 }, "Please specify a different (non-default) value");
 
-
+$.validator.addMethod("ImagenNoRequerida_ValidarExtension", function (value, element, params) {
+    //Checamos que tenga un archivo el input file
+    if (element.value.length !== 0)
+    {
+        //Si hay obtenemos la extensión
+        var arrayString = element.value.split(".");
+        var longitud = arrayString.length;
+        var extension = arrayString[longitud - 1].trim().toLowerCase();
+        if (extension.localeCompare("png") == 0 || extension.localeCompare("jpg") == 0 || extension.localeCompare("jpeg") == 0 || extension.localeCompare("bmp") == 0 || extension.localeCompare("heic") == 0) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    return true;
+}, 'Solo archivos con formato PNG, JPG, JPEG, HEIC y BMP.');

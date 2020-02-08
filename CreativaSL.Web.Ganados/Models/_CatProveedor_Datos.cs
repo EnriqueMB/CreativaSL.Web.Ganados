@@ -7,7 +7,7 @@ using System.Web;
 
 namespace CreativaSL.Web.Ganados.Models
 {
-    public class _CatProveedor_Datos
+    public class _CatProveedor_Datos 
     {
         #region Proveedor Contactos
 
@@ -240,6 +240,7 @@ namespace CreativaSL.Web.Ganados.Models
                     datos.Observaciones = !dr.IsDBNull(dr.GetOrdinal("observaciones")) ? dr.GetString(dr.GetOrdinal("observaciones")) : string.Empty;
                     datos.CantidadPeriodo = !dr.IsDBNull(dr.GetOrdinal("cantidadPeriodo")) ? dr.GetInt32(dr.GetOrdinal("cantidadPeriodo")) : 0;
                     datos.IDPeriodo = !dr.IsDBNull(dr.GetOrdinal("id_periodo")) ? dr.GetInt32(dr.GetOrdinal("id_periodo")) : 0;
+                    datos.FotoPerfil = !dr.IsDBNull(dr.GetOrdinal("UrlFotoPerfil")) ? dr.GetString(dr.GetOrdinal("UrlFotoPerfil")) : string.Empty;
                 }
                 dr.Close();
                 return datos;
@@ -861,5 +862,47 @@ namespace CreativaSL.Web.Ganados.Models
         }
         #endregion
 
+        #region Proveedor Foto Perfil
+        public RespuestaAjax ActualizarFotoPerfil(string idProveedor, string idUsuario, string urlFotoPerfil, string conexion)
+        {
+            var respuesta = new RespuestaAjax();
+            try
+            {
+                object[] parametros =
+                {
+                    idProveedor, idUsuario, urlFotoPerfil
+                };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(conexion, "spCIDDB_Catalogo_a_CatProveedor_fotoPerfil", parametros);
+
+
+                while (dr.Read())
+                {
+                    respuesta.Success = !dr.IsDBNull(dr.GetOrdinal("Success"))
+                        ? dr.GetBoolean(dr.GetOrdinal("Success"))
+                        : false;
+                    respuesta.Mensaje = !dr.IsDBNull(dr.GetOrdinal("Mensaje"))
+                        ? dr.GetString(dr.GetOrdinal("Mensaje"))
+                        : string.Empty;
+                    respuesta.MensajeErrorSQL = !dr.IsDBNull(dr.GetOrdinal("MensajeErrorSQL"))
+                        ? dr.GetString(dr.GetOrdinal("MensajeErrorSQL"))
+                        : string.Empty;
+                }
+
+                dr.Close();
+
+             
+            }
+            catch (Exception ex)
+            {
+                respuesta.Mensaje = ex.Message;
+                respuesta.Success = false;
+            }
+            
+            return respuesta;
+        }
+
+
+        #endregion
     }
 }

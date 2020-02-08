@@ -10,6 +10,8 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using CreativaSL.Web.Ganados.Models.Helpers;
+using CreativaSL.Web.Ganados.Models.System;
 
 namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 {
@@ -48,12 +50,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
 
-        // GET: Admin/CatProveedor/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
         // GET: Admin/CatProveedor/Create
         public ActionResult Create()
         {
@@ -89,9 +85,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 {
                     if (ModelState.IsValid)
                     {
-                      
-
-                        HttpPostedFileBase bannerImage = Request.Files[0] as HttpPostedFileBase;
+                        HttpPostedFileBase bannerImage = Request.Files["ImgINEE"] as HttpPostedFileBase;
                         if (bannerImage != null && bannerImage.ContentLength > 0)
                         {
                             var baseDir = Server.MapPath("~/Imagenes/Proveedor/INE/");
@@ -110,10 +104,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                                 Bitmap IMG3 = ComprimirImagen.SaveJpeg("", img, 50, false);
                                 Proveedor.ImgINE = IMG3.ToBase64String(img.RawFormat);
                             }
-
-
                         }
-                        HttpPostedFileBase bannerImage2 = Request.Files[1] as HttpPostedFileBase;
+                        HttpPostedFileBase bannerImage2 = Request.Files["ImgManifestacionFierros"] as HttpPostedFileBase;
                         if (bannerImage2 != null && bannerImage2.ContentLength > 0)
                         {
                             Stream s = bannerImage2.InputStream;
@@ -131,42 +123,44 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                                 Bitmap IMG3 = ComprimirImagen.SaveJpeg("", img, 50, false);
                                 Proveedor.ImgManifestacionFierro = IMG3.ToBase64String(img.RawFormat);
                             }
-
-
                         }
                         Proveedor.Conexion = Conexion;
                         Proveedor.Usuario = User.Identity.Name;
                         Proveedor.Opcion = 1;
                         Proveedor = ProveedorDatos.AcCatProveedor(Proveedor);
+
                         if (Proveedor.Completado)
                         {
-                            var fotoPerfilPostedFileBase = Request.Files["FotoPerfil"];
-                            if (fotoPerfilPostedFileBase != null && fotoPerfilPostedFileBase.ContentLength > 0)
+                            var fotoPerfilPostedFileBase = Request.Files["FotoPerfil"] as HttpPostedFileBase;
+                            var uploadImageToserver = new UploadImageToServerModel();
+                            uploadImageToserver.FileBase = fotoPerfilPostedFileBase;
+                            uploadImageToserver.BaseDir = "/Imagenes/Proveedor/FotoPerfil/";
+                            uploadImageToserver.FileName = "fp_" + Proveedor.IDProveedor;
+
+                            CidFaresHelper.UploadImageToServer(uploadImageToserver);
+
+                            if (uploadImageToserver.Success)
                             {
-                                var baseDirFotoPerfil = Server.MapPath("~/Imagenes/Proveedor/FotoPerfil/");
-                                var fileExtension = Path.GetExtension(fotoPerfilPostedFileBase.FileName);
-                                fileExtension = fileExtension == (".heic") ? ".png" : fileExtension;
+                                var responseDb = ProveedorDatos.ActualizarFotoPerfil(Proveedor.IDProveedor,
+                                    User.Identity.Name,  uploadImageToserver.UrlComplete, Proveedor.Conexion);
 
-                                var fileNameFotoPerfil = "fp_" + Proveedor.IDProveedor + fileExtension;
-                                Bitmap btmFotoPerfil = null;
-                                var streamFotoPerfil = fotoPerfilPostedFileBase.InputStream;
-
-                                if (Path.GetExtension(fotoPerfilPostedFileBase.FileName) == ".heic")
+                                if (responseDb.Success)
                                 {
-                                    var img = (Image)Auxiliar.ProcessFile(streamFotoPerfil);
-                                    btmFotoPerfil = ComprimirImagen.SaveJpeg(baseDirFotoPerfil + fileNameFotoPerfil, img, 50, true);
-                                    Proveedor.FotoPerfil = btmFotoPerfil.ToBase64String(ImageFormat.Jpeg);
+                                    TempData["typemessage"] = "1";
+                                    TempData["message"] = "Los datos se guardaron correctamente.";
                                 }
                                 else
                                 {
-                                    var img = new Bitmap(streamFotoPerfil);
-                                    btmFotoPerfil = ComprimirImagen.SaveJpeg(baseDirFotoPerfil + fileNameFotoPerfil, img, 50, true);
-                                    Proveedor.FotoPerfil = btmFotoPerfil.ToBase64String(img.RawFormat);
+                                    TempData["typemessage"] = "2";
+                                    TempData["message"] = "Ha ocurrido un error al guardar la imagen de perfil al proveedor, intenlo subir de nuevo o contacte con soporte técnico.";
                                 }
                             }
-
-                            TempData["typemessage"] = "1";
-                            TempData["message"] = "Los datos se guardaron correctamente.";
+                            else
+                            {
+                                TempData["typemessage"] = "2";
+                                TempData["message"] = "Ha ocurrido un error al guardar en el servidor la imagen de perfil, intenlo subir de nuevo o contacte con soporte técnico.";
+                                
+                            }
                             Token.ResetToken();
                             return RedirectToAction("Index");
                         }
@@ -214,6 +208,13 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
+                if (string.IsNullOrWhiteSpace(id))
+                {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "No se puede cargar la vista";
+                    return RedirectToAction("Index");
+                }
+
                 Token.SaveToken();
                 CatProveedorModels Proveedor = new CatProveedorModels();
                 _CatProveedor_Datos ProveedorDatos = new _CatProveedor_Datos();
@@ -228,7 +229,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
             catch (Exception ex)
             {
-                CatProveedorModels Proveedor = new CatProveedorModels();
                 TempData["typemessage"] = "2";
                 TempData["message"] = "No se puede cargar la vista";
                 return RedirectToAction("Index");
@@ -248,67 +248,77 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     ModelState.Remove("ImgManifestacionFierros");
                     if (ModelState.IsValid)
                     {
-                        HttpPostedFileBase bannerImage = Request.Files[0] as HttpPostedFileBase;
-                        if (!string.IsNullOrEmpty(bannerImage.FileName))
+                        HttpPostedFileBase bannerImage = Request.Files["ImgINEE"] as HttpPostedFileBase;
+                        
+                        if (bannerImage != null && bannerImage.ContentLength > 0)
                         {
-                            if (bannerImage != null && bannerImage.ContentLength > 0)
+                            Stream s = bannerImage.InputStream;
+
+                            if (Path.GetExtension(bannerImage.FileName).ToLower() == ".heic")
                             {
-                                Stream s = bannerImage.InputStream;
-                                //Image img = new Bitmap(s);
-                                //Bitmap IMG3 = ComprimirImagen.SaveJpeg("", img, 50, false);
-                                //Proveedor.ImgINE = IMG3.ToBase64String(ImageFormat.Jpeg);
 
-                                if (Path.GetExtension(bannerImage.FileName).ToLower() == ".heic")
-                                {
-
-                                    Image img = (Image)Auxiliar.ProcessFile(s);
-                                    Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
-                                    Proveedor.ImgINE = image.ToBase64String(ImageFormat.Jpeg);
-                                }
-                                else
-                                {
-                                    Image img = new Bitmap(s);
-                                    Bitmap IMG3 = ComprimirImagen.SaveJpeg("", img, 50, false);
-                                    Proveedor.ImgINE = IMG3.ToBase64String(img.RawFormat);
-                                }
-
-
+                                Image img = (Image)Auxiliar.ProcessFile(s);
+                                Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
+                                Proveedor.ImgINE = image.ToBase64String(ImageFormat.Jpeg);
+                            }
+                            else
+                            {
+                                Image img = new Bitmap(s);
+                                Bitmap IMG3 = ComprimirImagen.SaveJpeg("", img, 50, false);
+                                Proveedor.ImgINE = IMG3.ToBase64String(img.RawFormat);
                             }
                         }
                         else
                         {
                             Proveedor.BandINE = true;
                         }
-                        HttpPostedFileBase bannerImage2 = Request.Files[1] as HttpPostedFileBase;
-                        if (!string.IsNullOrEmpty(bannerImage2.FileName))
+                        HttpPostedFileBase bannerImage2 = Request.Files["ImgManifestacionFierro"] as HttpPostedFileBase;
+                        
+                        if (bannerImage2 != null && bannerImage2.ContentLength > 0)
                         {
-                            if (bannerImage2 != null && bannerImage2.ContentLength > 0)
+                            Stream s = bannerImage2.InputStream;
+
+                            if (Path.GetExtension(bannerImage.FileName).ToLower() == ".heic")
                             {
-                                Stream s = bannerImage2.InputStream;
-                                //Image img = new Bitmap(s);
-                                //Bitmap IMG3 = ComprimirImagen.SaveJpeg("", img, 50, false);
-                                //Proveedor.ImgManifestacionFierro = IMG3.ToBase64String(ImageFormat.Jpeg);
 
-                                if (Path.GetExtension(bannerImage.FileName).ToLower() == ".heic")
-                                {
-
-                                    Image img = (Image)Auxiliar.ProcessFile(s);
-                                    Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
-                                    Proveedor.ImgManifestacionFierro = image.ToBase64String(ImageFormat.Jpeg);
-                                }
-                                else
-                                {
-                                    Image img = new Bitmap(s);
-                                    Bitmap IMG3 = ComprimirImagen.SaveJpeg("", img, 50, false);
-                                    Proveedor.ImgManifestacionFierro = IMG3.ToBase64String(img.RawFormat);
-                                }
-
+                                Image img = (Image)Auxiliar.ProcessFile(s);
+                                Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
+                                Proveedor.ImgManifestacionFierro = image.ToBase64String(ImageFormat.Jpeg);
+                            }
+                            else
+                            {
+                                Image img = new Bitmap(s);
+                                Bitmap IMG3 = ComprimirImagen.SaveJpeg("", img, 50, false);
+                                Proveedor.ImgManifestacionFierro = IMG3.ToBase64String(img.RawFormat);
                             }
                         }
                         else
                         {
                             Proveedor.BandMF = true;
                         }
+
+                        var fotoPerfilPostedFileBase = Request.Files["FotoPerfil"] as HttpPostedFileBase;
+                        //hay una imagen nueva
+                        if (fotoPerfilPostedFileBase != null && fotoPerfilPostedFileBase.ContentLength > 0)
+                        {
+                            var uploadImageToserver = new UploadImageToServerModel();
+                            uploadImageToserver.FileBase = fotoPerfilPostedFileBase;
+                            uploadImageToserver.BaseDir = "/Imagenes/Proveedor/FotoPerfil/";
+                            uploadImageToserver.FileName = "fp_" + Proveedor.IDProveedor;
+
+                            CidFaresHelper.UploadImageToServer(uploadImageToserver);
+                            if (!uploadImageToserver.Success)
+                            {
+                                Proveedor.listaSucursal = ProveedorDatos.obtenerListaSucursales(Proveedor);
+                                Proveedor.listaTipoProveedor = ProveedorDatos.obtenerListaTipoProveedor(Proveedor);
+                                Proveedor.ListaGeneroCMB = ProveedorDatos.ObteneComboCatGenero(Proveedor);
+                                Proveedor.ListaPeriodo = ProveedorDatos.ObteneComboCatPeriodo(Proveedor);
+                                TempData["typemessage"] = "2";
+                                TempData["message"] = "Ocurrio un error al intentar guardar la imagen de perfil, intentelo más tarde.";
+                                return View(Proveedor);
+                            }
+                        }
+
                         Proveedor.Conexion = Conexion;
                         Proveedor.Usuario = User.Identity.Name;
                         Proveedor.Opcion = 2;
@@ -359,12 +369,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
 
-        // GET: Admin/CatProveedor/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
         // POST: Admin/CatProveedor/Delete/5
         [HttpPost]
         public ActionResult Delete(string id, FormCollection collection)
@@ -380,8 +384,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
                 return Json("");
                 // TODO: Add delete logic here
-
-
             }
             catch
             {

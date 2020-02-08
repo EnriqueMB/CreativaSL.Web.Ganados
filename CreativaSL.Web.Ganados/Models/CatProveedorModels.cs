@@ -247,9 +247,7 @@ namespace CreativaSL.Web.Ganados.Models
 
 
         private string _ImgINE;
-        //[Required(ErrorMessage = "La Imagen es obligatorio")]
-        //[Display(Name = "Imagen")]
-        //[FileExtensions(Extensions = "png,jpg,jpeg", ErrorMessage = "Solo imagenes")]
+        
         public string ImgINE
         {
             get { return _ImgINE; }
@@ -257,9 +255,7 @@ namespace CreativaSL.Web.Ganados.Models
         }
 
         private string _ImgManifestacionFierro;
-        //[Required(ErrorMessage = "La Imagen es obligatorio")]
-        //[Display(Name = "Imagen")]
-        //[FileExtensions(Extensions = "png,jpg,jpeg", ErrorMessage = "Solo imagenes")]
+        
         public string ImgManifestacionFierro
         {
             get { return _ImgManifestacionFierro; }

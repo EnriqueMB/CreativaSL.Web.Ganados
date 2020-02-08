@@ -1846,6 +1846,7 @@
     <Compile Include="Models\GanadoParaVender.cs" />
     <Compile Include="Models\GeneroGanadoModels.cs" />
     <Compile Include="Models\ArchivoEmpresaModels.cs" />
+    <Compile Include="Models\Helpers\CidFaresHelper.cs" />
     <Compile Include="Models\HomeMetaXSucursalDTO.cs" />
     <Compile Include="Models\ImpuestoModels.cs" />
     <Compile Include="Models\IncidenteFleteModels.cs" />
@@ -1913,6 +1914,7 @@
     <Compile Include="Models\ServiciosMantenimientoDetalleModels.cs" />
     <Compile Include="Models\ServiciosMantenimientoModels.cs" />
     <Compile Include="Models\ListaGenerica.cs" />
+    <Compile Include="Models\System\UploadImageToServerModel.cs" />
     <Compile Include="Models\TelefonosContactoSucursalModels.cs" />
     <Compile Include="Models\ConfiguracionModels.cs" />
     <Compile Include="Models\TipoUsuarioModels.cs" />
