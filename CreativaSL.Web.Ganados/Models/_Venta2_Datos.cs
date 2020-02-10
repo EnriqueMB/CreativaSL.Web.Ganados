@@ -10,6 +10,8 @@ using System.Web;
 using System.Xml;
 using CreativaSL.Web.Ganados.Models.Datatable;
 using CreativaSL.Web.Ganados.Models.Dto;
+using CreativaSL.Web.Ganados.Models.Dto.Base;
+using CreativaSL.Web.Ganados.Models.Dto.Venta;
 using Newtonsoft.Json;
 
 namespace CreativaSL.Web.Ganados.Models

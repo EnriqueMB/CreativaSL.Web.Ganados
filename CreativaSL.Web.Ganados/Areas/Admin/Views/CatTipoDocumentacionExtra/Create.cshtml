@@ -1,0 +1,115 @@
+﻿@model CreativaSL.Web.Ganados.Models.Dto.CatTipoDocumentacionExtra.CreateEditCatTipoDocumentacionExtraDto
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@section featured{
+
+    @{
+        var message = TempData["message"] ?? string.Empty;
+        var typemessage = TempData["typemessage"] ?? string.Empty;
+    }
+    <div class="row">
+        <div id="Error" class="progress-bar progress-bar-striped active errorCSL" style="display:none; width:100%">
+            <h3></h3>
+        </div>
+        <div id="Success" class="progress-bar progress-bar-striped active successCSL" style="display:none; width:100%">
+            <h3></h3>
+        </div>
+        <div class="col-md-12">
+            @*<form class="form-horizontal">*@
+            @{ Html.EnableClientValidation(false); }
+            @using (Html.BeginForm("Create", "CatTipoDocumentacionExtra", FormMethod.Post, new { id = "form", @class = "form-horizontal", autocomplete = "off" }))
+            {
+
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
+                <div id="validation_summary" class="field_error "></div> //JS
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><strong>Tipo  de documento extra</strong></h3>
+                        <ul class="panel-controls"></ul>
+                    </div>
+                    <div class="panel-body">
+                        <div class="col-md-offset-2 col-md-8">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="col-md-12 control-label text-center">Descripción</label>
+                                    <div class="col-md-12 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.CatTipoDocumentacionExtra.Descripcion, new { @class = "form-control" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.CatTipoDocumentacionExtra.Descripcion)
+                                        <span class="help-block">Descripción del tipo de documento</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="col-md-12 control-label text-center">Módulos</label>
+                                    <div class="col-md-12 col-xs-12">
+                                        <div class="input-group">
+                                            @for (int i = 0; i < Model.ListaModulosDto.Count; i++)
+                                            {
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox"
+                                                           name="ListaModulosDto"
+                                                           value="@Model.ListaModulosDto[i].IdModulo"
+                                                           @if (@Model.ListaModulosDto[i].Seleccionado) { <text> checked </text> } /> @Model.ListaModulosDto[i].Descripcion
+                                                </label>
+                                                @Html.HiddenFor(model => model.ListaModulosDto[i].IdModulo)
+                                                @Html.HiddenFor(model => model.ListaModulosDto[i].Descripcion)
+                                                @Html.HiddenFor(model => model.ListaModulosDto[i].Seleccionado)
+                                            </div>
+                                            }
+
+                                        </div>
+
+                                        <span class="help-block">Seleccione los modulos a los cuales les podrá asignar este tipo de documento.</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-footer">
+                        <input type="submit" value="Guardar" class="btn btn-primary pull-right">
+                        <a href="@Url.Action("Index", "CatTipoDocumentacionExtra")" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    <script>
+        var message = '@message';
+        var typemessage = '@typemessage';
+    </script>
+}
+@section script{
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-datepicker.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-file-input.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-select.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/tagsinput/jquery.tagsinput.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/jquery-validation/jquery.validate.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/validaciones/additionals.js")"></script>
+    <script src="~/Content/js/CatTipoDocumentacionExtraJs.js"></script>
+
+    <script>
+        jQuery(document).ready(function () {
+            Mensaje(message, typemessage);
+            CatTipoDocumentacionExtra.init();
+        });
+    </script>
+}
+
+
+
+
+
+
+

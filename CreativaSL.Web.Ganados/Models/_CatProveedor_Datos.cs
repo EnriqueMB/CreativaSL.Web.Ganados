@@ -8,6 +8,8 @@ using System.Linq;
 using System.Web;
 using CreativaSL.Web.Ganados.Models.Datatable;
 using CreativaSL.Web.Ganados.Models.Dto;
+using CreativaSL.Web.Ganados.Models.Dto.Base;
+using CreativaSL.Web.Ganados.Models.Dto.ProveedorGanado;
 using Newtonsoft.Json;
 
 namespace CreativaSL.Web.Ganados.Models

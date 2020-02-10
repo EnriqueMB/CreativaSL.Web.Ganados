@@ -1,7 +1,6 @@
-﻿using System;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
-namespace CreativaSL.Web.Ganados.Models.Dto
+namespace CreativaSL.Web.Ganados.Models.Dto.Compra
 {
     public class IndexCompraDto
     {

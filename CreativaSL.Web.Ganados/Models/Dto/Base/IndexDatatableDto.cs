@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace CreativaSL.Web.Ganados.Models.Dto
+namespace CreativaSL.Web.Ganados.Models.Dto.Base
 {
     public class IndexDatatableDto
     {
