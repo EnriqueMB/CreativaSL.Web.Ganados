@@ -1577,6 +1577,7 @@
     <Content Include="Areas\Admin\Views\CatEmpresa\MetaXSucursal.cshtml" />
     <Content Include="Areas\Admin\Views\Venta\CostosExtra.cshtml" />
     <Content Include="Areas\Admin\Views\Venta\CostoExtra_AC.cshtml" />
+    <Content Include="Areas\Admin\Views\CatProveedor\Notas.cshtml" />
     <None Include="Properties\PublishProfiles\Ocampo.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />

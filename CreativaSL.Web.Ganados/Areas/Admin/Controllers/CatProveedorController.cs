@@ -22,6 +22,86 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         private TokenProcessor Token = TokenProcessor.GetInstance();
         string Conexion = ConfigurationManager.AppSettings.Get("strConnection");
 
+        #region Notas
+
+        [HttpGet]
+        public ActionResult Notas(string IdProveedor)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(IdProveedor))
+                {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "Verifique sus datos.";
+                    return RedirectToAction("Index");
+                }
+                    
+
+                Token.SaveToken();
+                var proveedor = new CatProveedorModels();
+                proveedor.IDProveedor = IdProveedor;
+                proveedor.Conexion = Conexion;
+
+                var proveedorDatos = new _CatProveedor_Datos();
+                proveedorDatos.ObtenerNota(proveedor);
+                
+                return View(proveedor);
+            }
+            catch (Exception ex)
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Ha ocurrido un error al obtener la nota del proveedor, intentelo de nuevo o contacte con soporte técnico.";
+                return RedirectToAction("Index");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult Notas(CatProveedorModels model)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(model.IDProveedor))
+                {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "Verifique sus datos.";
+                    return RedirectToAction("Index");
+                }
+
+                if (Token.IsTokenValid())
+                {
+                    model.Conexion = Conexion;
+
+                    var proveedorDatos = new _CatProveedor_Datos();
+                    proveedorDatos.GuardarNota(model);
+
+                    if (model.RespuestaAjax.Success)
+                    {
+                        TempData["typemessage"] = "1";
+                    }
+                    else
+                    {
+                        TempData["typemessage"] = "2";
+                    }
+                    
+                    TempData["message"] = model.RespuestaAjax.Mensaje;
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "Verifique sus datos.";
+                    return RedirectToAction("Index");
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Ha ocurrido un al obtener la nota del proveedor, intentelo de nuevo o contacte con soporte técnico.";
+                return RedirectToAction("Index");
+            }
+        }
+        #endregion
+
         #region Datatable
 
         public ActionResult JsonIndex(DataTableAjaxPostModel dataTableAjaxPostModel)

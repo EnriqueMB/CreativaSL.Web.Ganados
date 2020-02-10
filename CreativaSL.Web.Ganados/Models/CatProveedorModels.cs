@@ -365,6 +365,22 @@ namespace CreativaSL.Web.Ganados.Models
             set { _deleteFotoPerfilFromServer = value; }
         }
 
+        private RespuestaAjax _respuestaAjax;
+
+        public RespuestaAjax RespuestaAjax
+        {
+            get { return _respuestaAjax; }
+            set { _respuestaAjax = value; }
+        }
+
+        private string _notas;
+
+        public string Notas
+        {
+            get { return _notas; }
+            set { _notas = value; }
+        }
+
 
         #region Datos De Control
         public string Conexion { get; set; }

@@ -14,6 +14,80 @@ namespace CreativaSL.Web.Ganados.Models
 {
     public class _CatProveedor_Datos 
     {
+        #region Notas
+        public void GuardarNota(CatProveedorModels model)
+        {
+            using (var sqlcon = new SqlConnection(model.Conexion))
+            {
+                using (var cmd = new SqlCommand("spCIDDB_Catalogo_CatProveedor_GuardarNota", sqlcon))
+                {
+                    //parametros de entrada
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.Add("@IdProveedor", SqlDbType.Char).Value = model.IDProveedor;
+                    cmd.Parameters.Add("@Notas", SqlDbType.NVarChar).Value = model.Notas;
+
+                    // execute
+                    sqlcon.Open();
+
+                    var reader = cmd.ExecuteReader();
+
+                    if (reader.HasRows)
+                    {
+                        model.RespuestaAjax = new RespuestaAjax();
+
+                        while (reader.Read())
+                        {
+                            model.RespuestaAjax.Success = bool.Parse(reader["Success"].ToString());
+                            model.RespuestaAjax.Mensaje = reader["Mensaje"].ToString();
+                        }
+                    }
+                    reader.Close();
+                }
+            }
+        }
+        public void ObtenerNota(CatProveedorModels model)
+        {
+            using (var sqlcon = new SqlConnection(model.Conexion))
+            {
+                using (var cmd = new SqlCommand("spCIDDB_Catalogo_CatProveedor_ObtenerNota", sqlcon))
+                {
+                    //parametros de entrada
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.Add("@IdProveedor", SqlDbType.Char).Value = model.IDProveedor;
+
+                    // execute
+                    sqlcon.Open();
+
+                    var reader = cmd.ExecuteReader();
+
+                    if (reader.HasRows)
+                    {
+                        model.RespuestaAjax = new RespuestaAjax();
+
+                        while (reader.Read())
+                        {
+                            model.RespuestaAjax.Success = bool.Parse(reader["Success"].ToString());
+                            model.RespuestaAjax.Mensaje = reader["Mensaje"].ToString();
+
+                            if (model.RespuestaAjax.Success)
+                            {
+                                model.Notas = reader["Notas"].ToString();
+                            }
+                            else
+                            {
+                                throw new Exception(model.RespuestaAjax.Mensaje);
+                            }
+                        }
+                    }
+                    reader.Close();
+                }
+            }
+        }
+
+        #endregion
+
         #region Proveedor Contactos
 
         public CatContactosModels ObtenerDetalleCatDatosXProveedor(CatContactosModels datos)
@@ -261,8 +335,6 @@ namespace CreativaSL.Web.Ganados.Models
         {
             try
             {
-
-
                 using (SqlConnection sqlcon = new SqlConnection(Datos.Conexion))
                 {
                     using (SqlCommand cmd = new SqlCommand("spCSLDB_Catalogo_get_CatProveedores", sqlcon))

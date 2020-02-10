@@ -441,6 +441,9 @@
                     "render": function (data, type, full) {
                         var botones =
                             "<div class='visible-md visible-lg hidden-sm hidden-xs' style='text-align:center'=>" +
+                            "<a title='Notas' class='btn btn-primary' href='/Admin/CatProveedor/Notas?IdProveedor=" +
+                            full["IdProveedor"] +
+                            "'><i class='fa fa-file-text'></i></a>" +
                             "<a title='Precios Rango' class='btn btn-primary' href='/Admin/CatProveedor/PrecioProveedor/" +
                             full["IdProveedor"] +
                             "'><i class='fa fa-dollar'></i></a>" +
@@ -475,6 +478,13 @@
                             "<i class='fa fa-cog'></i> <span class='caret'></span>" +
                             "</a>" +
                             "<ul role='menu' class='dropdown-menu pull-right dropdown-dark'>" +
+                            "<li>" +
+                            "<a role='menuitem' tabindex='-1' href='/Admin/CatProveedor/Notas/" +
+                            full["IdProveedor"] +
+                            "'>" +
+                            "<i class='fa fa-file-text'></i> Notas" +
+                            "</a>" +
+                            "</li>" +
                             "<li>" +
                             "<a role='menuitem' tabindex='-1' href='/Admin/CatProveedor/PrecioProveedor/" +
                             full["IdProveedor"] +
