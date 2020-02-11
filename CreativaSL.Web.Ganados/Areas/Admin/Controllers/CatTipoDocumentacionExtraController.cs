@@ -66,8 +66,68 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             {
                 if (Token.IsTokenValid() && ModelState.IsValid)
                 {
-                    //var respuesta = Datos.GuardarTipoDocumentacionExtra(documentacionExtra);
-                    var respuesta = new RespuestaAjax();
+                    var respuesta = Datos.GuardarTipoDocumentacionExtra(documentacionExtra);
+                    TempData["typemessage"] = respuesta.Success ? "1" : "2";
+                    TempData["message"] = respuesta.Mensaje;
+                    if (respuesta.Success)
+                    {
+                        TempData["typemessage"] = "1";
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        TempData["typemessage"] = "2";
+                    }
+                }
+                else
+                {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "Verifique sus datos o contacte con soporte técnico.";
+                    return RedirectToAction("Index");
+                }
+
+                return View(documentacionExtra);
+            }
+            catch (Exception e)
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Verifique sus datos o contacte con soporte técnico.";
+                return RedirectToAction("Index");
+            }
+        }
+
+        [HttpGet]
+        public ActionResult Edit(int IdTipoDocumentacionExtra)
+        {
+            if (IdTipoDocumentacionExtra == 0)
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Verifique sus datos o contacte con soporte técnico.";
+                return RedirectToAction("Index");
+            }
+
+            try
+            {
+                Token.SaveToken();
+                var model = Datos.ObtenerTipoDocumentacionExtra(IdTipoDocumentacionExtra);
+                return View(model);
+            }
+            catch (Exception e)
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Verifique sus datos o contacte con soporte técnico.";
+                return RedirectToAction("Index");
+            }
+
+        }
+        [HttpPost]
+        public ActionResult Edit(CreateEditCatTipoDocumentacionExtraDto documentacionExtra)
+        {
+            try
+            {
+                if (Token.IsTokenValid() && ModelState.IsValid)
+                {
+                    var respuesta = Datos.GuardarTipoDocumentacionExtra(documentacionExtra);
                     TempData["typemessage"] = respuesta.Success ? "1" : "2";
                     TempData["message"] = respuesta.Mensaje;
                     if (respuesta.Success)

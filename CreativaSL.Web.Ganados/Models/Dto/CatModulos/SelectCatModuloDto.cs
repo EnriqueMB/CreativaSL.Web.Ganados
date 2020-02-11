@@ -3,7 +3,7 @@
     public class SelectCatModuloDto
     {
         public bool Seleccionado { get; set; }
-        public int IdModulo { get; set; }
-        public string Descripcion { get; set; }
+
+        public CatModulosModel Modulo { get; set; }
     }
 }

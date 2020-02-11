@@ -1581,6 +1581,7 @@
     <Content Include="Areas\Admin\Views\CatProveedor\Notas.cshtml" />
     <Content Include="Areas\Admin\Views\CatTipoDocumentacionExtra\Index.cshtml" />
     <Content Include="Areas\Admin\Views\CatTipoDocumentacionExtra\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\CatTipoDocumentacionExtra\Edit.cshtml" />
     <None Include="Properties\PublishProfiles\Ocampo.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />

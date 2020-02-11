@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Globalization;
 using System.Linq;
 using CreativaSL.Web.Ganados.Models.Datatable;
-using CreativaSL.Web.Ganados.Models.Dto;
 using CreativaSL.Web.Ganados.Models.Dto.Base;
 using CreativaSL.Web.Ganados.Models.Dto.CatModulos;
 using CreativaSL.Web.Ganados.Models.Dto.CatTipoDocumentacionExtra;
@@ -62,6 +60,16 @@ namespace CreativaSL.Web.Ganados.Models
                                 indexDto.Descripcion = reader["Descripcion"].ToString();
                                 indexDto.Modulos = reader["Modulo"].ToString();
 
+
+                                indexDatatableDto.Data.Cast<IndexCatTipoDocumentacionExtraDto>()
+                                    .Where(i => i.IdTipoDocumentacionExtra == indexDto.IdTipoDocumentacionExtra)
+                                    .ToList().Select(i =>
+                                    {
+                                        i.Modulos += ", " + indexDto.Modulos; 
+                                        return i;
+                                    });
+
+
                                 indexDatatableDto.Data.Add(indexDto);
                             }
                         }
@@ -116,10 +124,13 @@ namespace CreativaSL.Web.Ganados.Models
                                 firstData = false;
                             }
 
-                            var item = new SelectCatModuloDto();
-                            item.Seleccionado = (bool)reader["Seleccionado"]; //bool.Parse(reader["Seleccionado"].ToString());
-                            item.IdModulo = int.Parse(reader["IdModulo"].ToString());
-                            item.Descripcion = reader["Descripcion"].ToString();
+                            var item = new SelectCatModuloDto
+                            {
+                                Modulo = new CatModulosModel(),
+                                Seleccionado = (bool)reader["Seleccionado"]
+                            };
+                            item.Modulo.IdModulo = int.Parse(reader["IdModulo"].ToString());
+                            item.Modulo.Descripcion = reader["Descripcion"].ToString();
                             model.ListaModulosDto.Add(item);
                         }
                     }
@@ -144,12 +155,12 @@ namespace CreativaSL.Web.Ganados.Models
 
                     foreach (var moduloDto in documentacionExtra.ListaModulosDto.Where(moduloDto => moduloDto.Seleccionado))
                     {
-                        dataTable.Rows.Add(moduloDto.IdModulo);
+                        dataTable.Rows.Add(moduloDto.Modulo.IdModulo);
                     }
 
                     
                     cmd.Parameters.Add("@IdTipoDocumentacionExtra", SqlDbType.Int).Value = documentacionExtra.CatTipoDocumentacionExtra.IdTipoDocumentacionExtra;
-                    cmd.Parameters.Add("@Descripcion", SqlDbType.Int).Value = documentacionExtra.CatTipoDocumentacionExtra.Descripcion;
+                    cmd.Parameters.Add("@Descripcion", SqlDbType.NVarChar).Value = documentacionExtra.CatTipoDocumentacionExtra.Descripcion;
                     cmd.Parameters.Add("@Usuario", SqlDbType.Char).Value = UsuarioActual;
                     cmd.Parameters.Add("@UDTT_DocumentosXSucursal", SqlDbType.Structured).Value = dataTable;
 

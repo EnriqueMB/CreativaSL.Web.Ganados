@@ -7,5 +7,6 @@ namespace CreativaSL.Web.Ganados.Models.Dto.CatTipoDocumentacionExtra
     {
         public CatTipoDocumentacionExtraModel CatTipoDocumentacionExtra { get; set; }
         public List<SelectCatModuloDto> ListaModulosDto { get; set; }
+
     }
 }

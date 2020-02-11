@@ -40,13 +40,13 @@
                     </div>
                     <div class="panel-body">
                         <div class="table-responsive">
-                            <table id="tblIndex" class="table-long">
+                            <table id="tblIndex" class="table">
                                 <thead>
-                                <tr>
-                                    <th>Descripción</th>
-                                    <th>Modulos</th>
-                                    <th>Acción</th>
-                                </tr>
+                                    <tr>
+                                        <th>Descripción</th>
+                                        <th>Modulos</th>
+                                        <th>Acción</th>
+                                    </tr>
                                 </thead>
                                 <tbody></tbody>
                             </table>
@@ -78,7 +78,7 @@
             </div>
         </div>
     </div>
-    
+
     <script>
     var message = '@message';
     var typemessage = '@typemessage';
@@ -107,9 +107,9 @@
                 "url": "/Admin/CatTipoDocumentacionExtra/JsonIndex/",
                 "method": "POST",
                 "dataType": "json",
-                "dataSrc" : function (json) {
+                "dataSrc": function (json) {
 
-                    if(json.data === null)
+                    if (json.data === null)
                         return [];
                     else
                         return json.data;
@@ -123,38 +123,38 @@
                     "render": function (data, type, full) {
                         var botones =
                             "<div class='visible-md visible-lg hidden-sm hidden-xs' style='text-align:center'=>" +
-                                "<a title='Editar' class='btn btn-primary' href='/Admin/CatTipoDocumentacionExtra/Edit?IdTipoDocumentacionExtra=" +
-                                full["IdTipoDocumentacionExtra"] +
-                                "'><i class='fa fa-edit'></i></a>" +
-                                "<a title='Eliminar' data-id='" +
-                                full["IdTipoDocumentacionExtra"] +
-                                "' data-hrefa='/Admin/CatTipoDocumentacionExtra/Delete?" +
-                                full["IdTipoDocumentacionExtra"] +
-                                "' class='btn btn-danger tooltips eliminar' data-placement='top' data-original-title='Eliminar'><i class='fa fa-trash-o'></i></a>" +
-                                "</div>" +
-                                "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
-                                "<div class='btn-group'>" +
-                                "<a class='btn btn-danger dropdown-toggle btn-sm' data-toggle='dropdown' href='#'>" +
-                                "<i class='fa fa-cog'></i> <span class='caret'></span>" +
-                                "</a>" +
-                                "<ul role='menu' class='dropdown-menu pull-right dropdown-dark'>" +
-                                "<li>" +
-                                "<a role='menuitem' tabindex='-1' href='/Admin/CatTipoDocumentacionExtra/Edit?IdTipoDocumentacionExtra" +
-                                full["IdTipoDocumentacionExtra"] +
-                                "'>" +
-                                "<i class='fa fa-edit'></i> Editar" +
-                                "</a>" +
-                                "</li>" +
-                                "<li>" +
-                                "<a role='menuitem' tabindex='-1' href='/Admin/CatTipoDocumentacionExtra/Delete?IdTipoDocumentacionExtra" +
-                                full["IdTipoDocumentacionExtra"] +
-                                "'>" +
-                                "<i class='fa fa-trash-o'></i> Eliminar" +
-                                "</a>" +
-                                "</li>" +
-                                "</ul>" +
-                                "</div>" +
-                                "</div>";
+                            "<a title='Editar' class='btn btn-yellow' href='/Admin/CatTipoDocumentacionExtra/Edit?IdTipoDocumentacionExtra=" +
+                            full["IdTipoDocumentacionExtra"] +
+                            "'><i class='fa fa-edit'></i></a>" +
+                            "<a title='Eliminar' data-id='" +
+                            full["IdTipoDocumentacionExtra"] +
+                            "' data-hrefa='/Admin/CatTipoDocumentacionExtra/Delete?" +
+                            full["IdTipoDocumentacionExtra"] +
+                            "' class='btn btn-danger tooltips eliminar' data-placement='top' data-original-title='Eliminar'><i class='fa fa-trash-o'></i></a>" +
+                            "</div>" +
+                            "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
+                            "<div class='btn-group'>" +
+                            "<a class='btn btn-danger dropdown-toggle btn-sm' data-toggle='dropdown' href='#'>" +
+                            "<i class='fa fa-cog'></i> <span class='caret'></span>" +
+                            "</a>" +
+                            "<ul role='menu' class='dropdown-menu pull-right dropdown-dark'>" +
+                            "<li>" +
+                            "<a role='menuitem' tabindex='-1' href='/Admin/CatTipoDocumentacionExtra/Edit?IdTipoDocumentacionExtra" +
+                            full["IdTipoDocumentacionExtra"] +
+                            "'>" +
+                            "<i class='fa fa-edit'></i> Editar" +
+                            "</a>" +
+                            "</li>" +
+                            "<li>" +
+                            "<a role='menuitem' tabindex='-1' href='/Admin/CatTipoDocumentacionExtra/Delete?IdTipoDocumentacionExtra" +
+                            full["IdTipoDocumentacionExtra"] +
+                            "'>" +
+                            "<i class='fa fa-trash-o'></i> Eliminar" +
+                            "</a>" +
+                            "</li>" +
+                            "</ul>" +
+                            "</div>" +
+                            "</div>";
                         return botones;
                     }
                 }
