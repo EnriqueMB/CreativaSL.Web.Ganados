@@ -1,5 +1,5 @@
 ﻿var VentaDocumentos = function () {
-    "use strict"
+    "use strict";
     var Id_venta = $("#Id_servicio").val();
     var tblDocumentos;
 
@@ -64,146 +64,164 @@
         });
     };
 
-     var runElements = function () {
-        $('#PrecioUnitarioDocumentacion').on({
-            "focus": function (event) {
-                $(event.target).select();
-            },
-            "keyup": function (event) {
-                $(event.target).val(function (index, v) {
-                    var number = cpf(v);
-                    return number;
-                });
-            }
-        });
-        $("#btnAddDocumento").on("click", function () {
-            window.location.href = '/Admin/Venta/VentaDocumento?Id_venta=' + Id_venta + '&IDDocumento=0';
-        });
+     var runElements = function() {
+         $('#PrecioUnitarioDocumentacion').on({
+             "focus": function(event) {
+                 $(event.target).select();
+             },
+             "keyup": function(event) {
+                 $(event.target).val(function(index, v) {
+                     var number = cpf(v);
+                     return number;
+                 });
+             }
+         });
+         $("#btnAddDocumento").on("click",
+             function() {
+                 window.location.href = '/Admin/Venta/VentaDocumento?Id_venta=' + Id_venta + '&IDDocumento=0';
+             });
 
-        tblDocumentos = $('#tblDocumentos').DataTable({
-            "language": {
-                "url": "/Content/assets/json/Spanish.json"
-            },
-            responsive: true,
-            "ajax": {
-                "data": {
-                    "Id_venta": Id_venta
-                },
-                "url": "/Admin/Venta/DatatableDocumentos/",
-                "type": "POST",
-                "datatype": "json",
-                "dataSrc": ''
-            },
-            "columns": [
-                { "data": "descripcion" },
-                { "data": "clave" },
-                {
-                    "data": null,
-                    "render": function (data, type, full) {
-                        var imagen64 = full["imagen"];
-                        var img = "";
-                        if (imagen64) {
+         tblDocumentos = $('#tblDocumentos').DataTable({
+             "language": {
+                 "url": "/Content/assets/json/Spanish.json"
+             },
+             responsive: true,
+             "ajax": {
+                 "data": {
+                     "Id_venta": Id_venta
+                 },
+                 "url": "/Admin/Venta/DatatableDocumentos/",
+                 "type": "POST",
+                 "datatype": "json",
+                 "dataSrc": ''
+             },
+             "columns": [
+                 { "data": "descripcion" },
+                 { "data": "clave" },
+                 {
+                     "data": null,
+                     "render": function(data, type, full) {
+                         var imagen64 = full["imagen"];
+                         var img = "";
+                         if (imagen64) {
 
-                            var extension = "";
+                             var extension = "";
 
-                            var position = imagen64.indexOf("iVBOR");
-                            //imagen png
-                            if (position != -1)
-                                extension = "image/png";
+                             var position = imagen64.indexOf("iVBOR");
+                             //imagen png
+                             if (position != -1)
+                                 extension = "image/png";
 
-                            position = imagen64.indexOf("/9j/4");
-                            if (position != -1)
-                                extension = "image/jpeg";
-                            //bmp de 256 colores
-                            position = imagen64.indexOf("Qk3");
-                            if (position == 0)
-                                extension = "image/bmp";
+                             position = imagen64.indexOf("/9j/4");
+                             if (position != -1)
+                                 extension = "image/jpeg";
+                             //bmp de 256 colores
+                             position = imagen64.indexOf("Qk3");
+                             if (position == 0)
+                                 extension = "image/bmp";
 
-                            //bmp de monocromatico colores
-                            position = imagen64.indexOf("Qk2");
-                            if (position == 0)
-                                extension = "image/bmp";
+                             //bmp de monocromatico colores
+                             position = imagen64.indexOf("Qk2");
+                             if (position == 0)
+                                 extension = "image/bmp";
 
-                            //bmp de 16 colores
-                            position = imagen64.indexOf("Qk1");
-                            if (position == 0)
-                                extension = "image/bmp";
+                             //bmp de 16 colores
+                             position = imagen64.indexOf("Qk1");
+                             if (position == 0)
+                                 extension = "image/bmp";
 
-                            img = "<img class='file-preview-image' style='width: 150px; height: 150px;' src='data:" + extension + ";base64," + imagen64 + "' />";
-                        }
-                        else {
-                            img = "<img class='file-preview-image' style='width: 150px; height: 150px;' src='/Content/img/GrupoOcampo.png' />";
-                        }
-                        return img;
-                    }
-                },
-                {
-                    "data": null,
-                    "render": function (data, type, full) {
+                             img = "<img class='file-preview-image' style='width: 150px; height: 150px;' src='data:" +
+                                 extension +
+                                 ";base64," +
+                                 imagen64 +
+                                 "' />";
+                         } else {
+                             img =
+                                 "<img class='file-preview-image' style='width: 150px; height: 150px;' src='/Content/img/GrupoOcampo.png' />";
+                         }
+                         return img;
+                     }
+                 },
+                 {
+                     "data": null,
+                     "render": function(data, type, full) {
 
-                        return "<div class='visible-md visible-lg hidden-sm hidden-xs'>" +
-                            "<a data-id='" + full["id_documentoVentaDetalle"] + "' class='btn btn-yellow tooltips btn-sm editDocumento' title='Editar'  data-placement='top' data-original-title='Edit'><i class='fa fa-edit'></i></a>" +
-                            "<a data-hrefa='/Admin/Venta/DEL_Documento/' title='Eliminar' data-id='" + full["id_documentoVentaDetalle"] + "' class='btn btn-danger tooltips btn-sm deleteDocumento' data-placement='top' data-original-title='Eliminar'><i class='fa fa-trash-o'></i></a>" +
-                            "</div>" +
-                            "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
-                            "<div class='btn-group'>" +
-                            "<a class='btn btn-danger dropdown-toggle btn-sm' data-toggle='dropdown' href='#'" +
-                            "<i class='fa fa-cog'></i> <span class='caret'></span>" +
-                            "</a>" +
-                            "<ul role='menu' class='dropdown-menu pull-right dropdown-dark'>" +
-                            "<li>" +
-                            "<a data-id='" + full["id_documentoVentaDetalle"] + "' class='editDocumento' role='menuitem' tabindex='-1'>" +
-                            "<i class='fa fa-edit'></i> Editar" +
-                            "</a>" +
-                            "</li>" +
-                            "<li>" +
-                            "<a data-hrefa='/Admin/Venta/DEL_Documento/' class='deleteDocumento' role='menuitem' tabindex='-1' data-id='" + full["id_documentoVentaDetalle"] + "'>" +
-                            "<i class='fa fa-trash-o'></i> Eliminar" +
-                            "</a>" +
-                            "</li>" +
-                            "</ul>" +
-                            "</div>" +
-                            "</div>";
-                    }
-                }
-            ],
-            "drawCallback": function (settings) {
-                $(".editDocumento").on("click", function () {
-                    var IDDocumento = $(this).data("id");
-                    window.location.href = '/Admin/Venta/VentaDocumento?Id_venta=' + Id_venta + '&IDDocumento=' + IDDocumento;
-                });
+                         return "<div class='visible-md visible-lg hidden-sm hidden-xs'>" +
+                             "<a data-id='" +
+                             full["id_documentoVentaDetalle"] +
+                             "' class='btn btn-yellow tooltips btn-sm editDocumento' title='Editar'  data-placement='top' data-original-title='Edit'><i class='fa fa-edit'></i></a>" +
+                             "<a data-hrefa='/Admin/Venta/DEL_Documento/' title='Eliminar' data-id='" +
+                             full["id_documentoVentaDetalle"] +
+                             "' class='btn btn-danger tooltips btn-sm deleteDocumento' data-placement='top' data-original-title='Eliminar'><i class='fa fa-trash-o'></i></a>" +
+                             "</div>" +
+                             "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
+                             "<div class='btn-group'>" +
+                             "<a class='btn btn-danger dropdown-toggle btn-sm' data-toggle='dropdown' href='#'" +
+                             "<i class='fa fa-cog'></i> <span class='caret'></span>" +
+                             "</a>" +
+                             "<ul role='menu' class='dropdown-menu pull-right dropdown-dark'>" +
+                             "<li>" +
+                             "<a data-id='" +
+                             full["id_documentoVentaDetalle"] +
+                             "' class='editDocumento' role='menuitem' tabindex='-1'>" +
+                             "<i class='fa fa-edit'></i> Editar" +
+                             "</a>" +
+                             "</li>" +
+                             "<li>" +
+                             "<a data-hrefa='/Admin/Venta/DEL_Documento/' class='deleteDocumento' role='menuitem' tabindex='-1' data-id='" +
+                             full["id_documentoVentaDetalle"] +
+                             "'>" +
+                             "<i class='fa fa-trash-o'></i> Eliminar" +
+                             "</a>" +
+                             "</li>" +
+                             "</ul>" +
+                             "</div>" +
+                             "</div>";
+                     }
+                 }
+             ],
+             "drawCallback": function(settings) {
+                 $(".editDocumento").on("click",
+                     function() {
+                         var IDDocumento = $(this).data("id");
+                         window.location.href = '/Admin/Venta/VentaDocumento?Id_venta=' +
+                             Id_venta +
+                             '&IDDocumento=' +
+                             IDDocumento;
+                     });
 
-                $(".deleteDocumento").on("click", function () {
-                    var url = $(this).attr('data-hrefa');
-                    var row = $(this).attr('data-id');
-                    var box = $("#mb-deleteDocumento");
-                    box.addClass("open");
-                    box.find(".mb-control-yes").on("click", function () {
-                        box.removeClass("open");
-                        $.ajax({
-                            url: url,
-                            data: { IDDocumento: row, Id_servicio: Id_venta },
-                            type: 'POST',
-                            dataType: 'json',
-                            success: function (result) {
-                                if (result.Success) {
-                                    box.find(".mb-control-yes").prop('onclick', null).off('click');
-                                    Mensaje(result.Mensaje, "1");
-                                    tblDocumentos.ajax.reload();
-                                }
-                                else
-                                    location.reload();
-                            },
-                            error: function (result) {
-                                location.reload();
-                            }
-                        });
-                    });
-                });
-            }
-        });
+                 $(".deleteDocumento").on("click",
+                     function() {
+                         var url = $(this).attr('data-hrefa');
+                         var row = $(this).attr('data-id');
+                         var box = $("#mb-deleteDocumento");
+                         box.addClass("open");
+                         box.find(".mb-control-yes").on("click",
+                             function() {
+                                 box.removeClass("open");
+                                 $.ajax({
+                                     url: url,
+                                     data: { IDDocumento: row, Id_servicio: Id_venta },
+                                     type: 'POST',
+                                     dataType: 'json',
+                                     success: function(result) {
+                                         if (result.Success) {
+                                             box.find(".mb-control-yes").prop('onclick', null).off('click');
+                                             Mensaje(result.Mensaje, "1");
+                                             tblDocumentos.ajax.reload();
+                                         } else
+                                             location.reload();
+                                     },
+                                     error: function(result) {
+                                         location.reload();
+                                     }
+                                 });
+                             });
+                     });
+             }
+         });
 
-    }
+     };
 
     function cpf(v) {
         v = v.replace(/([^0-9\.]+)/g, '');

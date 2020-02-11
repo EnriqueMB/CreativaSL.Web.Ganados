@@ -1,0 +1,106 @@
+﻿var DocumentoExtra = function () {
+    "use strict";
+
+    var runPlugins = function() {
+        $('#UrlArchivo').fileinput({
+            theme: 'fa',
+            language: 'es',
+            showUpload: false,
+            uploadUrl: "#",
+            autoReplace: true,
+            overwriteInitial: true,
+            showUploadedThumbs: false,
+            maxFileCount: 1,
+            initialPreview: [
+                '<img class="file-preview-image" style="width: auto; height: auto; max-width: 100%; max-height: 100%;" src="data:' +
+                ExtensionImagen +
+                ';base64,' +
+                Imagen +
+                '" />'
+            ],
+            initialPreviewConfig: [
+                { caption: 'Imagen del documento' }
+            ],
+            initialPreviewShowDelete: false,
+            showRemove: false,
+            showClose: false,
+            layoutTemplates: { actionDelete: '' },
+            required: true,
+
+            allowedFileExtensions: ['png', 'jpg', 'gif', 'jpeg', 'heic'],
+            previewFileIcon: '<i class="fa fa-file"></i>',
+            preferIconicPreview: true, // this will force thumbnails to display icons for following file extensions
+            previewFileIconSettings: { // configure your icon file extensions
+                'heic': '<i class="fa fa-file-text text-primary"></i>'
+            },
+            previewFileExtSettings: { // configure the logic for determining icon file extensions
+                'heic': function(ext) {
+                    return ext.match(/(heic)$/i);
+                }
+            }
+        });
+    };
+    var runValidator = function () {
+        var form = $('#form');
+        var errorHandler1 = $('.errorHandler', form);
+        var successHandler1 = $('.successHandler', form);
+
+        form.validate({ // initialize the plugin
+            debug: true,
+            errorElement: "dd",
+            errorClass: 'text-danger',
+            errorLabelContainer: $("#validation_summary"),
+            errorPlacement: function (error, element) { // render error placement for each input type
+                if (element.attr("type") == "radio" || element.attr("type") == "checkbox") { // for chosen elements, need to insert the error after the chosen container
+                    error.insertAfter($(element).closest('.form-group').children('div').children().last());
+                } else if (element.attr("name") == "dd" || element.attr("name") == "mm" || element.attr("name") == "yyyy") {
+                    error.insertAfter($(element).closest('.form-group').children('div'));
+                } else if (element.attr("type") == "text") {
+                    error.insertAfter($(element).closest('.input-group').children('div'));
+                } else {
+                    error.insertAfter(element);
+                    // for other inputs, just perform default behavior
+                }
+            },
+            ignore: "",
+            rules: {
+                IDTipoDocumento: { required: true, min: 1 },
+                ImagenPost: { ImagenRequerida: ["ImagenServer"] }
+            },
+            messages: {
+                IDTipoDocumento: { required: "Por favor, seleccione un tipo de documento.", min: "Por favor, seleccione un tipo de documento." }
+            },
+            invalidHandler: function (event, validator) {
+                successHandler1.hide();
+                errorHandler1.show();
+            },
+            highlight: function (element) {
+                $(element).closest('.help-block').removeClass('valid');
+                $(element).closest('.controlError').removeClass('has-success').addClass('has-error').find('.symbol').removeClass('ok').addClass('required');
+            },
+            unhighlight: function (element) {
+                $(element).closest('.controlError').removeClass('has-error');
+            },
+            success: function (label, element) {
+                label.addClass('help-block valid');
+                label.removeClass('color');
+                $(element).closest('.controlError').removeClass('has-error').addClass('has-success').find('.symbol').removeClass('required').addClass('ok');
+            },
+            submitHandler: function (form) {
+                successHandler1.show();
+                errorHandler1.hide();
+                form.submit()
+            }
+        });
+    };
+    var RunEventsDocumento = function () {
+        var Imagen = document.getElementById("MostrarImagen").value;
+
+        
+    }
+    return {
+        init: function () {
+            runPlugins();
+        }
+    };
+}();

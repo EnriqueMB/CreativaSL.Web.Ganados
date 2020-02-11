@@ -493,6 +493,8 @@
     <Content Include="Content\js\MetaXSucursal.js" />
     <Content Include="Content\js\plugins\nvd3\src\models\backup\bullet.js" />
     <Content Include="Content\js\PrestamoHerramientasDetalle.js" />
+    <Content Include="Content\js\Proveedor\CreateEditDocumentoExtraJs.js" />
+    <Content Include="Content\js\Proveedor\IndexDocumentoExtraJs.js" />
     <Content Include="Content\js\ReporteTipoFlete.js" />
     <Content Include="Content\js\PrestamosHerramientaLista.js" />
     <Content Include="Content\js\PrestamosHerramientas.js" />
@@ -1582,6 +1584,8 @@
     <Content Include="Areas\Admin\Views\CatTipoDocumentacionExtra\Index.cshtml" />
     <Content Include="Areas\Admin\Views\CatTipoDocumentacionExtra\Create.cshtml" />
     <Content Include="Areas\Admin\Views\CatTipoDocumentacionExtra\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\CatProveedor\DocumentosExtras.cshtml" />
+    <Content Include="Areas\Admin\Views\CatProveedor\CreateDocumentoExtra.cshtml" />
     <None Include="Properties\PublishProfiles\Ocampo.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
@@ -1818,6 +1822,7 @@
     <Compile Include="Models\DatosGeneralesGanados.cs" />
     <Compile Include="Models\DeduccionModels.cs" />
     <Compile Include="Models\DevolucionHerramientaDetalleModels.cs" />
+    <Compile Include="Models\DocumentacionExtra_CatProveedorModel.cs" />
     <Compile Include="Models\DocumentoCompraModels.cs" />
     <Compile Include="Models\DocumentoModels.cs" />
     <Compile Include="Models\DocumentoPorPagarDetalleModels.cs" />
@@ -1833,6 +1838,7 @@
     <Compile Include="Models\Dto\CatTipoDocumentacionExtra\IndexCatTipoDocumentacionExtraDto.cs" />
     <Compile Include="Models\Dto\Compra\IndexCompraDto.cs" />
     <Compile Include="Models\Dto\Base\IndexDatatableDto.cs" />
+    <Compile Include="Models\Dto\ProveedorGanado\IndexProveedorGanadoDocumentacionExtraDto.cs" />
     <Compile Include="Models\Dto\ProveedorGanado\IndexProveedorGanadoDto.cs" />
     <Compile Include="Models\Dto\Venta\IndexVentaDto.cs" />
     <Compile Include="Models\EntradaAlmacenDetalleModels.cs" />

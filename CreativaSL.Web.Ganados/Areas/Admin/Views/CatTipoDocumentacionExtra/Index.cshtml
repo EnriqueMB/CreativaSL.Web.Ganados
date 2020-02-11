@@ -117,7 +117,21 @@
             },
             "columns": [
                 { "data": "Descripcion" },
-                { "data": "Modulos" },
+                {
+                    "data": null,
+                    "render": function (data, type, full) {
+                        var modulos = full["Modulos"];
+
+                        var modulosHtml = "<ul>";
+                        var modulosSplit = modulos.split(',');
+                        for (i = 0; i < modulosSplit.length; i++) {
+                            modulosHtml += "<li>" + modulosSplit[i].trim() + "</li>";
+                        } 
+                        modulosHtml += "</ul>";
+
+                        return modulosHtml;
+                    }
+                },
                 {
                     "data": null,
                     "render": function (data, type, full) {
@@ -147,6 +161,8 @@
                             "</li>" +
                             "<li>" +
                             "<a role='menuitem' tabindex='-1' href='/Admin/CatTipoDocumentacionExtra/Delete?IdTipoDocumentacionExtra" +
+                            full["IdTipoDocumentacionExtra"] +
+                            " data-id='" +
                             full["IdTipoDocumentacionExtra"] +
                             "'>" +
                             "<i class='fa fa-trash-o'></i> Eliminar" +
@@ -184,8 +200,7 @@
 
                 });
 
-            },
-            "order": [[1, 'desc']]
+            }
         });
     </script>
 }

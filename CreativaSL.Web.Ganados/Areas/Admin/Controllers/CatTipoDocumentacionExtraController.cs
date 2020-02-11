@@ -35,13 +35,17 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
         #endregion
-
-        // GET: Admin/CatTipoDocumentacionExtra
+        
+        #region Index
         [HttpGet]
+        // GET: Admin/CatTipoDocumentacionExtra
         public ActionResult Index()
         {
             return View();
-        }
+        } 
+        #endregion
+
+        #region Create
 
         [HttpGet]
         public ActionResult Create()
@@ -95,7 +99,9 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return RedirectToAction("Index");
             }
         }
+        #endregion
 
+        #region Edit
         [HttpGet]
         public ActionResult Edit(int IdTipoDocumentacionExtra)
         {
@@ -156,5 +162,34 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return RedirectToAction("Index");
             }
         }
+        #endregion
+
+        #region Delete
+
+        [HttpPost]
+        public ActionResult Delete(int? id)
+        {
+            if (id == null || id == 0)
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Verifique sus datos o contacte con soporte técnico.";
+            }
+            else
+            {
+                var responseDb = Datos.EliminarTipoDocumentacionExtra(id.Value);
+                if (responseDb.Success)
+                {
+                    TempData["typemessage"] = "1";
+                }
+                else
+                {
+                    TempData["typemessage"] = "2";
+                }
+                TempData["message"] = responseDb.Mensaje;
+            }
+            return Content("Eliminando tipo de documento", "application/json");
+        }
+
+        #endregion
     }
 }

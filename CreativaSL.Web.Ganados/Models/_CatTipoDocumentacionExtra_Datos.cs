@@ -54,21 +54,12 @@ namespace CreativaSL.Web.Ganados.Models
                                     firstData = false;
                                 }
 
-                                var indexDto = new IndexCatTipoDocumentacionExtraDto();
-
-                                indexDto.IdTipoDocumentacionExtra = reader["IdTipoDocumentacionExtra"].ToString();
-                                indexDto.Descripcion = reader["Descripcion"].ToString();
-                                indexDto.Modulos = reader["Modulo"].ToString();
-
-
-                                indexDatatableDto.Data.Cast<IndexCatTipoDocumentacionExtraDto>()
-                                    .Where(i => i.IdTipoDocumentacionExtra == indexDto.IdTipoDocumentacionExtra)
-                                    .ToList().Select(i =>
-                                    {
-                                        i.Modulos += ", " + indexDto.Modulos; 
-                                        return i;
-                                    });
-
+                                var indexDto = new IndexCatTipoDocumentacionExtraDto
+                                {
+                                    IdTipoDocumentacionExtra = reader["IdTipoDocumentacionExtra"].ToString(),
+                                    Descripcion = reader["NombreTipoDocumentacionExtra"].ToString(),
+                                    Modulos = reader["Modulos"].ToString()
+                                };
 
                                 indexDatatableDto.Data.Add(indexDto);
                             }
@@ -89,7 +80,7 @@ namespace CreativaSL.Web.Ganados.Models
         }
         #endregion
 
-        #region Create
+        #region Create y Edit
         public CreateEditCatTipoDocumentacionExtraDto ObtenerTipoDocumentacionExtra(int IdCatTipoDocumentacionExtra)
         {
             using (var sqlcon = new SqlConnection(ConexionSql))
@@ -175,6 +166,45 @@ namespace CreativaSL.Web.Ganados.Models
                         while (reader.Read())
                         {
                             respuestaAjax.Success = (bool) reader["Success"];
+                            respuestaAjax.Mensaje = reader["Mensaje"].ToString();
+
+                            if (!respuestaAjax.Success)
+                            {
+                                respuestaAjax.MensajeErrorSQL = reader["MensajeErrorSQL"].ToString();
+                            }
+                        }
+                    }
+                    reader.Close();
+                    return respuestaAjax;
+                }
+            }
+        }
+        #endregion
+
+        #region Delete
+        public RespuestaAjax EliminarTipoDocumentacionExtra(int IdTipoDoumentacionExtra)
+        {
+            using (var sqlcon = new SqlConnection(ConexionSql))
+            {
+                using (var cmd = new SqlCommand("[dbo].[spCIDDB_Catalogo_CatTipoDocumentacionExtra_EliminarTipoDocumentacionExtra]", sqlcon))
+                {
+                    //parametros de entrada
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.Add("@IdTipoDocumentacionExtra", SqlDbType.NVarChar).Value = IdTipoDoumentacionExtra;
+                    cmd.Parameters.Add("@Usuario", SqlDbType.Char).Value = UsuarioActual;
+
+                    // execute
+                    sqlcon.Open();
+
+                    var reader = cmd.ExecuteReader();
+                    var respuestaAjax = new RespuestaAjax();
+
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            respuestaAjax.Success = (bool)reader["Success"];
                             respuestaAjax.Mensaje = reader["Mensaje"].ToString();
 
                             if (!respuestaAjax.Success)

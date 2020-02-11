@@ -1348,5 +1348,49 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
 
+        #region Documentos Extras
+        [HttpPost]
+        public ActionResult JsonIndexDocumentosExtras(DataTableAjaxPostModel dataTableAjaxPostModel)
+        {
+            var ProveedorDatos = new _CatProveedor_Datos();
+
+            var json = ProveedorDatos.DocumentosExtras_ObtenerIndex(dataTableAjaxPostModel);
+
+            return Content(json, "application/json");
+        }
+
+        [HttpGet]
+        public ActionResult DocumentosExtras(string IdProveedor)
+        {
+            if (string.IsNullOrEmpty(IdProveedor))
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Verifique sus datos.";
+                return RedirectToAction("Index");
+            }
+
+            ViewBag.IdProveedorGanado = IdProveedor;
+
+        return View();
+        }
+
+        [HttpGet]
+        public ActionResult CreateDocumentoExtra(string idProveedor)
+        {
+            if (string.IsNullOrWhiteSpace(idProveedor))
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Verifique sus datos.";
+                return RedirectToAction("Index");
+            }
+
+            var model = new DocumentacionExtra_CatProveedorModel();
+            ViewBag.ListaCatTipoDocumentacionExtra = new List<CatTipoDocumentacionExtraModel>();
+            model.IdProveedor = idProveedor;
+
+            return View(model);
+        }
+
+        #endregion
     }
 }

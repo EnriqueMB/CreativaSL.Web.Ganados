@@ -31,9 +31,7 @@
             border-color: orange !important;
             color: white !important;
         }
-        .page-content{
-            height: 100% !important;
-        }
+        
         .documentos{
             background-color:#007bff !important;
             border-color: #007bff !important;
@@ -58,9 +56,7 @@
             vertical-align: middle;
             text-align: center;
         }
-        .btn {
-            margin: 2px;
-        }
+        
     </style>
 }
 
@@ -95,7 +91,7 @@
                     </div>
                     <div class="panel-body">
                         <div class="table-responsive">
-                            <table id="tblIndexCompra" class=" tCompra table-long">
+                            <table id="tblIndexCompra" class=" tCompra table">
                                 <thead>
                                     <tr>
                                         <th rowspan="3"></th>
@@ -439,16 +435,16 @@
 
                         var igual = status_actual.localeCompare(agendado);
                         if (igual == 0) {
-                            botones = botones + "<a data-id='" + full["id_compra"] + "' class='btn tooltips btn-sm btn-primary details' title='Detalles'  data-placement='top' data-original-title='Detalles'><i class='fa fa-eye'></i></a>" +
-                                "<a data-id='" + full["id_compra"] + "' class='btn btn-blue tooltips btn-sm enviar' title='Enviar'  data-placement='top' data-original-title='Enviar'><i class='fa fa-truck'></i></a>" +
-                                "<a data-id='" + full["id_compra"] + "' class='btn tooltips btn-sm transacciones' title='Transacciones ($)'  data-placement='top' data-original-title='Transaciones'><i class='fa fa-money'></i></a></br>" +
-                                "<a data-id='" + full["id_compra"] + "' class='btn tooltips btn-sm documentos' title='Documentos'  data-placement='top' data-original-title='Documentos'><i class='fa fa-archive'></i></a>" +
-                                "<a data-id='" + full["id_compra"] + "' class='btn btn-yellow tooltips btn-sm edit' title='Editar'  data-placement='top' data-original-title='Editar'><i class='fa fa-clock-o'></i></a>" +
-                                "<a data-id='" + full["id_compra"] + "' class='btn btn-danger tooltips btn-sm eliminar' data-placement='top' data-original-title='Eliminar' title='Eliminar'  data-hrefa='/Admin/Compra/DEL_Compra/' ><i class='fa fa-trash-o'></i></a>" +
+                            botones = botones + "<a data-id='" + full["id_compra"] + "' class='btn tooltips btn-primary details btnMargin' title='Detalles'  data-placement='top' data-original-title='Detalles'><i class='fa fa-eye'></i></a>" +
+                                "<a data-id='" + full["id_compra"] + "' class='btn btn-blue tooltips enviar btnMargin' title='Enviar'  data-placement='top' data-original-title='Enviar'><i class='fa fa-truck'></i></a>" +
+                                "<a data-id='" + full["id_compra"] + "' class='btn tooltips transacciones btnMargin' title='Transacciones ($)'  data-placement='top' data-original-title='Transaciones'><i class='fa fa-money'></i></a></br>" +
+                                "<a data-id='" + full["id_compra"] + "' class='btn tooltips documentos btnMargin' title='Documentos'  data-placement='top' data-original-title='Documentos'><i class='fa fa-archive'></i></a>" +
+                                "<a data-id='" + full["id_compra"] + "' class='btn btn-yellow tooltips edit btnMargin' title='Editar'  data-placement='top' data-original-title='Editar'><i class='fa fa-clock-o'></i></a>" +
+                                "<a data-id='" + full["id_compra"] + "' class='btn btn-danger tooltips eliminar btnMargin' data-placement='top' data-original-title='Eliminar' title='Eliminar'  data-hrefa='/Admin/Compra/DEL_Compra/' ><i class='fa fa-trash-o'></i></a>" +
                                 "</div>" +
                                 "<div class='visible-xs visible-sm visible-md hidden-lg'>" +
                                 "<div class='btn-group'>" +
-                                "<a class='btn btn-danger dropdown-toggle btn-sm' data-toggle='dropdown' href='#'" +
+                                "<a class='btn btn-danger dropdown-toggle  ' data-toggle='dropdown' href='#'" +
                                 "<i class='fa fa-cog'></i> <span class='caret'></span>" +
                                 "</a>" +
                                 "<ul role='menu' class='dropdown-menu pull-right dropdown-dark'>" +
@@ -489,15 +485,15 @@
                         }
                         igual = status_actual.localeCompare(en_camino);
                         if (igual == 0) {
-                            botones = botones + "<a data-id='" + full["id_compra"] + "' class='btn tooltips btn-sm btn-primary details' title='Detalles'  data-placement='top' data-original-title='Detalles'><i class='fa fa-eye'></i></a>" +
-                                "<a data-id='" + full["id_compra"] + "' class='btn btn-blue   tooltips btn-sm ganado' title='Ganado'  data-placement='top' data-original-title='Ganado'><i class='icon-ocampo-head'></i></a>" +
-                                "<a data-id='" + full["id_compra"] + "' class='btn tooltips btn-sm transacciones' title='Transacciones ($)'  data-placement='top' data-original-title='Transaciones'><i class='fa fa-money'></i></a></br>" +
-                                "<a data-id='" + full["id_compra"] + "' class='btn tooltips btn-sm documentos' title='Documentos'  data-placement='top' data-original-title='Documentos'><i class='fa fa-archive'></i></a>" +
-                                "<a data-id='" + full["id_compra"] + "' class='btn btn-danger tooltips btn-sm eliminar' data-placement='top' data-original-title='Eliminar' title='Eliminar' data-hrefa='/Admin/Compra/DEL_Compra/'><i class='fa fa-trash-o'></i></a>" +
+                            botones = botones + "<a data-id='" + full["id_compra"] + "' class='btn tooltips   btn-primary details btnMargin' title='Detalles'  data-placement='top' data-original-title='Detalles'><i class='fa fa-eye'></i></a>" +
+                                "<a data-id='" + full["id_compra"] + "' class='btn btn-blue   tooltips ganado btnMargin' title='Ganado'  data-placement='top' data-original-title='Ganado'><i class='icon-ocampo-head'></i></a>" +
+                                "<a data-id='" + full["id_compra"] + "' class='btn tooltips transacciones btnMargin' title='Transacciones ($)'  data-placement='top' data-original-title='Transaciones'><i class='fa fa-money'></i></a></br>" +
+                                "<a data-id='" + full["id_compra"] + "' class='btn tooltips documentos btnMargin' title='Documentos'  data-placement='top' data-original-title='Documentos'><i class='fa fa-archive'></i></a>" +
+                                "<a data-id='" + full["id_compra"] + "' class='btn btn-danger tooltips eliminar btnMargin' data-placement='top' data-original-title='Eliminar' title='Eliminar' data-hrefa='/Admin/Compra/DEL_Compra/'><i class='fa fa-trash-o'></i></a>" +
                                 "</div>" +
                                 "<div class='visible-xs visible-sm visible-md hidden-lg'>" +
                                 "<div class='btn-group'>" +
-                                "<a class='btn btn-danger dropdown-toggle btn-sm' data-toggle='dropdown' href='#'" +
+                                "<a class='btn btn-danger dropdown-toggle  ' data-toggle='dropdown' href='#'" +
                                 "<i class='fa fa-cog'></i> <span class='caret'></span>" +
                                 "</a>" +
                                 "<ul role='menu' class='dropdown-menu pull-right dropdown-dark'>" +
@@ -533,16 +529,16 @@
                         }
                         igual = status_actual.localeCompare(ganado);
                         if (igual == 0) {
-                            botones = botones + "<a data-id='" + full["id_compra"] + "' class='btn tooltips btn-sm btn-primary details' title='Detalles'  data-placement='top' data-original-title='Detalles'><i class='fa fa-eye'></i></a>" +
-                                "<a data-id='" + full["id_compra"] + "' class='btn btn-blue   tooltips btn-sm eventos_recepcion' title='Eventos y recepción'  data-placement='top' data-original-title='Eventos y recepción'><i class='fa fa-book'></i></a>" +
-                                "<a data-id='" + full["id_compra"] + "' class='btn tooltips btn-sm transacciones' title='Transacciones ($)'  data-placement='top' data-original-title='Transaciones'><i class='fa fa-money'></i></a></br>" +
-                                "<a data-id='" + full["id_compra"] + "' class='btn tooltips btn-sm documentos' title='Documentos'  data-placement='top' data-original-title='Documentos'><i class='fa fa-archive'></i></a>" +
-                                "<a data-id='" + full["id_compra"] + "' class='btn btn-yellow tooltips btn-sm edit' title='Editar'  data-placement='top' data-original-title='Editar'><i class='icon-ocampo-head'></i></a>" +
-                                "<a data-id='" + full["id_compra"] + "' class='btn btn-danger tooltips btn-sm eliminar' data-placement='top' data-original-title='Eliminar' title='Eliminar' data-hrefa='/Admin/Compra/DEL_Compra/'><i class='fa fa-trash-o'></i></a>" +
+                            botones = botones + "<a data-id='" + full["id_compra"] + "' class='btn tooltips btn-primary details btnMargin' title='Detalles'  data-placement='top' data-original-title='Detalles'><i class='fa fa-eye'></i></a>" +
+                                "<a data-id='" + full["id_compra"] + "' class='btn btn-blue tooltips eventos_recepcion btnMargin' title='Eventos y recepción'  data-placement='top' data-original-title='Eventos y recepción'><i class='fa fa-book'></i></a>" +
+                                "<a data-id='" + full["id_compra"] + "' class='btn tooltips transacciones btnMargin' title='Transacciones ($)'  data-placement='top' data-original-title='Transaciones'><i class='fa fa-money'></i></a></br>" +
+                                "<a data-id='" + full["id_compra"] + "' class='btn tooltips documentos btnMargin' title='Documentos'  data-placement='top' data-original-title='Documentos'><i class='fa fa-archive'></i></a>" +
+                                "<a data-id='" + full["id_compra"] + "' class='btn btn-yellow tooltips   edit btnMargin' title='Editar'  data-placement='top' data-original-title='Editar'><i class='icon-ocampo-head'></i></a>" +
+                                "<a data-id='" + full["id_compra"] + "' class='btn btn-danger tooltips   eliminar btnMargin' data-placement='top' data-original-title='Eliminar' title='Eliminar' data-hrefa='/Admin/Compra/DEL_Compra/'><i class='fa fa-trash-o'></i></a>" +
                                 "</div>" +
                                 "<div class='visible-xs visible-sm visible-md hidden-lg'>" +
                                 "<div class='btn-group'>" +
-                                "<a class='btn btn-danger dropdown-toggle btn-sm' data-toggle='dropdown' href='#'" +
+                                "<a class='btn btn-danger dropdown-toggle  ' data-toggle='dropdown' href='#'" +
                                 "<i class='fa fa-cog'></i> <span class='caret'></span>" +
                                 "</a>" +
                                 "<ul role='menu' class='dropdown-menu pull-right dropdown-dark'>" +
@@ -583,16 +579,16 @@
                         }
                         igual = status_actual.localeCompare(eventos_recepcion);
                         if (igual == 0) {
-                            botones = botones + "<a data-id='" + full["id_compra"] + "' class='btn tooltips btn-sm btn-primary details' title='Detalles'  data-placement='top' data-original-title='Detalles'><i class='fa fa-eye'></i></a>" +
-                                "<a data-id='" + full["id_compra"] + "' class='btn btn-blue   tooltips btn-sm concluir' title='Concluir'  data-placement='top' data-original-title='Concluir'><i class='fa fa-check'></i></a>" +
-                                "<a data-id='" + full["id_compra"] + "' class='btn tooltips btn-sm transacciones' title='Transacciones ($)'  data-placement='top' data-original-title='Transaciones'><i class='fa fa-money'></i></a></br>" +
-                                "<a data-id='" + full["id_compra"] + "' class='btn tooltips btn-sm documentos' title='Documentos'  data-placement='top' data-original-title='Documentos'><i class='fa fa-archive'></i></a>" +
-                                "<a data-id='" + full["id_compra"] + "' class='btn btn-yellow tooltips btn-sm edit' title='Editar'  data-placement='top' data-original-title='Editar'><i class='fa fa-book'></i></a>" +
-                                "<a data-id='" + full["id_compra"] + "' class='btn btn-danger tooltips btn-sm eliminar' data-placement='top' data-original-title='Eliminar' title='Eliminar' data-hrefa='/Admin/Compra/DEL_Compra/'><i class='fa fa-trash-o'></i></a>" +
+                            botones = botones + "<a data-id='" + full["id_compra"] + "' class='btn tooltips   btn-primary details btnMargin' title='Detalles'  data-placement='top' data-original-title='Detalles'><i class='fa fa-eye'></i></a>" +
+                                "<a data-id='" + full["id_compra"] + "' class='btn btn-blue   tooltips   concluir btnMargin' title='Concluir'  data-placement='top' data-original-title='Concluir'><i class='fa fa-check'></i></a>" +
+                                "<a data-id='" + full["id_compra"] + "' class='btn tooltips   transacciones btnMargin' title='Transacciones ($)'  data-placement='top' data-original-title='Transaciones'><i class='fa fa-money'></i></a></br>" +
+                                "<a data-id='" + full["id_compra"] + "' class='btn tooltips   documentos btnMargin' title='Documentos'  data-placement='top' data-original-title='Documentos'><i class='fa fa-archive'></i></a>" +
+                                "<a data-id='" + full["id_compra"] + "' class='btn btn-yellow tooltips   edit btnMargin' title='Editar'  data-placement='top' data-original-title='Editar'><i class='fa fa-book'></i></a>" +
+                                "<a data-id='" + full["id_compra"] + "' class='btn btn-danger tooltips   eliminar btnMargin' data-placement='top' data-original-title='Eliminar' title='Eliminar' data-hrefa='/Admin/Compra/DEL_Compra/'><i class='fa fa-trash-o'></i></a>" +
                                 "</div>" +
                                 "<div class='visible-xs visible-sm visible-md hidden-lg'>" +
                                 "<div class='btn-group'>" +
-                                "<a class='btn btn-danger dropdown-toggle btn-sm' data-toggle='dropdown' href='#'" +
+                                "<a class='btn btn-danger dropdown-toggle  ' data-toggle='dropdown' href='#'" +
                                 "<i class='fa fa-cog'></i> <span class='caret'></span>" +
                                 "</a>" +
                                 "<ul role='menu' class='dropdown-menu pull-right dropdown-dark'>" +
@@ -632,11 +628,11 @@
                         }
                         igual = status_actual.localeCompare(concluida);
                         if (igual == 0) {
-                            botones = botones + "<a data-id='" + full["id_compra"] + "' class='btn tooltips btn-sm btn-primary details' title='Detalles'  data-placement='top' data-original-title='Detalles'><i class='fa fa-eye'></i></a>" +
+                            botones = botones + "<a data-id='" + full["id_compra"] + "' class='btn tooltips   btn-primary details btnMargin' title='Detalles'  data-placement='top' data-original-title='Detalles'><i class='fa fa-eye'></i></a>" +
                                 "</div>" +
                                 "<div class='visible-xs visible-sm visible-md hidden-lg'>" +
                                 "<div class='btn-group'>" +
-                                "<a class='btn btn-danger dropdown-toggle btn-sm' data-toggle='dropdown' href='#'" +
+                                "<a class='btn btn-danger dropdown-toggle  ' data-toggle='dropdown' href='#'" +
                                 "<i class='fa fa-cog'></i> <span class='caret'></span>" +
                                 "</a>" +
                                 "<ul role='menu' class='dropdown-menu pull-right dropdown-dark'>" +
