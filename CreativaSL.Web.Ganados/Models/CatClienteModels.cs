@@ -11,6 +11,7 @@ namespace CreativaSL.Web.Ganados.Models
     {
         public CatClienteModels()
         {
+            _fotoPerfil = string.Empty;
             _IDCliente = string.Empty;
             _IDSucursal = string.Empty;
             _NombreRazonSocial = string.Empty;
@@ -251,7 +252,12 @@ namespace CreativaSL.Web.Ganados.Models
             get { return _TodaSucursale; }
             set { _TodaSucursale = value; }
         }
-
+        private string _fotoPerfil;
+        public string FotoPerfil
+        {
+            get { return _fotoPerfil; }
+            set { _fotoPerfil = value; }
+        }
         #region Datos De Control
         public string Conexion { get; set; }
         public int Resultado { get; set; }

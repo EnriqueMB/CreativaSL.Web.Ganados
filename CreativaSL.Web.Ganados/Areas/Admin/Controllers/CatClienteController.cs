@@ -12,6 +12,8 @@ using CreativaSL.Web.Ganados.App_Start;
 using System.IO;
 using System.Drawing;
 using System.Drawing.Imaging;
+using CreativaSL.Web.Ganados.Models.System;
+using CreativaSL.Web.Ganados.Models.Helpers;
 
 namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 {
@@ -98,15 +100,43 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                             ModelState.AddModelError("", "El nombre del contacto es necesario.");
                             return View(clienteID);
                         }
-
+                        
                         clienteID.Conexion = Conexion;
                         clienteID.Opcion = 1;
                         clienteID.Usuario = User.Identity.Name;
                         clienteID = ClienteDatos.AbcCatClientes(clienteID);
                         if (clienteID.Completado == true)
                         {
+
                             TempData["typemessage"] = "1";
                             TempData["message"] = "Los datos se guardaron correctamente.";
+                            var fotoPerfilPostedFileBase = Request.Files["FotoPerfil"] as HttpPostedFileBase;
+                            if (fotoPerfilPostedFileBase != null && fotoPerfilPostedFileBase.ContentLength > 0)
+                            {
+                                var uploadImageToserver = new UploadImageToServerModel();
+                                uploadImageToserver.FileBase = fotoPerfilPostedFileBase;
+                                uploadImageToserver.BaseDir = "/Imagenes/Cliente/FotoPerfil/";
+                                uploadImageToserver.FileName = "fp_" + clienteID.IDCliente;
+                                CidFaresHelper.UploadImageToServer(uploadImageToserver);
+
+                                if (uploadImageToserver.Success)
+                                {
+                                    var responseDb = ClienteDatos.ActualizarFotoPerfil(clienteID.IDCliente,
+                                        User.Identity.Name, uploadImageToserver.UrlComplete, clienteID.Conexion);
+
+                                    if (!responseDb.Success)
+                                    {
+                                        TempData["typemessage"] = "2";
+                                        TempData["message"] = "Ha ocurrido un error al guardar la imagen de perfil al cliente, intente subir de nuevo o contacte con soporte técnico.";
+                                    }
+                                }
+                                else
+                                {
+                                    TempData["typemessage"] = "2";
+                                    TempData["message"] = "Ha ocurrido un error al guardar en el servidor la imagen de perfil, intente subir de nuevo o contacte con soporte técnico.";
+
+                                }
+                            }
                             Token.ResetToken();
                             return RedirectToAction("Index");
                         }
@@ -197,6 +227,33 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         {
                             TempData["typemessage"] = "1";
                             TempData["message"] = "Los datos se guardaron correctamente.";
+                            var fotoPerfilPostedFileBase = Request.Files["FotoPerfil"] as HttpPostedFileBase;
+                            if (fotoPerfilPostedFileBase != null && fotoPerfilPostedFileBase.ContentLength > 0)
+                            {
+                                var uploadImageToserver = new UploadImageToServerModel();
+                                uploadImageToserver.FileBase = fotoPerfilPostedFileBase;
+                                uploadImageToserver.BaseDir = "/Imagenes/Cliente/FotoPerfil/";
+                                uploadImageToserver.FileName = "fp_" + clienteID.IDCliente;
+                                CidFaresHelper.UploadImageToServer(uploadImageToserver);
+
+                                if (uploadImageToserver.Success)
+                                {
+                                    var responseDb = ClienteDatos.ActualizarFotoPerfil(clienteID.IDCliente,
+                                        User.Identity.Name, uploadImageToserver.UrlComplete, clienteID.Conexion);
+
+                                    if (!responseDb.Success)
+                                    {
+                                        TempData["typemessage"] = "2";
+                                        TempData["message"] = "Ha ocurrido un error al guardar la imagen de perfil al cliente, intente subir de nuevo o contacte con soporte técnico.";
+                                    }
+                                }
+                                else
+                                {
+                                    TempData["typemessage"] = "2";
+                                    TempData["message"] = "Ha ocurrido un error al guardar en el servidor la imagen de perfil, intente subir de nuevo o contacte con soporte técnico.";
+
+                                }
+                            }
                             Token.ResetToken();
                             return RedirectToAction("Index");
                         }
@@ -437,6 +494,10 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Cliente.IDCliente = id;
                 Cliente.IDSucursal = id2;
                 ClienteDatos.EliminarCliente(Cliente);
+                var uploadImageToserver = new UploadImageToServerModel();
+                uploadImageToserver.BaseDir = "/Imagenes/Cliente/FotoPerfil/";
+                uploadImageToserver.FileName = "fp_" + Cliente.IDCliente;
+                CidFaresHelper.DeleteFilesWithOutExtensionFromServer(uploadImageToserver);
                 //TempData["typemessage"] = "1";
                 //TempData["message"] = "El registro se ha eliminado correctamente";
                 return Json("");

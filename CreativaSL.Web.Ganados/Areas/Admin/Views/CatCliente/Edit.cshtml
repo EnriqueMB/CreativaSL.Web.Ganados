@@ -22,185 +22,212 @@
 
         <div class="col-md-12">
             @{ Html.EnableClientValidation(false); }
-            @using (Html.BeginForm("Edit", "CatCliente", FormMethod.Post, new { @class = "form-horizontal", id = "form-dg", autocomplete = "off" }))
+            @using (Html.BeginForm("Edit", "CatCliente", FormMethod.Post, new { @class = "form-horizontal", id = "form-dg", autocomplete = "off",@enctype = "multipart/form-data" }))
             {
                 @Html.AntiForgeryToken()
                 @Html.HiddenFor(model => model.IDCliente)
                 @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
                 <div id="validation_summary" class="field_error "></div> //JS
-                    <div class="panel panel-default tabs">
-                        <ul class="nav nav-tabs" role="tablist">
-                            <li class="active"><a href="#tab-first" role="tab" data-toggle="tab">Datos generales</a></li>
-                            <li><a href="#tab-second" role="tab" data-toggle="tab">Datos de contacto</a></li>
-                        </ul>
-                        <div class="panel-body tab-content">
-                            <div class="tab-pane active" id="tab-first">
-                                <div class="panel panel-default">
-                                    <div class="panel-body">
-
-                                        <div class="form-group">
-                                            <label class="col-md-2 col-xs-12 control-label"><span>* </span> Sucursal </label>
-                                            <div class="col-md-6 col-xs-12">
-                                                @Html.DropDownListFor(model => model.IDSucursal, new SelectList(Model.ListaCmbSucursal, "IDSucursal", "NombreSucursal"), new { id = "IDSucursal", @class = "form-control select", data_live_search = "true" })
-                                                @Html.ValidationMessageFor(model => model.IDSucursal)
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label class="col-md-2 col-xs-12 control-label"><span>* </span> Razón Social</label>
-                                            <div class="col-md-6 col-xs-12">
-                                                <div class="input-group">
-                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                    @Html.TextBoxFor(model => model.NombreRazonSocial, new { id = "NombreRazonSocial", @class = "form-control", placeholder = "Ingrese la razón social" })
+                <div class="panel panel-default tabs">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li class="active"><a href="#tab-first" role="tab" data-toggle="tab">Datos generales</a></li>
+                        <li><a href="#tab-second" role="tab" data-toggle="tab">Datos de contacto</a></li>
+                    </ul>
+                    <div class="panel-body tab-content">
+                        <div class="tab-pane active" id="tab-first">
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <div class="form-group">
+                                                <label class="col-md-3 col-xs-12 control-label"><span>* </span> Sucursal </label>
+                                                <div class="col-md-8 col-xs-12">
+                                                    @Html.DropDownListFor(model => model.IDSucursal, new SelectList(Model.ListaCmbSucursal, "IDSucursal", "NombreSucursal"), new { id = "IDSucursal", @class = "form-control select", data_live_search = "true" })
+                                                    @Html.ValidationMessageFor(model => model.IDSucursal)
                                                 </div>
-                                                @Html.ValidationMessageFor(model => model.NombreRazonSocial)
                                             </div>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label class="col-md-2 col-xs-12 control-label"><span>* </span>Tipo cliente</label>
-                                            <div class="col-md-6 col-xs-12">
-                                                <div class="input-group">
-                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                    @Html.DropDownListFor(model => model.TipoCliente, new SelectList(Model.ListaTipoCliente, "Id_tipoCliente", "Descripcion"), new { @class = "form-control select", data_live_search = "true", data_style = "form-control" })
+                                            @* -----------------------------------------example code------------------------ *@
+                                            <div class="form-group">
+                                                <label class="col-md-3 col-xs-12 control-label">¿Todas las Sucurales?</label>
+                                                <div class="col-md-8 col-xs-12">
+                                                    @Html.CheckBoxFor(model => model.TodaSucursale, new { @class = "icheckbox" })
                                                 </div>
-                                                @Html.ValidationMessageFor(model => model.TipoCliente)
                                             </div>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label class="col-md-2 col-xs-12 control-label">P.S.G.</label>
-                                            <div class="col-md-6 col-xs-12">
-                                                <div class="input-group">
-                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                    @Html.TextBoxFor(model => model.PSGCliente, new { @class = "form-control", placeholder = "Ingrese el  P.S.G. del cliente." })
+                                            @* -----------------------------------------example code------------------------ *@
+                                            <div class="form-group">
+                                                <label class="col-md-3 col-xs-12 control-label"><span>* </span> Razón Social</label>
+                                                <div class="col-md-8 col-xs-12">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                        @Html.TextBoxFor(model => model.NombreRazonSocial, new { id = "NombreRazonSocial", @class = "form-control", placeholder = "Ingrese la razón social" })
+                                                    </div>
+                                                    @Html.ValidationMessageFor(model => model.NombreRazonSocial)
                                                 </div>
-                                                @Html.ValidationMessageFor(model => model.PSGCliente)
                                             </div>
-                                        </div>
 
-                                        <div class="form-group">
-                                            <label class="col-md-2 col-xs-12 control-label">¿Es persona Física?</label>
-                                            <div class="col-md-6 col-xs-12">
-                                                @Html.CheckBoxFor(model => model.EsPersonaFisica, new { @class = "icheckbox" })
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label class="col-md-2 col-xs-12 control-label"><span> </span> Régimen Fiscal</label>
-                                            <div class="col-md-6 col-xs-12">
-                                                @Html.DropDownListFor(model => model.IDRegimenFiscal, new SelectList(Model.ListaRegimenCMB, "Clave", "Descripcion"), new { id = "IDRegimenFiscal", @class = "form-control select", data_live_search = "true" })
-                                                @Html.ValidationMessageFor(model => model.IDRegimenFiscal)
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label class="col-md-2 col-xs-12 control-label"><span> </span> RFC</label>
-                                            <div class="col-md-6 col-xs-12">
-                                                <div class="input-group">
-                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                    @Html.TextBoxFor(model => model.RFC, new { id = "RFC", @class = "form-control", placeholder = "Capture el RFC del cliente" })
+                                            <div class="form-group">
+                                                <label class="col-md-3 col-xs-12 control-label"><span>* </span>Tipo cliente</label>
+                                                <div class="col-md-8 col-xs-12">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                        @Html.DropDownListFor(model => model.TipoCliente, new SelectList(Model.ListaTipoCliente, "Id_tipoCliente", "Descripcion"), new { @class = "form-control select", data_live_search = "true", data_style = "form-control" })
+                                                    </div>
+                                                    @Html.ValidationMessageFor(model => model.TipoCliente)
                                                 </div>
-                                                @Html.ValidationMessageFor(model => model.RFC)
                                             </div>
-                                        </div>
 
-                                        <div class="form-group">
-                                            <label class="col-md-2 col-xs-12 control-label">Domicilio Fiscal</label>
-                                            <div class="col-md-6 col-xs-12">
-                                                <div class="input-group">
-                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                    @Html.TextBoxFor(model => model.Direccion, new { id = "Direccion", @class = "form-control", placeholder = "Dirección del cliente" })
+                                            <div class="form-group">
+                                                <label class="col-md-3 col-xs-12 control-label">P.S.G.</label>
+                                                <div class="col-md-8 col-xs-12">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                        @Html.TextBoxFor(model => model.PSGCliente, new { @class = "form-control", placeholder = "Ingrese el P.S.G. del cliente." })
+                                                    </div>
+                                                    @Html.ValidationMessageFor(model => model.PSGCliente)
                                                 </div>
-                                                @Html.ValidationMessageFor(model => model.Direccion)
                                             </div>
-                                        </div>
 
-
-
-                                        <div class="form-group">
-                                            <label class="col-md-2 col-xs-12 control-label">Fecha de inicio de relación</label>
-                                            <div class="col-md-6 col-xs-12">
-                                                <div class="input-group">
-                                                    <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
-                                                    @Html.TextBoxFor(model => model.FechaIngreso, "{0:dd/MM/yyyy}", new { id = "FechaIngreso", @class = "form-control datepicker", @readonly = "readonly" })
+                                            <div class="form-group">
+                                                <label class="col-md-3 col-xs-12 control-label">¿Es persona Física?</label>
+                                                <div class="col-md-8 col-xs-12">
+                                                    @Html.CheckBoxFor(model => model.EsPersonaFisica, new { @class = "icheckbox" })
                                                 </div>
-                                                @Html.ValidationMessageFor(model => model.FechaIngreso)
                                             </div>
-                                        </div>
 
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="tab-pane" id="tab-second">
-                                <div class="panel panel-default">
-                                    <div class="panel-body">
-
-                                        <div class="form-group">
-                                            <label class="col-md-2 col-xs-12 control-label"><span></span> Nombre de la persona de contacto</label>
-                                            <div class="col-md-6 col-xs-12">
-                                                <div class="input-group">
-                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                    @Html.TextBoxFor(model => model.NombreResponsable, new { id = "NombreResponsable", @class = "form-control", placeholder = "Ingrese el nombre del contacto" })
+                                            <div class="form-group">
+                                                <label class="col-md-3 col-xs-12 control-label"><span></span> Régimen Fiscal</label>
+                                                <div class="col-md-8 col-xs-12">
+                                                    @Html.DropDownListFor(model => model.IDRegimenFiscal, new SelectList(Model.ListaRegimenCMB, "Clave", "Descripcion"), new { id = "IDRegimenFiscal", @class = "form-control select", data_live_search = "true" })
+                                                    @Html.ValidationMessageFor(model => model.IDRegimenFiscal)
                                                 </div>
-                                                @Html.ValidationMessageFor(model => model.NombreResponsable)
                                             </div>
-                                        </div>
 
-                                        <div class="form-group">
-                                            <label class="col-md-2 col-xs-12 control-label">Celular </label>
-                                            <div class="col-md-6 col-xs-12">
-                                                <div class="input-group">
-                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                    @Html.TextBoxFor(model => model.Celular, new { id = "Celular", @class = "form-control" })
+                                            <div class="form-group">
+                                                <label class="col-md-3 col-xs-12 control-label"><span> </span> RFC</label>
+                                                <div class="col-md-8 col-xs-12">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                        @Html.TextBoxFor(model => model.RFC, new { id = "RFC", @class = "form-control", placeholder = "Capture el RFC del cliente" })
+                                                    </div>
+                                                    @Html.ValidationMessageFor(model => model.RFC)
                                                 </div>
-                                                @Html.ValidationMessageFor(model => model.Celular)
                                             </div>
-                                        </div>
 
-                                        <div class="form-group">
-                                            <label class="col-md-2 col-xs-12 control-label">Teléfono </label>
-                                            <div class="col-md-6 col-xs-12">
-                                                <div class="input-group">
-                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                    @Html.TextBoxFor(model => model.Telefono, new { id = "Telefono", @class = "form-control" })
+                                            <div class="form-group">
+                                                <label class="col-md-3 col-xs-12 control-label">Domicilio Fiscal</label>
+                                                <div class="col-md-8 col-xs-12">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                        @Html.TextBoxFor(model => model.Direccion, new { id = "Direccion", @class = "form-control", placeholder = "Dirección del cliente" })
+                                                    </div>
+                                                    @Html.ValidationMessageFor(model => model.Direccion)
                                                 </div>
-                                                @Html.ValidationMessageFor(model => model.Telefono)
                                             </div>
-                                        </div>
 
 
-                                        <div class="form-group">
-                                            <label class="col-md-2 col-xs-12 control-label">E-mail</label>
-                                            <div class="col-md-6 col-xs-12">
-                                                <div class="input-group">
-                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                    @Html.TextBoxFor(model => model.CorreoElectronico, new { id = "CorreoElectronico", @class = "form-control", placeholder = "Ingrese el correo electrónico de contacto del cliente" })
+
+                                            <div class="form-group">
+                                                <label class="col-md-3 col-xs-12 control-label">Fecha de inicio de relación</label>
+                                                <div class="col-md-8 col-xs-12">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                                                        @Html.TextBoxFor(model => model.FechaIngreso, "{0:dd/MM/yyyy}", new { id = "FechaIngreso", @class = "form-control datepicker", @readonly = "readonly" })
+                                                    </div>
+                                                    @Html.ValidationMessageFor(model => model.FechaIngreso)
                                                 </div>
-                                                @Html.ValidationMessageFor(model => model.CorreoElectronico)
                                             </div>
                                         </div>
-
-                                        <div class="form-group">
-                                            <label class="col-md-2 col-xs-12 control-label">Tolerancia</label>
-                                            <div class="col-md-6 col-xs-12">
+                                        <div class="col-md-4 text-center">
+                                            <div class="form-group">
                                                 <div class="input-group">
-                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                    @Html.TextBoxFor(model => model.Tolerancia, new { @class = "form-control", placeholder = "Ingrese la tolerancia del cliente" })
+                                                    <label class="col-md-3 control-label">Foto de perfil</label>
+                                                    <div class="col-md-9 col-xs-12">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon"><span class="fa fa-camera"></span></span>
+                                                            <div class="kv-avatar">
+                                                                <div class="file-loading">
+                                                                    @Html.TextBoxFor(model => model.FotoPerfil, new { id = "FotoPerfil", @type = "file", @class = "form-control" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        @Html.ValidationMessageFor(model => model.FotoPerfil)
+                                                    </div>
                                                 </div>
-                                                @Html.ValidationMessageFor(model => model.Tolerancia)
                                             </div>
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="panel-footer">
-                            <a href="@Url.Action("Index","CatCliente")" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
-                            <button form="form-dg" class="btn btn-primary pull-right">Guardar <span class="fa fa-floppy-o fa-right"></span></button>
+                        <div class="tab-pane" id="tab-second">
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+
+                                    <div class="form-group">
+                                        <label class="col-md-2 col-xs-12 control-label"><span></span> Nombre de la persona de contacto</label>
+                                        <div class="col-md-6 col-xs-12">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                @Html.TextBoxFor(model => model.NombreResponsable, new { id = "NombreResponsable", @class = "form-control", placeholder = "Ingrese el nombre del contacto" })
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.NombreResponsable)
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-md-2 col-xs-12 control-label">Celular </label>
+                                        <div class="col-md-6 col-xs-12">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                @Html.TextBoxFor(model => model.Celular, new { id = "Celular", @class = "form-control" })
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.Celular)
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-md-2 col-xs-12 control-label">Teléfono </label>
+                                        <div class="col-md-6 col-xs-12">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                @Html.TextBoxFor(model => model.Telefono, new { id = "Telefono", @class = "form-control" })
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.Telefono)
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <label class="col-md-2 col-xs-12 control-label">E-mail</label>
+                                        <div class="col-md-6 col-xs-12">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                @Html.TextBoxFor(model => model.CorreoElectronico, new { id = "CorreoElectronico", @class = "form-control", placeholder = "Ingrese el correo electrónico de contacto del cliente" })
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.CorreoElectronico)
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-md-2 col-xs-12 control-label">Tolerancia</label>
+                                        <div class="col-md-6 col-xs-12">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                @Html.TextBoxFor(model => model.Tolerancia, new { @class = "form-control", placeholder = "Ingrese la tolerancia del cliente" })
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.Tolerancia)
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
                         </div>
                     </div>
+                    <div class="panel-footer">
+                        <a href="@Url.Action("Index","CatCliente")" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
+                        <button form="form-dg" class="btn btn-primary pull-right">Guardar <span class="fa fa-floppy-o fa-right"></span></button>
+                    </div>
+                </div>
             }
         </div>
     </div>
@@ -210,6 +237,10 @@
     </script>
 }
 @section script{
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/fileinput.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/es.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/explorer-fa/theme.js")"></script>
+    <script src="@Url.Content("~/Content/js/plugins/uploadFiles/fa/theme.js")" type="text/javascript"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-datepicker.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-file-input.js")"></script>
@@ -220,9 +251,43 @@
     <script type="text/javascript" src="@Url.Content("~/Content/js/validaciones/additionals.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/clientes.js")"></script>
     <script>
-    jQuery(document).ready(function () {
-        Mensaje(message, typemessage);
-        Clientes.init();
-    });
+        jQuery(document).ready(function () {
+            Mensaje(message, typemessage);
+            Clientes.init();
+        });
+        $('input[name="FotoPerfil"]').fileinput({
+            language: 'es',
+            autoReplace: true,
+            overwriteInitial: true,
+            showClose: false,
+            showCaption: false,
+            showUpload: false,
+            browseLabel: '',
+            removeLabel: '',
+            browseIcon: '<i class="glyphicon glyphicon-folder-open"></i>',
+            removeTitle: 'Remover imagen',
+            defaultPreviewContent: '<img src="/Content/img/GrupoOcampo.png" alt="Logo" style="width: auto; height: auto; max-width: 100%; max-height: 100%;">',
+            showUploadedThumbs: false,
+            initialPreview: [
+                '<img class="file-preview-image" style="width: auto; height: auto; max-width: 100%; max-height: 100%;" src="@Url.Content(string.IsNullOrEmpty(Model.FotoPerfil) ? "/Content/img/GrupoOcampo.png" : Model.FotoPerfil)" />'
+            ],
+            initialPreviewShowDelete: false,
+            previewFileIcon: '<i class="fa fa-file"></i>',
+            preferIconicPreview: true, // this will force thumbnails to display icons for following file extensions
+            previewFileIconSettings: { // configure your icon file extensions
+                'heic': '<i class="fa fa-file-text text-primary"></i>'
+            },
+            previewFileExtSettings: { // configure the logic for determining icon file extensions
+                'heic': function (ext) {
+                    return ext.match(/(heic)$/i);
+                }
+            },
+            fileActionSettings: {
+                showRemove: false
+            }
+        });
+        $('input[name="FotoPerfil"]').on('filecleared', function(event) {
+            $("#DeleteFotoPerfilFromServer").val(true);
+        });
     </script>
 }
