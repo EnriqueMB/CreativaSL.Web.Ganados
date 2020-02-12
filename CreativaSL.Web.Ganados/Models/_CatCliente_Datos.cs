@@ -1,6 +1,7 @@
 ﻿using Microsoft.ApplicationBlocks.Data;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
@@ -778,6 +779,79 @@ namespace CreativaSL.Web.Ganados.Models
             }
 
         }
+        #endregion
+        #region Notas
+        public void GuardarNota(CatClienteModels model)
+        {
+            using (var sqlcon = new SqlConnection(model.Conexion))
+            {
+                using (var cmd = new SqlCommand("spCIDDB_Catalogo_CatCliente_GuardarNota", sqlcon))
+                {
+                    //parametros de entrada
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.Add("@IdCliente", SqlDbType.Char).Value = model.IDCliente;
+                    cmd.Parameters.Add("@Notas", SqlDbType.NVarChar).Value = model.Notas;
+
+                    // execute
+                    sqlcon.Open();
+
+                    var reader = cmd.ExecuteReader();
+
+                    if (reader.HasRows)
+                    {
+                        model.RespuestaAjax = new RespuestaAjax();
+
+                        while (reader.Read())
+                        {
+                            model.RespuestaAjax.Success = bool.Parse(reader["Success"].ToString());
+                            model.RespuestaAjax.Mensaje = reader["Mensaje"].ToString();
+                        }
+                    }
+                    reader.Close();
+                }
+            }
+        }
+        public void ObtenerNota(CatClienteModels model)
+        {
+            using (var sqlcon = new SqlConnection(model.Conexion))
+            {
+                using (var cmd = new SqlCommand("spCIDDB_Catalogo_CatCliente_ObtenerNota", sqlcon))
+                {
+                    //parametros de entrada
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.Add("@IdCliente", SqlDbType.Char).Value = model.IDCliente;
+
+                    // execute
+                    sqlcon.Open();
+
+                    var reader = cmd.ExecuteReader();
+
+                    if (reader.HasRows)
+                    {
+                        model.RespuestaAjax = new RespuestaAjax();
+
+                        while (reader.Read())
+                        {
+                            model.RespuestaAjax.Success = bool.Parse(reader["Success"].ToString());
+                            model.RespuestaAjax.Mensaje = reader["Mensaje"].ToString();
+
+                            if (model.RespuestaAjax.Success)
+                            {
+                                model.Notas = reader["Notas"].ToString();
+                            }
+                            else
+                            {
+                                throw new Exception(model.RespuestaAjax.Mensaje);
+                            }
+                        }
+                    }
+                    reader.Close();
+                }
+            }
+        }
+
         #endregion
     }
 }

@@ -48,7 +48,85 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             return View();
         }
+        #region Notas
 
+        [HttpGet]
+        public ActionResult Notas(string id)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(id))
+                {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "Verifique sus datos.";
+                    return RedirectToAction("Index");
+                }
+
+
+                Token.SaveToken();
+                var cliente = new CatClienteModels();
+                cliente.IDCliente = id;
+                cliente.Conexion = Conexion;
+
+                var clienteDatos = new CatCliente_Datos();
+                clienteDatos.ObtenerNota(cliente);
+
+                return View(cliente);
+            }
+            catch (Exception ex)
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Ha ocurrido un error al obtener la nota del cliente, intentelo de nuevo o contacte con soporte técnico.";
+                return RedirectToAction("Index");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult Notas(CatClienteModels model)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(model.IDCliente))
+                {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "Verifique sus datos.";
+                    return RedirectToAction("Index");
+                }
+
+                if (Token.IsTokenValid())
+                {
+                    model.Conexion = Conexion;
+
+                    var clienteDatos = new CatCliente_Datos();
+                    clienteDatos.GuardarNota(model);
+
+                    if (model.RespuestaAjax.Success)
+                    {
+                        TempData["typemessage"] = "1";
+                    }
+                    else
+                    {
+                        TempData["typemessage"] = "2";
+                    }
+
+                    TempData["message"] = model.RespuestaAjax.Mensaje;
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "Verifique sus datos.";
+                    return RedirectToAction("Index");
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Ha ocurrido un al obtener la nota del cliente, intentelo de nuevo o contacte con soporte técnico.";
+                return RedirectToAction("Index");
+            }
+        }
+        #endregion
         // GET: Admin/CatClientes/Create
         [HttpGet]
         public ActionResult Create()
