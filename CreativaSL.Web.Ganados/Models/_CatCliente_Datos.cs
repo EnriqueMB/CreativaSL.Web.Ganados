@@ -340,6 +340,7 @@ namespace CreativaSL.Web.Ganados.Models
                     datos.PSGCliente = !dr.IsDBNull(dr.GetOrdinal("psgCliente")) ? dr.GetString(dr.GetOrdinal("psgCliente")) : string.Empty;
                     datos.Tolerancia = !dr.IsDBNull(dr.GetOrdinal("tolerancia")) ? dr.GetDecimal(dr.GetOrdinal("tolerancia")) : 0;
                     datos.TipoCliente = !dr.IsDBNull(dr.GetOrdinal("id_tipoCliente")) ? dr.GetInt32(dr.GetOrdinal("id_tipoCliente")) : 0;
+                    datos.FotoPerfil = !dr.IsDBNull(dr.GetOrdinal("UrlFotoPerfil")) ? dr.GetString(dr.GetOrdinal("UrlFotoPerfil")) : string.Empty;
                 }
                 dr.Close();
                 return datos;
@@ -585,7 +586,46 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
+        #region Foto de Perfil
+        public RespuestaAjax ActualizarFotoPerfil(string idProveedor, string idUsuario, string urlFotoPerfil, string conexion)
+        {
+            var respuesta = new RespuestaAjax();
+            try
+            {
+                object[] parametros =
+                {
+                    idProveedor, idUsuario, urlFotoPerfil
+                };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(conexion, "spCIDDB_Catalogo_a_CatCliente_fotoPerfil", parametros);
 
+
+                while (dr.Read())
+                {
+                    respuesta.Success = !dr.IsDBNull(dr.GetOrdinal("Success"))
+                        ? dr.GetBoolean(dr.GetOrdinal("Success"))
+                        : false;
+                    respuesta.Mensaje = !dr.IsDBNull(dr.GetOrdinal("Mensaje"))
+                        ? dr.GetString(dr.GetOrdinal("Mensaje"))
+                        : string.Empty;
+                    respuesta.MensajeErrorSQL = !dr.IsDBNull(dr.GetOrdinal("MensajeErrorSQL"))
+                        ? dr.GetString(dr.GetOrdinal("MensajeErrorSQL"))
+                        : string.Empty;
+                }
+
+                dr.Close();
+
+
+            }
+            catch (Exception ex)
+            {
+                respuesta.Mensaje = ex.Message;
+                respuesta.Success = false;
+            }
+
+            return respuesta;
+        }
+        #endregion
         #region UPPCliente
         public UPPClienteModels ObtenerUPPCliente(UPPClienteModels Datos)
         {

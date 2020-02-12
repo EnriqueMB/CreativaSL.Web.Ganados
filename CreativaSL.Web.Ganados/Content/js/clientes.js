@@ -31,7 +31,10 @@
                 //RFC: { required: true, rfc: true },
                 //Direccion: { direccion: true, maxlength: 300 },
                 //FechaIngreso: { required: true },
-                
+                FotoPerfil:
+                {
+                    ImagenNoRequerida_ValidarExtension: ["FotoPerfil"]
+                },
                 //Celular: { telefono: true },
                 //Telefono: { telefono: true },
                 TipoCliente: { min: 1 }
@@ -43,6 +46,11 @@
                 NombreRazonSocial: { required: "Ingrese la Razón social.", texto: "Ingrese una razón social válido.", maxlength: "El campo razón social admite máximo 300 caracteres." },
                 NombreResponsable: { required: "Ingrese el Nombre del Contacto", nombre: "Ingrese un nombre de contacto válido.", maxlength: "El campo nombre de contacto admite máximo 300 caracteres.", minlength: "El campo nombre de contacto admite minimo 4 caracteres." }, // { nombre: "Ingrese un nombre de contacto válido." , maxlenght:   }
                 IDRegimenFiscal: { required: "Seleccione un régimen fiscal." },
+                FotoPerfil:
+                {
+                    ImagenNoRequerida_ValidarExtension:
+                        "Seleccione una imagen válida para la foto de perfil, formatos válidos: PNG, JPG, JPEG, HEIC y BMP."
+                },
                 //RFC: { required: "Ingrese el RFC del cliente.", rfc: "Ingrese un RFC válido." },
                 //Direccion: { direccion: "Ingrese un dirección válida.", maxlength: "El campo domicilio fiscal admite máximo 300 caracteres." },
                 //FechaIngreso: { required: "Ingrese la fecha de inicio de relación." },
