@@ -1581,6 +1581,7 @@
     <Content Include="Areas\Admin\Views\Venta\CostosExtra.cshtml" />
     <Content Include="Areas\Admin\Views\Venta\CostoExtra_AC.cshtml" />
     <Content Include="Areas\Admin\Views\CatProveedor\Notas.cshtml" />
+    <Content Include="Areas\Admin\Views\CatCliente\Notas.cshtml" />
     <Content Include="Areas\Admin\Views\CatTipoDocumentacionExtra\Index.cshtml" />
     <Content Include="Areas\Admin\Views\CatTipoDocumentacionExtra\Create.cshtml" />
     <Content Include="Areas\Admin\Views\CatTipoDocumentacionExtra\Edit.cshtml" />

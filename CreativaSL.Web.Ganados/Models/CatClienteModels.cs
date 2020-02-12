@@ -25,6 +25,7 @@ namespace CreativaSL.Web.Ganados.Models
             _Celular = string.Empty;
             _CorreoElectronico = string.Empty;
             _NombreSucursal = string.Empty;
+            _notas = string.Empty;
             _NombreRegimenFiscal = string.Empty;
             _ListaClientes = new List<CatClienteModels>();
             _ListaCmbSucursal = new List<CatSucursalesModels>();
@@ -90,6 +91,13 @@ namespace CreativaSL.Web.Ganados.Models
         {
             get { return _EsPersonaFisica; }
             set { _EsPersonaFisica = value; }
+        }
+        private string _notas;
+
+        public string Notas
+        {
+            get { return _notas; }
+            set { _notas = value; }
         }
 
         private string _IDRegimenFiscal;
@@ -257,6 +265,13 @@ namespace CreativaSL.Web.Ganados.Models
         {
             get { return _fotoPerfil; }
             set { _fotoPerfil = value; }
+        }
+        private RespuestaAjax _respuestaAjax;
+
+        public RespuestaAjax RespuestaAjax
+        {
+            get { return _respuestaAjax; }
+            set { _respuestaAjax = value; }
         }
         #region Datos De Control
         public string Conexion { get; set; }
