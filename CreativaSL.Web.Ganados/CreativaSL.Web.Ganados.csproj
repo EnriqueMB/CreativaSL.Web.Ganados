@@ -475,6 +475,7 @@
     <Content Include="Content\js\AgregarArchivoEmpleado.js" />
     <Content Include="Content\js\AgregarArchivoVehiculo.js" />
     <Content Include="Content\js\Bancos.js" />
+    <Content Include="Content\js\CatTipoDocumentacionExtraJs.js" />
     <Content Include="Content\js\DevolucionHerramienta.js" />
     <Content Include="Content\js\EntradaCajaChica.js" />
     <Content Include="Content\js\CajaChica.js" />
@@ -492,6 +493,8 @@
     <Content Include="Content\js\MetaXSucursal.js" />
     <Content Include="Content\js\plugins\nvd3\src\models\backup\bullet.js" />
     <Content Include="Content\js\PrestamoHerramientasDetalle.js" />
+    <Content Include="Content\js\Proveedor\CreateEditDocumentoExtraJs.js" />
+    <Content Include="Content\js\Proveedor\IndexDocumentoExtraJs.js" />
     <Content Include="Content\js\ReporteTipoFlete.js" />
     <Content Include="Content\js\PrestamosHerramientaLista.js" />
     <Content Include="Content\js\PrestamosHerramientas.js" />
@@ -1579,6 +1582,11 @@
     <Content Include="Areas\Admin\Views\Venta\CostoExtra_AC.cshtml" />
     <Content Include="Areas\Admin\Views\CatProveedor\Notas.cshtml" />
     <Content Include="Areas\Admin\Views\CatCliente\Notas.cshtml" />
+    <Content Include="Areas\Admin\Views\CatTipoDocumentacionExtra\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\CatTipoDocumentacionExtra\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\CatTipoDocumentacionExtra\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\CatProveedor\DocumentosExtras.cshtml" />
+    <Content Include="Areas\Admin\Views\CatProveedor\CreateDocumentoExtra.cshtml" />
     <None Include="Properties\PublishProfiles\Ocampo.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
@@ -1619,6 +1627,7 @@
     <Compile Include="Areas\Admin\Controllers\CatProveedorTransporteController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatRangoPesoVentaController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatTipoClienteController.cs" />
+    <Compile Include="Areas\Admin\Controllers\CatTipoDocumentacionExtraController.cs" />
     <Compile Include="Areas\Admin\Controllers\CuentaUserController.cs" />
     <Compile Include="Areas\Admin\Controllers\ErrorController.cs" />
     <Compile Include="Areas\Admin\Controllers\HistorialCajaChicaController.cs" />
@@ -1733,6 +1742,7 @@
     <Compile Include="Models\CatJaulaModels.cs" />
     <Compile Include="Models\CatLugarModels.cs" />
     <Compile Include="Models\CatMarcaVehiculoModels.cs" />
+    <Compile Include="Models\CatModulosModel.cs" />
     <Compile Include="Models\CatMotivoBajaModels.cs" />
     <Compile Include="Models\CatMunicipioModels.cs" />
     <Compile Include="Models\CatPaisModels.cs" />
@@ -1756,6 +1766,7 @@
     <Compile Include="Models\CatTipoCodigoProductoModels.cs" />
     <Compile Include="Models\CatTipoCombustibleModels.cs" />
     <Compile Include="Models\CatTipoConciliacionModels.cs" />
+    <Compile Include="Models\CatTipoDocumentacionExtraModel.cs" />
     <Compile Include="Models\CatTipoDocumentoModels.cs" />
     <Compile Include="Models\CatTipoEventoEnvioModels.cs" />
     <Compile Include="Models\CatTipoGanadoPorPesoModels.cs" />
@@ -1812,6 +1823,7 @@
     <Compile Include="Models\DatosGeneralesGanados.cs" />
     <Compile Include="Models\DeduccionModels.cs" />
     <Compile Include="Models\DevolucionHerramientaDetalleModels.cs" />
+    <Compile Include="Models\DocumentacionExtra_CatProveedorModel.cs" />
     <Compile Include="Models\DocumentoCompraModels.cs" />
     <Compile Include="Models\DocumentoModels.cs" />
     <Compile Include="Models\DocumentoPorPagarDetalleModels.cs" />
@@ -1822,10 +1834,14 @@
     <Compile Include="Models\DocumentosPorCobrarDetallePagosBancarizadoModels.cs" />
     <Compile Include="Models\DocumentosPorCobrarDetallePagosModels.cs" />
     <Compile Include="Models\DocumentosPorCobrarModels.cs" />
-    <Compile Include="Models\Dto\IndexCompraDto.cs" />
-    <Compile Include="Models\Dto\IndexDatatableDto.cs" />
-    <Compile Include="Models\Dto\IndexProveedorGanadoDto.cs" />
-    <Compile Include="Models\Dto\IndexVentaDto.cs" />
+    <Compile Include="Models\Dto\CatModulos\SelectCatModuloDto.cs" />
+    <Compile Include="Models\Dto\CatTipoDocumentacionExtra\CreateEditCatTipoDocumentacionExtraDto.cs" />
+    <Compile Include="Models\Dto\CatTipoDocumentacionExtra\IndexCatTipoDocumentacionExtraDto.cs" />
+    <Compile Include="Models\Dto\Compra\IndexCompraDto.cs" />
+    <Compile Include="Models\Dto\Base\IndexDatatableDto.cs" />
+    <Compile Include="Models\Dto\ProveedorGanado\IndexProveedorGanadoDocumentacionExtraDto.cs" />
+    <Compile Include="Models\Dto\ProveedorGanado\IndexProveedorGanadoDto.cs" />
+    <Compile Include="Models\Dto\Venta\IndexVentaDto.cs" />
     <Compile Include="Models\EntradaAlmacenDetalleModels.cs" />
     <Compile Include="Models\EntradaAlmacenModels.cs" />
     <Compile Include="Models\EntregaCombustibleModels.cs" />
@@ -1917,6 +1933,7 @@
     <Compile Include="Models\ServiciosMantenimientoDetalleModels.cs" />
     <Compile Include="Models\ServiciosMantenimientoModels.cs" />
     <Compile Include="Models\ListaGenerica.cs" />
+    <Compile Include="Models\System\BaseSQL.cs" />
     <Compile Include="Models\System\UploadImageToServerModel.cs" />
     <Compile Include="Models\TelefonosContactoSucursalModels.cs" />
     <Compile Include="Models\ConfiguracionModels.cs" />
@@ -1996,6 +2013,7 @@
     <Compile Include="Models\_CatSocio_Datos.cs" />
     <Compile Include="Models\_CatSucursal_Datos.cs" />
     <Compile Include="Models\_CatTipoCliente_Datos.cs" />
+    <Compile Include="Models\_CatTipoDocumentacionExtra_Datos.cs" />
     <Compile Include="Models\_CatTipoProveedor_Datos.cs" />
     <Compile Include="Models\_CatTipoServicio_Datos.cs" />
     <Compile Include="Models\_CatTipoVehiculos_Datos.cs" />

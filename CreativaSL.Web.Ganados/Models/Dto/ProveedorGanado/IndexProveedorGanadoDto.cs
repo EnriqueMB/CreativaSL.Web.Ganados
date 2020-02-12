@@ -1,4 +1,4 @@
-﻿namespace CreativaSL.Web.Ganados.Models.Dto
+﻿namespace CreativaSL.Web.Ganados.Models.Dto.ProveedorGanado
 {
     public class IndexProveedorGanadoDto
     {

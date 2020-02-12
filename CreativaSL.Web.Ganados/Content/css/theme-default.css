@@ -8076,7 +8076,7 @@ display:none;
     width: 15px;
     height: 15px;
 }
-.btn {
+.table .btn {
     margin: 2px;
 }
 
@@ -8084,3 +8084,14 @@ display:none;
     height: 100% !important;
 }
 /*TERMNINA CAMBIOS 08/02/2020*/
+
+/*INICIA CAMBIOS 11/02/2020*/
+.icon-ocampo-head{
+    display: inline-block;
+}
+.btn .icon-ocampo-head{
+    width: 15px;
+    height: 15px;
+}
+/*TERMINA CAMBIOS 11/02/2020*/
+

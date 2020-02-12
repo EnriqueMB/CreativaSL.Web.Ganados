@@ -441,36 +441,39 @@
                     "render": function (data, type, full) {
                         var botones =
                             "<div class='visible-md visible-lg hidden-sm hidden-xs' style='text-align:center'=>" +
-                            "<a title='Notas' class='btn btn-primary' href='/Admin/CatProveedor/Notas?IdProveedor=" +
+                            "<a title='Documentos extras' class='btn btn-primary' href='/Admin/CatProveedor/DocumentosExtras?IdProveedor=" +
+                            full["IdProveedor"] +
+                            "'><i class='fa fa-archive'></i></a>" +
+                            "<a title='Notas' class='btn btn-primary btnMargin' href='/Admin/CatProveedor/Notas?IdProveedor=" +
                             full["IdProveedor"] +
                             "'><i class='fa fa-file-text'></i></a>" +
-                            "<a title='Precios Rango' class='btn btn-primary' href='/Admin/CatProveedor/PrecioProveedor/" +
+                            "<a title='Precios Rango' class='btn btn-primary btnMargin' href='/Admin/CatProveedor/PrecioProveedor/" +
                             full["IdProveedor"] +
                             "'><i class='fa fa-dollar'></i></a>" +
-                            "<a title='Lugar Proveedor' class='btn btn-primary' href='/Admin/CatProveedor/LugarProveedor/" +
+                            "<a title='Lugar Proveedor' class='btn btn-primary btnMargin' href='/Admin/CatProveedor/LugarProveedor/" +
                             full["IdProveedor"] +
                             "/" +
                             full["IdSucursal"] +
                             "'><i class='fa fa-map-marker'></i></a>" +
-                            "<a title='Datos de contacto' class='btn btn-blue' href='/Admin/CatProveedor/DatosContacto/" +
+                            "<a title='Datos de contacto' class='btn btn-blue btnMargin' href='/Admin/CatProveedor/DatosContacto/" +
                             full["IdProveedor"] +
                             "/" +
                             full["IdSucursal"] +
                             "'><i class='fa fa-user'></i></a>" +
-                            "<a title='Datos bancarios' class='btn btn-green' href='/Admin/CatProveedor/Cuentas/" +
+                            "<a title='Datos bancarios' class='btn btn-green btnMargin' href='/Admin/CatProveedor/Cuentas/" +
                             full["IdProveedor"] +
                             "'><i class='fa fa-money'></i></a>" +
-                            "<a title='UPPProveedor' class='btn btn-green' href='/Admin/CatProveedor/UPPProveedor/" +
+                            "<a title='UPPProveedor' class='btn btn-green btnMargin' href='/Admin/CatProveedor/UPPProveedor/" +
                             full["IdProveedor"] +
                             "'><i class='fa fa-plus'></i></a>" +
                             "<a title='Editar' href='/Admin/CatProveedor/Edit/" +
                             full["IdProveedor"] +
-                            "' class='btn btn-yellow tooltips' data-placement='top' data-original-title='Edit'><i class='fa fa-edit'></i></a>" +
+                            "' class='btn btn-yellow tooltips btnMargin' data-placement='top' data-original-title='Edit'><i class='fa fa-edit'></i></a>" +
                             "<a title='Eliminar' data-id='" +
                             full["IdProveedor"] +
                             "' data-hrefa='/Admin/CatProveedor/Delete/" +
                             full["IdProveedor"] +
-                            "' class='btn btn-danger tooltips eliminarProveedor' data-placement='top' data-original-title='Eliminar'><i class='fa fa-trash-o'></i></a>" +
+                            "' class='btn btn-danger tooltips eliminarProveedor btnMargin' data-placement='top' data-original-title='Eliminar'><i class='fa fa-trash-o'></i></a>" +
                             "</div>" +
                             "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
                             "<div class='btn-group'>" +
@@ -478,6 +481,13 @@
                             "<i class='fa fa-cog'></i> <span class='caret'></span>" +
                             "</a>" +
                             "<ul role='menu' class='dropdown-menu pull-right dropdown-dark'>" +
+                            "<li>" +
+                            "<a role='menuitem' tabindex='-1' href='/Admin/CatProveedor/DocumentosExtras?IdProveedor=" +
+                            full["IdProveedor"] +
+                            "'>" +
+                            "<i class='fa fa-archive'></i> Documentos extras" +
+                            "</a>" +
+                            "</li>" +
                             "<li>" +
                             "<a role='menuitem' tabindex='-1' href='/Admin/CatProveedor/Notas/" +
                             full["IdProveedor"] +

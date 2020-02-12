@@ -4,15 +4,15 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Globalization;
-using System.Linq;
-using System.Web;
 using CreativaSL.Web.Ganados.Models.Datatable;
-using CreativaSL.Web.Ganados.Models.Dto;
+using CreativaSL.Web.Ganados.Models.Dto.Base;
+using CreativaSL.Web.Ganados.Models.Dto.ProveedorGanado;
+using CreativaSL.Web.Ganados.Models.System;
 using Newtonsoft.Json;
 
 namespace CreativaSL.Web.Ganados.Models
 {
-    public class _CatProveedor_Datos 
+    public class _CatProveedor_Datos : BaseSQL
     {
         #region Notas
         public void GuardarNota(CatProveedorModels model)
@@ -1020,6 +1020,78 @@ namespace CreativaSL.Web.Ganados.Models
             }
             
             return respuesta;
+        }
+
+
+        #endregion
+
+        #region Documentos Extras
+
+        public string DocumentosExtras_ObtenerIndex(DataTableAjaxPostModel dataTableAjaxPostModel)
+        {
+            try
+            {
+                using (var sqlcon = new SqlConnection(ConexionSql))
+                {
+                    using (var cmd = new SqlCommand("spCSLDB_Catalogo_DocumentacionExtra_CatProveedores_ObtenerIndex", sqlcon))
+                    {
+                        //parametros de entrada
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        cmd.Parameters.Add("@Start", SqlDbType.Int).Value = dataTableAjaxPostModel.start;
+                        cmd.Parameters.Add("@Length", SqlDbType.Int).Value = dataTableAjaxPostModel.length;
+                        cmd.Parameters.Add("@SearchValue", SqlDbType.NVarChar).Value = dataTableAjaxPostModel.search.value;
+                        cmd.Parameters.Add("@Draw", SqlDbType.Int).Value = dataTableAjaxPostModel.draw;
+                        cmd.Parameters.Add("@ColumnNumber", SqlDbType.Int).Value = dataTableAjaxPostModel.order[0].column;
+                        cmd.Parameters.Add("@ColumnDir", SqlDbType.NVarChar).Value = dataTableAjaxPostModel.order[0].dir;
+
+                        // execute
+                        sqlcon.Open();
+
+                        var reader = cmd.ExecuteReader();
+
+                        var indexDatatableDto = new IndexDatatableDto();
+
+                        if (reader.HasRows)
+                        {
+                            indexDatatableDto.Data = new List<object>();
+                            var firstData = true;
+
+                            while (reader.Read())
+                            {
+                                if (firstData)
+                                {
+                                    indexDatatableDto.Draw = int.Parse(reader["Draw"].ToString()); ;
+                                    indexDatatableDto.RecordsFiltered = int.Parse(reader["RecordsFiltered"].ToString());
+                                    indexDatatableDto.RecordsTotal = int.Parse(reader["RecordsTotal"].ToString());
+                                    firstData = false;
+                                }
+
+                                var indexDto = new IndexProveedorGanadoDocumentacionExtraDto();
+
+                                indexDto.IdDocumentacionExtra = reader["IdDocumentacionExtra"].ToString();
+                                indexDto.IdTipoDocumentacionExtra = int.Parse(reader["IdTipoDocumentacionExtra"].ToString());
+                                indexDto.NombreTipoDocumentacionExtra = reader["NombreTipoDocumentacionExtra"].ToString();
+                                indexDto.IdProveedor = reader["IdProveedor"].ToString();
+                                indexDto.UrlArchivo = reader["UrlArchivo"].ToString();
+
+                                indexDatatableDto.Data.Add(indexDto);
+                            }
+                        }
+
+                        var json = JsonConvert.SerializeObject(indexDatatableDto);
+
+                        reader.Close();
+
+                        return json;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
         }
 
 

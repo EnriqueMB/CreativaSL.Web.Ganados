@@ -8,24 +8,20 @@
 {
     <link href="~/Content/css/datatable/jquery.dataTables.min.css" rel="stylesheet" />
     <style>
-        table.tVenta {
-            width: 100% !important;
+        table.tVenta td {
+            border-color: #E5E5E5 !important;
+            border: 1px solid #E5E5E5;
         }
 
-            table.tVenta td {
-                border-color: #E5E5E5 !important;
-                border: 1px solid #E5E5E5;
-            }
-
-            table.tVenta > thead > tr > th {
-                background: #f1f5f9;
-                color: #56688A;
-                font-size: 12px;
-                border: 1px solid #E5E5E5;
-                text-align: center;
-                vertical-align: middle;
-                padding: 8px;
-            }
+        table.tVenta > thead > tr > th {
+            background: #f1f5f9;
+            color: #56688A;
+            font-size: 12px;
+            border: 1px solid #E5E5E5;
+            text-align: center;
+            vertical-align: middle;
+            padding: 8px;
+        }
 
         .transaccionesCompra {
             background-color: #95b75d !important;
@@ -89,7 +85,7 @@
                     </div>
                     <div class="panel-body">
                         <div class="table-responsive">
-                            <table id="tblVenta" class="tVenta table-long">
+                            <table id="tblVenta" class="tVenta table">
                                 <thead>
                                     <tr>
                                         <th rowspan="3">Folio</th>
@@ -346,17 +342,17 @@
                             var igual = status_actual.localeCompare(Agendada);
                             if (igual == 0) {
                                 botones = botones +
-                                    "<a data-id='" + full["id_venta"] + "' class='btn tooltips btn-sm btn-primary details' title='Detalles'  data-placement='top' data-original-title='Detalles'><i class='fa fa-eye'></i></a>" +
-                                    "<a data-id='" + full["id_venta"] + "' class='btn btn-blue tooltips btn-sm ganado' title='Ganado'  data-placement='top' data-original-title='Ganado'><i class='icon-ocampo-head'></i></a>" +
-                                    "<a data-id='" + full["id_venta"] + "' class='btn btn-blue tooltips btn-sm transacciones' title='Transacciones ($)'  data-placement='top' data-original-title='Transaciones'><i class='fa fa-money'></i></a>" +
-                                    "<a data-id='" + full["id_venta"] + "' class='btn btn-blue tooltips btn-sm documentos' title='Documentos'  data-placement='top' data-original-title='Documentos'><i class='fa fa-archive'></i></a>" +
-                                    "<a data-id='" + full["id_venta"] + "' data-id_estatus = '" + full["id_estatus"] + "' class='btn btn-yellow tooltips btn-sm edit' title='Agendado'  data-placement='top' data-original-title='Agendado'><i class='fa fa-clock-o'></i></a>" +
-                                    "<a data-id='" + full["id_venta"] + "' class='btn btn-info tooltips btn-sm costoExtra' title='Costo extra'  data-placement='top' data-original-title='Costo extra'><i class='fa fa-search-plus'></i></a>" +
-                                    "<a data-id='" + full["id_venta"] + "' data-hrefa='/Admin/Venta/DEL_Venta/' class='btn btn-danger tooltips btn-sm eliminar' data-placement='top' data-original-title='Eliminar' title='Eliminar' ><i class='fa fa-trash-o'></i></a>" +
+                                    "<a data-id='" + full["id_venta"] + "' class='btn tooltips btn-primary details btnMargin' title='Detalles'  data-placement='top' data-original-title='Detalles'><i class='fa fa-eye'></i></a>" +
+                                    "<a data-id='" + full["id_venta"] + "' class='btn btn-blue tooltips ganado btnMargin' title='Ganado'  data-placement='top' data-original-title='Ganado'><i class='icon-ocampo-head'></i></a>" +
+                                    "<a data-id='" + full["id_venta"] + "' class='btn btn-blue tooltips transacciones btnMargin' title='Transacciones ($)'  data-placement='top' data-original-title='Transaciones'><i class='fa fa-money'></i></a>" +
+                                    "<a data-id='" + full["id_venta"] + "' class='btn btn-blue tooltips documentos btnMargin' title='Documentos'  data-placement='top' data-original-title='Documentos'><i class='fa fa-archive'></i></a>" +
+                                    "<a data-id='" + full["id_venta"] + "' data-id_estatus = '" + full["id_estatus"] + "' class='btn btn-yellow tooltips edit btnMargin' title='Agendado'  data-placement='top' data-original-title='Agendado'><i class='fa fa-clock-o'></i></a>" +
+                                    "<a data-id='" + full["id_venta"] + "' class='btn btn-info tooltips costoExtra btnMargin' title='Costo extra'  data-placement='top' data-original-title='Costo extra'><i class='fa fa-search-plus'></i></a>" +
+                                    "<a data-id='" + full["id_venta"] + "' data-hrefa='/Admin/Venta/DEL_Venta/' class='btn btn-danger tooltips eliminar btnMargin' data-placement='top' data-original-title='Eliminar' title='Eliminar' ><i class='fa fa-trash-o'></i></a>" +
                                     "</div>" +
                                     "<div class='visible-xs visible-sm visible-md hidden-lg'>" +
                                     "<div class='btn-group'>" +
-                                    "<a class='btn btn-danger dropdown-toggle btn-sm' data-toggle='dropdown' href='#'" +
+                                    "<a class='btn btn-danger dropdown-toggle  ' data-toggle='dropdown' href='#'" +
                                     "<i class='fa fa-cog'></i> <span class='caret'></span>" +
                                     "</a>" +
                                     "<ul role='menu' class='dropdown-menu pull-right dropdown-dark'>" +
@@ -404,17 +400,17 @@
                             igual = status_actual.localeCompare(Ganado);
                             if (igual == 0) {
                                 botones = botones +
-                                    "<a data-id='" + full["id_venta"] + "' class='btn tooltips btn-primary btn-sm details' title='Detalles'  data-placement='top' data-original-title='Detalles'><i class='fa fa-eye'></i></a>" +
-                                    "<a data-id='" + full["id_venta"] + "' class='btn tooltips btn-blue  btn-sm enviar' title='Flete'  data-placement='top' data-original-title='Flete'><i class='fa fa-truck'></i></a>" +
-                                    "<a data-id='" + full["id_venta"] + "' class='btn tooltips btn-blue btn-sm transacciones' title='Transacciones ($)'  data-placement='top' data-original-title='Transaciones'><i class='fa fa-money'></i></a>" +
-                                    "<a data-id='" + full["id_venta"] + "' class='btn tooltips btn-blue btn-sm documentos' title='Documentos'  data-placement='top' data-original-title='Documentos'><i class='fa fa-archive'></i></a>" +
-                                    "<a data-id='" + full["id_venta"] + "' data-id_estatus = '" + full["id_estatus"] + "' class='btn btn-yellow tooltips btn-sm edit' title='Ganado'  data-placement='top' data-original-title='Ganado'><span class='icon-ocampo-head'></span></a>" +
-                                    "<a data-id='" + full["id_venta"] + "' class='btn btn-info tooltips btn-sm costoExtra' title='Costo extra'  data-placement='top' data-original-title='Costo extra'><i class='fa fa-search-plus'></i></a>" +
-                                    "<a data-id='" + full["id_venta"] + "' data-hrefa='/Admin/Venta/DEL_Venta/' class='btn btn-danger tooltips btn-sm' data-placement='top' data-original-title='Eliminar' title='Eliminar' ><i class='fa fa-trash-o'></i></a>" +
+                                    "<a data-id='" + full["id_venta"] + "' class='btn tooltips btn-primary details btnMargin' title='Detalles'  data-placement='top' data-original-title='Detalles'><i class='fa fa-eye'></i></a>" +
+                                    "<a data-id='" + full["id_venta"] + "' class='btn tooltips btn-blue enviar btnMargin' title='Flete'  data-placement='top' data-original-title='Flete'><i class='fa fa-truck'></i></a>" +
+                                    "<a data-id='" + full["id_venta"] + "' class='btn tooltips btn-blue transacciones btnMargin' title='Transacciones ($)'  data-placement='top' data-original-title='Transaciones'><i class='fa fa-money'></i></a>" +
+                                    "<a data-id='" + full["id_venta"] + "' class='btn tooltips btn-blue documentos btnMargin' title='Documentos'  data-placement='top' data-original-title='Documentos'><i class='fa fa-archive'></i></a>" +
+                                    "<a data-id='" + full["id_venta"] + "' data-id_estatus = '" + full["id_estatus"] + "' class='btn btn-yellow tooltips edit btnMargin' title='Ganado'  data-placement='top' data-original-title='Ganado'><span class='icon-ocampo-head'></span></a>" +
+                                    "<a data-id='" + full["id_venta"] + "' class='btn btn-info tooltips costoExtra btnMargin' title='Costo extra'  data-placement='top' data-original-title='Costo extra'><i class='fa fa-search-plus'></i></a>" +
+                                    "<a data-id='" + full["id_venta"] + "' data-hrefa='/Admin/Venta/DEL_Venta/' class='btn btn-danger tooltips btnMargin' data-placement='top' data-original-title='Eliminar' title='Eliminar' ><i class='fa fa-trash-o'></i></a>" +
                                     "</div>" +
                                     "<div class='visible-xs visible-sm visible-md hidden-lg'>" +
                                     "<div class='btn-group'>" +
-                                    "<a class='btn btn-danger dropdown-toggle btn-sm' data-toggle='dropdown' href='#'" +
+                                    "<a class='btn btn-danger dropdown-toggle  ' data-toggle='dropdown' href='#'" +
                                     "<i class='fa fa-cog'></i> <span class='caret'></span>" +
                                     "</a>" +
                                     "<ul role='menu' class='dropdown-menu pull-right dropdown-dark'>" +
@@ -462,17 +458,17 @@
                             igual = status_actual.localeCompare(Enviada);
                             if (igual == 0) {
                                 botones = botones +
-                                    "<a data-id='" + full["id_venta"] + "' class='btn tooltips btn-sm btn-primary details' title='Detalles'  data-placement='top' data-original-title='Detalles'><i class='fa fa-eye'></i></a>" +
-                                    "<a data-id='" + full["id_venta"] + "' class='btn tooltips  btn-blue btn-sm eventos_recepcion' title='Eventos y recepción'  data-placement='top' data-original-title='Eventos y recepción'><i class='fa fa-file'></i></a>" +
-                                    "<a data-id='" + full["id_venta"] + "' class='btn tooltips btn-sm transacciones' title='Transacciones ($)'  data-placement='top' data-original-title='Transaciones'><i class='fa fa-money'></i></a>" +
-                                    "<a data-id='" + full["id_venta"] + "' class='btn tooltips btn-sm documentos' title='Documentos'  data-placement='top' data-original-title='Documentos'><i class='fa fa-archive'></i></a>" +
-                                    "<a data-id='" + full["id_venta"] + "' class='btn tooltips btn-sm btn-warning correo' title='Correo'  data-placement='top' data-original-title='Correo'><i class='fa fa-envelope'></i></a>" +
-                                    "<a data-id='" + full["id_venta"] + "' class='btn btn-info tooltips btn-sm costoExtra' title='Costo extra'  data-placement='top' data-original-title='Costo extra'><i class='fa fa-search-plus'></i></a>" +
-                                    "<a data-id='" + full["id_venta"] + "' data-hrefa='/Admin/Venta/DEL_Venta/' class='btn btn-danger tooltips btn-sm eliminar' data-placement='top' data-original-title='Eliminar' title='Eliminar' ><i class='fa fa-trash-o'></i></a>" +
+                                    "<a data-id='" + full["id_venta"] + "' class='btn tooltips btn-primary details btnMargin' title='Detalles'  data-placement='top' data-original-title='Detalles'><i class='fa fa-eye'></i></a>" +
+                                    "<a data-id='" + full["id_venta"] + "' class='btn tooltips btn-blue   eventos_recepcion btnMargin' title='Eventos y recepción'  data-placement='top' data-original-title='Eventos y recepción'><i class='fa fa-file'></i></a>" +
+                                    "<a data-id='" + full["id_venta"] + "' class='btn tooltips transacciones btnMargin' title='Transacciones ($)'  data-placement='top' data-original-title='Transaciones'><i class='fa fa-money'></i></a>" +
+                                    "<a data-id='" + full["id_venta"] + "' class='btn tooltips documentos btnMargin' title='Documentos'  data-placement='top' data-original-title='Documentos'><i class='fa fa-archive'></i></a>" +
+                                    "<a data-id='" + full["id_venta"] + "' class='btn tooltips btn-warning correo btnMargin' title='Correo'  data-placement='top' data-original-title='Correo'><i class='fa fa-envelope'></i></a>" +
+                                    "<a data-id='" + full["id_venta"] + "' class='btn btn-info tooltips costoExtra btnMargin' title='Costo extra'  data-placement='top' data-original-title='Costo extra'><i class='fa fa-search-plus'></i></a>" +
+                                    "<a data-id='" + full["id_venta"] + "' data-hrefa='/Admin/Venta/DEL_Venta/' class='btn btn-danger tooltips eliminar btnMargin' data-placement='top' data-original-title='Eliminar' title='Eliminar' ><i class='fa fa-trash-o'></i></a>" +
                                     "</div>" +
                                     "<div class='visible-xs visible-sm visible-md hidden-lg'>" +
                                     "<div class='btn-group'>" +
-                                    "<a class='btn btn-danger dropdown-toggle btn-sm' data-toggle='dropdown' href='#'" +
+                                    "<a class='btn btn-danger dropdown-toggle  ' data-toggle='dropdown' href='#'" +
                                     "<i class='fa fa-cog'></i> <span class='caret'></span>" +
                                     "</a>" +
                                     "<ul role='menu' class='dropdown-menu pull-right dropdown-dark'>" +
@@ -519,18 +515,18 @@
 
                             igual = status_actual.localeCompare(Recepción);
                             if (igual == 0) {
-                                botones = botones + "<a data-id='" + full["id_venta"] + "' class='btn tooltips btn-sm btn-primary details' title='Detalles'  data-placement='top' data-original-title='Detalles'><i class='fa fa-eye'></i></a>" +
-                                    "<a data-id='" + full["id_venta"] + "' class='btn btn-blue   tooltips btn-sm concluir' title='Concluir'  data-placement='top' data-original-title='Concluir'><i class='fa fa-check'></i></a>" +
-                                    "<a data-id='" + full["id_venta"] + "' class='btn tooltips btn-sm transacciones' title='Transacciones ($)'  data-placement='top' data-original-title='Transaciones'><i class='fa fa-money'></i></a>" +
-                                    "<a data-id='" + full["id_venta"] + "' class='btn tooltips btn-sm documentos' title='Documentos'  data-placement='top' data-original-title='Documentos'><i class='fa fa-archive'></i></a>" +
-                                    "<a data-id='" + full["id_venta"] + "' data-id_estatus = '" + full["id_estatus"] + "' class='btn btn-yellow tooltips btn-sm edit' title='Eventos y recepción'  data-placement='top' data-original-title='Eventos y recepción'><i class='fa fa-book'></i></a>" +
-                                    "<a data-id='" + full["id_venta"] + "' class='btn tooltips btn-sm btn-warning correo' title='Correo'  data-placement='top' data-original-title='Correo'><i class='fa fa-envelope'></i></a>" +
-                                    "<a data-id='" + full["id_venta"] + "' class='btn btn-info tooltips btn-sm costoExtra' title='Costo extra'  data-placement='top' data-original-title='Costo extra'><i class='fa fa-search-plus'></i></a>" +
-                                    "<a data-id='" + full["id_venta"] + "' data-hrefa='/Admin/Venta/DEL_Venta/' class='btn btn-danger tooltips btn-sm eliminar' data-placement='top' data-original-title='Eliminar' title='Eliminar' ><i class='fa fa-trash-o'></i></a>" +
+                                botones = botones + "<a data-id='" + full["id_venta"] + "' class='btn tooltips btn-primary details btnMargin' title='Detalles'  data-placement='top' data-original-title='Detalles'><i class='fa fa-eye'></i></a>" +
+                                    "<a data-id='" + full["id_venta"] + "' class='btn btn-blue tooltips concluir btnMargin' title='Concluir'  data-placement='top' data-original-title='Concluir'><i class='fa fa-check'></i></a>" +
+                                    "<a data-id='" + full["id_venta"] + "' class='btn tooltips transacciones btnMargin' title='Transacciones ($)'  data-placement='top' data-original-title='Transaciones'><i class='fa fa-money'></i></a>" +
+                                    "<a data-id='" + full["id_venta"] + "' class='btn tooltips documentos btnMargin' title='Documentos'  data-placement='top' data-original-title='Documentos'><i class='fa fa-archive'></i></a>" +
+                                    "<a data-id='" + full["id_venta"] + "' data-id_estatus = '" + full["id_estatus"] + "' class='btn btn-yellow tooltips edit btnMargin' title='Eventos y recepción'  data-placement='top' data-original-title='Eventos y recepción'><i class='fa fa-book'></i></a>" +
+                                    "<a data-id='" + full["id_venta"] + "' class='btn tooltips btn-warning correo btnMargin' title='Correo'  data-placement='top' data-original-title='Correo'><i class='fa fa-envelope'></i></a>" +
+                                    "<a data-id='" + full["id_venta"] + "' class='btn btn-info tooltips costoExtra btnMargin' title='Costo extra'  data-placement='top' data-original-title='Costo extra'><i class='fa fa-search-plus'></i></a>" +
+                                    "<a data-id='" + full["id_venta"] + "' data-hrefa='/Admin/Venta/DEL_Venta/' class='btn btn-danger tooltips eliminar btnMargin' data-placement='top' data-original-title='Eliminar' title='Eliminar' ><i class='fa fa-trash-o'></i></a>" +
                                     "</div>" +
                                     "<div class='visible-xs visible-sm visible-md hidden-lg'>" +
                                     "<div class='btn-group'>" +
-                                    "<a class='btn btn-danger dropdown-toggle btn-sm' data-toggle='dropdown' href='#'" +
+                                    "<a class='btn btn-danger dropdown-toggle  ' data-toggle='dropdown' href='#'" +
                                     "<i class='fa fa-cog'></i> <span class='caret'></span>" +
                                     "</a>" +
                                     "<ul role='menu' class='dropdown-menu pull-right dropdown-dark'>" +
@@ -555,7 +551,7 @@
                                     "</a>" +
                                     "</li>" +
                                     "<li>" +
-                                    "<a class='edit' role='menuitem' tabindex='-1' data-id='" + full["id_venta"] + "' data-id_estatus = '" + full["id_estatus"] + "'>"
+                                    "<a class='edit' role='menuitem' tabindex='-1' data-id='" + full["id_venta"] + "' data-id_estatus = '" + full["id_estatus"] + "'>" +
                                 "<i class='fa fa-trash-o'></i> Eventos y recepción" +
                                     "</a>" +
                                     "</li>" +
@@ -581,11 +577,11 @@
 
                             igual = status_actual.localeCompare(Concluida);
                             if (igual == 0) {
-                                botones = botones + "<a data-id='" + full["id_venta"] + "' class='btn tooltips btn-sm btn-primary details' title='Detalles'  data-placement='top' data-original-title='Detalles'><i class='fa fa-eye'></i></a>" +
+                                botones = botones + "<a data-id='" + full["id_venta"] + "' class='btn tooltips btn-primary details btnMargin' title='Detalles'  data-placement='top' data-original-title='Detalles'><i class='fa fa-eye'></i></a>" +
                                     "</div>" +
                                     "<div class='visible-xs visible-sm visible-md hidden-lg'>" +
                                     "<div class='btn-group'>" +
-                                    "<a class='btn btn-danger dropdown-toggle btn-sm' data-toggle='dropdown' href='#'" +
+                                    "<a class='btn btn-danger dropdown-toggle  ' data-toggle='dropdown' href='#'" +
                                     "<i class='fa fa-cog'></i> <span class='caret'></span>" +
                                     "</a>" +
                                     "<ul role='menu' class='dropdown-menu pull-right dropdown-dark'>" +
@@ -602,17 +598,17 @@
                             igual = status_actual.localeCompare(GanadoSinFlete);
                             if (igual == 0) {
                                 botones = botones +
-                                    "<a data-id='" + full["id_venta"] + "' class='btn tooltips btn-sm btn-primary details' title='Detalles'  data-placement='top' data-original-title='Detalles'><i class='fa fa-eye'></i></a>" +
-                                    "<a data-id='" + full["id_venta"] + "' class='btn btn-blue   tooltips btn-sm concluir' title='Concluir'  data-placement='top' data-original-title='Concluir'><i class='fa fa-check'></i></a>" +
-                                    "<a data-id='" + full["id_venta"] + "' class='btn tooltips btn-sm transacciones' title='Transacciones ($)'  data-placement='top' data-original-title='Transaciones'><i class='fa fa-money'></i></a>" +
-                                    "<a data-id='" + full["id_venta"] + "' class='btn tooltips btn-sm documentos' title='Documentos'  data-placement='top' data-original-title='Documentos'><i class='fa fa-archive'></i></a>" +
-                                    "<a data-id='" + full["id_venta"] + "' data-id_estatus = '" + full["id_estatus"] + "' class='btn btn-yellow tooltips btn-sm edit' title='Ganado'  data-placement='top' data-original-title='Ganado'><span class='icon-ocampo-head'></span></a>" +
-                                    "<a data-id='" + full["id_venta"] + "' class='btn btn-info tooltips btn-sm costoExtra' title='Costo extra'  data-placement='top' data-original-title='Costo extra'><i class='fa fa-search-plus'></i></a>" +
-                                    "<a data-id='" + full["id_venta"] + "' data-hrefa='/Admin/Venta/DEL_Venta/' class='btn btn-danger tooltips btn-sm eliminar' data-placement='top' data-original-title='Eliminar' title='Eliminar' ><i class='fa fa-trash-o'></i></a>" +
+                                    "<a data-id='" + full["id_venta"] + "' class='btn tooltips btn-primary details btnMargin' title='Detalles'  data-placement='top' data-original-title='Detalles'><i class='fa fa-eye'></i></a>" +
+                                    "<a data-id='" + full["id_venta"] + "' class='btn btn-blue tooltips concluir btnMargin' title='Concluir'  data-placement='top' data-original-title='Concluir'><i class='fa fa-check'></i></a>" +
+                                    "<a data-id='" + full["id_venta"] + "' class='btn tooltips transacciones btnMargin' title='Transacciones ($)'  data-placement='top' data-original-title='Transaciones'><i class='fa fa-money'></i></a>" +
+                                    "<a data-id='" + full["id_venta"] + "' class='btn tooltips documentos btnMargin' title='Documentos'  data-placement='top' data-original-title='Documentos'><i class='fa fa-archive'></i></a>" +
+                                    "<a data-id='" + full["id_venta"] + "' data-id_estatus = '" + full["id_estatus"] + "' class='btn btn-yellow tooltips edit btnMargin' title='Ganado'  data-placement='top' data-original-title='Ganado'><span class='icon-ocampo-head'></span></a>" +
+                                    "<a data-id='" + full["id_venta"] + "' class='btn btn-info tooltips costoExtra btnMargin' title='Costo extra'  data-placement='top' data-original-title='Costo extra'><i class='fa fa-search-plus'></i></a>" +
+                                    "<a data-id='" + full["id_venta"] + "' data-hrefa='/Admin/Venta/DEL_Venta/' class='btn btn-danger tooltips eliminar btnMargin' data-placement='top' data-original-title='Eliminar' title='Eliminar' ><i class='fa fa-trash-o'></i></a>" +
                                     "</div>" +
                                     "<div class='visible-xs visible-sm visible-md visible-lg'>" +
                                     "<div class='btn-group'>" +
-                                    "<a class='btn btn-danger dropdown-toggle btn-sm' data-toggle='dropdown' href='#'" +
+                                    "<a class='btn btn-danger dropdown-toggle  ' data-toggle='dropdown' href='#'" +
                                     "<i class='fa fa-cog'></i> <span class='caret'></span>" +
                                     "</a>" +
                                     "<ul role='menu' class='dropdown-menu pull-right dropdown-dark'>" +
