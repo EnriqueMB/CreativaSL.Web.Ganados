@@ -335,7 +335,18 @@
             overwriteInitial: true,
             showUploadedThumbs: false,
             initialPreview: [
-                '<img class="file-preview-image" style="width: auto; height: auto; max-width: 100%; max-height: 100%;" src="data:image/png;base64, @Model.ImgINE" />'
+                @if (string.IsNullOrWhiteSpace(Model.ImgINE))
+                {
+                    <text>
+                        '<img src="/Content/img/GrupoOcampo.png" alt="Logo" style="width: auto; height: auto; max-width: 100%; max-height: 100%;" />'
+                    </text>
+                }
+                else
+                {
+                    <text>
+                    '<img class= "file-preview-image" style = "width: auto; height: auto; max-width: 100%; max-height: 100%;" src = "data:image/png;base64, @Model.ImgINE" />'
+                    </text>
+                }
             ],
             initialCaption: 'Ine.png',
             initialPreviewConfig: [
@@ -368,7 +379,17 @@
             showUploadedThumbs: false,
             maxFileCount: 1,
             initialPreview: [
-                '<img class="file-preview-image" style="width: auto; height: auto; max-width: 100%; max-height: 100%;" src="data:image/png;base64, @Model.ImgManifestacionFierro" />'
+                @if (string.IsNullOrWhiteSpace(Model.ImgManifestacionFierro))
+                {
+                    <text>'<img src="/Content/img/GrupoOcampo.png" alt="Logo" style="width: auto; height: auto; max-width: 100%; max-height: 100%;">'</text>
+                }
+                else
+                {
+                    <text>
+                    '<img class="file-preview-image" style="width: auto; height: auto; max-width: 100%; max-height: 100%;" src="data:image/png;base64, @Model.ImgManifestacionFierro">'
+                    </text>
+                }
+
             ],
             initialCaption: 'Manifestacion.png',
             initialPreviewConfig: [
@@ -384,13 +405,13 @@
             previewFileIcon: '<i class="fa fa-file"></i>',
             preferIconicPreview: true, // this will force thumbnails to display icons for following file extensions
             previewFileIconSettings: { // configure your icon file extensions
-                'heic': '<i class="fa fa-file-text text-primary"></i>'
+                    'heic': '<i class="fa fa-file-text text-primary"></i>'
             },
             previewFileExtSettings: { // configure the logic for determining icon file extensions
-                'heic': function(ext) {
-                    return ext.match(/(heic)$/i);
+                    'heic': function(ext) {
+                        return ext.match(/(heic)$/i);
+                    }
                 }
-            }
         });
 
         $('input[name="FotoPerfil"]').fileinput({

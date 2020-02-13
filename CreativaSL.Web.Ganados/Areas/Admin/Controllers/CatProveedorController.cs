@@ -232,11 +232,11 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                             var fotoPerfilPostedFileBase = Request.Files["FotoPerfil"] as HttpPostedFileBase;
                             if (fotoPerfilPostedFileBase != null && fotoPerfilPostedFileBase.ContentLength > 0)
                             {
-                                var uploadImageToserver = new UploadImageToServerModel();
+                                var uploadImageToserver = new UploadFileToServerModel();
                                 uploadImageToserver.FileBase = fotoPerfilPostedFileBase;
                                 uploadImageToserver.BaseDir = "/Imagenes/Proveedor/FotoPerfil/";
                                 uploadImageToserver.FileName = "fp_" + Proveedor.IDProveedor;
-                                CidFaresHelper.UploadImageToServer(uploadImageToserver);
+                                CidFaresHelper.UploadFileToServer(uploadImageToserver);
 
                                 if (uploadImageToserver.Success)
                                 {
@@ -396,7 +396,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
                         var fotoPerfilPostedFileBase = Request.Files["FotoPerfil"] as HttpPostedFileBase;
                         //foto de perfil
-                        var uploadImageToserver = new UploadImageToServerModel();
+                        var uploadImageToserver = new UploadFileToServerModel();
                         uploadImageToserver.FileBase = fotoPerfilPostedFileBase;
                         uploadImageToserver.BaseDir = "/Imagenes/Proveedor/FotoPerfil/";
                         uploadImageToserver.FileName = "fp_" + Proveedor.IDProveedor;
@@ -406,7 +406,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                             //borramos la anterior
                             CidFaresHelper.DeleteFilesWithOutExtensionFromServer(uploadImageToserver);
                             //hay foto nueva
-                            CidFaresHelper.UploadImageToServer(uploadImageToserver);
+                            CidFaresHelper.UploadFileToServer(uploadImageToserver);
 
                             if (!uploadImageToserver.Success)
                             {
@@ -496,7 +496,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Proveedor.Usuario = User.Identity.Name;
                 Proveedor = ProveedorDatos.EliminarProveedor(Proveedor);
 
-                var uploadImageToserver = new UploadImageToServerModel();
+                var uploadImageToserver = new UploadFileToServerModel();
                 uploadImageToserver.BaseDir = "/Imagenes/Proveedor/FotoPerfil/";
                 uploadImageToserver.FileName = "fp_" + Proveedor.IDProveedor;
                 CidFaresHelper.DeleteFilesWithOutExtensionFromServer(uploadImageToserver);
@@ -1383,14 +1383,83 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 TempData["message"] = "Verifique sus datos.";
                 return RedirectToAction("Index");
             }
-
+            Token.SaveToken();
             var model = new DocumentacionExtra_CatProveedorModel();
-            ViewBag.ListaCatTipoDocumentacionExtra = new List<CatTipoDocumentacionExtraModel>();
+            var CatTipoDocumentacionExtraDatos = new _CatTipoDocumentacionExtra_Datos();
+
+            var modulo = ProjectSettings.ModuloProveedor;
+            ViewBag.ListaCatTipoDocumentacionExtra = CatTipoDocumentacionExtraDatos.ObtenerComboCatTiposDocumentacionExtraXIdModulo(modulo);
             model.IdProveedor = idProveedor;
 
             return View(model);
         }
 
+        [HttpPost]
+        public ActionResult CreateDocumentoExtra(DocumentacionExtra_CatProveedorModel model)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    if (Token.IsTokenValid())
+                    {
+                        var fotoPerfilPostedFileBase = Request.Files["Archivo"] as HttpPostedFileBase;
+                        var uploadImageToserver = new UploadFileToServerModel();
+                        uploadImageToserver.FileBase = fotoPerfilPostedFileBase;
+                        uploadImageToserver.BaseDir = "/Imagenes/Proveedor/DocumentacionExtra/";
+                        uploadImageToserver.FileName = DateTime.Now.ToString("MM_dd_yyyy_hh_mm_ss");
+
+                        if (fotoPerfilPostedFileBase != null && fotoPerfilPostedFileBase.ContentLength > 0)
+                        {
+                            //hay foto nueva
+                            CidFaresHelper.UploadFileToServer(uploadImageToserver);
+
+                            if (!uploadImageToserver.Success)
+                            {
+                                var CatTipoDocumentacionExtraDatos = new _CatTipoDocumentacionExtra_Datos();
+                                var modulo = ProjectSettings.ModuloProveedor;
+                                ViewBag.ListaCatTipoDocumentacionExtra = CatTipoDocumentacionExtraDatos.ObtenerComboCatTiposDocumentacionExtraXIdModulo(modulo);
+
+                                TempData["typemessage"] = "2";
+                                TempData["message"] = "Ocurrio un error al intentar guardar la imagen de perfil, intentelo más tarde.";
+                                return View(model);
+                            }
+
+
+
+                            TempData["typemessage"] = "1";
+                            TempData["message"] = "OK";
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Verifique sus datos.";
+                            return RedirectToAction("Index");
+                        }
+                    }
+                    else
+                    {
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = "Verifique sus datos.";
+                        return RedirectToAction("Index");
+                    }
+                }
+                else
+                {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "Verifique sus datos.";
+                    return RedirectToAction("Index");
+                }
+
+            }
+            catch (Exception e)
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Verifique sus datos.";
+                return RedirectToAction("Index");
+            }
+        }
         #endregion
     }
 }

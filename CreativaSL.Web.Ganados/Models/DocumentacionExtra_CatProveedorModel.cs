@@ -1,4 +1,6 @@
-﻿namespace CreativaSL.Web.Ganados.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace CreativaSL.Web.Ganados.Models
 {
     public class DocumentacionExtra_CatProveedorModel
     {
@@ -7,8 +9,9 @@
         public int IdTipoDocumentacionExtra { get; set; }
         
         public string IdProveedor { get; set; }
-  
-        public string UrlArchivo { get; set; }
+
+        [Required(ErrorMessage = "Por favor seleccione un archivo.")]
+        public string Archivo { get; set; }
    
     }
 }

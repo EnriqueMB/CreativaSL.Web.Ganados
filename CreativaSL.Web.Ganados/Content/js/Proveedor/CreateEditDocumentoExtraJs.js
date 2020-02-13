@@ -1,9 +1,9 @@
 ﻿var DocumentoExtra = function () {
     "use strict";
 
-    var runPlugins = function() {
-        $('#UrlArchivo').fileinput({
-            theme: 'fa',
+    var runPlugins = function ()
+    {
+        $('#Archivo').fileinput({
             language: 'es',
             showUpload: false,
             uploadUrl: "#",
@@ -12,22 +12,12 @@
             showUploadedThumbs: false,
             maxFileCount: 1,
             initialPreview: [
-                '<img class="file-preview-image" style="width: auto; height: auto; max-width: 100%; max-height: 100%;" src="data:' +
-                ExtensionImagen +
-                ';base64,' +
-                Imagen +
-                '" />'
-            ],
-            initialPreviewConfig: [
-                { caption: 'Imagen del documento' }
+                '<img src="/Content/img/GrupoOcampo.png" alt="Logo" style="width: auto; height: auto; max-width: 100%; max-height: 100%;">'
             ],
             initialPreviewShowDelete: false,
             showRemove: false,
             showClose: false,
-            layoutTemplates: { actionDelete: '' },
             required: true,
-
-            allowedFileExtensions: ['png', 'jpg', 'gif', 'jpeg', 'heic'],
             previewFileIcon: '<i class="fa fa-file"></i>',
             preferIconicPreview: true, // this will force thumbnails to display icons for following file extensions
             previewFileIconSettings: { // configure your icon file extensions
@@ -37,6 +27,9 @@
                 'heic': function(ext) {
                     return ext.match(/(heic)$/i);
                 }
+            }
+            , fileActionSettings: {
+                showRemove: false
             }
         });
     };
@@ -64,43 +57,46 @@
             },
             ignore: "",
             rules: {
-                IDTipoDocumento: { required: true, min: 1 },
-                ImagenPost: { ImagenRequerida: ["ImagenServer"] }
+                IdTipoDocumentacionExtra: { required: true, min: 1 },
+                Archivo: { required: true }
             },
             messages: {
-                IDTipoDocumento: { required: "Por favor, seleccione un tipo de documento.", min: "Por favor, seleccione un tipo de documento." }
+                IdTipoDocumentacionExtra: { required: "Por favor, seleccione un tipo de documento.", min: "Por favor, seleccione un tipo de documento." }
+                , Archivo: { required: "Por favor seleccione un archivo."}
             },
-            invalidHandler: function (event, validator) {
+            invalidHandler: function (event, validator) { //display error alert on form submit
                 successHandler1.hide();
                 errorHandler1.show();
+                //$("#validation_summary").text(validator.showErrors());
             },
             highlight: function (element) {
                 $(element).closest('.help-block').removeClass('valid');
-                $(element).closest('.controlError').removeClass('has-success').addClass('has-error').find('.symbol').removeClass('ok').addClass('required');
+                // display OK icon
+                $(element).closest('.form-group').removeClass('has-success').addClass('has-error').find('.symbol').removeClass('ok').addClass('required');
+                // add the Bootstrap error class to the control group
             },
-            unhighlight: function (element) {
-                $(element).closest('.controlError').removeClass('has-error');
+            unhighlight: function (element) { // revert the change done by hightlight
+                $(element).closest('.form-group').removeClass('has-error');
+                // set error class to the control group
             },
             success: function (label, element) {
                 label.addClass('help-block valid');
                 label.removeClass('color');
-                $(element).closest('.controlError').removeClass('has-error').addClass('has-success').find('.symbol').removeClass('required').addClass('ok');
+                // mark the current input as valid and display OK icon
+                $(element).closest('.form-group').removeClass('has-error').addClass('has-success').find('.symbol').removeClass('required').addClass('ok');
             },
             submitHandler: function (form) {
                 successHandler1.show();
                 errorHandler1.hide();
-                form.submit()
+                form.submit();
             }
         });
     };
-    var RunEventsDocumento = function () {
-        var Imagen = document.getElementById("MostrarImagen").value;
 
-        
-    }
     return {
         init: function () {
             runPlugins();
+            runValidator();
         }
     };
 }();

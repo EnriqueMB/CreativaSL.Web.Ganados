@@ -1934,6 +1934,7 @@
     <Compile Include="Models\ServiciosMantenimientoModels.cs" />
     <Compile Include="Models\ListaGenerica.cs" />
     <Compile Include="Models\System\BaseSQL.cs" />
+    <Compile Include="Models\System\ProjectSettings.cs" />
     <Compile Include="Models\System\UploadImageToServerModel.cs" />
     <Compile Include="Models\TelefonosContactoSucursalModels.cs" />
     <Compile Include="Models\ConfiguracionModels.cs" />
