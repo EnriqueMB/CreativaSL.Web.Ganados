@@ -104,7 +104,7 @@ $.validator.addMethod("ImagenRequerida", function (value, element, params) {
     else {
         //Si hay obtenemos la extensión
         var extension = (element.value.substring(element.value.lastIndexOf("."))).toLowerCase();
-        console.log(extension);        
+        
         if (extension.localeCompare(".png") == 0 || extension.localeCompare(".jpg") == 0 || extension.localeCompare(".jpeg") == 0 || extension.localeCompare(".bmp") == 0 || extension.localeCompare(".heic") == 0)
         {
             return true;

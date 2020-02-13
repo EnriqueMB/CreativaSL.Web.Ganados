@@ -3,7 +3,7 @@ using System.Web;
 
 namespace CreativaSL.Web.Ganados.Models.System
 {
-    public class UploadImageToServerModel
+    public class UploadFileToServerModel
     {
         public string BaseDir { get; set; }
         public HttpPostedFileBase FileBase { get; set; }
@@ -11,5 +11,6 @@ namespace CreativaSL.Web.Ganados.Models.System
         public Exception Exception { get; set; }
         public bool Success { get; set; }
         public string UrlComplete { get; set; }
+        public int QualityImage { get; set; } = 50;
     }
 }

@@ -219,5 +219,50 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
         #endregion
+
+        #region Metodos diversos
+
+        public List<CatTipoDocumentacionExtraModel> ObtenerComboCatTiposDocumentacionExtraXIdModulo(int idModulo)
+        {
+            var list = new List<CatTipoDocumentacionExtraModel>{
+                new CatTipoDocumentacionExtraModel
+                {
+                    IdTipoDocumentacionExtra = 0
+                    , Descripcion = "-- Seleccione --"
+                }
+            };
+            using (var sqlcon = new SqlConnection(ConexionSql))
+            {
+                using (var cmd = new SqlCommand("spCSLDB_Catalogo_CatTipoDocumentacionExtra_ObtenerModulosXIdModulo", sqlcon))
+                {
+                    //parametros de entrada
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.Add("@IdModulo", SqlDbType.Int).Value = idModulo;
+
+                    // execute
+                    sqlcon.Open();
+
+                    var reader = cmd.ExecuteReader();
+                    
+
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            list.Add(new CatTipoDocumentacionExtraModel
+                            {
+                                IdTipoDocumentacionExtra = int.Parse(reader["IdTipoDocumentacionExtra"].ToString()),
+                                Descripcion = reader["Descripcion"].ToString()
+                            });
+                        }
+                    }
+                    reader.Close();
+                }
+            }
+
+            return list;
+        }
+        #endregion
     }
 }

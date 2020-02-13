@@ -1,4 +1,7 @@
-﻿namespace CreativaSL.Web.Ganados.Models
+﻿using System.Collections;
+using System.Collections.Generic;
+
+namespace CreativaSL.Web.Ganados.Models
 {
     public class CatTipoDocumentacionExtraModel
     {

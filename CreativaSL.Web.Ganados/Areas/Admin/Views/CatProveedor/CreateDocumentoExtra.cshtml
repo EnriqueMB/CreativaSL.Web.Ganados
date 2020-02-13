@@ -18,65 +18,64 @@
         var message = TempData["message"] ?? string.Empty;
         var typemessage = TempData["typemessage"] ?? string.Empty;
     }
-    <div class="row">
-        <div id="Error" class="progress-bar progress-bar-striped active errorCSL" style="display:none; width:100%">
-            <h3></h3>
-        </div>
-        <div id="Success" class="progress-bar progress-bar-striped active successCSL" style="display:none; width:100%">
-            <h3></h3>
-        </div>
-        <div class="col-md-12">
-            @{ Html.EnableClientValidation(false); }
-            @using (Html.BeginForm("CreateDocumentoExtra", "CatProveedor", FormMethod.Post, new { id = "form", @class = "form-horizontal", autocomplete = "off", enctype = "multipart/form-data" }))
-            {
+<div class="row">
+    <div id="Error" class="progress-bar progress-bar-striped active errorCSL" style="display:none; width:100%">
+        <h3></h3>
+    </div>
+    <div id="Success" class="progress-bar progress-bar-striped active successCSL" style="display:none; width:100%">
+        <h3></h3>
+    </div>
 
-                @Html.AntiForgeryToken()
-                @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
+    @{ Html.EnableClientValidation(false); }
+    @using (Html.BeginForm("CreateDocumentoExtra", "CatProveedor", FormMethod.Post, new { id = "form", @class = "form-horizontal", autocomplete = "off", enctype = "multipart/form-data" }))
+    {
 
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title"><strong>Documento extra</strong></h3>
-                    </div>
-                    <ul class="panel-controls"></ul>
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
+        <div id="validation_summary" class="field_error "></div> //JS
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title"><strong>Documento extra</strong></h3>
+            </div>
+            <ul class="panel-controls"></ul>
 
-                    <div class="panel-body">
-                        <div id="validation_summary" class="field_error "></div>
-
-                        <div class="form-group">
-                            <div class="col-md-6">
-                                <label class="col-md-4 control-label">Seleccione el tipo de documento extra:</label>
-                                <div class="controls">
-                                    <div class="col-md-8 col-xs-12">
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                            @Html.DropDownListFor(model => model.IdTipoDocumentacionExtra, new SelectList(ViewBag.ListaCatTipoDocumentacionExtra, "IdTipoDocumentacionExtra", "Descripcion"), new { @class = "form-control select", data_live_search = "true", data_style = "form-control" })
-                                        </div>
-                                        @Html.ValidationMessageFor(model => model.IdTipoDocumentacionExtra)
-                                    </div>
-                                </div>
+            <div class="panel-body">
+                <div id="validation_summary" class="field_error "></div>
+                <div class="form-group">
+                    <div class="col-md-6">
+                        <label class="col-md-4 control-label">Seleccione el tipo de documento extra:</label>
+                        <div class="col-md-8 col-xs-12">
+                            <div class="input-group">
+                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                @Html.DropDownListFor(model => model.IdTipoDocumentacionExtra, new SelectList(ViewBag.ListaCatTipoDocumentacionExtra, "IdTipoDocumentacionExtra", "Descripcion"), new { @class = "form-control select", data_live_search = "true", data_style = "form-control" })
                             </div>
+                            @Html.ValidationMessageFor(model => model.IdTipoDocumentacionExtra)
                         </div>
-                        <div class="form-group">
-                            <div class="col-md-12">
-                                <label class="col-md-2 control-label">Ingrese un archivo</label>
-                                <div class="col-md-10 col-xs-12">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><span class="fa fa-camera"></span></span>
-                                        @Html.TextBoxFor(model => model.UrlArchivo, new { @type = "file", @class = "form-control"})
-                                    </div>
-                                    @Html.ValidationMessageFor(model => model.UrlArchivo)
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="panel-footer">
-                        <a href="@Url.Action("DocumentosExtras", "CatProveedor",  new { idProveedor = Model.IdProveedor })" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
-                        <button type="submit" class="btn btn-primary pull-right">Guardar <span class="fa fa-floppy-o fa-right"></span></button>
                     </div>
                 </div>
-            }
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <label class="col-md-2 control-label">Ingrese un archivo</label>
+                            <div class="col-md-10 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><span class="fa fa-camera"></span></span>
+                                    @Html.TextBoxFor(model => model.Archivo, new { @type = "file", @class = "form-control" })
+                                </div>
+                                @Html.ValidationMessageFor(model => model.Archivo)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer">
+                <a href="@Url.Action("DocumentosExtras", "CatProveedor",  new { idProveedor = Model.IdProveedor })" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
+                <button type="submit" class="btn btn-primary pull-right">Guardar <span class="fa fa-floppy-o fa-right"></span></button>
+            </div>
         </div>
-    </div>
+    }
+
+</div>
     <script>
         var message = '@message';
         var typemessage = '@typemessage';
