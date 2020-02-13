@@ -1,9 +1,9 @@
 ﻿var DocumentoExtra = function () {
     "use strict";
+    var archivo = document.getElementById("Archivo").defaultValue;
 
-    var runPlugins = function ()
-    {
-        $('#Archivo').fileinput({
+    var runPlugins = function () {
+        $('input[name="Archivo"]').fileinput({
             language: 'es',
             showUpload: false,
             uploadUrl: "#",
@@ -12,8 +12,21 @@
             showUploadedThumbs: false,
             maxFileCount: 1,
             initialPreview: [
-                '<img src="/Content/img/GrupoOcampo.png" alt="Logo" style="width: auto; height: auto; max-width: 100%; max-height: 100%;">'
-            ],
+                function() {
+                    var img = "";
+                    if (archivo) {
+
+                        img = '<img class="file-preview-image" style="width: auto; height: auto; max-width: 100%; max-height: 100%;" src="' +
+                            archivo +
+                            '">';
+                    }
+                    else
+                    {
+                        img ='<img src="/Content/img/GrupoOcampo.png" alt="Logo" style="width: auto; height: auto; max-width: 100%; max-height: 100%;">';
+                    }
+                    return img;
+                }
+        ],
             initialPreviewShowDelete: false,
             showRemove: false,
             showClose: false,
@@ -58,11 +71,11 @@
             ignore: "",
             rules: {
                 IdTipoDocumentacionExtra: { required: true, min: 1 },
-                Archivo: { required: true }
+                Archivo: { ArchivoRequerido: ["Archivo"] }
             },
             messages: {
                 IdTipoDocumentacionExtra: { required: "Por favor, seleccione un tipo de documento.", min: "Por favor, seleccione un tipo de documento." }
-                , Archivo: { required: "Por favor seleccione un archivo."}
+                , Archivo: { ImagenRequerida: "Por favor seleccione un archivo."}
             },
             invalidHandler: function (event, validator) { //display error alert on form submit
                 successHandler1.hide();

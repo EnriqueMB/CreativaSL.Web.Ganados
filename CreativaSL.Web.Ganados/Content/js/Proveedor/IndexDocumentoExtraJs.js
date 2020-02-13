@@ -33,18 +33,34 @@
             },
             "columns": [
                 { "data": "NombreTipoDocumentacionExtra" },
-                { "data": "UrlArchivo" },
+                {
+                    "data": null,
+                    "render": function (data, type, row) {
+                        
+                        var img =
+                            '<img class="vista_previa" src = "/Content/img/GrupoOcampo.png" alt = "Logo" style = "width: 150px; height: 150px" >';
+                        if (row["UrlArchivo"])
+                        {
+                            img = '<img class="vista_previa" src = "' + row["UrlArchivo"] +'" alt = "Logo" style = "width: 150px; height: 150px" >';
+                        }
+                        return img;
+                    }
+                },
                 {
                     "data": null,
                     "render": function (data, type, full) {
 
-                        return "<div class='visible-md visible-lg hidden-sm hidden-xs'>" +
-                            "<a data-id='" +
+                        return "<div class='visible-md visible-lg hidden-sm hidden-xs text-center'>" +
+                            "<a href='/Admin/CatProveedor/EditDocumentoExtra?idDocumentacionExtra=" +
                             full["IdDocumentacionExtra"] +
-                            "' class='btn btn-yellow tooltips btn-sm editDocumento' title='Editar'  data-placement='top' data-original-title='Edit'><i class='fa fa-edit'></i></a>" +
-                            "<a data-hrefa='/Admin/Venta/DEL_Documento/' title='Eliminar' data-id='" +
-                            full["IdDocumentacionExtra"] +
-                            "' class='btn btn-danger tooltips btn-sm deleteDocumento' data-placement='top' data-original-title='Eliminar'><i class='fa fa-trash-o'></i></a>" +
+                            "&idProveedor=" +
+                            idProveedor +
+                            "' class='btn btn-yellow tooltips editDocumento' title='Editar'  data-placement='top' data-original-title='Edit'><i class='fa fa-edit'></i></a>" +
+                            "<a data-hrefa='/Admin/CatProveedor/EliminarDocumentoExtra/' title='Eliminar' data-id='" +
+                            full["IdDocumentacionExtra"]  +
+                            "' data-urlArchivo='" +
+                            full["UrlArchivo"] +
+                            "' class='btn btn-danger tooltips deleteDocumento' data-placement='top' data-original-title='Eliminar'><i class='fa fa-trash-o'></i></a>" +
                             "</div>" +
                             "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
                             "<div class='btn-group'>" +
@@ -60,8 +76,10 @@
                             "</a>" +
                             "</li>" +
                             "<li>" +
-                            "<a data-hrefa='/Admin/Venta/DEL_Documento/' class='deleteDocumento' role='menuitem' tabindex='-1' data-id='" +
+                            "<a data-hrefa='/Admin/CatProveedor/EliminarDocumentoExtra/' class='deleteDocumento' role='menuitem' tabindex='-1' data-id='" +
                             full["IdDocumentacionExtra"] +
+                            "' data-urlArchivo='" +
+                            full["UrlArchivo"] +
                             "'>" +
                             "<i class='fa fa-trash-o'></i> Eliminar" +
                             "</a>" +
@@ -73,19 +91,20 @@
                 }
             ],
             "drawCallback": function (settings) {
-                $(".editDocumento").on("click",
-                    function () {
-                        var IDDocumento = $(this).data("id");
-                        window.location.href = '/Admin/Venta/VentaDocumento?Id_venta=' +
-                            Id_venta +
-                            '&IDDocumento=' +
-                            IDDocumento;
+
+                $('img.vista_previa').on('click',
+                    function() {
+                        var src_image = $(this).attr('src');
+                        $("#imagen_previa").attr("src", src_image);
+                        $("#modalImagen").modal();
                     });
 
                 $(".deleteDocumento").on("click",
                     function () {
                         var url = $(this).attr('data-hrefa');
-                        var row = $(this).attr('data-id');
+                        var idDocumentacionExtra = $(this).attr('data-id');
+                        var urlArchivo = $(this).attr('data-urlArchivo');
+
                         var box = $("#mb-deleteDocumento");
                         box.addClass("open");
                         box.find(".mb-control-yes").on("click",
@@ -93,19 +112,14 @@
                                 box.removeClass("open");
                                 $.ajax({
                                     url: url,
-                                    data: { IDDocumento: row, Id_servicio: Id_venta },
+                                    data: { idDocumentacionExtra: idDocumentacionExtra, idProveedor: idProveedor, urlArchivo: urlArchivo  },
                                     type: 'POST',
                                     dataType: 'json',
                                     success: function (result) {
-                                        if (result.Success) {
-                                            box.find(".mb-control-yes").prop('onclick', null).off('click');
-                                            Mensaje(result.Mensaje, "1");
-                                            tblDocumentos.ajax.reload();
-                                        } else
-                                            location.reload();
+                                        window.location.href = '/Admin/CatProveedor/DocumentosExtras?IdProveedor=' + idProveedor;
                                     },
                                     error: function (result) {
-                                        location.reload();
+                                        window.location.href = '/Admin/CatProveedor/DocumentosExtras?IdProveedor=' + idProveedor;
                                     }
                                 });
                             });

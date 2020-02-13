@@ -10,9 +10,11 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Xml;
 using CreativaSL.Web.Ganados.Models.Datatable;
 using CreativaSL.Web.Ganados.Models.Helpers;
 using CreativaSL.Web.Ganados.Models.System;
+using Microsoft.Ajax.Utilities;
 
 namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 {
@@ -241,7 +243,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                                 if (uploadImageToserver.Success)
                                 {
                                     var responseDb = ProveedorDatos.ActualizarFotoPerfil(Proveedor.IDProveedor,
-                                        User.Identity.Name, uploadImageToserver.UrlComplete, Proveedor.Conexion);
+                                        User.Identity.Name, uploadImageToserver.UrlRelative, Proveedor.Conexion);
 
                                     if (!responseDb.Success)
                                     {
@@ -420,7 +422,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                             }
                             
                             var responseDb = ProveedorDatos.ActualizarFotoPerfil(Proveedor.IDProveedor,
-                                User.Identity.Name, uploadImageToserver.UrlComplete, Proveedor.Conexion);
+                                User.Identity.Name, uploadImageToserver.UrlRelative, Proveedor.Conexion);
                         }
                         else
                         {
@@ -1404,18 +1406,18 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     if (Token.IsTokenValid())
                     {
                         var fotoPerfilPostedFileBase = Request.Files["Archivo"] as HttpPostedFileBase;
-                        var uploadImageToserver = new UploadFileToServerModel();
-                        uploadImageToserver.FileBase = fotoPerfilPostedFileBase;
-                        uploadImageToserver.BaseDir = "/Imagenes/Proveedor/DocumentacionExtra/";
-                        uploadImageToserver.FileName = DateTime.Now.ToString("MM_dd_yyyy_hh_mm_ss");
+                        var uploadFileToserver = new UploadFileToServerModel();
+                        uploadFileToserver.FileBase = fotoPerfilPostedFileBase;
+                        uploadFileToserver.BaseDir = ProjectSettings.BaseDirProveedorDocumentacionExtra;
+                        uploadFileToserver.FileName = DateTime.Now.ToString("MM_dd_yyyy_hh_mm_ss");
 
                         if (fotoPerfilPostedFileBase != null && fotoPerfilPostedFileBase.ContentLength > 0)
                         {
-                            //hay foto nueva
-                            CidFaresHelper.UploadFileToServer(uploadImageToserver);
+                            CidFaresHelper.UploadFileToServer(uploadFileToserver);
 
-                            if (!uploadImageToserver.Success)
+                            if (!uploadFileToserver.Success)
                             {
+                                CidFaresHelper.DeleteFilesWithOutExtensionFromServer(uploadFileToserver);
                                 var CatTipoDocumentacionExtraDatos = new _CatTipoDocumentacionExtra_Datos();
                                 var modulo = ProjectSettings.ModuloProveedor;
                                 ViewBag.ListaCatTipoDocumentacionExtra = CatTipoDocumentacionExtraDatos.ObtenerComboCatTiposDocumentacionExtraXIdModulo(modulo);
@@ -1425,11 +1427,17 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                                 return View(model);
                             }
 
+                            model.Archivo = uploadFileToserver.FileName;
+                            var datos = new _CatProveedor_Datos();
+                            var respuesta = datos.GuardarDocumentoExtra(model);
+                            
+                            TempData["typemessage"] = respuesta.Success ? "1" : "2";
+                            TempData["message"] = respuesta.Mensaje;
 
-
-                            TempData["typemessage"] = "1";
-                            TempData["message"] = "OK";
-                            return RedirectToAction("Index");
+                            if(!respuesta.Success)
+                                CidFaresHelper.DeleteFilesWithOutExtensionFromServer(uploadFileToserver);
+                            
+                            return RedirectToAction("DocumentosExtras", new { model.IdProveedor });
                         }
                         else
                         {
@@ -1460,6 +1468,121 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return RedirectToAction("Index");
             }
         }
+
+        [HttpGet]
+        public ActionResult EditDocumentoExtra(string idProveedor, string idDocumentacionExtra)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(idProveedor) || string.IsNullOrWhiteSpace(idDocumentacionExtra))
+                {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "Verifique sus datos.";
+                    return RedirectToAction("Index");
+                }
+
+                Token.SaveToken();
+                var proveedorDatos = new _CatProveedor_Datos();
+                var catTipoDocumentacionExtraDatos = new _CatTipoDocumentacionExtra_Datos();
+                var modulo = ProjectSettings.ModuloProveedor;
+                ViewBag.ListaCatTipoDocumentacionExtra = catTipoDocumentacionExtraDatos.ObtenerComboCatTiposDocumentacionExtraXIdModulo(modulo);
+                var model = proveedorDatos.ObtenerDocumentacionExtra(idProveedor, idDocumentacionExtra);
+                return View(model);
+            }
+            catch (Exception)
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Verifique sus datos.";
+                return RedirectToAction("Index");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult EditDocumentoExtra(DocumentacionExtra_CatProveedorModel model)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    if (Token.IsTokenValid())
+                    {
+                        var archivoHttpPostedFileBase = Request.Files["Archivo"] as HttpPostedFileBase;
+                        if (archivoHttpPostedFileBase != null && archivoHttpPostedFileBase.ContentLength > 0)
+                        {
+                            var uploadFileToserver = new UploadFileToServerModel();
+                            uploadFileToserver.FileBase = archivoHttpPostedFileBase;
+                            uploadFileToserver.BaseDir = ProjectSettings.BaseDirProveedorDocumentacionExtra; ;
+                            
+                            //borramos la imagen anterior
+                            uploadFileToserver.FileName = model.Archivo.Replace(ProjectSettings.BaseDirProveedorDocumentacionExtra, string.Empty);
+                            CidFaresHelper.DeleteFilesWithOutExtensionFromServer(uploadFileToserver);
+
+                            //generamos el nombre del nuevo archivo
+                            uploadFileToserver.FileName = DateTime.Now.ToString("MM_dd_yyyy_hh_mm_ss");
+                            CidFaresHelper.UploadFileToServer(uploadFileToserver);
+
+                            if (!uploadFileToserver.Success)
+                            {
+                                CidFaresHelper.DeleteFilesWithOutExtensionFromServer(uploadFileToserver);
+                                throw new Exception("No se ha podido subir el archivo al servidor.");
+                            }
+
+                            model.Archivo = uploadFileToserver.FileName;
+                        }
+                        model.Archivo = model.Archivo.Replace(ProjectSettings.BaseDirProveedorDocumentacionExtra, string.Empty);
+                        var proveedorDatos = new _CatProveedor_Datos();
+                        var respuestaDb = proveedorDatos.GuardarDocumentoExtra(model);
+
+                        TempData["typemessage"] = respuestaDb.Success ? "1" : "2";
+                        TempData["message"] = respuestaDb.Mensaje;
+
+                        return RedirectToAction("DocumentosExtras", new {model.IdProveedor });
+                    }
+                    else
+                    {
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = "Verifique sus datos.";
+                        return RedirectToAction("Index");
+                    }
+                }
+                else
+                {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "Verifique sus datos.";
+                    return RedirectToAction("Index");
+                }
+            }
+            catch (Exception)
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Verifique sus datos.";
+                return RedirectToAction("Index");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult EliminarDocumentoExtra(string idProveedor, string idDocumentacionExtra, string urlArchivo)
+        {
+            urlArchivo = urlArchivo.Replace(ProjectSettings.BaseDirProveedorDocumentacionExtra, string.Empty);
+            if (string.IsNullOrWhiteSpace(idProveedor) || string.IsNullOrWhiteSpace(idDocumentacionExtra) || string.IsNullOrEmpty(urlArchivo))
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Verifique sus datos.";
+                return RedirectToAction("Index");
+            }
+            var proveedorDatos = new _CatProveedor_Datos();
+            var responseDb = proveedorDatos.EliminarDocumentoExtra(idProveedor, idDocumentacionExtra, urlArchivo);
+            if (responseDb.Success)
+            {
+                var uploadFileToserver = new UploadFileToServerModel();
+                uploadFileToserver.BaseDir = ProjectSettings.BaseDirProveedorDocumentacionExtra; ;
+                uploadFileToserver.FileName = urlArchivo;
+                CidFaresHelper.DeleteFilesWithOutExtensionFromServer(uploadFileToserver);
+            }
+            TempData["typemessage"] = "1";
+            TempData["message"] = responseDb.Mensaje;
+            return Json("");
+        }
         #endregion
-    }
+        }
 }

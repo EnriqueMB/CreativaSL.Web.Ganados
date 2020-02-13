@@ -6,51 +6,15 @@
 
 @section css
 {
-    <!--FILEINPUT-->
-    <link href="@Url.Content("~/Content/js/plugins/uploadFiles/fileinput.css")" rel="stylesheet" />
-    <link href="@Url.Content("~/Content/js/plugins/font-awesome.min.css")" rel="stylesheet" />
-    <link href="@Url.Content("~/Content/js/plugins/select.bootstrap.min.css")" rel="stylesheet" />
-    <link href="@Url.Content("~/Content/js/plugins/uploadFiles/theme.css")" rel="stylesheet" />
-
+    <link href="~/Content/css/datatable/jquery.dataTables.min.css" rel="stylesheet" />
     <style>
-        .form-control[disabled], .form-control[readonly] {
-            color: #000 !important;
+
+        #imagen_previa {
+            width: 100% !important;
         }
 
-        #carta_porte, #reporte_ganado, #reporte_ganado_actualizado {
-            text-decoration: none;
-        }
-
-        a:link {
-            color: #ffffff;
-        }
-
-        a:visited {
-            color: #ffffff;
-        }
-
-        a:active {
-            color: #ffffff;
-        }
-
-        a:hover {
-            color: #ffffff;
-        }
-
-        #btnGuardar {
-            background-color: #E04B4A;
-            border-color: #E04B4A;
-            color: #fff;
-        }
-
-            #btnGuardar:hover {
-                background-color: #a43f3e;
-                border-color: #a43f3e;
-                color: #fff;
-            }
-
-        div#validation_summary dd {
-            color: #e80c4d !important;
+        .vista_previa {
+            cursor: pointer;
         }
     </style>
 }
@@ -70,7 +34,7 @@
         </div>
         <!--INICIA TABS-->
         <div class="panel panel-default">
-            
+
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h3 class="panel-title"><strong>Documentación extra</strong> para el proveedor </h3>
@@ -142,6 +106,27 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="modalImagen" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Imagen</h4>
+                </div>
+                <div class="modal-body">
+                    <img id="imagen_previa" src="" alt="Imagen_previa" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+
         </div>
     </div>
     <script>

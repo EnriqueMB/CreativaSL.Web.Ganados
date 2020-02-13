@@ -389,3 +389,26 @@ $.validator.addMethod("ImagenNoRequerida_ValidarExtension", function (value, ele
     }
     return true;
 }, 'Solo archivos con formato PNG, JPG, JPEG, HEIC y BMP.');
+
+$.validator.addMethod("ArchivoRequerido", function (value, element, params) {
+    //Checamos que tenga un archivo el input file
+    if (element.value.length === 0) {
+        var imagenServidor = document.getElementById(params[0]).value;
+
+        if (imagenServidor === "0" || !imagenServidor) {
+            //validamos el defaultValue, nos sirve para el edit 
+            var defaultValue = document.getElementById(params[0]).defaultValue;
+
+            if (defaultValue)
+                return true;
+
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+    else {
+        return true;
+    }
+}, 'Seleccione un archivo.');

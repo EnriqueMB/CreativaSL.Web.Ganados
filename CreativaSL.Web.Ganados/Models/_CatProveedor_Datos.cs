@@ -1021,8 +1021,6 @@ namespace CreativaSL.Web.Ganados.Models
             
             return respuesta;
         }
-
-
         #endregion
 
         #region Documentos Extras
@@ -1073,7 +1071,7 @@ namespace CreativaSL.Web.Ganados.Models
                                 indexDto.IdTipoDocumentacionExtra = int.Parse(reader["IdTipoDocumentacionExtra"].ToString());
                                 indexDto.NombreTipoDocumentacionExtra = reader["NombreTipoDocumentacionExtra"].ToString();
                                 indexDto.IdProveedor = reader["IdProveedor"].ToString();
-                                indexDto.UrlArchivo = reader["UrlArchivo"].ToString();
+                                indexDto.UrlArchivo = ProjectSettings.BaseDirProveedorDocumentacionExtra + reader["UrlArchivo"];
 
                                 indexDatatableDto.Data.Add(indexDto);
                             }
@@ -1094,7 +1092,139 @@ namespace CreativaSL.Web.Ganados.Models
 
         }
 
+        public RespuestaAjax GuardarDocumentoExtra(DocumentacionExtra_CatProveedorModel model)
+        {
+            var respuesta = new RespuestaAjax();
+            try
+            {
+                using (var sqlcon = new SqlConnection(ConexionSql))
+                {
+                    using (var cmd = new SqlCommand("spCSLDB_DocumentacionExtra_CatProveedores_GuardarArchivo",
+                        sqlcon))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
 
+                        cmd.Parameters.Add("@UrlArchivo", SqlDbType.NVarChar).Value = model.Archivo;
+                        cmd.Parameters.Add("@IdProveedor", SqlDbType.Char).Value = model.IdProveedor;
+                        cmd.Parameters.Add("@IdTipoDocumentacionExtra", SqlDbType.Int).Value =
+                            model.IdTipoDocumentacionExtra;
+                        cmd.Parameters.Add("@IdUsuario", SqlDbType.Char).Value = UsuarioActual;
+                        cmd.Parameters.Add("@IdDocumentacionExtra", SqlDbType.Char).Value = model.IdDocumentacionExtra;
+                        
+
+                        sqlcon.Open();
+
+                        var reader = cmd.ExecuteReader();
+
+                        if (reader.HasRows)
+                        {
+                            while (reader.Read())
+                            {
+                                respuesta.Success = (bool) reader["Success"];
+                                respuesta.Mensaje = reader["Mensaje"].ToString();
+                                if (!respuesta.Success)
+                                    respuesta.MensajeErrorSQL = reader["MensejeErrorSQL"].ToString();
+                            }
+                        }
+
+                        reader.Close();
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                respuesta.Success = false;
+                respuesta.MensajeErrorSQL = e.Message;
+                respuesta.Mensaje =
+                    "Se ha producido un error al guardar el documento, intentelo más tarde o contacte con soporte técnico.";
+            }
+
+            return respuesta;
+        }
+
+        public DocumentacionExtra_CatProveedorModel ObtenerDocumentacionExtra(string idProveedor, string idDocumentacionExtra)
+        {
+            var model = new DocumentacionExtra_CatProveedorModel();
+
+            using (var sqlcon = new SqlConnection(ConexionSql))
+            {
+                using (var cmd = new SqlCommand("spCIDDB_DocumentacionExtra_CatProveedorspCSLDB_DocumentacionExtra_CatProveedores_ObtenerArchivo",
+                    sqlcon))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.Add("@IdProveedor", SqlDbType.Char).Value = idProveedor;
+                    cmd.Parameters.Add("@IdDocumentacionExtra", SqlDbType.Char).Value = idDocumentacionExtra;
+                    
+                    sqlcon.Open();
+
+                    var reader = cmd.ExecuteReader();
+
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            model.IdTipoDocumentacionExtra = int.Parse(reader["IdTipoDocumentacionExtra"].ToString());
+                            model.Archivo = ProjectSettings.BaseDirProveedorDocumentacionExtra  + reader["UrlArchivo"];
+                            model.IdProveedor = reader["IdProveedor"].ToString();
+                            model.IdDocumentacionExtra = reader["IdDocumentacionExtra"].ToString();
+                        }
+                    }
+
+                    reader.Close();
+                }
+            }
+
+            return model;
+        }
+
+
+        public RespuestaAjax EliminarDocumentoExtra(string idProveedor, string idDocumentacionExtra, string urlArchivo)
+        {
+            var respuesta = new RespuestaAjax();
+            try
+            {
+                using (var sqlcon = new SqlConnection(ConexionSql))
+                {
+                    using (var cmd = new SqlCommand("spCSLDB_DocumentacionExtra_CatProveedores_EliminarDocumentacionExtra",
+                        sqlcon))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        cmd.Parameters.Add("@IdProveedor", SqlDbType.Char).Value = idProveedor;
+                        cmd.Parameters.Add("@IdDocumentacionExtra", SqlDbType.Char).Value = idDocumentacionExtra;
+                        cmd.Parameters.Add("@UrlArchivo", SqlDbType.NVarChar).Value = urlArchivo;
+
+
+                        sqlcon.Open();
+
+                        var reader = cmd.ExecuteReader();
+
+                        if (reader.HasRows)
+                        {
+                            while (reader.Read())
+                            {
+                                respuesta.Success = (bool)reader["Success"];
+                                respuesta.Mensaje = reader["Mensaje"].ToString();
+                                if (!respuesta.Success)
+                                    respuesta.MensajeErrorSQL = reader["MensejeErrorSQL"].ToString();
+                            }
+                        }
+
+                        reader.Close();
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                respuesta.Success = false;
+                respuesta.MensajeErrorSQL = e.Message;
+                respuesta.Mensaje =
+                    "Se ha producido un error al guardar el documento, intentelo más tarde o contacte con soporte técnico.";
+            }
+
+            return respuesta;
+        }
         #endregion
     }
 }
