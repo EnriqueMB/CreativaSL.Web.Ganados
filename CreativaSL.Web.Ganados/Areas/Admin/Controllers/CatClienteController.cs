@@ -191,11 +191,11 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                             var fotoPerfilPostedFileBase = Request.Files["FotoPerfil"] as HttpPostedFileBase;
                             if (fotoPerfilPostedFileBase != null && fotoPerfilPostedFileBase.ContentLength > 0)
                             {
-                                var uploadImageToserver = new UploadImageToServerModel();
+                                var uploadImageToserver = new UploadFileToServerModel();
                                 uploadImageToserver.FileBase = fotoPerfilPostedFileBase;
                                 uploadImageToserver.BaseDir = "/Imagenes/Cliente/FotoPerfil/";
                                 uploadImageToserver.FileName = "fp_" + clienteID.IDCliente;
-                                CidFaresHelper.UploadImageToServer(uploadImageToserver);
+                                CidFaresHelper.UploadFileToServer(uploadImageToserver);
 
                                 if (uploadImageToserver.Success)
                                 {
@@ -308,11 +308,11 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                             var fotoPerfilPostedFileBase = Request.Files["FotoPerfil"] as HttpPostedFileBase;
                             if (fotoPerfilPostedFileBase != null && fotoPerfilPostedFileBase.ContentLength > 0)
                             {
-                                var uploadImageToserver = new UploadImageToServerModel();
+                                var uploadImageToserver = new UploadFileToServerModel();
                                 uploadImageToserver.FileBase = fotoPerfilPostedFileBase;
                                 uploadImageToserver.BaseDir = "/Imagenes/Cliente/FotoPerfil/";
                                 uploadImageToserver.FileName = "fp_" + clienteID.IDCliente;
-                                CidFaresHelper.UploadImageToServer(uploadImageToserver);
+                                CidFaresHelper.UploadFileToServer(uploadImageToserver);
 
                                 if (uploadImageToserver.Success)
                                 {
@@ -572,7 +572,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Cliente.IDCliente = id;
                 Cliente.IDSucursal = id2;
                 ClienteDatos.EliminarCliente(Cliente);
-                var uploadImageToserver = new UploadImageToServerModel();
+                var uploadImageToserver = new UploadFileToServerModel();
                 uploadImageToserver.BaseDir = "/Imagenes/Cliente/FotoPerfil/";
                 uploadImageToserver.FileName = "fp_" + Cliente.IDCliente;
                 CidFaresHelper.DeleteFilesWithOutExtensionFromServer(uploadImageToserver);
