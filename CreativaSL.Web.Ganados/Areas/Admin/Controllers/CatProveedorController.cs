@@ -1425,8 +1425,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                                 return View(model);
                             }
 
-                            //var responseDb = ProveedorDatos.ActualizarFotoPerfil(Proveedor.IDProveedor,
-                            //    User.Identity.Name, uploadImageToserver.UrlComplete, Proveedor.Conexion);
+
+
                             TempData["typemessage"] = "1";
                             TempData["message"] = "OK";
                             return RedirectToAction("Index");

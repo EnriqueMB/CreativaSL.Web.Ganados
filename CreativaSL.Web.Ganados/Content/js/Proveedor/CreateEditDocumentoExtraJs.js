@@ -3,7 +3,7 @@
 
     var runPlugins = function ()
     {
-        $('#UrlArchivo').fileinput({
+        $('#Archivo').fileinput({
             language: 'es',
             showUpload: false,
             uploadUrl: "#",
@@ -18,7 +18,6 @@
             showRemove: false,
             showClose: false,
             required: true,
-            allowedFileExtensions: ['png', 'jpg', 'gif', 'jpeg', 'heic'],
             previewFileIcon: '<i class="fa fa-file"></i>',
             preferIconicPreview: true, // this will force thumbnails to display icons for following file extensions
             previewFileIconSettings: { // configure your icon file extensions
@@ -28,6 +27,9 @@
                 'heic': function(ext) {
                     return ext.match(/(heic)$/i);
                 }
+            }
+            , fileActionSettings: {
+                showRemove: false
             }
         });
     };

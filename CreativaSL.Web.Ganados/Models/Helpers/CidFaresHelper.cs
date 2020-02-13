@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Hosting;
+using System.Web.Razor.Generator;
 using CreativaSL.Web.Ganados.Models.System;
 
 namespace CreativaSL.Web.Ganados.Models.Helpers
@@ -84,7 +85,7 @@ namespace CreativaSL.Web.Ganados.Models.Helpers
             for(var x = 0; x < folders.Length; x++)
             {
                 var currentFolder = string.Empty;
-                for (var y = x; y < folders.Length; y++)
+                for (var y = 0; y <= x; y++)
                 {
                     currentFolder += "/" + folders[y];
                 }
@@ -99,7 +100,7 @@ namespace CreativaSL.Web.Ganados.Models.Helpers
             return true;
         }
 
-        private static string SaveFileToServer(HttpPostedFileBase fileBase, string baseDir, string fileName, int calidad)
+        private static string SaveFileToServer(HttpPostedFileBase fileBase, string baseDir, string fileName, long calidad)
         {
             if (fileBase == null || fileBase.ContentLength == 0)
             {
@@ -113,20 +114,21 @@ namespace CreativaSL.Web.Ganados.Models.Helpers
 
             var urlComplete = baseDir + fileName;
             var stream = fileBase.InputStream;
+            Image img = null;
 
             if (IsFileImage(fileBase.FileName))
             {
                 if (Path.GetExtension(fileBase.FileName)?.ToLower() == ".heic")
                 {
-                    var img = (Image)Auxiliar.ProcessFile(stream);
-                    var bmp = new Bitmap(VaryQualityLevel((Image)img.Clone(), calidad));
-                    bmp.Save(HostingEnvironment.MapPath(urlComplete));
+                    img = Auxiliar.ProcessFile(stream);
                 }
                 else
                 {
-                    var bmp = new Bitmap(stream);
-                    bmp.Save(HostingEnvironment.MapPath(urlComplete));
+                    img = Image.FromStream(stream);
                 }
+
+                var bmp = new Bitmap(VaryQualityLevel((Image)img.Clone(), calidad));
+                bmp.Save(HostingEnvironment.MapPath(urlComplete));
             }
             else
             {
@@ -140,7 +142,7 @@ namespace CreativaSL.Web.Ganados.Models.Helpers
         {
             var extensionsImages = new[]
             {
-                ".png", ".jpg", ".jpge", ".bmp"
+                ".png", ".jpg", ".jpge", ".bmp", ".heic"
             };
 
             return extensionsImages.Any(extensionImage => Path.GetExtension(fileName).ToLower().Equals(extensionImage));
