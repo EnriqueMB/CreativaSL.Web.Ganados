@@ -1590,6 +1590,7 @@
     <Content Include="Areas\Admin\Views\CatProveedor\CreateDocumentoExtra.cshtml" />
     <Content Include="Areas\Admin\Views\CatProveedor\EditDocumentoExtra.cshtml" />
     <Content Include="Content\js\plugins\uploadFiles\fileinputv5.0.9.js" />
+    <Content Include="Areas\Admin\Views\CatProveedor\Imagenes.cshtml" />
     <None Include="Properties\PublishProfiles\Ocampo.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
@@ -1842,6 +1843,7 @@
     <Compile Include="Models\Dto\CatTipoDocumentacionExtra\IndexCatTipoDocumentacionExtraDto.cs" />
     <Compile Include="Models\Dto\Compra\IndexCompraDto.cs" />
     <Compile Include="Models\Dto\Base\IndexDatatableDto.cs" />
+    <Compile Include="Models\Dto\ProveedorGanado\ImagenesProveedorGanadoDto.cs" />
     <Compile Include="Models\Dto\ProveedorGanado\IndexProveedorGanadoDocumentacionExtraDto.cs" />
     <Compile Include="Models\Dto\ProveedorGanado\IndexProveedorGanadoDto.cs" />
     <Compile Include="Models\Dto\Venta\IndexVentaDto.cs" />

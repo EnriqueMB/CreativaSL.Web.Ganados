@@ -9,6 +9,7 @@ using CreativaSL.Web.Ganados.Models.Dto.Base;
 using CreativaSL.Web.Ganados.Models.Dto.ProveedorGanado;
 using CreativaSL.Web.Ganados.Models.System;
 using Newtonsoft.Json;
+using CreativaSL.Web.Ganados.Models.Dto.ProveedorGanado;
 
 namespace CreativaSL.Web.Ganados.Models
 {
@@ -1242,6 +1243,60 @@ namespace CreativaSL.Web.Ganados.Models
 
             return respuesta;
         }
+        #endregion
+
+        #region Imagenes
+
+        public ImagenesProveedorGanadoDto ObtenerProveedor(string idProveedor)
+        {
+            var model = new ImagenesProveedorGanadoDto();
+
+            using (var sqlcon = new SqlConnection(ConexionSql))
+            {
+                using (var cmd = new SqlCommand("spCIDDB_CatProveedor_Imagenes_ObtenerProveedor",
+                    sqlcon))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.Add("@IdProveedor", SqlDbType.Char).Value = idProveedor;
+
+                    sqlcon.Open();
+
+                    var reader = cmd.ExecuteReader();
+
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            model.RazonSocial_Nombre = reader["nombreRazonSocial"].ToString();
+                            model.FotoPerfilUrl = reader["UrlFotoPerfil"].ToString();
+                            model.Rfc = reader["rfc"].ToString();
+                            model.Sucursal = reader["Sucursal"].ToString();
+                            model.TipoProveedor = reader["TipoProveedor"].ToString();
+                            model.Direccion = reader["direccion"].ToString();
+                            model.Tolerancia = reader["tolerancia"].ToString();
+                            model.Observacion = reader["observaciones"].ToString();
+                            model.Telefonos = reader["Telefono"].ToString();
+                            model.Email = reader["correo"].ToString();
+
+                            if (!string.IsNullOrWhiteSpace(model.FotoPerfilUrl))
+                            {
+                                model.FotoPerfilUrl = ProjectSettings.BaseDirProveedorFotoPerfil + model.FotoPerfilUrl;
+                            }
+                            
+                            IFormatProvider culture = new CultureInfo("es-MX", true);
+                            model.FechaIngreso = DateTime.ParseExact(reader["FechaIngreso"].ToString(), "dd/MM/yyyy hh:mm:ss tt",
+                                culture).ToString("dd/MM/yyyy", culture);
+                        }
+                    }
+
+                    reader.Close();
+                }
+            }
+
+            return model;
+        }
+
         #endregion
     }
 }

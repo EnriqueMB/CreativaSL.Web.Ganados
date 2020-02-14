@@ -1,0 +1,569 @@
+﻿@model CreativaSL.Web.Ganados.Models.Dto.ProveedorGanado.ImagenesProveedorGanadoDto
+
+@{
+    ViewBag.Title = "Imagenes";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+
+    var lista = ViewBag.LProveedorAlmacen;
+    var ListaProvCombustible = ViewBag.LProveedorCombistible;
+    var ListaProvServicio = ViewBag.LProveddorServicio;
+    var ListaProvTransporte = ViewBag.LProveddorTransporte;
+}
+@section css{
+    <!--FILEINPUT-->
+    <link href="@Url.Content("~/Content/js/plugins/uploadFiles/fileinput.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/css/fontawesome/font-awesome.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/js/plugins/uploadFiles/theme.css")" rel="stylesheet" />
+    <style>
+        .kv-avatar .krajee-default.file-preview-frame, .kv-avatar .krajee-default.file-preview-frame:hover {
+            margin: 0;
+            padding: 0;
+            border: none;
+            box-shadow: none;
+            text-align: center;
+        }
+
+        .kv-avatar {
+            display: inline-block;
+        }
+
+        .kv-avatar .file-input {
+            display: table-cell;
+            width: 290px !important;
+        }
+
+        .kv-reqd {
+            color: red;
+            font-family: monospace;
+            font-weight: normal;
+        }
+        textarea {
+            max-height: 100%;
+            resize: none;
+        }
+        .comments { width: 300px; height: 75px }
+    </style>
+}
+
+
+@section featured{
+    @{ var message = TempData["message"] ?? string.Empty;
+        var typemessage = TempData["typemessage"] ?? string.Empty;
+    }
+    <div id="Error" class="progress-bar progress-bar-striped active errorCSL" style="display:none; width:100%">
+        <h3></h3>
+    </div>
+    <div id="Success" class="progress-bar progress-bar-striped active successCSL" style="display:none; width:100%">
+        <h3></h3>
+    </div>
+    <div class="page-title">
+        <h2><span class="fa fa-arrow-circle-o-left"></span> Proveedor </h2>
+    </div>
+    <!-- END PAGE TITLE -->
+    <!-- PAGE CONTENT WRAPPER -->
+    <div class="page-content-wrap">
+        <div class="row">
+            <div class="col-md-12">
+                <!-- START DEFAULT DATATABLE -->
+                <div class="panel-body tab-content">
+                    <div class="panel panel-default tabs">
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li class="active"><a href="#tab-primero" role="tab" data-toggle="tab">Generales</a></li>
+                            <li><a href="#tab-segundo" role="tab" data-toggle="tab">Cuentas bancarias</a></li>
+                            <li><a href="#tab-tercero" role="tab" data-toggle="tab">Documentación extra</a></li>
+                        </ul>
+                        <div class="panel-body tab-content">
+                            <div class="tab-pane active" id="tab-primero">
+                                <div class="panel panel-default">
+                                    <div class="panel-body">
+
+                                        <form>
+                                            <div class="col-md-4">
+                                                <div class="form-group row">
+                                                    <label class="col-sm-3">Sucursal</label>
+                                                    <div class="col-sm-9">
+                                                        @Html.TextBoxFor(model => model.Sucursal, new { @class = "form-control", @readonly = "readonly" })
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group row">
+                                                    <label class="col-sm-3">Nombre</label>
+                                                    <div class="col-sm-9">
+                                                        @Html.TextBoxFor(model => model.RazonSocial_Nombre, new { @class = "form-control", @readonly = "readonly" })
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="form-group row">
+                                                    <label class="col-sm-3">Fecha de inicio de relación</label>
+                                                    <div class="col-sm-9">
+                                                        @Html.TextBoxFor(model => model.FechaIngreso, new { @class = "form-control", @readonly = "readonly" })
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group row">
+                                                    <label class="col-sm-3">Teléfonos</label>
+                                                    <div class="col-sm-9">
+                                                        @Html.TextBoxFor(model => model.Telefonos, new { @class = "form-control", @readonly = "readonly" })
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group row">
+                                                    <label class="col-sm-3">Dirección</label>
+                                                    <div class="col-sm-9">
+                                                        @Html.TextAreaFor(model => model.Direccion, new { @class = "form-control", @readonly = "readonly", @rows = "5" })
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group row">
+                                                    <label class="col-sm-3">Rfc</label>
+                                                    <div class="col-sm-9">
+                                                        @Html.TextBoxFor(model => model.Rfc, new { @class = "form-control", @readonly = "readonly" })
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label class="col-sm-3">Tipo proveedor</label>
+                                                    <div class="col-sm-9">
+                                                        @Html.TextBoxFor(model => model.TipoProveedor, new { @class = "form-control", @readonly = "readonly" })
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label class="col-sm-3">Tolerancia</label>
+                                                    <div class="col-sm-9">
+                                                        @Html.TextBoxFor(model => model.Tolerancia, new { @class = "form-control", @readonly = "readonly" })
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group row">
+                                                    <label class="col-sm-3">Email</label>
+                                                    <div class="col-sm-9">
+                                                        @Html.TextBoxFor(model => model.Email, new { @class = "form-control", @readonly = "readonly" })
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group row">
+                                                    <label class="col-sm-3">Observaciones</label>
+                                                    <div class="col-sm-9">
+                                                        @Html.TextAreaFor(model => model.Observacion, new { @class = "form-control", @readonly = "readonly", @rows = "5" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <div class="input-group">
+                                                        <label class="col-md-3 control-label">Foto de perfil</label>
+                                                        <div class="col-md-9 col-xs-12">
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon"><span class="fa fa-camera"></span></span>
+                                                                <div class="kv-avatar">
+                                                                    <div class="file-loading">
+                                                                        @Html.TextBoxFor(model => model.FotoPerfilUrl, new { @type = "file", @class = "form-control" })
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="tab-segundo">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title"></h3>
+                                        <ul class="panel-controls">
+                                            <li><a href="@Url.Action("Create","CatProveedorAlmacen")" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nuevo Proveedor Almacen</a></li>
+                                            <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
+                                            <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="table-responsive">
+                                            @*<table class="table datatable">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Sucursal</th>
+                                                            <th>Razón Social</th>
+                                                            <th>RFC</th>
+                                                            <th>Dirección</th>
+                                                            <th>Correo</th>
+                                                            <th style="text-align:center">Acción</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach (var Proveedor in lista)
+                                                        {
+                                                            <tr id="@Proveedor.IDProveedorAlmacen">
+                                                                <td>@Proveedor.NombreSucursal</td>
+                                                                <td>@Proveedor.RazonSocial</td>
+                                                                <td>@Proveedor.RFC</td>
+                                                                <td>@Proveedor.Direccion</td>
+                                                                <td>@Proveedor.Correo</td>
+                                                                <td style="text-align:center;">
+                                                                    <div class="visible-md visible-lg hidden-sm hidden-xs">
+                                                                        <a title="Datos Contacto" href="@Url.Action("ContactoPro", "CatProveedorAlmacen", new { id =Proveedor.IDProveedorAlmacen  })" class="btn btn-blue tooltips" data-placement="top" data-original-title="Contatos"><i class="fa fa-user"></i></a>
+                                                                        <a title="Datos Bancarios" href="@Url.Action("DatosBancarios", "CatProveedorAlmacen", new { id =Proveedor.IDProveedorAlmacen  })" class="btn btn-green tooltips" data-placement="top" data-original-title="Datos Bancarios"><i class="fa fa-credit-card"></i></a>
+                                                                        <a title="Editar" href="@Url.Action("Edit", "CatProveedorAlmacen", new { id = Proveedor.IDProveedorAlmacen })" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
+                                                                        <a title="Eliminar" id="delete-@Proveedor.IDProveedorAlmacen" data-hrefa="@Url.Action("Delete", "CatProveedorAlmacen", new { id = Proveedor.IDProveedorAlmacen })" onClick="delete_row('@Proveedor.IDProveedorAlmacen');" class="btn btn-danger tooltips" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
+                                                                    </div>
+                                                                    <div class="visible-xs visible-sm hidden-md hidden-lg">
+                                                                        <div class="btn-group">
+                                                                            <a class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
+                                                                                <i class="fa fa-cog"></i> <span class="caret"></span>
+                                                                            </a>
+                                                                            <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
+                                                                                <li>
+                                                                                    <a role="menuitem" tabindex="-1" href="@Url.Action("ContactoPro", "CatProveedorAlmacen", new { id =Proveedor.IDProveedorAlmacen  })">
+                                                                                        <i class="fa fa-user"></i> Datos Contacto
+                                                                                    </a>
+                                                                                </li>
+                                                                                <li>
+                                                                                    <a role="menuitem" tabindex="-1" href="@Url.Action("DatosBancarios", "CatProveedorAlmacen", new { id =Proveedor.IDProveedorAlmacen  })">
+                                                                                        <i class="fa fa-credit-card"></i> Datos Bancarios
+                                                                                    </a>
+                                                                                </li>
+                                                                                <li>
+                                                                                    <a role="menuitem" tabindex="-1" href="@Url.Action("Edit", "CatProveedorAlmacen", new { id = Proveedor.IDProveedorAlmacen })">
+                                                                                        <i class="fa fa-edit"></i> Editar
+                                                                                    </a>
+                                                                                </li>
+                                                                                <li>
+                                                                                    <a role="menuitem" tabindex="-1" id="delete-@Proveedor.IDProveedorAlmacen" data-hrefa="@Url.Action("Delete", "CatProveedorAlmacen", new { id = Proveedor.IDProveedorAlmacen })" onClick="delete_row('@Proveedor.IDProveedorAlmacen');">
+                                                                                        <i class="fa fa-trash-o"></i> Eliminar
+                                                                                    </a>
+                                                                                </li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        }
+                                                    </tbody>
+                                                </table>*@
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="tab-tercero">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title"></h3>
+                                        <ul class="panel-controls">
+                                            <li><a href="@Url.Action("Create","CatProveedorCombustible")" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nuevo Proveedor Combustible</a></li>
+                                            <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
+                                            <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="table-responsive">
+                                            @*<table class="table datatable">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Sucursal</th>
+                                                            <th>Razón Social</th>
+                                                            <th>RFC</th>
+                                                            <th>Teléfono</th>
+                                                            <th>Acción</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach (var proveedor in ListaProvCombustible)
+                                                        {
+                                                            <tr id="@proveedor.IDProveedor">
+                                                                <td>@proveedor.nombreSucursal</td>
+                                                                <td>@proveedor.NombreRazonSocial</td>
+                                                                <td>@proveedor.RFC</td>
+                                                                <td>@proveedor.telefonoCasa</td>
+                                                                <td style="text-align:center;">
+                                                                    <div class="visible-md visible-lg hidden-sm hidden-xs">
+                                                                        <a title="Datos de contacto" class="btn btn-blue" href="@Url.Action("DatosContacto", "CatProveedorCombustible", new { id = proveedor.IDProveedor, id2 = proveedor.IDSucursal})"><i class="fa fa-user"></i></a>
+                                                                        <a title="Datos bancarios" class="btn btn-green" href="@Url.Action("Cuentas", "CatProveedorCombustible", new { id = proveedor.IDProveedor })"><i class="fa fa-money"></i></a>
+                                                                        <a title="Editar" href="@Url.Action("Edit", "CatProveedorCombustible", new { id = proveedor.IDProveedor})" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
+                                                                        <a title="Eliminar" id="delete-@proveedor.IDProveedor" data-hrefa="@Url.Action("Delete", "CatProveedorCombustible", new { id =  proveedor.IDProveedor })" onClick="delete_row('@proveedor.IDProveedor');" class="btn btn-danger tooltips" data-placement="top" data-original-title="Eliminar"><i class="fa fa-trash-o"></i></a>
+                                                                    </div>
+                                                                    <div class="visible-xs visible-sm hidden-md hidden-lg">
+                                                                        <div class="btn-group">
+                                                                            <a class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
+                                                                                <i class="fa fa-cog"></i> <span class="caret"></span>
+                                                                            </a>
+                                                                            <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
+                                                                                <li>
+                                                                                    <a role="menuitem" tabindex="-1" href="@Url.Action("Cuentas", "CatProveedorCombustible", new { id = proveedor.IDProveedor })">
+                                                                                        <i class="fa fa-money"></i> Datos bancarios
+                                                                                    </a>
+                                                                                </li>
+                                                                                <li>
+                                                                                    <a role="menuitem" tabindex="-1" href="@Url.Action("DatosContacto", "CatProveedorCombustible", new { id = proveedor.IDProveedor })">
+                                                                                        <i class="fa fa-plus"></i> Datos Contacto
+                                                                                    </a>
+                                                                                </li>
+                                                                                <li>
+                                                                                    <a role="menuitem" tabindex="-1" href="@Url.Action("Edit", "CatProveedorCombustible", new { id = proveedor.IDProveedor})">
+                                                                                        <i class="fa fa-edit"></i> Editar
+                                                                                    </a>
+                                                                                </li>
+                                                                                <li>
+                                                                                    <a role="menuitem" tabindex="-1" id="delete-@proveedor.IDProveedor" data-hrefa="@Url.Action("Delete", "CatProveedorCombustible", new { id =  proveedor.IDProveedor })" onClick="delete_row('@proveedor.IDProveedor');">
+                                                                                        <i class="fa fa-trash-o"></i> Eliminar
+                                                                                    </a>
+                                                                                </li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        }
+                                                    </tbody>
+                                                </table>*@
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    var message = '@message';
+    var typemessage = '@typemessage';
+    </script>
+}
+@section script
+{
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/fileinput.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/es.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/explorer-fa/theme.js")"></script>
+    @*<script src="@Url.Content("~/Content/js/plugins/uploadFiles/fa/theme.js")" type="text/javascript"></script>*@
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-datepicker.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-file-input.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-select.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/tagsinput/jquery.tagsinput.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
+    <script>
+        jQuery(document).ready(function () {
+            Mensaje(message, typemessage);
+
+            $("#FotoPerfilUrl").fileinput({
+                theme: 'fa',
+                language: 'es',
+                overwriteInitial: false,
+                showClose: false,
+                showCaption: false,
+                showUpload: false,
+                showBrowse: false,
+                showRemove: false,
+                browseLabel: '',
+                removeLabel: '',
+                browseIcon: '<i class="glyphicon glyphicon-folder-open"></i>',
+                removeIcon: '<i class="glyphicon glyphicon-remove"></i>',
+                removeTitle: 'Cancel or reset changes',
+                defaultPreviewContent:
+                    '<img src="/Content/img/GrupoOcampo.png" alt="Logo" style="width: auto; height: auto; max-width: 100%; max-height: 100%;">',
+                showUploadedThumbs: false,
+                previewFileIcon: '<i class="fa fa-file"></i>',
+                preferIconicPreview: true, // this will force thumbnails to display icons for following file extensions
+                previewFileIconSettings: { // configure your icon file extensions
+                    'heic': '<i class="fa fa-file-text text-primary"></i>'
+                },
+                previewFileExtSettings: { // configure the logic for determining icon file extensions
+                    'heic': function(ext) {
+                        return ext.match(/(heic)$/i);
+                    }
+                },
+                fileActionSettings: {
+                    showRemove: false
+                }
+            });
+
+        });
+
+                //$("#tblProveedorGanado").DataTable({
+                //    "processing": true,
+                //    "serverSide": true,
+                //    "language": {
+                //        "url": "/Content/assets/json/Spanish.json"
+                //    },
+                //    "ajax": {
+                //        "url": "/Admin/CatProveedor/JsonIndex/",
+                //        "method": "POST",
+                //        "dataType": "json",
+                //        "dataSrc": function (json) {
+
+                //            if (json.data === null)
+                //                return [];
+                //            else
+                //                return json.data;
+                //        }
+                //    },
+                //    "columns": [
+                //        { "data": "NombreSucursal" },
+                //        { "data": "NombreRazonSocial" },
+                //        { "data": "TipoProveedor" },
+                //        {
+                //            "data": "Tolerancia"
+                //            , "render": $.fn.dataTable.render.number(',', '.', 2, '', ' %')
+                //        },
+                //        {
+                //            "data": null,
+                //            "render": function (data, type, full) {
+                //                var botones =
+                //                    "<div class='visible-md visible-lg hidden-sm hidden-xs' style='text-align:center'=>" +
+                //                    "<a title='Imagenes' class='btn btn-primary' href='/Admin/CatProveedor/Imagenes?idProveedor=" +
+                //                    full["IdProveedor"] +
+                //                    "'><i class='fa fa-picture-o'></i></a>" +
+                //                    "<a title='Documentos extras' class='btn btn-primary' href='/Admin/CatProveedor/DocumentosExtras?IdProveedor=" +
+                //                    full["IdProveedor"] +
+                //                    "'><i class='fa fa-archive'></i></a>" +
+                //                    "<a title='Notas' class='btn btn-primary btnMargin' href='/Admin/CatProveedor/Notas?IdProveedor=" +
+                //                    full["IdProveedor"] +
+                //                    "'><i class='fa fa-file-text'></i></a>" +
+                //                    "<a title='Precios Rango' class='btn btn-primary btnMargin' href='/Admin/CatProveedor/PrecioProveedor/" +
+                //                    full["IdProveedor"] +
+                //                    "'><i class='fa fa-dollar'></i></a>" +
+                //                    "<a title='Lugar Proveedor' class='btn btn-primary btnMargin' href='/Admin/CatProveedor/LugarProveedor/" +
+                //                    full["IdProveedor"] +
+                //                    "/" +
+                //                    full["IdSucursal"] +
+                //                    "'><i class='fa fa-map-marker'></i></a>" +
+                //                    "<a title='Datos de contacto' class='btn btn-blue btnMargin' href='/Admin/CatProveedor/DatosContacto/" +
+                //                    full["IdProveedor"] +
+                //                    "/" +
+                //                    full["IdSucursal"] +
+                //                    "'><i class='fa fa-user'></i></a>" +
+                //                    "<a title='Datos bancarios' class='btn btn-green btnMargin' href='/Admin/CatProveedor/Cuentas/" +
+                //                    full["IdProveedor"] +
+                //                    "'><i class='fa fa-money'></i></a>" +
+                //                    "<a title='UPPProveedor' class='btn btn-green btnMargin' href='/Admin/CatProveedor/UPPProveedor/" +
+                //                    full["IdProveedor"] +
+                //                    "'><i class='fa fa-plus'></i></a>" +
+                //                    "<a title='Editar' href='/Admin/CatProveedor/Edit/" +
+                //                    full["IdProveedor"] +
+                //                    "' class='btn btn-yellow tooltips btnMargin' data-placement='top' data-original-title='Edit'><i class='fa fa-edit'></i></a>" +
+                //                    "<a title='Eliminar' data-id='" +
+                //                    full["IdProveedor"] +
+                //                    "' data-hrefa='/Admin/CatProveedor/Delete/" +
+                //                    full["IdProveedor"] +
+                //                    "' class='btn btn-danger tooltips eliminarProveedor btnMargin' data-placement='top' data-original-title='Eliminar'><i class='fa fa-trash-o'></i></a>" +
+                //                    "</div>" +
+                //                    "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
+                //                    "<div class='btn-group'>" +
+                //                    "<a class='btn btn-danger dropdown-toggle btn-sm' data-toggle='dropdown' href='#'>" +
+                //                    "<i class='fa fa-cog'></i> <span class='caret'></span>" +
+                //                    "</a>" +
+                //                    "<ul role='menu' class='dropdown-menu pull-right dropdown-dark'>" +
+                //                    "<li>" +
+                //                    "<a role='menuitem' tabindex='-1' href='/Admin/CatProveedor/Imagenes?idProveedor=" +
+                //                    full["IdProveedor"] +
+                //                    "'>" +
+                //                    "<i class='fa fa-picture-o'></i> Imagenes" +
+                //                    "</a>" +
+                //                    "</li>" +
+                //                    "<li>" +
+                //                    "<a role='menuitem' tabindex='-1' href='/Admin/CatProveedor/DocumentosExtras?IdProveedor=" +
+                //                    full["IdProveedor"] +
+                //                    "'>" +
+                //                    "<i class='fa fa-archive'></i> Documentos extras" +
+                //                    "</a>" +
+                //                    "</li>" +
+                //                    "<li>" +
+                //                    "<a role='menuitem' tabindex='-1' href='/Admin/CatProveedor/Notas/" +
+                //                    full["IdProveedor"] +
+                //                    "'>" +
+                //                    "<i class='fa fa-file-text'></i> Notas" +
+                //                    "</a>" +
+                //                    "</li>" +
+                //                    "<li>" +
+                //                    "<a role='menuitem' tabindex='-1' href='/Admin/CatProveedor/PrecioProveedor/" +
+                //                    full["IdProveedor"] +
+                //                    "'>" +
+                //                    "<i class='fa fa-dollar'></i> Precios Proveedor" +
+                //                    "</a>" +
+                //                    "</li>" +
+                //                    "<li>" +
+                //                    "<a role='menuitem' tabindex='-1' href='/Admin/CatProveedor/LugarProveedor/" +
+                //                    full["IdProveedor"] +
+                //                    "/" +
+                //                    full["IdSucursal"] +
+                //                    "'>" +
+                //                    "<i class='fa fa-map-marker'></i> Lugar Proveedor" +
+                //                    "</a>" +
+                //                    "</li>" +
+                //                    "<li>" +
+                //                    "<a role='menuitem' tabindex='-1' href='/Admin/CatProveedor/Cuentas/" +
+                //                    full["IdProveedor"] +
+                //                    "'>" +
+                //                    "<i class='fa fa-money'></i> Datos bancarios" +
+                //                    "</a>" +
+                //                    "</li>" +
+                //                    "<li>" +
+                //                    "<a role='menuitem' tabindex='-1' href='/Admin/CatProveedor/UPPProveedor/" +
+                //                    full["IdProveedor"] +
+                //                    "'>" +
+                //                    "<i class='fa fa-plus'></i> UPPProveedor" +
+                //                    "</a>" +
+                //                    "</li>" +
+                //                    "<li>" +
+                //                    "<a role='menuitem' tabindex='-1' href='/Admin/CatProveedor/Edit/" +
+                //                    full["IdProveedor"] +
+                //                    "'>" +
+                //                    "<i class='fa fa-edit'></i> Editar" +
+                //                    "</a>" +
+                //                    "</li>" +
+                //                    "<li>" +
+                //                    "<a role='menuitem' tabindex='-1' data-id='" +
+                //                    full["IdProveedor"] +
+                //                    "' data-hrefa='/Admin/CatProveedor/Delete/" +
+                //                    full["IdProveedor"] + "'" +
+                //                    " class='eliminarProveedor'>'<i class='fa fa-trash-o'" +
+                //                    "></i> Eliminar" +
+                //                    "</a>" +
+                //                    "</li>" +
+                //                    "</ul>" +
+                //                    "</div>" +
+                //                    "</div>";
+                //                return botones;
+                //            }
+                //        }
+                //    ]
+                //    , responsive: true
+                //    , "drawCallback": function (settings) {
+                //        $(".eliminarProveedor").on("click", function () {
+                //            console.log("delete");
+                //            var url = $(this).attr('data-hrefa');
+                //            var id = $(this).attr('data-id');
+                //            var box = $("#mb-remove-row");
+                //            box.addClass("open");
+                //            box.find(".mb-control-yes").on("click", function () {
+                //                box.removeClass("open");
+                //                $.ajax({
+                //                    url: url,
+                //                    data: { id: id },
+                //                    type: 'POST',
+                //                    dataType: 'json',
+                //                    success: function (result) {
+                //                        window.location.href = '/Admin/CatProveedor/Index';
+                //                    },
+                //                    error: function (result) {
+                //                        window.location.href = '/Admin/CatProveedor/Index';
+                //                    }
+                //                });
+                //            });
+
+                //        });
+                //    }
+                //    , "order": [[0, "desc"]]
+                //});
+    </script>
+}
+

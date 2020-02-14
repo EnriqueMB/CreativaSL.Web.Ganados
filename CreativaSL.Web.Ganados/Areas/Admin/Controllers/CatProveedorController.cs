@@ -1665,26 +1665,28 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
         #region Imagenes
 
-        //public ActionResult Imagenes(string idProveedor)
-        //{
-        //    try
-        //    {
-        //        if (string.IsNullOrWhiteSpace(idProveedor))
-        //        {
-        //            TempData["typemessage"] = "2";
-        //            TempData["message"] = "Verifique sus datos.";
-        //            return RedirectToAction("Index");
-        //        }
+        public ActionResult Imagenes(string idProveedor)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(idProveedor))
+                {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "Verifique sus datos.";
+                    return RedirectToAction("Index");
+                }
+                var datosProveedor = new _CatProveedor_Datos();
+                var model = datosProveedor.ObtenerProveedor(idProveedor);
 
-
-        //    }
-        //    catch (Exception)
-        //    {
-        //        TempData["typemessage"] = "2";
-        //        TempData["message"] = "Verifique sus datos.";
-        //        return RedirectToAction("Index");
-        //    }
-        //}
+                return View(model);
+            }
+            catch (Exception)
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Verifique sus datos.";
+                return RedirectToAction("Index");
+            }
+        }
         #endregion
     }
 }

@@ -8095,3 +8095,9 @@ display:none;
 }
 /*TERMINA CAMBIOS 11/02/2020*/
 
+/*INICIA CAMBIOS 14/02/2020*/
+.form-control[disabled],
+.form-control[readonly] {
+    color: #000 !important;
+}
+/*TERMINA CAMBIOS 11/02/2020*/
