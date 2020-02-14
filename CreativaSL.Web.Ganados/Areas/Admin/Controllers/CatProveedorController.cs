@@ -237,14 +237,14 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                             {
                                 var uploadImageToserver = new UploadFileToServerModel();
                                 uploadImageToserver.FileBase = fotoPerfilPostedFileBase;
-                                uploadImageToserver.BaseDir = "/Imagenes/Proveedor/FotoPerfil/";
+                                uploadImageToserver.BaseDir = ProjectSettings.BaseDirProveedorFotoPerfil;
                                 uploadImageToserver.FileName = "fp_" + Proveedor.IDProveedor;
                                 CidFaresHelper.UploadFileToServer(uploadImageToserver);
 
                                 if (uploadImageToserver.Success)
                                 {
                                     var responseDb = ProveedorDatos.ActualizarFotoPerfil(Proveedor.IDProveedor,
-                                        User.Identity.Name, uploadImageToserver.UrlRelative, Proveedor.Conexion);
+                                        User.Identity.Name, uploadImageToserver.FileName, Proveedor.Conexion);
 
                                     if (!responseDb.Success)
                                     {
@@ -401,7 +401,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         //foto de perfil
                         var uploadImageToserver = new UploadFileToServerModel();
                         uploadImageToserver.FileBase = fotoPerfilPostedFileBase;
-                        uploadImageToserver.BaseDir = "/Imagenes/Proveedor/FotoPerfil/";
+                        uploadImageToserver.BaseDir = ProjectSettings.BaseDirProveedorFotoPerfil;
                         uploadImageToserver.FileName = "fp_" + Proveedor.IDProveedor;
 
                         if (fotoPerfilPostedFileBase != null && fotoPerfilPostedFileBase.ContentLength > 0)
@@ -423,7 +423,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                             }
 
                             var responseDb = ProveedorDatos.ActualizarFotoPerfil(Proveedor.IDProveedor,
-                                User.Identity.Name, uploadImageToserver.UrlRelative, Proveedor.Conexion);
+                                User.Identity.Name, uploadImageToserver.FileName, Proveedor.Conexion);
                         }
                         else
                         {
@@ -435,8 +435,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                                     User.Identity.Name, "", Proveedor.Conexion);
                             }
                         }
-
-
 
                         Proveedor.Opcion = 2;
                         Proveedor = ProveedorDatos.AcCatProveedor(Proveedor);
@@ -590,7 +588,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         var archivoPostedFileBase = Request.Files["ImagenUrl"] as HttpPostedFileBase;
                         if (archivoPostedFileBase != null && archivoPostedFileBase.ContentLength > 0)
                         {
-                            var newGuid = Guid.NewGuid().ToString();
+                            var newGuid = Guid.NewGuid().ToString().ToUpper();
                             var uploadImageToserver = new UploadFileToServerModel();
                             uploadImageToserver.FileBase = archivoPostedFileBase;
                             uploadImageToserver.BaseDir = ProjectSettings.BaseDirProveedorCuentasBancarias;
@@ -681,7 +679,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
 
-        //POST: Admin/CatProveedor/EditarCuenta/3
         [HttpPost]
         public ActionResult EditCuenta(string id, string id2, CuentaBancariaProveedorModels IDCuentaBancoP)
         {
@@ -698,7 +695,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                             var uploadImageToserver = new UploadFileToServerModel();
                             uploadImageToserver.FileBase = archivoPostedFileBase;
                             uploadImageToserver.BaseDir = ProjectSettings.BaseDirProveedorCuentasBancarias;
-                            uploadImageToserver.FileName = IDCuentaBancoP.IDDatosBancarios;
+                            uploadImageToserver.FileName = IDCuentaBancoP.IDDatosBancarios.ToUpper();
 
                             //borramos la imagen anterior
                             CidFaresHelper.DeleteFilesWithOutExtensionFromServer(uploadImageToserver);
@@ -757,19 +754,19 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return View(IDCuentaBancoP);
             }
         }
-
-
         #endregion
 
-        //GET: Admin/CatProveedor/EditarCuenta/3
-
-
-        // POST: Admin/CatProvedor/Delete/5
+        #region Eliminar cuenta bancaria
         [HttpPost]
         public ActionResult DeleteCuenta(string id, string id2)
         {
             try
             {
+                var uploadImageToserver = new UploadFileToServerModel();
+                uploadImageToserver.BaseDir = ProjectSettings.BaseDirProveedorCuentasBancarias;
+                uploadImageToserver.FileName = id.ToUpper();
+                CidFaresHelper.DeleteFilesWithOutExtensionFromServer(uploadImageToserver);
+
                 CuentaBancariaProveedorModels Datos = new CuentaBancariaProveedorModels
                 {
                     IDProveedor = id2,
@@ -793,8 +790,9 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return View();
             }
         }
+        #endregion
 
-        //GET: Admin/CatProveedor/LugarProveedor/4
+        #region Index lugares del proveedor
         [HttpGet]
         public ActionResult LugarProveedor(string id, string id2)
         {
@@ -816,8 +814,9 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return View(Proveedor);
             }
         }
+        #endregion
 
-        //GET:Admin/CatProveedor/CreateLugar/3
+        #region Crear lugar al proveedor
         [HttpGet]
         public ActionResult CreateLugar(string id, string id2)
         {
@@ -893,8 +892,9 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return RedirectToAction("CreateLugar", "CatProveedor", new { id = Proveedor.IDProveedor, id2 = Proveedor.IDSucursal });
             }
         }
+        #endregion
 
-        // POST: Admin/CatProvedor/Delete/5
+        #region Eliminar lugar
         [HttpPost]
         public ActionResult DeleteLugar(string id)
         {
@@ -922,8 +922,9 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return View();
             }
         }
+        #endregion
 
-        //GET: Admin/CatProveedor/PrecioProveedor/3
+        #region Index precio proveedor
         [HttpGet]
         public ActionResult PrecioProveedor(string id)
         {
@@ -944,8 +945,9 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return View(Proveedor);
             }
         }
+        #endregion
 
-        //GET: Admin/CatProveedor/EditPrecio/3
+        #region Editar precio del proveedor
         [HttpGet]
         public ActionResult EditPrecio(int id, string id2)
         {
@@ -966,11 +968,9 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Proveedor.IDProveedor = id2;
                 TempData["typrmessage"] = "2";
                 TempData["message"] = "No se puede cargar la vista";
-                return RedirectToAction("PrecioProveedor", "CatProveedor", new { id = Proveedor.IDProveedor});
+                return RedirectToAction("PrecioProveedor", "CatProveedor", new { id = Proveedor.IDProveedor });
             }
         }
-
-        //POST: Admin/CatProveedor/EditPrecio/5
         [HttpPost]
         public ActionResult EditPrecio(RangoPrecioProveedorModels RangoPrecio)
         {
@@ -1031,8 +1031,12 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return View(RangoPrecio);
             }
         }
+        #endregion
+
+        #region Index contactos proveedor
         [HttpGet]
-        public ActionResult DatosContacto(string id,string id2) {
+        public ActionResult DatosContacto(string id, string id2)
+        {
 
             try
             {
@@ -1046,7 +1050,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
                 return View(Proveedor);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 CatProveedorModels Proveedor = new CatProveedorModels();
                 TempData["typemessage"] = "2";
@@ -1054,9 +1058,12 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return View(Proveedor);
 
             }
-        }
+        } 
+        #endregion
+
+        #region Editar nuevo contacto
         [HttpGet]
-        public ActionResult NuevoDatosContactoEdit(string id, string id2,string id3)
+        public ActionResult NuevoDatosContactoEdit(string id, string id2, string id3)
         {
             try
             {
@@ -1134,10 +1141,13 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return View(Proveedor);
 
             }
-        }
+        } 
+        #endregion
 
+        #region Nuevo contacto
         [HttpGet]
-        public ActionResult NuevoDatosContacto(string id, string id2) {
+        public ActionResult NuevoDatosContacto(string id, string id2)
+        {
             try
             {
                 Token.SaveToken();
@@ -1146,7 +1156,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Contactos.IDProveedor = id;
                 Contactos.IDSucursal = id2;
                 Contactos.Conexion = Conexion;
-               
+
                 return View(Contactos);
             }
             catch (Exception ex)
@@ -1197,7 +1207,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         return View(Contactos);
                     }
                 }
-                else {
+                else
+                {
                     return RedirectToAction("NuevoDatosContacto", "CatProveedor", new { id = Contactos.IDProveedor, id2 = Contactos.IDSucursal });
                 }
 
@@ -1212,8 +1223,10 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return View(Proveedor);
 
             }
-        }
-        // POST: Admin/CatProvedor/Delete/5
+        } 
+        #endregion
+
+        #region Eliminar contacto
         [HttpPost]
         public ActionResult DeleteDatosContacto(string id, string id2, string id3)
         {
@@ -1241,7 +1254,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             {
                 return View();
             }
-        }
+        } 
+        #endregion
 
         #region UPP proveedor
         [HttpGet]
@@ -1311,11 +1325,11 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         uPPProvedor.id_proveedor = id;
                         uPPProvedor.Usuario = User.Identity.Name;
 
-                        if (uPPProvedor.id_municipio == 0)
-                            uPPProvedor.id_municipio = 102; //Reforma
+                        //if (uPPProvedor.id_municipio == 0)
+                        //    uPPProvedor.id_municipio = 102; //Reforma
 
-                        if (uPPProvedor.id_estado == 0)
-                            uPPProvedor.id_municipio = 7; //Chiapas
+                        //if (uPPProvedor.id_estado == 0)
+                        //    uPPProvedor.id_municipio = 7; //Chiapas
 
                         uPPProvedor = ProveedorDatos.CUPPProveedor(uPPProvedor);
                         if (uPPProvedor.Completado)
@@ -1370,7 +1384,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
         #endregion
-
 
         #region Combos proveedor
         [HttpPost]
@@ -1595,7 +1608,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
                             model.Archivo = uploadFileToserver.FileName;
                         }
-                        model.Archivo = model.Archivo.Replace(ProjectSettings.BaseDirProveedorDocumentacionExtra, string.Empty);
                         var proveedorDatos = new _CatProveedor_Datos();
                         var respuestaDb = proveedorDatos.GuardarDocumentoExtra(model);
 
@@ -1650,5 +1662,29 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             return Json("");
         }
         #endregion
-        }
+
+        #region Imagenes
+
+        //public ActionResult Imagenes(string idProveedor)
+        //{
+        //    try
+        //    {
+        //        if (string.IsNullOrWhiteSpace(idProveedor))
+        //        {
+        //            TempData["typemessage"] = "2";
+        //            TempData["message"] = "Verifique sus datos.";
+        //            return RedirectToAction("Index");
+        //        }
+
+
+        //    }
+        //    catch (Exception)
+        //    {
+        //        TempData["typemessage"] = "2";
+        //        TempData["message"] = "Verifique sus datos.";
+        //        return RedirectToAction("Index");
+        //    }
+        //}
+        #endregion
+    }
 }

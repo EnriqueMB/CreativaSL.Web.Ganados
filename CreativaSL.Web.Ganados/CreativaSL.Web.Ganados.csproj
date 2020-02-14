@@ -1589,6 +1589,7 @@
     <Content Include="Areas\Admin\Views\CatProveedor\DocumentosExtras.cshtml" />
     <Content Include="Areas\Admin\Views\CatProveedor\CreateDocumentoExtra.cshtml" />
     <Content Include="Areas\Admin\Views\CatProveedor\EditDocumentoExtra.cshtml" />
+    <Content Include="Content\js\plugins\uploadFiles\fileinputv5.0.9.js" />
     <None Include="Properties\PublishProfiles\Ocampo.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />

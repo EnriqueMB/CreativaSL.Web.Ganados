@@ -26,7 +26,7 @@
             ignore: "",
             rules: {
                 UPP: { required: true },
-                ImagenHttp: { ImagenRequerida: true, ImagenRequerida: ["ImagenServer"] }
+                ImagenHttp: { ImagenRequerida: ["ImagenServer"] }
             },
             messages: {
                 UPP: { required: "Ingrese el UPP." }

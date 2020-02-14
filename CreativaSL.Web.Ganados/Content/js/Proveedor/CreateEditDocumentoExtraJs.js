@@ -12,24 +12,23 @@
             showUploadedThumbs: false,
             maxFileCount: 1,
             initialPreview: [
-                function() {
+                function () {
                     var img = "";
                     if (archivo) {
-
                         img = '<img class="file-preview-image" style="width: auto; height: auto; max-width: 100%; max-height: 100%;" src="' +
                             archivo +
                             '">';
                     }
-                    else
-                    {
-                        img ='<img src="/Content/img/GrupoOcampo.png" alt="Logo" style="width: auto; height: auto; max-width: 100%; max-height: 100%;">';
+                    else {
+                        img = '<img src="/Content/img/GrupoOcampo.png" alt="Logo" style="width: auto; height: auto; max-width: 100%; max-height: 100%;">';
                     }
                     return img;
                 }
-        ],
+            ],
             initialPreviewShowDelete: false,
             showRemove: false,
             showClose: false,
+            showZoom: true,
             required: true,
             previewFileIcon: '<i class="fa fa-file"></i>',
             preferIconicPreview: true, // this will force thumbnails to display icons for following file extensions
@@ -37,7 +36,7 @@
                 'heic': '<i class="fa fa-file-text text-primary"></i>'
             },
             previewFileExtSettings: { // configure the logic for determining icon file extensions
-                'heic': function(ext) {
+                'heic': function (ext) {
                     return ext.match(/(heic)$/i);
                 }
             }
@@ -52,7 +51,7 @@
         var successHandler1 = $('.successHandler', form);
 
         form.validate({ // initialize the plugin
-            debug: true,
+            //debug: true,
             errorElement: "dd",
             errorClass: 'text-danger',
             errorLabelContainer: $("#validation_summary"),
@@ -71,11 +70,11 @@
             ignore: "",
             rules: {
                 IdTipoDocumentacionExtra: { required: true, min: 1 },
-                Archivo: { ArchivoRequerido: ["Archivo"] }
+                Archivo: { ImagenRequerida: ["Archivo"] }
             },
             messages: {
                 IdTipoDocumentacionExtra: { required: "Por favor, seleccione un tipo de documento.", min: "Por favor, seleccione un tipo de documento." }
-                , Archivo: { ImagenRequerida: "Por favor seleccione un archivo."}
+                , Archivo: { ImagenRequerida: "Por favor seleccione una imagen." }
             },
             invalidHandler: function (event, validator) { //display error alert on form submit
                 successHandler1.hide();

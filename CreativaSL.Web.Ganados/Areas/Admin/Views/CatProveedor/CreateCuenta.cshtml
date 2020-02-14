@@ -67,14 +67,14 @@
                             <div class="col-md-8">
                                 <div class="form-group">
                                     <label class="col-md-2 col-xs-12 control-label"><span>* </span> Banco </label>
-                                    <div class="col-md-6 col-xs-12">
+                                    <div class="col-md-10 col-xs-12">
                                         @Html.DropDownListFor(model => model.IDBanco, new SelectList(Model.ListaCmbBancos, "IDBanco", "Descripcion"), new { id = "IDBanco", @class = "form-control select", data_live_search = "true" })
                                         @Html.ValidationMessageFor(model => model.IDBanco)
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-md-2 col-xs-12 control-label"><span>* </span> Titular </label>
-                                    <div class="col-md-6 col-xs-12">
+                                    <div class="col-md-10 col-xs-12">
                                         <div class="input-group">
                                             <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
                                             @Html.TextBoxFor(model => model.Titular, new { id = "Titular", @class = "form-control", placeholder = "Ingrese el nombre del titular de la cuenta bancaria" })
@@ -84,7 +84,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label class="col-md-2 col-xs-12 control-label"><span> </span> Número de cuenta</label>
-                                    <div class="col-md-6 col-xs-12">
+                                    <div class="col-md-10 col-xs-12">
                                         <div class="input-group">
                                             <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
                                             @Html.TextBoxFor(model => model.NumCuenta, new { id = "NumCuenta", @class = "form-control", placeholder = "Ingrese el número de cuenta" })
@@ -94,7 +94,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label class="col-md-2 col-xs-12 control-label"><span></span> Número de tarjeta</label>
-                                    <div class="col-md-6 col-xs-12">
+                                    <div class="col-md-10 col-xs-12">
                                         <div class="input-group">
                                             <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
                                             @Html.TextBoxFor(model => model.NumTarjeta, new { id = "NumTarjeta", @class = "form-control mask_credit", placeholder = "Ingrese el número de tarjeta" })
@@ -104,7 +104,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label class="col-md-2 col-xs-12 control-label"><span></span> CLABE</label>
-                                    <div class="col-md-6 col-xs-12">
+                                    <div class="col-md-10 col-xs-12">
                                         <div class="input-group">
                                             <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
                                             @Html.TextBoxFor(model => model.Clabe, new { id = "Clabe", @class = "form-control", placeholder = "Ingrese la CLABE interbancaria" })
