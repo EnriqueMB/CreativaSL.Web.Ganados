@@ -1,5 +1,7 @@
 ﻿var CuentasProveedor = function () {
     "use strict";
+    var archivo = document.getElementById("ImagenUrl").defaultValue;
+
     // Funcion para validar registrar
     var runValidator = function () {
         var form1 = $('#form-cp');
@@ -15,7 +17,7 @@
                     error.insertAfter($(element).closest('.form-group').children('div').children().last());
                 } else if (element.attr("name") == "dd" || element.attr("name") == "mm" || element.attr("name") == "yyyy") {
                     error.insertAfter($(element).closest('.form-group').children('div'));
-                } else if (element.attr("type") == "text" ) {
+                } else if (element.attr("type") == "text") {
                     error.insertAfter($(element).closest('.input-group').children('div'));
                 } else {
                     error.insertAfter(element);
@@ -26,16 +28,21 @@
             rules: {
                 IDBanco: { CMBINT: true },
                 Titular: { required: true, nombre: true, maxlength: 300 },
-                NumTarjeta: { tarjetaCredito : true },
+                NumTarjeta: { tarjetaCredito: true },
                 NumCuenta: { cuenta: true },
                 Clabe: { clabe: true }
+                , ImagenUrl:
+                {
+                    ImagenRequerida: ["ImagenUrl"]
+                }
             },
             messages: {
                 IDBanco: { CMBINT: "Seleccione un banco." },
                 Titular: { required: "Ingrese el nombre del titular de la cuenta.", nombre: "Ingrese un nombre del titular válido.", maxlength: "El campo nombre del titular admite máximo 300 caracteres." },
                 NumTarjeta: { tarjetaCredito: "Ingrese un número de tarjeta válido." },
-                NumCuenta: { cuenta: "Ingrese un número de cuenta válido."},
+                NumCuenta: { cuenta: "Ingrese un número de cuenta válido." },
                 Clabe: { clabe: "Ingrese una clabe interbancaria válida." }
+                , ImagenUrl: { ImagenRequerida: "Ingrese la imagen de la cuenta."}
             },
             invalidHandler: function (event, validator) { //display error alert on form submit
                 successHandler1.hide();
@@ -68,7 +75,57 @@
 
     var runElements = function ()
     {
-        $("input.mask_credit").mask('?9999-9999-9999-9999', {autoUnmask: true , showMaskOnFocus: false, showMaskOnHover: false});
+        $("input.mask_credit").mask('?9999-9999-9999-9999', { autoUnmask: true, showMaskOnFocus: false, showMaskOnHover: false });
+
+        $('input[name="ImagenUrl"]').fileinput({
+            theme: 'fa',
+            language: 'es',
+            overwriteInitial: true,
+            showRemove: false,
+            autoReplace: true,
+            showClose: false,
+            showCaption: false,
+            showUpload: false,
+            browseLabel: '',
+            removeLabel: '',
+            browseIcon: '<i class="glyphicon glyphicon-folder-open"></i>',
+            removeIcon: '<i class="glyphicon glyphicon-remove"></i>',
+            removeTitle: 'Cancel or reset changes',
+
+            initialPreview: [
+                function () {
+                    var img = "";
+                    if (archivo) {
+
+                        img = '<img class="file-preview-image" style="width: auto; height: auto; max-width: 100%; max-height: 100%;" src="' +
+                            archivo +
+                            '">';
+                    }
+                    else {
+                        img = '<img src="/Content/img/GrupoOcampo.png" alt="Logo" style="width: auto; height: auto; max-width: 100%; max-height: 100%;">';
+                    }
+                    return img;
+                }
+            ],
+
+            defaultPreviewContent: '<img src="/Content/img/GrupoOcampo.png" alt="Logo" style="width: auto; height: auto; max-width: 100%; max-height: 100%;">',
+            showUploadedThumbs: false,
+
+
+            previewFileIcon: '<i class="fa fa-file"></i>',
+            preferIconicPreview: true, // this will force thumbnails to display icons for following file extensions
+            previewFileIconSettings: { // configure your icon file extensions
+                'heic': '<i class="fa fa-file-text text-primary"></i>'
+            },
+            previewFileExtSettings: { // configure the logic for determining icon file extensions
+                'heic': function (ext) {
+                    return ext.match(/(heic)$/i);
+                }
+            }
+            , fileActionSettings: {
+                showRemove: false
+            }
+        });
         
     };
 

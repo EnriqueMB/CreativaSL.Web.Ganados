@@ -119,7 +119,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
         #endregion
 
-        // GET: Admin/CatProveedor
+        #region Index
         public ActionResult Index()
         {
             try
@@ -146,8 +146,9 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return View(Proveedor);
             }
         }
+        #endregion
 
-        // GET: Admin/CatProveedor/Create
+        #region Crear proveedor
         public ActionResult Create()
         {
             try
@@ -258,7 +259,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
                                 }
                             }
-                           
+
                             Token.ResetToken();
                             return RedirectToAction("Index");
                         }
@@ -300,8 +301,9 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return View(Proveedor);
             }
         }
+        #endregion
 
-        // GET: Admin/CatProveedor/Edit/5
+        #region Editar proveedor
         public ActionResult Edit(string id)
         {
             try
@@ -333,7 +335,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
 
-        // POST: Admin/CatProveedor/Edit/5
         [HttpPost]
         public ActionResult Edit(string id, CatProveedorModels Proveedor)
         {
@@ -348,7 +349,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         Proveedor.Usuario = User.Identity.Name;
 
                         HttpPostedFileBase bannerImage = Request.Files["ImgINE"] as HttpPostedFileBase;
-                        
+
                         if (bannerImage != null && bannerImage.ContentLength > 0)
                         {
                             Stream s = bannerImage.InputStream;
@@ -372,7 +373,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                             Proveedor.BandINE = true;
                         }
                         HttpPostedFileBase bannerImage2 = Request.Files["ImgManifestacionFierro"] as HttpPostedFileBase;
-                        
+
                         if (bannerImage2 != null && bannerImage2.ContentLength > 0)
                         {
                             Stream s = bannerImage2.InputStream;
@@ -420,7 +421,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                                 TempData["message"] = "Ocurrio un error al intentar guardar la imagen de perfil, intentelo más tarde.";
                                 return View(Proveedor);
                             }
-                            
+
                             var responseDb = ProveedorDatos.ActualizarFotoPerfil(Proveedor.IDProveedor,
                                 User.Identity.Name, uploadImageToserver.UrlRelative, Proveedor.Conexion);
                         }
@@ -434,9 +435,9 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                                     User.Identity.Name, "", Proveedor.Conexion);
                             }
                         }
-                        
 
-                        
+
+
                         Proveedor.Opcion = 2;
                         Proveedor = ProveedorDatos.AcCatProveedor(Proveedor);
                         if (Proveedor.Completado)
@@ -484,8 +485,9 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return View(Proveedor);
             }
         }
+        #endregion
 
-        // POST: Admin/CatProveedor/Delete/5
+        #region Eliminar proveedor
         [HttpPost]
         public ActionResult Delete(string id, FormCollection collection)
         {
@@ -526,8 +528,9 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
             }
         }
+        #endregion
 
-        // GET: Admin/CatProveedor/Cuentas/5
+        #region Index cuentas bancarias
         [HttpGet]
         public ActionResult Cuentas(string id)
         {
@@ -548,8 +551,9 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return RedirectToAction("Index");
             }
         }
+        #endregion
 
-        //GET: Admin/CatProveedor/CreateCuenta/3
+        #region Crear cuenta bancaria
         [HttpGet]
         public ActionResult CreateCuenta(string id)
         {
@@ -573,35 +577,59 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
 
-        //POST:Admin/CatProveedor/createCuenta/3
         [HttpPost]
         public ActionResult CreateCuenta(string id, CuentaBancariaProveedorModels IDCuentaBancoP)
         {
-            _CatProveedor_Datos ProveedorDatos = new _CatProveedor_Datos();
+            var ProveedorDatos = new _CatProveedor_Datos();
             try
             {
                 if (Token.IsTokenValid())
                 {
                     if (ModelState.IsValid)
                     {
-                        IDCuentaBancoP.Conexion = Conexion;
-                        IDCuentaBancoP.Usuario = User.Identity.Name;
-                        IDCuentaBancoP.Opcion = 1;
-                        ProveedorDatos.ACDatosBancariosProveedor(IDCuentaBancoP);
-                        if (IDCuentaBancoP.Completado == true)
+                        var archivoPostedFileBase = Request.Files["ImagenUrl"] as HttpPostedFileBase;
+                        if (archivoPostedFileBase != null && archivoPostedFileBase.ContentLength > 0)
                         {
+                            var newGuid = Guid.NewGuid().ToString();
+                            var uploadImageToserver = new UploadFileToServerModel();
+                            uploadImageToserver.FileBase = archivoPostedFileBase;
+                            uploadImageToserver.BaseDir = ProjectSettings.BaseDirProveedorCuentasBancarias;
+                            uploadImageToserver.FileName = newGuid;
+                            
+                            CidFaresHelper.UploadFileToServer(uploadImageToserver);
+
+                            if (!uploadImageToserver.Success)
+                            {
+                                CidFaresHelper.DeleteFilesWithOutExtensionFromServer(uploadImageToserver);
+                                IDCuentaBancoP.ListaCmbBancos = ProveedorDatos.ObteneComboCatBancos(IDCuentaBancoP);
+                                TempData["typemessage"] = "2";
+                                TempData["message"] =
+                                    "Ocurrió un error al intentar guardar los datos. Intente más tarde.";
+                                return View(IDCuentaBancoP);
+                            }
+
+                            IDCuentaBancoP.IDDatosBancarios = newGuid;
+                            IDCuentaBancoP.Conexion = Conexion;
+                            IDCuentaBancoP.Usuario = User.Identity.Name;
+                            IDCuentaBancoP.Opcion = 1;
+                            IDCuentaBancoP.ImagenUrl = uploadImageToserver.FileName;
+
+                            ProveedorDatos.ACDatosBancariosProveedor(IDCuentaBancoP);
+                            if (IDCuentaBancoP.Completado != true)
+                            {
+                                IDCuentaBancoP.ListaCmbBancos = ProveedorDatos.ObteneComboCatBancos(IDCuentaBancoP);
+                                TempData["typemessage"] = "2";
+                                TempData["message"] = "Ocurrió un error al intentar guardar los datos. Intente más tarde.";
+                                return View(IDCuentaBancoP);
+                            }
                             TempData["typemessage"] = "1";
                             TempData["message"] = "Los datos se guardaron correctamente.";
                             Token.ResetToken();
                             return RedirectToAction("Cuentas", new { id = IDCuentaBancoP.IDProveedor });
                         }
-                        else
-                        {
-                            IDCuentaBancoP.ListaCmbBancos = ProveedorDatos.ObteneComboCatBancos(IDCuentaBancoP);
-                            TempData["typemessage"] = "2";
-                            TempData["message"] = "Ocurrió un error al intentar guardar los datos. Intente más tarde.";
-                            return View(IDCuentaBancoP);
-                        }
+                        IDCuentaBancoP.Conexion = Conexion;
+                        IDCuentaBancoP.ListaCmbBancos = ProveedorDatos.ObteneComboCatBancos(IDCuentaBancoP);
+                        return View(IDCuentaBancoP);
                     }
                     else
                     {
@@ -625,8 +653,9 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return View(IDCuentaBancoP);
             }
         }
+        #endregion
 
-        //GET: Admin/CatProveedor/EditarCuenta/3
+        #region Editar cuenta bancaria
         [HttpGet]
         public ActionResult EditCuenta(string id, string id2)
         {
@@ -663,6 +692,31 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 {
                     if (ModelState.IsValid)
                     {
+                        var archivoPostedFileBase = Request.Files["ImagenUrl"] as HttpPostedFileBase;
+                        if (archivoPostedFileBase != null && archivoPostedFileBase.ContentLength > 0)
+                        {
+                            var uploadImageToserver = new UploadFileToServerModel();
+                            uploadImageToserver.FileBase = archivoPostedFileBase;
+                            uploadImageToserver.BaseDir = ProjectSettings.BaseDirProveedorCuentasBancarias;
+                            uploadImageToserver.FileName = IDCuentaBancoP.IDDatosBancarios;
+
+                            //borramos la imagen anterior
+                            CidFaresHelper.DeleteFilesWithOutExtensionFromServer(uploadImageToserver);
+
+                            CidFaresHelper.UploadFileToServer(uploadImageToserver);
+
+                            if (!uploadImageToserver.Success)
+                            {
+                                CidFaresHelper.DeleteFilesWithOutExtensionFromServer(uploadImageToserver);
+                                IDCuentaBancoP.ListaCmbBancos = ProveedorDatos.ObteneComboCatBancos(IDCuentaBancoP);
+                                TempData["typemessage"] = "2";
+                                TempData["message"] =
+                                    "Ocurrió un error al intentar guardar los datos. Intente más tarde.";
+                                return View(IDCuentaBancoP);
+                            }
+                            IDCuentaBancoP.ImagenUrl = uploadImageToserver.FileName;
+                        }
+                        
                         IDCuentaBancoP.Conexion = Conexion;
                         IDCuentaBancoP.Usuario = User.Identity.Name;
                         IDCuentaBancoP.Opcion = 2;
@@ -703,6 +757,12 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return View(IDCuentaBancoP);
             }
         }
+
+
+        #endregion
+
+        //GET: Admin/CatProveedor/EditarCuenta/3
+
 
         // POST: Admin/CatProvedor/Delete/5
         [HttpPost]
@@ -1182,6 +1242,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return View();
             }
         }
+
+        #region UPP proveedor
         [HttpGet]
         public ActionResult UPPProveedor(string id)
         {
@@ -1221,7 +1283,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             _CatProveedor_Datos ProveedorDatos = new _CatProveedor_Datos();
             try
             {
-                if(Token.IsTokenValid())
+                if (Token.IsTokenValid())
                 {
                     if (uPPProvedor.ImagenHttp != null)
                     {
@@ -1249,12 +1311,12 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         uPPProvedor.id_proveedor = id;
                         uPPProvedor.Usuario = User.Identity.Name;
 
-                        if(uPPProvedor.id_municipio == 0)
+                        if (uPPProvedor.id_municipio == 0)
                             uPPProvedor.id_municipio = 102; //Reforma
 
                         if (uPPProvedor.id_estado == 0)
                             uPPProvedor.id_municipio = 7; //Chiapas
-                        
+
                         uPPProvedor = ProveedorDatos.CUPPProveedor(uPPProvedor);
                         if (uPPProvedor.Completado)
                         {
@@ -1286,7 +1348,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
                         return View(uPPProvedor);
                     }
-                   
+
                 }
                 else
                 {
@@ -1307,7 +1369,10 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return View(uPPProvedor);
             }
         }
-        //AJAX OBTIENE TODOS LOS COMBOS MEDIANTE JAVASCRIPT
+        #endregion
+
+
+        #region Combos proveedor
         [HttpPost]
         public ActionResult Estado(string id)
         {
@@ -1327,8 +1392,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return Json("", JsonRequestBehavior.AllowGet);
             }
         }
-        [HttpPost]
 
+        [HttpPost]
         public ActionResult Municipio(string idPais, string id)
         {
             try
@@ -1348,7 +1413,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 ex.Message.ToString();
                 return Json("", JsonRequestBehavior.AllowGet);
             }
-        }
+        } 
+        #endregion
 
         #region Documentos Extras
         [HttpPost]

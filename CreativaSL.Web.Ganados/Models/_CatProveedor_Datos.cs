@@ -570,7 +570,9 @@ namespace CreativaSL.Web.Ganados.Models
                                         datos.NumCuenta ?? string.Empty,
                                         datos.NumTarjeta ?? string.Empty,
                                         datos.Clabe ?? string.Empty,
-                                        datos.Usuario ?? string.Empty};
+                                        datos.Usuario ?? string.Empty, 
+                                        datos.ImagenUrl ?? string.Empty
+                };
                 object result = SqlHelper.ExecuteScalar(datos.Conexion, "spCSLDB_Catalogos_ac_DatosBancariosProveedor", parametros);
                 if (result != null)
                 {
@@ -601,6 +603,8 @@ namespace CreativaSL.Web.Ganados.Models
                     datos.NumCuenta = !Dr.IsDBNull(Dr.GetOrdinal("NumCuenta")) ? Dr.GetString(Dr.GetOrdinal("NumCuenta")) : string.Empty;
                     datos.Clabe = !Dr.IsDBNull(Dr.GetOrdinal("Clabe")) ? Dr.GetString(Dr.GetOrdinal("Clabe")) : string.Empty;
                     datos.Completado = true;
+                    datos.ImagenUrl = ProjectSettings.BaseDirProveedorCuentasBancarias;
+                    datos.ImagenUrl += !Dr.IsDBNull(Dr.GetOrdinal("ImagenUrl")) ? Dr.GetString(Dr.GetOrdinal("ImagenUrl")) : string.Empty;
                 }
                 Dr.Close();
                 return datos;

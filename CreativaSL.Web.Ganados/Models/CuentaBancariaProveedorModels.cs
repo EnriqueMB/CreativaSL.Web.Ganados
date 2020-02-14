@@ -132,6 +132,7 @@ namespace CreativaSL.Web.Ganados.Models
             set { _ListaCmbBancos = value; }
         }
 
+        public string ImagenUrl { get; set; }
 
         #region Datos De Control
         public string Conexion { get; set; }

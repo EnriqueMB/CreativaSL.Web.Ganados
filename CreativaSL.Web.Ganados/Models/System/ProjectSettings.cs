@@ -6,5 +6,6 @@
         public const int ModuloProveedor = 2;
 
         public const string BaseDirProveedorDocumentacionExtra = "/Imagenes/Proveedor/DocumentacionExtra/";
+        public const string BaseDirProveedorCuentasBancarias = "/Imagenes/Proveedor/CuentasBancarias/";
     }
 }
