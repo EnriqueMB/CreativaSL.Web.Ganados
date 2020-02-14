@@ -34,7 +34,6 @@
         @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
         @Html.HiddenFor(model => model.IdProveedor)
         @Html.HiddenFor(model => model.IdDocumentacionExtra)
-        @Html.HiddenFor(model => model.Archivo)
 
         <div id="validation_summary" class="field_error "></div> //JS
         <div class="panel panel-default">
@@ -60,7 +59,7 @@
                 <div class="row">
                     <div class="form-group">
                         <div class="col-md-12">
-                            <label class="col-md-2 control-label">Ingrese un archivo</label>
+                            <label class="col-md-2 control-label">Ingrese una imagen:</label>
                             <div class="col-md-10 col-xs-12">
                                 <div class="input-group">
                                     <span class="input-group-addon"><span class="fa fa-camera"></span></span>

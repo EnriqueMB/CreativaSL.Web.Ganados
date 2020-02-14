@@ -320,6 +320,12 @@ namespace CreativaSL.Web.Ganados.Models
                     datos.CantidadPeriodo = !dr.IsDBNull(dr.GetOrdinal("cantidadPeriodo")) ? dr.GetInt32(dr.GetOrdinal("cantidadPeriodo")) : 0;
                     datos.IDPeriodo = !dr.IsDBNull(dr.GetOrdinal("id_periodo")) ? dr.GetInt32(dr.GetOrdinal("id_periodo")) : 0;
                     datos.FotoPerfil = !dr.IsDBNull(dr.GetOrdinal("UrlFotoPerfil")) ? dr.GetString(dr.GetOrdinal("UrlFotoPerfil")) : string.Empty;
+
+                    if (!string.IsNullOrWhiteSpace(datos.FotoPerfil))
+                    {
+                        datos.FotoPerfil = ProjectSettings.BaseDirProveedorFotoPerfil + datos.FotoPerfil;
+                    }
+                    
                 }
                 dr.Close();
                 return datos;
@@ -523,6 +529,11 @@ namespace CreativaSL.Web.Ganados.Models
                     item.NumTarjeta = !dr.IsDBNull(dr.GetOrdinal("NumeroTarjeta")) ? dr.GetString(dr.GetOrdinal("NumeroTarjeta")) : string.Empty;
                     item.NumCuenta = !dr.IsDBNull(dr.GetOrdinal("NumeroCuenta")) ? dr.GetString(dr.GetOrdinal("NumeroCuenta")) : string.Empty;
                     item.Clabe = !dr.IsDBNull(dr.GetOrdinal("ClaveInterbancaria")) ? dr.GetString(dr.GetOrdinal("ClaveInterbancaria")) : string.Empty;
+                    item.ImagenUrl = !dr.IsDBNull(dr.GetOrdinal("ImagenUrl")) ? dr.GetString(dr.GetOrdinal("ImagenUrl")) : string.Empty;
+                    if (!string.IsNullOrWhiteSpace(item.ImagenUrl))
+                    {
+                        item.ImagenUrl = ProjectSettings.BaseDirProveedorCuentasBancarias + item.ImagenUrl;
+                    }
                     lista.Add(item);
                 }
                 dr.Close();
@@ -570,7 +581,9 @@ namespace CreativaSL.Web.Ganados.Models
                                         datos.NumCuenta ?? string.Empty,
                                         datos.NumTarjeta ?? string.Empty,
                                         datos.Clabe ?? string.Empty,
-                                        datos.Usuario ?? string.Empty};
+                                        datos.Usuario ?? string.Empty, 
+                                        datos.ImagenUrl
+                };
                 object result = SqlHelper.ExecuteScalar(datos.Conexion, "spCSLDB_Catalogos_ac_DatosBancariosProveedor", parametros);
                 if (result != null)
                 {
@@ -601,6 +614,11 @@ namespace CreativaSL.Web.Ganados.Models
                     datos.NumCuenta = !Dr.IsDBNull(Dr.GetOrdinal("NumCuenta")) ? Dr.GetString(Dr.GetOrdinal("NumCuenta")) : string.Empty;
                     datos.Clabe = !Dr.IsDBNull(Dr.GetOrdinal("Clabe")) ? Dr.GetString(Dr.GetOrdinal("Clabe")) : string.Empty;
                     datos.Completado = true;
+                    datos.ImagenUrl = !Dr.IsDBNull(Dr.GetOrdinal("ImagenUrl")) ? Dr.GetString(Dr.GetOrdinal("ImagenUrl")) : string.Empty;
+                    if (!string.IsNullOrWhiteSpace(datos.ImagenUrl))
+                    {
+                        datos.ImagenUrl = ProjectSettings.BaseDirProveedorCuentasBancarias + datos.ImagenUrl;
+                    }
                 }
                 Dr.Close();
                 return datos;
@@ -1177,7 +1195,6 @@ namespace CreativaSL.Web.Ganados.Models
 
             return model;
         }
-
 
         public RespuestaAjax EliminarDocumentoExtra(string idProveedor, string idDocumentacionExtra, string urlArchivo)
         {
