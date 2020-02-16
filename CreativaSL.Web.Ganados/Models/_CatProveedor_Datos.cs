@@ -1044,7 +1044,7 @@ namespace CreativaSL.Web.Ganados.Models
 
         #region Documentos Extras
 
-        public string DocumentosExtras_ObtenerIndex(DataTableAjaxPostModel dataTableAjaxPostModel)
+        public string DocumentosExtras_ObtenerIndex(DataTableAjaxPostModel dataTableAjaxPostModel, string id)
         {
             try
             {
@@ -1061,6 +1061,7 @@ namespace CreativaSL.Web.Ganados.Models
                         cmd.Parameters.Add("@Draw", SqlDbType.Int).Value = dataTableAjaxPostModel.draw;
                         cmd.Parameters.Add("@ColumnNumber", SqlDbType.Int).Value = dataTableAjaxPostModel.order[0].column;
                         cmd.Parameters.Add("@ColumnDir", SqlDbType.NVarChar).Value = dataTableAjaxPostModel.order[0].dir;
+                        cmd.Parameters.Add("@IdProveedor", SqlDbType.Char).Value = id;
 
                         // execute
                         sqlcon.Open();
@@ -1268,16 +1269,20 @@ namespace CreativaSL.Web.Ganados.Models
                     {
                         while (reader.Read())
                         {
+                            model.IdProveedor = reader["id_proveedor"].ToString(); 
                             model.RazonSocial_Nombre = reader["nombreRazonSocial"].ToString();
                             model.FotoPerfilUrl = reader["UrlFotoPerfil"].ToString();
                             model.Rfc = reader["rfc"].ToString();
                             model.Sucursal = reader["Sucursal"].ToString();
                             model.TipoProveedor = reader["TipoProveedor"].ToString();
                             model.Direccion = reader["direccion"].ToString();
-                            model.Tolerancia = reader["tolerancia"].ToString();
+                            model.Tolerancia = reader["tolerancia"].ToString() + " %";
                             model.Observacion = reader["observaciones"].ToString();
                             model.Telefonos = reader["Telefono"].ToString();
                             model.Email = reader["correo"].ToString();
+                            model.IneBase64 = reader["imgINE"].ToString();
+                            model.ManifestacionFierroBase64 = reader["imgManifestacionFierro"].ToString();
+                            model.UppPsgBase64 = reader["imagenUPP"].ToString();
 
                             if (!string.IsNullOrWhiteSpace(model.FotoPerfilUrl))
                             {

@@ -1,9 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace CreativaSL.Web.Ganados.Models.Dto.ProveedorGanado
 {
     public class ImagenesProveedorGanadoDto
     {
+        public string IdProveedor { get; set; }
         public string Sucursal { get; set; }
         public string TipoProveedor { get; set; }
         public string RazonSocial_Nombre { get; set; }
@@ -15,5 +17,9 @@ namespace CreativaSL.Web.Ganados.Models.Dto.ProveedorGanado
         public string Observacion { get; set; }
         public string Telefonos { get; set; }
         public string Email { get; set; }
+
+        public string UppPsgBase64 { get; set; }
+        public string IneBase64 { get; set; }
+        public string ManifestacionFierroBase64 { get; set; }
     }
 }

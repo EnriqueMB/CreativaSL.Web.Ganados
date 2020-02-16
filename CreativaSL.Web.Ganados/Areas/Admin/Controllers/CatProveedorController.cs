@@ -1431,11 +1431,11 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
         #region Documentos Extras
         [HttpPost]
-        public ActionResult JsonIndexDocumentosExtras(DataTableAjaxPostModel dataTableAjaxPostModel)
+        public ActionResult JsonIndexDocumentosExtras(string id, DataTableAjaxPostModel dataTableAjaxPostModel)
         {
             var ProveedorDatos = new _CatProveedor_Datos();
 
-            var json = ProveedorDatos.DocumentosExtras_ObtenerIndex(dataTableAjaxPostModel);
+            var json = ProveedorDatos.DocumentosExtras_ObtenerIndex(dataTableAjaxPostModel, id);
 
             return Content(json, "application/json");
         }
@@ -1676,8 +1676,12 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     return RedirectToAction("Index");
                 }
                 var datosProveedor = new _CatProveedor_Datos();
-                var model = datosProveedor.ObtenerProveedor(idProveedor);
+                var modelCuenta = new CuentaBancariaProveedorModels();
 
+                modelCuenta.Conexion = Conexion;
+                modelCuenta.IDProveedor = idProveedor;
+                var model = datosProveedor.ObtenerProveedor(idProveedor);
+                ViewBag.ListaCuentasBancarias = datosProveedor.ObtenerCuentasBancarias(modelCuenta);
                 return View(model);
             }
             catch (Exception)

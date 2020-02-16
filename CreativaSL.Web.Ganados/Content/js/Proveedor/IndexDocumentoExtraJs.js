@@ -21,6 +21,9 @@
             responsive: true,
             "ajax": {
                 "url": "/Admin/CatProveedor/JsonIndexDocumentosExtras/",
+                "data": {
+                    "id":idProveedor 
+                },
                 "method": "POST",
                 "dataType": "json",
                 "dataSrc": function (json) {
