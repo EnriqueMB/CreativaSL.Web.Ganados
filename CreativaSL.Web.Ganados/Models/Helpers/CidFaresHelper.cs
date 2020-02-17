@@ -12,22 +12,22 @@ namespace CreativaSL.Web.Ganados.Models.Helpers
 {
     public static class CidFaresHelper
     {
-        public static void DeleteFilesWithOutExtensionFromServer(UploadFileToServerModel uploadImageToServer)
+        public static void DeleteFilesWithOutExtensionFromServer(UploadFileToServerModel uploadFileToServer)
         {
             try
             {
-                var path = HostingEnvironment.MapPath(uploadImageToServer.BaseDir);
-                var files = Directory.GetFiles(path, uploadImageToServer.FileName + ".*");
+                var path = HostingEnvironment.MapPath(uploadFileToServer.BaseDir);
+                var files = Directory.GetFiles(path, uploadFileToServer.FileName + ".*");
                 foreach (var f in files)
                 {
                     File.Delete(f);
                 }
-                uploadImageToServer.Success = true;
+                uploadFileToServer.Success = true;
             }
             catch (Exception ex)
             {
-                uploadImageToServer.Exception = ex;
-                uploadImageToServer.Success = false;
+                uploadFileToServer.Exception = ex;
+                uploadFileToServer.Success = false;
             }
         }
         public static void UploadFileToServer(UploadFileToServerModel uploadImageToServer)
@@ -39,7 +39,7 @@ namespace CreativaSL.Web.Ganados.Models.Helpers
                     uploadImageToServer.FileName =
                         GetNewImageNameFromHttpPostedFileBase(uploadImageToServer.FileBase, uploadImageToServer.FileName);
 
-                    uploadImageToServer.UrlComplete = SaveFileToServer(uploadImageToServer.FileBase, uploadImageToServer.BaseDir,
+                    uploadImageToServer.UrlRelative = SaveFileToServer(uploadImageToServer.FileBase, uploadImageToServer.BaseDir,
                         uploadImageToServer.FileName, uploadImageToServer.QualityImage);
                 }
                 else
@@ -112,7 +112,7 @@ namespace CreativaSL.Web.Ganados.Models.Helpers
                 throw new Exception("Directorio no válido.");
             }
 
-            var urlComplete = baseDir + fileName;
+            var urlRelative = baseDir + fileName;
             var stream = fileBase.InputStream;
             Image img = null;
 
@@ -128,14 +128,14 @@ namespace CreativaSL.Web.Ganados.Models.Helpers
                 }
 
                 var bmp = new Bitmap(VaryQualityLevel((Image)img.Clone(), calidad));
-                bmp.Save(HostingEnvironment.MapPath(urlComplete));
+                bmp.Save(HostingEnvironment.MapPath(urlRelative));
             }
             else
             {
-                fileBase.SaveAs(HostingEnvironment.MapPath(urlComplete));
+                fileBase.SaveAs(HostingEnvironment.MapPath(urlRelative));
             }
 
-            return urlComplete;
+            return urlRelative;
         }
 
         private static bool IsFileImage(string fileName)

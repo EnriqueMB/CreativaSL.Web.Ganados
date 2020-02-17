@@ -81,20 +81,12 @@ $.validator.addMethod("imagenExtesion", function (value, element, params) {
 $.validator.addMethod("ImagenRequerida", function (value, element, params) {
     //Checamos que tenga un archivo el input file
     if (element.value.length === 0) {
-        console.log("element === 0");
         var imagenServidor = document.getElementById(params[0]).value;
-
         if (imagenServidor === "0" || !imagenServidor)
         {
             //validamos el defaultValue, nos sirve para el edit 
             var defaultValue = document.getElementById(params[0]).defaultValue;
-
-            var isBase64DefaultValue = ValidarBase64(defaultValue);
-
-            if (isBase64DefaultValue)
-                return true;
-
-            return false;
+            return ValidarExtensionPermitidaImagen(defaultValue);
         }
         else
         {
@@ -103,25 +95,27 @@ $.validator.addMethod("ImagenRequerida", function (value, element, params) {
     }
     else {
         //Si hay obtenemos la extensión
-        var extension = (element.value.substring(element.value.lastIndexOf("."))).toLowerCase();
+        return ValidarExtensionPermitidaImagen(element.value);
+        //var extension = (element.value.substring(element.value.lastIndexOf("."))).toLowerCase();
         
-        if (extension.localeCompare(".png") == 0 || extension.localeCompare(".jpg") == 0 || extension.localeCompare(".jpeg") == 0 || extension.localeCompare(".bmp") == 0 || extension.localeCompare(".heic") == 0)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        //if (extension.localeCompare(".png") == 0 || extension.localeCompare(".jpg") == 0 || extension.localeCompare(".jpeg") == 0 || extension.localeCompare(".bmp") == 0 || extension.localeCompare(".heic") == 0)
+        //{
+        //    return true;
+        //}
+        //else
+        //{
+        //    return false;
+        //}
     }
 }, 'Solo archivos con formato PNG, JPG, JPEG, HEIC y BMP.');
+
+
 
 function ValidarExtensionPermitidaImagen(fileName)
 {
     var extension = (fileName.substring(fileName.lastIndexOf("."))).toLowerCase();
-    console.log("Extension: " + extension);
     //validamos la extension
-    if (extension.localeCompare("png") == 0 || extension.localeCompare("jpg") == 0 || extension.localeCompare("jpeg") == 0 || extension.localeCompare("bmp") == 0 || extension.localeCompare("heic") == 0) {
+    if (extension.localeCompare(".png") == 0 || extension.localeCompare(".jpg") == 0 || extension.localeCompare(".jpeg") == 0 || extension.localeCompare(".bmp") == 0 || extension.localeCompare(".heic") == 0) {
         
         return true;
     }
@@ -389,3 +383,26 @@ $.validator.addMethod("ImagenNoRequerida_ValidarExtension", function (value, ele
     }
     return true;
 }, 'Solo archivos con formato PNG, JPG, JPEG, HEIC y BMP.');
+
+$.validator.addMethod("ArchivoRequerido", function (value, element, params) {
+    //Checamos que tenga un archivo el input file
+    if (element.value.length === 0) {
+        var imagenServidor = document.getElementById(params[0]).value;
+
+        if (imagenServidor === "0" || !imagenServidor) {
+            //validamos el defaultValue, nos sirve para el edit 
+            var defaultValue = document.getElementById(params[0]).defaultValue;
+
+            if (defaultValue)
+                return true;
+
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+    else {
+        return true;
+    }
+}, 'Seleccione un archivo.');

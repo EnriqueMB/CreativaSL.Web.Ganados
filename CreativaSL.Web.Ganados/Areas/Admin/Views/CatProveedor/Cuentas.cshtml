@@ -5,7 +5,20 @@
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
+@section css
+{
+    <link href="~/Content/css/datatable/jquery.dataTables.min.css" rel="stylesheet" />
+    <style>
 
+        #imagen_previa {
+            width: 100% !important;
+        }
+
+        .vista_previa {
+            cursor: pointer;
+        }
+    </style>
+}
 @section featured{
     @{
         var message = TempData["message"] ?? string.Empty;
@@ -47,6 +60,7 @@
                                         <th>Núm. Tarjeta</th>
                                         <th>Núm. Cuenta</th>
                                         <th>Clabe Interbancaria</th>
+                                        <th>Imagen</th>
                                         <th>Acción</th>
                                     </tr>
                                 </thead>
@@ -59,6 +73,17 @@
                                             <td>@Cuenta.NumTarjeta</td>
                                             <td>@Cuenta.NumCuenta</td>
                                             <td>@Cuenta.Clabe</td>
+                                            <td>
+                                                @if (string.IsNullOrEmpty(Cuenta.ImagenUrl))
+                                                {
+                                                    <img class="vista_previa" src="/Content/img/GrupoOcampo.png" alt="Logo" style="width: auto; height: auto; max-width: 100%; max-height: 100%;">
+                                                }
+                                                else
+                                                {
+                                                    <img class="vista_previa file-preview-image" alt="CuentaBancaria" style="width: 150px; height: 150px; max-width: 100%; max-height: 100%;" src="@Cuenta.ImagenUrl">
+                                                }
+                                            </td>
+
                                             <td style="text-align:center;">
                                                 <div class="visible-md visible-lg hidden-sm hidden-xs">
                                                     <a title="Editar" href="@Url.Action("EditCuenta", "CatProveedor", new { id = Cuenta.IDDatosBancarios, id2 = IDP})" class="btn btn-yellow tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
@@ -113,6 +138,28 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="modalImagen" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Imagen</h4>
+                </div>
+                <div class="modal-body">
+                    <img id="imagen_previa" src="" alt="Imagen_previa" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
     <script>
     var message = '@message';
     var typemessage = '@typemessage';
@@ -124,8 +171,15 @@
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
     <script>
-    jQuery(document).ready(function () {
-        Mensaje(message, typemessage);
+        jQuery(document).ready(function () {
+            Mensaje(message, typemessage);
+
+            $('img.vista_previa').on('click',
+                function () {
+                    var src_image = $(this).attr('src');
+                    $("#imagen_previa").attr("src", src_image);
+                    $("#modalImagen").modal();
+                });
         });
     </script>
 }

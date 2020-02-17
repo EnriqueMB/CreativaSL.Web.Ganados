@@ -10,7 +10,6 @@ namespace CreativaSL.Web.Ganados.Models
         
         public string IdProveedor { get; set; }
 
-        [Required(ErrorMessage = "Por favor seleccione un archivo.")]
         public string Archivo { get; set; }
    
     }

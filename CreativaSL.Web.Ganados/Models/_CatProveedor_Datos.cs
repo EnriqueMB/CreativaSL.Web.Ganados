@@ -9,6 +9,7 @@ using CreativaSL.Web.Ganados.Models.Dto.Base;
 using CreativaSL.Web.Ganados.Models.Dto.ProveedorGanado;
 using CreativaSL.Web.Ganados.Models.System;
 using Newtonsoft.Json;
+using CreativaSL.Web.Ganados.Models.Dto.ProveedorGanado;
 
 namespace CreativaSL.Web.Ganados.Models
 {
@@ -320,6 +321,12 @@ namespace CreativaSL.Web.Ganados.Models
                     datos.CantidadPeriodo = !dr.IsDBNull(dr.GetOrdinal("cantidadPeriodo")) ? dr.GetInt32(dr.GetOrdinal("cantidadPeriodo")) : 0;
                     datos.IDPeriodo = !dr.IsDBNull(dr.GetOrdinal("id_periodo")) ? dr.GetInt32(dr.GetOrdinal("id_periodo")) : 0;
                     datos.FotoPerfil = !dr.IsDBNull(dr.GetOrdinal("UrlFotoPerfil")) ? dr.GetString(dr.GetOrdinal("UrlFotoPerfil")) : string.Empty;
+
+                    if (!string.IsNullOrWhiteSpace(datos.FotoPerfil))
+                    {
+                        datos.FotoPerfil = ProjectSettings.BaseDirProveedorFotoPerfil + datos.FotoPerfil;
+                    }
+                    
                 }
                 dr.Close();
                 return datos;
@@ -523,6 +530,11 @@ namespace CreativaSL.Web.Ganados.Models
                     item.NumTarjeta = !dr.IsDBNull(dr.GetOrdinal("NumeroTarjeta")) ? dr.GetString(dr.GetOrdinal("NumeroTarjeta")) : string.Empty;
                     item.NumCuenta = !dr.IsDBNull(dr.GetOrdinal("NumeroCuenta")) ? dr.GetString(dr.GetOrdinal("NumeroCuenta")) : string.Empty;
                     item.Clabe = !dr.IsDBNull(dr.GetOrdinal("ClaveInterbancaria")) ? dr.GetString(dr.GetOrdinal("ClaveInterbancaria")) : string.Empty;
+                    item.ImagenUrl = !dr.IsDBNull(dr.GetOrdinal("ImagenUrl")) ? dr.GetString(dr.GetOrdinal("ImagenUrl")) : string.Empty;
+                    if (!string.IsNullOrWhiteSpace(item.ImagenUrl))
+                    {
+                        item.ImagenUrl = ProjectSettings.BaseDirProveedorCuentasBancarias + item.ImagenUrl;
+                    }
                     lista.Add(item);
                 }
                 dr.Close();
@@ -570,7 +582,9 @@ namespace CreativaSL.Web.Ganados.Models
                                         datos.NumCuenta ?? string.Empty,
                                         datos.NumTarjeta ?? string.Empty,
                                         datos.Clabe ?? string.Empty,
-                                        datos.Usuario ?? string.Empty};
+                                        datos.Usuario ?? string.Empty, 
+                                        datos.ImagenUrl
+                };
                 object result = SqlHelper.ExecuteScalar(datos.Conexion, "spCSLDB_Catalogos_ac_DatosBancariosProveedor", parametros);
                 if (result != null)
                 {
@@ -601,6 +615,11 @@ namespace CreativaSL.Web.Ganados.Models
                     datos.NumCuenta = !Dr.IsDBNull(Dr.GetOrdinal("NumCuenta")) ? Dr.GetString(Dr.GetOrdinal("NumCuenta")) : string.Empty;
                     datos.Clabe = !Dr.IsDBNull(Dr.GetOrdinal("Clabe")) ? Dr.GetString(Dr.GetOrdinal("Clabe")) : string.Empty;
                     datos.Completado = true;
+                    datos.ImagenUrl = !Dr.IsDBNull(Dr.GetOrdinal("ImagenUrl")) ? Dr.GetString(Dr.GetOrdinal("ImagenUrl")) : string.Empty;
+                    if (!string.IsNullOrWhiteSpace(datos.ImagenUrl))
+                    {
+                        datos.ImagenUrl = ProjectSettings.BaseDirProveedorCuentasBancarias + datos.ImagenUrl;
+                    }
                 }
                 Dr.Close();
                 return datos;
@@ -1021,13 +1040,11 @@ namespace CreativaSL.Web.Ganados.Models
             
             return respuesta;
         }
-
-
         #endregion
 
         #region Documentos Extras
 
-        public string DocumentosExtras_ObtenerIndex(DataTableAjaxPostModel dataTableAjaxPostModel)
+        public string DocumentosExtras_ObtenerIndex(DataTableAjaxPostModel dataTableAjaxPostModel, string id)
         {
             try
             {
@@ -1044,6 +1061,7 @@ namespace CreativaSL.Web.Ganados.Models
                         cmd.Parameters.Add("@Draw", SqlDbType.Int).Value = dataTableAjaxPostModel.draw;
                         cmd.Parameters.Add("@ColumnNumber", SqlDbType.Int).Value = dataTableAjaxPostModel.order[0].column;
                         cmd.Parameters.Add("@ColumnDir", SqlDbType.NVarChar).Value = dataTableAjaxPostModel.order[0].dir;
+                        cmd.Parameters.Add("@IdProveedor", SqlDbType.Char).Value = id;
 
                         // execute
                         sqlcon.Open();
@@ -1073,7 +1091,7 @@ namespace CreativaSL.Web.Ganados.Models
                                 indexDto.IdTipoDocumentacionExtra = int.Parse(reader["IdTipoDocumentacionExtra"].ToString());
                                 indexDto.NombreTipoDocumentacionExtra = reader["NombreTipoDocumentacionExtra"].ToString();
                                 indexDto.IdProveedor = reader["IdProveedor"].ToString();
-                                indexDto.UrlArchivo = reader["UrlArchivo"].ToString();
+                                indexDto.UrlArchivo = ProjectSettings.BaseDirProveedorDocumentacionExtra + reader["UrlArchivo"];
 
                                 indexDatatableDto.Data.Add(indexDto);
                             }
@@ -1094,6 +1112,195 @@ namespace CreativaSL.Web.Ganados.Models
 
         }
 
+        public RespuestaAjax GuardarDocumentoExtra(DocumentacionExtra_CatProveedorModel model)
+        {
+            var respuesta = new RespuestaAjax();
+            try
+            {
+                using (var sqlcon = new SqlConnection(ConexionSql))
+                {
+                    using (var cmd = new SqlCommand("spCSLDB_DocumentacionExtra_CatProveedores_GuardarArchivo",
+                        sqlcon))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        cmd.Parameters.Add("@UrlArchivo", SqlDbType.NVarChar).Value = model.Archivo;
+                        cmd.Parameters.Add("@IdProveedor", SqlDbType.Char).Value = model.IdProveedor;
+                        cmd.Parameters.Add("@IdTipoDocumentacionExtra", SqlDbType.Int).Value =
+                            model.IdTipoDocumentacionExtra;
+                        cmd.Parameters.Add("@IdUsuario", SqlDbType.Char).Value = UsuarioActual;
+                        cmd.Parameters.Add("@IdDocumentacionExtra", SqlDbType.Char).Value = model.IdDocumentacionExtra;
+                        
+
+                        sqlcon.Open();
+
+                        var reader = cmd.ExecuteReader();
+
+                        if (reader.HasRows)
+                        {
+                            while (reader.Read())
+                            {
+                                respuesta.Success = (bool) reader["Success"];
+                                respuesta.Mensaje = reader["Mensaje"].ToString();
+                                if (!respuesta.Success)
+                                    respuesta.MensajeErrorSQL = reader["MensejeErrorSQL"].ToString();
+                            }
+                        }
+
+                        reader.Close();
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                respuesta.Success = false;
+                respuesta.MensajeErrorSQL = e.Message;
+                respuesta.Mensaje =
+                    "Se ha producido un error al guardar el documento, intentelo más tarde o contacte con soporte técnico.";
+            }
+
+            return respuesta;
+        }
+
+        public DocumentacionExtra_CatProveedorModel ObtenerDocumentacionExtra(string idProveedor, string idDocumentacionExtra)
+        {
+            var model = new DocumentacionExtra_CatProveedorModel();
+
+            using (var sqlcon = new SqlConnection(ConexionSql))
+            {
+                using (var cmd = new SqlCommand("spCIDDB_DocumentacionExtra_CatProveedorspCSLDB_DocumentacionExtra_CatProveedores_ObtenerArchivo",
+                    sqlcon))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.Add("@IdProveedor", SqlDbType.Char).Value = idProveedor;
+                    cmd.Parameters.Add("@IdDocumentacionExtra", SqlDbType.Char).Value = idDocumentacionExtra;
+                    
+                    sqlcon.Open();
+
+                    var reader = cmd.ExecuteReader();
+
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            model.IdTipoDocumentacionExtra = int.Parse(reader["IdTipoDocumentacionExtra"].ToString());
+                            model.Archivo = ProjectSettings.BaseDirProveedorDocumentacionExtra  + reader["UrlArchivo"];
+                            model.IdProveedor = reader["IdProveedor"].ToString();
+                            model.IdDocumentacionExtra = reader["IdDocumentacionExtra"].ToString();
+                        }
+                    }
+
+                    reader.Close();
+                }
+            }
+
+            return model;
+        }
+
+        public RespuestaAjax EliminarDocumentoExtra(string idProveedor, string idDocumentacionExtra, string urlArchivo)
+        {
+            var respuesta = new RespuestaAjax();
+            try
+            {
+                using (var sqlcon = new SqlConnection(ConexionSql))
+                {
+                    using (var cmd = new SqlCommand("spCSLDB_DocumentacionExtra_CatProveedores_EliminarDocumentacionExtra",
+                        sqlcon))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        cmd.Parameters.Add("@IdProveedor", SqlDbType.Char).Value = idProveedor;
+                        cmd.Parameters.Add("@IdDocumentacionExtra", SqlDbType.Char).Value = idDocumentacionExtra;
+                        cmd.Parameters.Add("@UrlArchivo", SqlDbType.NVarChar).Value = urlArchivo;
+
+
+                        sqlcon.Open();
+
+                        var reader = cmd.ExecuteReader();
+
+                        if (reader.HasRows)
+                        {
+                            while (reader.Read())
+                            {
+                                respuesta.Success = (bool)reader["Success"];
+                                respuesta.Mensaje = reader["Mensaje"].ToString();
+                                if (!respuesta.Success)
+                                    respuesta.MensajeErrorSQL = reader["MensejeErrorSQL"].ToString();
+                            }
+                        }
+
+                        reader.Close();
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                respuesta.Success = false;
+                respuesta.MensajeErrorSQL = e.Message;
+                respuesta.Mensaje =
+                    "Se ha producido un error al guardar el documento, intentelo más tarde o contacte con soporte técnico.";
+            }
+
+            return respuesta;
+        }
+        #endregion
+
+        #region Imagenes
+
+        public ImagenesProveedorGanadoDto ObtenerProveedor(string idProveedor)
+        {
+            var model = new ImagenesProveedorGanadoDto();
+
+            using (var sqlcon = new SqlConnection(ConexionSql))
+            {
+                using (var cmd = new SqlCommand("spCIDDB_CatProveedor_Imagenes_ObtenerProveedor",
+                    sqlcon))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.Add("@IdProveedor", SqlDbType.Char).Value = idProveedor;
+
+                    sqlcon.Open();
+
+                    var reader = cmd.ExecuteReader();
+
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            model.IdProveedor = reader["id_proveedor"].ToString(); 
+                            model.RazonSocial_Nombre = reader["nombreRazonSocial"].ToString();
+                            model.FotoPerfilUrl = reader["UrlFotoPerfil"].ToString();
+                            model.Rfc = reader["rfc"].ToString();
+                            model.Sucursal = reader["Sucursal"].ToString();
+                            model.TipoProveedor = reader["TipoProveedor"].ToString();
+                            model.Direccion = reader["direccion"].ToString();
+                            model.Tolerancia = reader["tolerancia"].ToString() + " %";
+                            model.Observacion = reader["observaciones"].ToString();
+                            model.Telefonos = reader["Telefono"].ToString();
+                            model.Email = reader["correo"].ToString();
+                            model.IneBase64 = reader["imgINE"].ToString();
+                            model.ManifestacionFierroBase64 = reader["imgManifestacionFierro"].ToString();
+                            model.UppPsgBase64 = reader["imagenUPP"].ToString();
+
+                            if (!string.IsNullOrWhiteSpace(model.FotoPerfilUrl))
+                            {
+                                model.FotoPerfilUrl = ProjectSettings.BaseDirProveedorFotoPerfil + model.FotoPerfilUrl;
+                            }
+                            
+                            IFormatProvider culture = new CultureInfo("es-MX", true);
+                            model.FechaIngreso = DateTime.ParseExact(reader["FechaIngreso"].ToString(), "dd/MM/yyyy hh:mm:ss tt",
+                                culture).ToString("dd/MM/yyyy", culture);
+                        }
+                    }
+
+                    reader.Close();
+                }
+            }
+
+            return model;
+        }
 
         #endregion
     }

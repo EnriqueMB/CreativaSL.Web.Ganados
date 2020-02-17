@@ -1,0 +1,486 @@
+﻿@model CreativaSL.Web.Ganados.Models.Dto.ProveedorGanado.ImagenesProveedorGanadoDto
+
+@{
+    ViewBag.Title = "Imagenes";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+
+
+    var ListaProvCombustible = ViewBag.LProveedorCombistible;
+    var ListaProvServicio = ViewBag.LProveddorServicio;
+    var ListaProvTransporte = ViewBag.LProveddorTransporte;
+}
+@section css{
+    <link href="@Url.Content("~/Content/js/plugins/uploadFiles/fileinput.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/css/fontawesome/font-awesome.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/js/plugins/uploadFiles/theme.css")" rel="stylesheet" />
+    <link href="~/Content/css/datatable/jquery.dataTables.min.css" rel="stylesheet" />
+    <style>
+        .kv-avatar .krajee-default.file-preview-frame, .kv-avatar .krajee-default.file-preview-frame:hover {
+            margin: 0;
+            padding: 0;
+            border: none;
+            box-shadow: none;
+            text-align: center;
+        }
+
+        .kv-avatar {
+            display: inline-block;
+        }
+
+            .kv-avatar .file-input {
+                display: table-cell;
+                width: 290px !important;
+            }
+
+        .kv-reqd {
+            color: red;
+            font-family: monospace;
+            font-weight: normal;
+        }
+
+        textarea {
+            max-height: 100%;
+            resize: none;
+        }
+
+        #imagen_previa {
+            width: 100% !important;
+        }
+
+        .vista_previa {
+            cursor: pointer;
+        }
+    </style>
+}
+
+
+@section featured{
+    @{ var message = TempData["message"] ?? string.Empty;
+        var typemessage = TempData["typemessage"] ?? string.Empty;
+    }
+    <div id="Error" class="progress-bar progress-bar-striped active errorCSL" style="display:none; width:100%">
+        <h3></h3>
+    </div>
+    <div id="Success" class="progress-bar progress-bar-striped active successCSL" style="display:none; width:100%">
+        <h3></h3>
+    </div>
+    <div class="page-title">
+        <h2><span class="fa fa-arrow-circle-o-left"></span> Proveedor </h2>
+    </div>
+    <!-- END PAGE TITLE -->
+    <!-- PAGE CONTENT WRAPPER -->
+    <div class="page-content-wrap">
+        <div class="row">
+            <div class="col-md-12">
+                <!-- START DEFAULT DATATABLE -->
+                <div class="panel-body tab-content">
+                    <div class="panel panel-default tabs">
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li class="active"><a href="#tab-primero" role="tab" data-toggle="tab">Generales</a></li>
+                            <li><a href="#tab-segundo" role="tab" data-toggle="tab">Cuentas bancarias</a></li>
+                            <li><a href="#tab-tercero" role="tab" data-toggle="tab">Documentación extra</a></li>
+                        </ul>
+                        <div class="panel-body tab-content">
+                            <div class="tab-pane active" id="tab-primero">
+                                <div class="panel panel-default">
+                                    <div class="panel-body">
+                                        <form>
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="form-group row">
+                                                        <label class="col-sm-3">Sucursal</label>
+                                                        <div class="col-sm-9">
+                                                            @Html.TextBoxFor(model => model.Sucursal, new { @class = "form-control", @readonly = "readonly" })
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group row">
+                                                        <label class="col-sm-3">Nombre</label>
+                                                        <div class="col-sm-9">
+                                                            @Html.TextBoxFor(model => model.RazonSocial_Nombre, new { @class = "form-control", @readonly = "readonly" })
+                                                        </div>
+                                                    </div>
+
+
+                                                    <div class="form-group row">
+                                                        <label class="col-sm-3">Fecha de inicio de relación</label>
+                                                        <div class="col-sm-9">
+                                                            @Html.TextBoxFor(model => model.FechaIngreso, new { @class = "form-control", @readonly = "readonly" })
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group row">
+                                                        <label class="col-sm-3">Teléfonos</label>
+                                                        <div class="col-sm-9">
+                                                            @Html.TextBoxFor(model => model.Telefonos, new { @class = "form-control", @readonly = "readonly" })
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group row">
+                                                        <label class="col-sm-3">Dirección</label>
+                                                        <div class="col-sm-9">
+                                                            @Html.TextAreaFor(model => model.Direccion, new { @class = "form-control", @readonly = "readonly", @rows = "5" })
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group row">
+                                                        <label class="col-sm-3">Rfc</label>
+                                                        <div class="col-sm-9">
+                                                            @Html.TextBoxFor(model => model.Rfc, new { @class = "form-control", @readonly = "readonly" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label class="col-sm-3">Tipo proveedor</label>
+                                                        <div class="col-sm-9">
+                                                            @Html.TextBoxFor(model => model.TipoProveedor, new { @class = "form-control", @readonly = "readonly" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label class="col-sm-3">Tolerancia</label>
+                                                        <div class="col-sm-9">
+                                                            @Html.TextBoxFor(model => model.Tolerancia, new { @class = "form-control", @readonly = "readonly" })
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group row">
+                                                        <label class="col-sm-3">Email</label>
+                                                        <div class="col-sm-9">
+                                                            @Html.TextBoxFor(model => model.Email, new { @class = "form-control", @readonly = "readonly" })
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group row">
+                                                        <label class="col-sm-3">Observaciones</label>
+                                                        <div class="col-sm-9">
+                                                            @Html.TextAreaFor(model => model.Observacion, new { @class = "form-control", @readonly = "readonly", @rows = "5" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <div class="input-group">
+                                                            <label class="col-md-3 control-label">Foto de perfil</label>
+                                                            <div class="col-md-9 col-xs-12">
+                                                                <div class="input-group">
+                                                                    <span class="input-group-addon"><span class="fa fa-camera"></span></span>
+                                                                    <div class="kv-avatar">
+                                                                        <div class="file-loading">
+                                                                            @Html.TextBoxFor(model => model.FotoPerfilUrl, new { @type = "file", @class = "form-control" })
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <br />
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <div class="input-group">
+                                                            <label class="col-md-3 control-label">Ine</label>
+                                                            <div class="col-md-9 col-xs-12">
+                                                                <div class="input-group">
+                                                                    <span class="input-group-addon"><span class="fa fa-camera"></span></span>
+                                                                    <div class="kv-avatar">
+                                                                        <div class="file-loading">
+                                                                            @Html.TextBoxFor(model => model.IneBase64, new { @type = "file", @class = "form-control" })
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <div class="input-group">
+                                                            <label class="col-md-3 control-label">Manifestación fierro:</label>
+                                                            <div class="col-md-9 col-xs-12">
+                                                                <div class="input-group">
+                                                                    <span class="input-group-addon"><span class="fa fa-camera"></span></span>
+                                                                    <div class="kv-avatar">
+                                                                        <div class="file-loading">
+                                                                            @Html.TextBoxFor(model => model.ManifestacionFierroBase64, new { @type = "file", @class = "form-control" })
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <div class="input-group">
+                                                            <label class="col-md-3 control-label">UPP/PSG</label>
+                                                            <div class="col-md-9 col-xs-12">
+                                                                <div class="input-group">
+                                                                    <span class="input-group-addon"><span class="fa fa-camera"></span></span>
+                                                                    <div class="kv-avatar">
+                                                                        <div class="file-loading">
+                                                                            @Html.TextBoxFor(model => model.UppPsgBase64, new { @type = "file", @class = "form-control" })
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="panel-footer">
+                                        <a href="@Url.Action("Index", "CatProveedor")" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="tab-segundo">
+                                <div class="panel panel-default">
+                                    <div class="panel-body">
+                                        <div class="table-responsive">
+                                            <table class="table datatable">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Titular</th>
+                                                        <th>Banco</th>
+                                                        <th>Núm. Tarjeta</th>
+                                                        <th>Núm. Cuenta</th>
+                                                        <th>Clabe Interbancaria</th>
+                                                        <th>Imagen</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach (var cuenta in ViewBag.ListaCuentasBancarias)
+                                                    {
+                                                        <tr id="@cuenta.IDDatosBancarios">
+                                                            <td>@cuenta.Titular</td>
+                                                            <td>@cuenta.Banco.Descripcion</td>
+                                                            <td>@cuenta.NumTarjeta</td>
+                                                            <td>@cuenta.NumCuenta</td>
+                                                            <td>@cuenta.Clabe</td>
+                                                            <td>
+                                                                @if (string.IsNullOrEmpty(cuenta.ImagenUrl))
+                                                                {
+                                                                    <img class="vista_previa" src="/Content/img/GrupoOcampo.png" alt="Logo" style="width: auto; height: auto; max-width: 100%; max-height: 100%;">
+                                                                }
+                                                                else
+                                                                {
+                                                                    <img class="vista_previa file-preview-image" alt="CuentaBancaria" style="width: 150px; height: 150px; max-width: 100%; max-height: 100%;" src="@cuenta.ImagenUrl">
+                                                                }
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="panel-footer">
+                                        <a href="@Url.Action("Index", "CatProveedor")" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="tab-tercero">
+                                <div class="panel panel-default">
+
+                                    <div class="panel-body">
+                                        <div class="table-responsive">
+                                            <table id="tblDocumentosExtras" class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Tipo de documento</th>
+                                                        <th>Imagen</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody></tbody>
+                                            </table>
+                                        </div>
+
+                                    </div>
+                                    <div class="panel-footer">
+                                        <a href="@Url.Action("Index", "CatProveedor")" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalImagen" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Imagen</h4>
+                </div>
+                <div class="modal-body">
+                    <img id="imagen_previa" src="" alt="Imagen_previa" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+    var message = '@message';
+    var typemessage = '@typemessage';
+    </script>
+}
+@section script
+{
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/fileinput.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/es.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/explorer-fa/theme.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-datepicker.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-file-input.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-select.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/tagsinput/jquery.tagsinput.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
+    <script>
+        jQuery(document).ready(function() {
+            Mensaje(message, typemessage);
+
+            $("#FotoPerfilUrl").fileinput({
+                theme: 'fa',
+                language: 'es',
+                overwriteInitial: false,
+                showClose: false,
+                showCaption: false,
+                showUpload: false,
+                showBrowse: false,
+                showRemove: false,
+                browseLabel: '',
+                removeLabel: '',
+                defaultPreviewContent:
+                    '<img class="file-preview-image vista_previa" style="width: auto; height: auto; max-width: 100%; max-height: 100%;" src="@Url.Content(string.IsNullOrEmpty(Model.FotoPerfilUrl) ? "/Content/img/GrupoOcampo.png" : Model.FotoPerfilUrl)" />',
+                showUploadedThumbs: false,
+                preferIconicPreview: true,
+                fileActionSettings: {
+                    showRemove: false
+                }
+            });
+            $("#IneBase64").fileinput({
+                theme: 'fa',
+                language: 'es',
+                overwriteInitial: false,
+                showClose: false,
+                showCaption: false,
+                showUpload: false,
+                showBrowse: false,
+                showRemove: false,
+                browseLabel: '',
+                removeLabel: '',
+                defaultPreviewContent:
+                    '<img class="file-preview-image vista_previa" style="width: auto; height: auto; max-width: 100%; max-height: 100%;" src="@Url.Content(string.IsNullOrEmpty(Model.IneBase64) ? "/Content/img/GrupoOcampo.png" : "data:image/png;base64," + Model.IneBase64)" />',
+                showUploadedThumbs: false,
+                preferIconicPreview: true,
+                fileActionSettings: {
+                    showRemove: false
+                }
+            });
+            $("#ManifestacionFierroBase64").fileinput({
+                theme: 'fa',
+                language: 'es',
+                overwriteInitial: false,
+                showClose: false,
+                showCaption: false,
+                showUpload: false,
+                showBrowse: false,
+                showRemove: false,
+                browseLabel: '',
+                removeLabel: '',
+                defaultPreviewContent:
+                    '<img class="file-preview-image vista_previa" style="width: auto; height: auto; max-width: 100%; max-height: 100%;" src="@Url.Content(string.IsNullOrEmpty(Model.ManifestacionFierroBase64) ? "/Content/img/GrupoOcampo.png" : "data:image/png;base64," + Model.ManifestacionFierroBase64)" />',
+                showUploadedThumbs: false,
+                preferIconicPreview: true,
+                fileActionSettings: {
+                    showRemove: false
+                }
+            });
+            $("#UppPsgBase64").fileinput({
+                theme: 'fa',
+                language: 'es',
+                overwriteInitial: false,
+                showClose: false,
+                showCaption: false,
+                showUpload: false,
+                showBrowse: false,
+                showRemove: false,
+                browseLabel: '',
+                removeLabel: '',
+                defaultPreviewContent:
+                    '<img class="file-preview-image vista_previa" style="width: auto; height: auto; max-width: 100%; max-height: 100%;" src="@Url.Content(string.IsNullOrEmpty(Model.UppPsgBase64) ? "/Content/img/GrupoOcampo.png" : "data:image/png;base64," + Model.UppPsgBase64)" />',
+                showUploadedThumbs: false,
+                preferIconicPreview: true,
+                fileActionSettings: {
+                    showRemove: false
+                }
+            });
+            $('img.vista_previa').on('click',
+                function() {
+                    var src_image = $(this).attr('src');
+                    $("#imagen_previa").attr("src", src_image);
+                    $("#modalImagen").modal();
+                });
+
+            $('#tblDocumentosExtras').DataTable({
+                "processing": true,
+                "serverSide": true,
+                "language": {
+                    "url": "/Content/assets/json/Spanish.json"
+                },
+                responsive: true,
+                "ajax": {
+                    "url": "/Admin/CatProveedor/JsonIndexDocumentosExtras/",
+                    "data": {
+                        "id": "@Model.IdProveedor"
+                    },
+                    "method": "POST",
+                    "dataType": "json",
+                    "dataSrc": function(json) {
+
+                        if (json.data === null)
+                            return [];
+                        else
+                            return json.data;
+                    }
+                },
+                "columns":
+                [
+                    { "data": "NombreTipoDocumentacionExtra" },
+                    {
+                        "data": null,
+                        "render": function(data, type, row) {
+
+                            var img =
+                                '<img class="vista_previa" src = "/Content/img/GrupoOcampo.png" alt = "Logo" style = "width: 150px; height: 150px" >';
+                            if (row["UrlArchivo"]) {
+                                img = '<img class="vista_previa" src = "' +
+                                    row["UrlArchivo"] +
+                                    '" alt = "Logo" style = "width: 150px; height: 150px" >';
+                            }
+                            return img;
+                        }
+                    }
+                ]
+            });
+        });
+    </script>
+}
+

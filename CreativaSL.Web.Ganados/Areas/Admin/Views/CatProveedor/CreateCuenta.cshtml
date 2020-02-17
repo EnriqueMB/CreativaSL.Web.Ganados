@@ -4,6 +4,35 @@
     ViewBag.Title = "CreateCuenta";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
+@section css{
+    <link href="@Url.Content("~/Content/js/plugins/uploadFiles/fileinput.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/css/fontawesome/font-awesome.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/js/plugins/uploadFiles/theme.css")" rel="stylesheet" />
+    <style>
+        .kv-avatar .krajee-default.file-preview-frame, .kv-avatar .krajee-default.file-preview-frame:hover {
+            margin: 0;
+            padding: 0;
+            border: none;
+            box-shadow: none;
+            text-align: center;
+        }
+
+        .kv-avatar {
+            display: inline-block;
+        }
+
+            .kv-avatar .file-input {
+                display: table-cell;
+                width: 213px !important;
+            }
+
+        .kv-reqd {
+            color: red;
+            font-family: monospace;
+            font-weight: normal;
+        }
+    </style>
+}
 @section featured{
 
     @{
@@ -20,7 +49,7 @@
         <div class="col-md-12">
             @*<form class="form-horizontal">*@
             @{ Html.EnableClientValidation(false); }
-            @using (Html.BeginForm("CreateCuenta", "CatProveedor", FormMethod.Post, new { id = "form-cp", @class = "form-horizontal", autocomplete = "off" }))
+            @using (Html.BeginForm("CreateCuenta", "CatProveedor", FormMethod.Post, new { id = "form-cp", @class = "form-horizontal", autocomplete = "off", @enctype = "multipart/form-data"  }))
             {
                 @Html.AntiForgeryToken()
                 @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
@@ -33,62 +62,78 @@
                             @*<li><a href="#" class="panel-remove exsa"><span class="fa fa-times"></span></a></li>*@
                         </ul>
                     </div>
-                        <div class="panel-body">
-
-                            <div class="form-group">
-                                <label class="col-md-2 col-xs-12 control-label"><span>* </span> Banco </label>
-                                <div class="col-md-6 col-xs-12">
-                                    @Html.DropDownListFor(model => model.IDBanco, new SelectList(Model.ListaCmbBancos, "IDBanco", "Descripcion"), new { id = "IDBanco", @class = "form-control select", data_live_search = "true" })
-                                    @Html.ValidationMessageFor(model => model.IDBanco)
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="col-md-2 col-xs-12 control-label"><span>* </span> Titular </label>
-                                <div class="col-md-6 col-xs-12">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                        @Html.TextBoxFor(model => model.Titular, new { id = "Titular", @class = "form-control", placeholder = "Ingrese el nombre del titular de la cuenta bancaria" })
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <label class="col-md-2 col-xs-12 control-label"><span>* </span> Banco </label>
+                                    <div class="col-md-10 col-xs-12">
+                                        @Html.DropDownListFor(model => model.IDBanco, new SelectList(Model.ListaCmbBancos, "IDBanco", "Descripcion"), new { id = "IDBanco", @class = "form-control select", data_live_search = "true" })
+                                        @Html.ValidationMessageFor(model => model.IDBanco)
                                     </div>
-                                    @Html.ValidationMessageFor(model => model.Titular)
                                 </div>
-                            </div>
-
-
-                            <div class="form-group">
-                                <label class="col-md-2 col-xs-12 control-label"><span> </span> Número de cuenta</label>
-                                <div class="col-md-6 col-xs-12">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                        @Html.TextBoxFor(model => model.NumCuenta, new { id = "NumCuenta", @class = "form-control", placeholder = "Ingrese el número de cuenta" })
+                                <div class="form-group">
+                                    <label class="col-md-2 col-xs-12 control-label"><span>* </span> Titular </label>
+                                    <div class="col-md-10 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.Titular, new { id = "Titular", @class = "form-control", placeholder = "Ingrese el nombre del titular de la cuenta bancaria" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.Titular)
                                     </div>
-                                    @Html.ValidationMessageFor(model => model.NumCuenta)
                                 </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="col-md-2 col-xs-12 control-label"><span></span> Número de tarjeta</label>
-                                <div class="col-md-6 col-xs-12">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                        @Html.TextBoxFor(model => model.NumTarjeta, new { id = "NumTarjeta", @class = "form-control mask_credit", placeholder = "Ingrese el número de tarjeta" })
+                                <div class="form-group">
+                                    <label class="col-md-2 col-xs-12 control-label"><span> </span> Número de cuenta</label>
+                                    <div class="col-md-10 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.NumCuenta, new { id = "NumCuenta", @class = "form-control", placeholder = "Ingrese el número de cuenta" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.NumCuenta)
                                     </div>
-                                    @Html.ValidationMessageFor(model => model.NumTarjeta)
                                 </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="col-md-2 col-xs-12 control-label"><span></span> CLABE</label>
-                                <div class="col-md-6 col-xs-12">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                        @Html.TextBoxFor(model => model.Clabe, new { id = "Clabe", @class = "form-control", placeholder = "Ingrese la CLABE interbancaria" })
+                                <div class="form-group">
+                                    <label class="col-md-2 col-xs-12 control-label"><span></span> Número de tarjeta</label>
+                                    <div class="col-md-10 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.NumTarjeta, new { id = "NumTarjeta", @class = "form-control mask_credit", placeholder = "Ingrese el número de tarjeta" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.NumTarjeta)
                                     </div>
-                                    @Html.ValidationMessageFor(model => model.Clabe)
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-2 col-xs-12 control-label"><span></span> CLABE</label>
+                                    <div class="col-md-10 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.Clabe, new { id = "Clabe", @class = "form-control", placeholder = "Ingrese la CLABE interbancaria" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.Clabe)
+                                    </div>
                                 </div>
                             </div>
+                            <div class="col-md-4 text-center">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <label class="col-md-3 control-label">Foto de perfil</label>
+                                        <div class="col-md-9 col-xs-12">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><span class="fa fa-camera"></span></span>
+                                                <div class="kv-avatar">
+                                                    <div class="file-loading">
+                                                        @Html.TextBoxFor(model => model.ImagenUrl, new { @type = "file", @class = "form-control" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.ImagenUrl)
+                                        </div>
 
+                                    </div>
+                                </div>
+                            </div>
                         </div>
+                    </div>
                     <div class="panel-footer">
                         <input type="submit" value="Guardar" class="btn btn-primary pull-right">
                         <a href="@Url.Action("Cuentas","CatProveedor", new { id = Model.IDProveedor })" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
@@ -104,19 +149,26 @@
     </script>
 }
 @section script{
-
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/maskedinput/jquery.maskedinput.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/fileinput.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/es.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/explorer-fa/theme.js")"></script>
+    
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-datepicker.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-file-input.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-select.js")"></script>
-    <script type='text/javascript' src="@Url.Content("~/Content/js/plugins/maskedinput/jquery.maskedinput.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/tagsinput/jquery.tagsinput.min.js")"></script>
+
     <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/jquery-validation/jquery.validate.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/validaciones/additionals.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/cuentaProveedor.js")"></script>
     <script>
-    jQuery(document).ready(function () {
-        Mensaje(message, typemessage);
-        CuentasProveedor.init();
-    });
+        jQuery(document).ready(function () {
+            Mensaje(message, typemessage);
+            CuentasProveedor.init();
+        });
     </script>
 }
 

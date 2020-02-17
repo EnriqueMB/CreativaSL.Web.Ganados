@@ -200,7 +200,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                                 if (uploadImageToserver.Success)
                                 {
                                     var responseDb = ClienteDatos.ActualizarFotoPerfil(clienteID.IDCliente,
-                                        User.Identity.Name, uploadImageToserver.UrlComplete, clienteID.Conexion);
+                                        User.Identity.Name, uploadImageToserver.UrlRelative, clienteID.Conexion);
 
                                     if (!responseDb.Success)
                                     {
@@ -317,7 +317,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                                 if (uploadImageToserver.Success)
                                 {
                                     var responseDb = ClienteDatos.ActualizarFotoPerfil(clienteID.IDCliente,
-                                        User.Identity.Name, uploadImageToserver.UrlComplete, clienteID.Conexion);
+                                        User.Identity.Name, uploadImageToserver.UrlRelative, clienteID.Conexion);
 
                                     if (!responseDb.Success)
                                     {

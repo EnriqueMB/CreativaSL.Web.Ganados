@@ -319,6 +319,7 @@
     <Content Include="Content\assets\uploads\MIME-Types\YUICompressor.java" />
     <Content Include="Content\audio\alert.mp3" />
     <Content Include="Content\audio\fail.mp3" />
+    <Content Include="Content\Content\img\fileinput\loading.gif" />
     <Content Include="Content\css\ajax\libs\jquery-confirm3.3.2\jquery-confirm.min.css" />
     <Content Include="Content\css\animate\animate.css" />
     <Content Include="Content\css\animate\animate.min.css" />
@@ -1588,6 +1589,9 @@
     <Content Include="Areas\Admin\Views\CatTipoDocumentacionExtra\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\CatProveedor\DocumentosExtras.cshtml" />
     <Content Include="Areas\Admin\Views\CatProveedor\CreateDocumentoExtra.cshtml" />
+    <Content Include="Areas\Admin\Views\CatProveedor\EditDocumentoExtra.cshtml" />
+    <Content Include="Content\js\plugins\uploadFiles\fileinputv5.0.9.js" />
+    <Content Include="Areas\Admin\Views\CatProveedor\Imagenes.cshtml" />
     <None Include="Properties\PublishProfiles\Ocampo.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
@@ -1840,6 +1844,7 @@
     <Compile Include="Models\Dto\CatTipoDocumentacionExtra\IndexCatTipoDocumentacionExtraDto.cs" />
     <Compile Include="Models\Dto\Compra\IndexCompraDto.cs" />
     <Compile Include="Models\Dto\Base\IndexDatatableDto.cs" />
+    <Compile Include="Models\Dto\ProveedorGanado\ImagenesProveedorGanadoDto.cs" />
     <Compile Include="Models\Dto\ProveedorGanado\IndexProveedorGanadoDocumentacionExtraDto.cs" />
     <Compile Include="Models\Dto\ProveedorGanado\IndexProveedorGanadoDto.cs" />
     <Compile Include="Models\Dto\Venta\IndexVentaDto.cs" />
@@ -1936,7 +1941,7 @@
     <Compile Include="Models\ListaGenerica.cs" />
     <Compile Include="Models\System\BaseSQL.cs" />
     <Compile Include="Models\System\ProjectSettings.cs" />
-    <Compile Include="Models\System\UploadImageToServerModel.cs" />
+    <Compile Include="Models\System\UploadFileToServerModel.cs" />
     <Compile Include="Models\TelefonosContactoSucursalModels.cs" />
     <Compile Include="Models\ConfiguracionModels.cs" />
     <Compile Include="Models\TipoUsuarioModels.cs" />
