@@ -443,7 +443,33 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         {
                             TempData["typemessage"] = "1";
                             TempData["message"] = "Los datos se guardaron correctamente.";
-                            Token.ResetToken();
+                            var fotoPerfilPostedFileBase = Request.Files["FotoCuenta"] as HttpPostedFileBase;
+                            if (fotoPerfilPostedFileBase != null && fotoPerfilPostedFileBase.ContentLength > 0)
+                            {
+                                var uploadImageToserver = new UploadFileToServerModel();
+                                uploadImageToserver.FileBase = fotoPerfilPostedFileBase;
+                                uploadImageToserver.BaseDir = "/Imagenes/Cliente/FotoCuentas/";
+                                uploadImageToserver.FileName = "fp_" + datosCuenta.IDDatosBancarios;
+                                CidFaresHelper.UploadFileToServer(uploadImageToserver);
+
+                                if (uploadImageToserver.Success)
+                                {
+                                    var responseDb = ClienteDatos.ActualizarFotoCuentas(datosCuenta.IDDatosBancarios,
+                                        User.Identity.Name, uploadImageToserver.UrlRelative, datosCuenta.Conexion);
+                                    if (!responseDb.Success)
+                                    {
+                                        TempData["typemessage"] = "2";
+                                        TempData["message"] = "Ha ocurrido un error al guardar la imagen de cuentas al cliente, intente subir de nuevo o contacte con soporte técnico.";
+                                    }
+                                }
+                                else
+                                {
+                                    TempData["typemessage"] = "2";
+                                    TempData["message"] = "Ha ocurrido un error al guardar en el servidor la imagen de cuentas, intente subir de nuevo o contacte con soporte técnico.";
+
+                                }
+                            }
+                                Token.ResetToken();
                             return RedirectToAction("Cuentas", new { id = cuentaID.IDCliente });
                         }
                         else
@@ -486,7 +512,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 ClienteDatos.ObtenerDetalleDatosBancariosCliente(Datos);
                 CuentaBancariaViewModels ViewCuenta = Datos.GetViewCB();
                 ViewCuenta.IDCliente = idC;
-                ViewCuenta.IDDatosBancarios = id;
+                ViewCuenta.IDDatosBancarios = id;                
                 ViewCuenta.ListaBancos = ClienteDatos.ObtenerComboCatBancos(Conexion);
                 return View(ViewCuenta);
             }
@@ -527,6 +553,33 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         {
                             TempData["typemessage"] = "1";
                             TempData["message"] = "Los datos se guardaron correctamente.";
+                            var fotoPerfilPostedFileBase = Request.Files["FotoCuenta"] as HttpPostedFileBase;
+                            if (fotoPerfilPostedFileBase != null && fotoPerfilPostedFileBase.ContentLength > 0)
+                            {
+                                var uploadImageToserver = new UploadFileToServerModel();
+                                uploadImageToserver.FileBase = fotoPerfilPostedFileBase;
+                                uploadImageToserver.BaseDir = "/Imagenes/Cliente/FotoCuentas/";
+                                uploadImageToserver.FileName = "fp_" + cuentaID.IDDatosBancarios;
+                                CidFaresHelper.UploadFileToServer(uploadImageToserver);
+
+                                if (uploadImageToserver.Success)
+                                {
+                                    var responseDb = ClienteDatos.ActualizarFotoCuentas(cuentaID.IDDatosBancarios,
+                                        User.Identity.Name, uploadImageToserver.UrlRelative, datosCuenta.Conexion);
+
+                                    if (!responseDb.Success)
+                                    {
+                                        TempData["typemessage"] = "2";
+                                        TempData["message"] = "Ha ocurrido un error al actualizar la imagen de cuentas al cliente, intente subir de nuevo o contacte con soporte técnico.";
+                                    }
+                                }
+                                else
+                                {
+                                    TempData["typemessage"] = "2";
+                                    TempData["message"] = "Ha ocurrido un error al actualizar en el servidor la imagen de cuentas, intente subir de nuevo o contacte con soporte técnico.";
+
+                                }
+                            }
                             Token.ResetToken();
                             return RedirectToAction("Cuentas", new { id = cuentaID.IDCliente });
                         }
@@ -602,6 +655,10 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     Usuario = User.Identity.Name };
                 CatCliente_Datos ClienteDatos = new CatCliente_Datos();
                 ClienteDatos.EliminarDatosBancarios(Datos);
+                var uploadImageToserver = new UploadFileToServerModel();
+                uploadImageToserver.BaseDir = "/Imagenes/Cliente/FotoCuentas/";
+                uploadImageToserver.FileName = "fp_" + IDCuenta;
+                CidFaresHelper.DeleteFilesWithOutExtensionFromServer(uploadImageToserver);
                 if (Datos.Completado)
                 {
                     TempData["typemessage"] = "1";
