@@ -421,6 +421,7 @@ namespace CreativaSL.Web.Ganados.Models
                     Item.Titular = !Dr.IsDBNull(Dr.GetOrdinal("Titular")) ? Dr.GetString(Dr.GetOrdinal("Titular")) : string.Empty;
                     Item.NumTarjeta = !Dr.IsDBNull(Dr.GetOrdinal("NumTarjeta")) ? Dr.GetString(Dr.GetOrdinal("NumTarjeta")) : string.Empty;
                     Item.NumCuenta = !Dr.IsDBNull(Dr.GetOrdinal("NumCuenta")) ? Dr.GetString(Dr.GetOrdinal("NumCuenta")) : string.Empty;
+                    Item.FotoCuenta = !Dr.IsDBNull(Dr.GetOrdinal("FotoCuenta")) ? Dr.GetString(Dr.GetOrdinal("FotoCuenta")) : string.Empty;
                     Item.Clabe = !Dr.IsDBNull(Dr.GetOrdinal("Clabe")) ? Dr.GetString(Dr.GetOrdinal("Clabe")) : string.Empty;
                     Lista.Add(Item);
                 }
@@ -467,13 +468,12 @@ namespace CreativaSL.Web.Ganados.Models
                                         datos.NumTarjeta ?? string.Empty,
                                         datos.Clabe ?? string.Empty,
                                         datos.Usuario ?? string.Empty};
-                object result = SqlHelper.ExecuteScalar(datos.Conexion, "spCSLDB_catalogos_ac_DatosBancariosCliente", parametros);
-                if(result != null)
+                SqlDataReader dr = SqlHelper.ExecuteReader(datos.Conexion, "spCSLDB_catalogos_ac_DatosBancariosCliente", parametros);
+                while (dr.Read())
                 {
-                    if(!string.IsNullOrEmpty(result.ToString()))
-                    {
-                        datos.Completado = true;
-                    }
+                    if(datos.NuevoRegistro)
+                   datos.IDDatosBancarios= !dr.IsDBNull(dr.GetOrdinal("IDDatosBancarios")) ? dr.GetString(dr.GetOrdinal("IDDatosBancarios")) : string.Empty;
+                   datos.Completado = true;
                 }
             }
             catch(Exception ex)
@@ -521,6 +521,7 @@ namespace CreativaSL.Web.Ganados.Models
                     datos.NumTarjeta = !Dr.IsDBNull(Dr.GetOrdinal("NumTarjeta")) ? Dr.GetString(Dr.GetOrdinal("NumTarjeta")) : string.Empty;
                     datos.NumCuenta = !Dr.IsDBNull(Dr.GetOrdinal("NumCuenta")) ? Dr.GetString(Dr.GetOrdinal("NumCuenta")) : string.Empty;
                     datos.Clabe = !Dr.IsDBNull(Dr.GetOrdinal("Clabe")) ? Dr.GetString(Dr.GetOrdinal("Clabe")) : string.Empty;
+                    datos.FotoCuenta= !Dr.IsDBNull(Dr.GetOrdinal("imagenUrl")) ? Dr.GetString(Dr.GetOrdinal("imagenUrl")) : string.Empty;
                     datos.Completado = true;
                 }
             }
@@ -599,6 +600,46 @@ namespace CreativaSL.Web.Ganados.Models
                 };
                 SqlDataReader dr = null;
                 dr = SqlHelper.ExecuteReader(conexion, "spCIDDB_Catalogo_a_CatCliente_fotoPerfil", parametros);
+
+
+                while (dr.Read())
+                {
+                    respuesta.Success = !dr.IsDBNull(dr.GetOrdinal("Success"))
+                        ? dr.GetBoolean(dr.GetOrdinal("Success"))
+                        : false;
+                    respuesta.Mensaje = !dr.IsDBNull(dr.GetOrdinal("Mensaje"))
+                        ? dr.GetString(dr.GetOrdinal("Mensaje"))
+                        : string.Empty;
+                    respuesta.MensajeErrorSQL = !dr.IsDBNull(dr.GetOrdinal("MensajeErrorSQL"))
+                        ? dr.GetString(dr.GetOrdinal("MensajeErrorSQL"))
+                        : string.Empty;
+                }
+
+                dr.Close();
+
+
+            }
+            catch (Exception ex)
+            {
+                respuesta.Mensaje = ex.Message;
+                respuesta.Success = false;
+            }
+
+            return respuesta;
+        }
+        #endregion
+        #region FotoCuentas
+        public RespuestaAjax ActualizarFotoCuentas(string idProveedor, string idUsuario, string urlFotoCuenta, string conexion)
+        {
+            var respuesta = new RespuestaAjax();
+            try
+            {
+                object[] parametros =
+                {
+                    idProveedor, idUsuario, urlFotoCuenta
+                };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(conexion, "spCIDDB_Catalogo_a_CatCliente_fotoCuentas", parametros);
 
 
                 while (dr.Read())

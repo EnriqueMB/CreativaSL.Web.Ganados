@@ -18,6 +18,7 @@ namespace CreativaSL.Web.Ganados.Models
             _NumTarjeta = string.Empty;
             _NumCuenta = string.Empty;
             _Clabe = string.Empty;
+            _FotoCuenta = string.Empty;
         }
 
         private string _IDDatosBancarios;
@@ -39,7 +40,16 @@ namespace CreativaSL.Web.Ganados.Models
             get { return _Cliente; }
             set { _Cliente = value; }
         }
-        
+        private string _FotoCuenta;
+        /// <summary>
+        /// Url  de Imagen de la cuenta
+        /// </summary>
+        public string FotoCuenta
+        {
+            get { return _FotoCuenta; }
+            set { _FotoCuenta = value; }
+        }
+
         private CatBancoModels _Banco;
         /// <summary>
         /// Datos del banco en el que se encuentra la cuenta bancaria
@@ -108,7 +118,9 @@ namespace CreativaSL.Web.Ganados.Models
                     Titular = this._Titular,
                     NumTarjeta = this._NumTarjeta,
                     NumCuenta = this._NumCuenta,
-                    Clabe = this._Clabe };
+                    Clabe = this._Clabe,
+                    FotoCuenta=this._FotoCuenta
+                };
             }
             catch(Exception ex)
             {

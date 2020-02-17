@@ -39,6 +39,15 @@ namespace CreativaSL.Web.Ganados.ViewModels
             get { return _IDDatosBancarios; }
             set { _IDDatosBancarios = value; }
         }
+        private string _fotoCuenta;
+        /// <summary>
+        /// Identificador del banco de la cuenta bancaria
+        /// </summary>
+        public string FotoCuenta
+        {
+            get { return _fotoCuenta; }
+            set { _fotoCuenta = value; }
+        }
 
         private int _IDBanco;
         /// <summary>
