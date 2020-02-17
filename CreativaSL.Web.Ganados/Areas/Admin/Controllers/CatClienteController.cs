@@ -455,7 +455,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                                 if (uploadImageToserver.Success)
                                 {
                                     var responseDb = ClienteDatos.ActualizarFotoCuentas(datosCuenta.IDDatosBancarios,
-                                        User.Identity.Name, uploadImageToserver.UrlComplete, datosCuenta.Conexion);
+                                        User.Identity.Name, uploadImageToserver.UrlRelative, datosCuenta.Conexion);
                                     if (!responseDb.Success)
                                     {
                                         TempData["typemessage"] = "2";
@@ -565,7 +565,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                                 if (uploadImageToserver.Success)
                                 {
                                     var responseDb = ClienteDatos.ActualizarFotoCuentas(cuentaID.IDDatosBancarios,
-                                        User.Identity.Name, uploadImageToserver.UrlComplete, datosCuenta.Conexion);
+                                        User.Identity.Name, uploadImageToserver.UrlRelative, datosCuenta.Conexion);
 
                                     if (!responseDb.Success)
                                     {
