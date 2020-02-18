@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Globalization;
+using System.Web.Mvc;
+using System.Web.UI.WebControls;
 using CreativaSL.Web.Ganados.Models.Datatable;
 using CreativaSL.Web.Ganados.Models.Dto.Base;
 using CreativaSL.Web.Ganados.Models.Dto.ProveedorGanado;
@@ -1302,6 +1304,114 @@ namespace CreativaSL.Web.Ganados.Models
             return model;
         }
 
+        #endregion
+
+        #region Obtener proveevedores por
+
+        public List<ConfiguracionReporteProveedorGanadoDto> ObtenerProveedorXSucursal(List<string> sucursales)
+        {
+            var lista = new List<ConfiguracionReporteProveedorGanadoDto>();
+
+            using (var sqlcon = new SqlConnection(ConexionSql))
+            {
+                using (var cmd = new SqlCommand("spCIDDB_Catalogo_CatProveedore_ObtenerProveedoresXSucursal",
+                    sqlcon))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    DataTable dataTable;
+                    dataTable = new DataTable();
+
+                    dataTable.Columns.Add("Id", typeof(string));
+                    if (sucursales != null)
+                    {
+                        foreach (var item in sucursales)
+                        {
+                            dataTable.Rows.Add(item);
+                        }
+                    }
+
+                    cmd.Parameters.Add("@UDTT_Sucursales", SqlDbType.Structured).Value = dataTable;
+                    sqlcon.Open();
+
+                    var reader = cmd.ExecuteReader();
+
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            var item = new ConfiguracionReporteProveedorGanadoDto();
+                            item.IdProveedor = reader["id_proveedor"].ToString();
+                            item.Proveedor = reader["nombreRazonSocial"].ToString();
+                            item.Sucursal = reader["nombreSuc"].ToString();
+
+                            lista.Add(item);
+                        }
+                    }
+                    reader.Close();
+                }
+            }
+
+            return lista;
+        }
+
+        public List<ReporteProveedorGanadoDto> ObtenerReporteProveedorGanadoDtos(List<string> proveedores)
+        {
+            var lista = new List<ReporteProveedorGanadoDto>();
+
+            foreach (var proveedor in proveedores)
+            {
+                var item = new ReporteProveedorGanadoDto();
+
+                using (var sqlcon = new SqlConnection(ConexionSql))
+                {
+                    using (var cmd = new SqlCommand("spCIDDB_CatProveedor_Reporte_ObtenerProveedor",
+                        sqlcon))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        cmd.Parameters.Add("@IdProveedor", SqlDbType.Char).Value = proveedor;
+
+                        sqlcon.Open();
+
+                        var reader = cmd.ExecuteReader();
+
+                        if (reader.HasRows)
+                        {
+                            while (reader.Read())
+                            {
+                                item.IdProveedor = reader["id_proveedor"].ToString();
+                                item.RazonSocial_Nombre = reader["nombreRazonSocial"].ToString();
+                                item.FotoPerfilUrl = reader["UrlFotoPerfil"].ToString();
+                                item.Rfc = reader["rfc"].ToString();
+                                item.Sucursal = reader["Sucursal"].ToString();
+                                item.TipoProveedor = reader["TipoProveedor"].ToString();
+                                item.Direccion = reader["direccion"].ToString();
+                                item.Tolerancia = reader["tolerancia"].ToString() + " %";
+                                item.Observacion = reader["observaciones"].ToString();
+                                item.Telefonos = reader["Telefono"].ToString();
+                                item.Email = reader["correo"].ToString();
+                                item.IneBase64 = reader["imgINE"].ToString();
+                                item.ManifestacionFierroBase64 = reader["imgManifestacionFierro"].ToString();
+                                item.UppPsgBase64 = reader["imagenUPP"].ToString();
+
+                                if (!string.IsNullOrWhiteSpace(item.FotoPerfilUrl))
+                                {
+                                    item.FotoPerfilUrl = ProjectSettings.BaseDirProveedorFotoPerfil + item.FotoPerfilUrl;
+                                }
+
+                                IFormatProvider culture = new CultureInfo("es-MX", true);
+                                item.FechaIngreso = DateTime.ParseExact(reader["FechaIngreso"].ToString(), "dd/MM/yyyy hh:mm:ss tt",
+                                    culture).ToString("dd/MM/yyyy", culture);
+                            }
+                        }
+
+                        reader.Close();
+                    }
+                }
+                lista.Add(item);
+            }
+            return lista;
+        }
         #endregion
     }
 }

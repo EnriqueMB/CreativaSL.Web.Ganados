@@ -10,11 +10,12 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using System.Xml;
 using CreativaSL.Web.Ganados.Models.Datatable;
+using CreativaSL.Web.Ganados.Models.Dto.ProveedorGanado;
 using CreativaSL.Web.Ganados.Models.Helpers;
 using CreativaSL.Web.Ganados.Models.System;
-using Microsoft.Ajax.Utilities;
+using Newtonsoft.Json;
+using Microsoft.Reporting.WebForms;
 
 namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 {
@@ -192,13 +193,13 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                             if (Path.GetExtension(bannerImage.FileName).ToLower() == ".heic")
                             {
 
-                                Image img = (Image)Auxiliar.ProcessFile(s);
-                                Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
+                                var img = (Image)Auxiliar.ProcessFile(s);
+                                var image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
                                 Proveedor.ImgINE = image.ToBase64String(ImageFormat.Jpeg);
                             }
                             else
                             {
-                                Image img = new Bitmap(s);
+                                var img = new Bitmap(s);
                                 Bitmap IMG3 = ComprimirImagen.SaveJpeg("", img, 50, false);
                                 Proveedor.ImgINE = IMG3.ToBase64String(img.RawFormat);
                             }
@@ -1689,6 +1690,97 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 TempData["typemessage"] = "2";
                 TempData["message"] = "Verifique sus datos.";
                 return RedirectToAction("Index");
+            }
+        }
+        #endregion
+
+        #region Reporte proveedor de ganado
+        [HttpGet]
+        public ActionResult ConfiguracionReporteProveedorGanado()
+        {
+            var sucursalesModel = new _CatSucursal_Datos();
+            ViewBag.ListaSucursales = sucursalesModel.ObtenerSucursalesEmpresaPrincipal();
+        
+            return View();
+        }
+
+        public ActionResult ObtenerProveedoresXSucursal(List<string>sucursales)
+        {
+            if (sucursales == null || sucursales.Count == 0)
+            {
+                var listaVacia = new List<ConfiguracionReporteProveedorGanadoDto>();
+                var jsonVacio = JsonConvert.SerializeObject(listaVacia);
+                return Content(jsonVacio, "application/json");
+            }
+            var proveedorDatos = new _CatProveedor_Datos();
+            var listaProveedoresXSucursal = proveedorDatos.ObtenerProveedorXSucursal(sucursales);
+            var json = JsonConvert.SerializeObject(listaProveedoresXSucursal);
+
+            return Content(json, "application/json");
+        }
+
+        public ActionResult GenerarReporteProveedoresGanado(string proveedores)
+        {
+            try
+            {
+                var proveedoresSplit = proveedores.Split(',');
+                var rpt = new ReportViewer();
+                rpt.ProcessingMode = ProcessingMode.Local;
+                var reporteDatos = new Reporte_Datos();
+                var proveedorDatos = new _CatProveedor_Datos();
+
+                var datosEmpresa = reporteDatos.ObtenerDatosEmpresaGeneral(Conexion);
+                var listaProveedores = proveedorDatos.ObtenerReporteProveedorGanadoDtos(proveedoresSplit.ToList());
+                
+                rpt.LocalReport.EnableExternalImages = true;
+                rpt.LocalReport.DataSources.Clear();
+                var path = Path.Combine(Server.MapPath("~/Reports"), "ReporteProveedoresGanado.rdlc");
+                if (System.IO.File.Exists(path))
+                {
+                    rpt.LocalReport.ReportPath = path;
+                }
+                else
+                {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "No se ha localizado el formato del reporte, contacte con soporte técnico.";
+                    return RedirectToAction("Index", "CatProveedor");
+                }
+                var parametros = new ReportParameter[3];
+                parametros[0] = new ReportParameter("Empresa", datosEmpresa.RazonFiscal);
+                parametros[1] = new ReportParameter("UrlLogo", datosEmpresa.LogoEmpresa);
+                parametros[2] = new ReportParameter("DireccionEmpresa", datosEmpresa.DireccionFiscal);
+
+                rpt.LocalReport.SetParameters(parametros);
+                rpt.LocalReport.DataSources.Add(new ReportDataSource("ProveedoresDS", listaProveedores));
+                var reportType = "pdf";
+                string mimeType;
+                string encoding;
+                string fileNameExtension;
+
+                var deviceInfo = "<DeviceInfo>" +
+                "  <OutputFormat>pdf</OutputFormat>" +
+                "</DeviceInfo>";
+
+                Warning[] warnings;
+                string[] streams;
+                byte[] renderedBytes;
+
+                renderedBytes = rpt.LocalReport.Render(
+                    reportType,
+                    deviceInfo,
+                    out mimeType,
+                    out encoding,
+                    out fileNameExtension,
+                    out streams,
+                    out warnings);
+
+                return File(renderedBytes, mimeType);
+            }
+            catch (Exception ex)
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Se ha producido un error, intentelo más tarde o contacte con soporte técnico.";
+                return RedirectToAction("Index", "CatProveedor");
             }
         }
         #endregion
