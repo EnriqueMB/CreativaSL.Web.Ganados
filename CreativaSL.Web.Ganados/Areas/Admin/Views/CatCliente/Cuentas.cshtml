@@ -4,6 +4,20 @@
     ViewBag.Title = "Cuentas";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
+@section css
+{
+    <!--CSS GENERAL-->
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/css/cuentas.css")" />
+    <style>
+        .vista_previa {
+            cursor: pointer;
+        }
+
+        #imagen_previa {
+            width: 100% !important;
+        }
+    </style>
+}
 @section featured{
     @{
         var message = TempData["message"] ?? string.Empty;
@@ -36,7 +50,7 @@
                     </div>
                     <div class="panel-body">
                         <div class="table-responsive">
-                            <table class="table datatable">
+                            <table id="tbl_cuentas" class="table">
                                 <thead>
                                     <tr>
                                         <th>Banco</th>
@@ -44,44 +58,46 @@
                                         <th>Número de cuenta</th>
                                         <th>Número de tarjeta</th>
                                         <th>Cuenta clabe</th>
+                                        <th>Foto de la cuenta</th>
                                         <th>Acción</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach (var Cuenta in Model)
                                     {
-                                        <tr id="@Cuenta.IDDatosBancarios">
-                                            <td>@Cuenta.Banco.Descripcion</td>
-                                            <td>@Cuenta.Titular</td>
-                                            <td>@Cuenta.NumCuenta</td>
-                                            <td>@Cuenta.NumTarjeta</td>
-                                            <td>@Cuenta.Clabe</td>
-                                            <td style="text-align:center;">
-                                                <div class="visible-md visible-lg hidden-sm hidden-xs">
-                                                    <a title="Editar" class="btn btn-yellow" href="@Url.Action("EditarCuenta", "CatCliente", new { id = Cuenta.IDDatosBancarios, idC = ViewBag.ID })"><i class="fa fa-edit"></i></a>
-                                                    <a title="Eliminar" class="btn delete btn-danger deleteRow" id="delete-@Cuenta.IDDatosBancarios" data-hrefa="@Url.Action("DeleteDatosBancarios", "CatCliente", new { IDCuenta = Cuenta.IDDatosBancarios, IDCliente = ViewBag.ID})" onClick="delete_row('@Cuenta.IDDatosBancarios');"><i class="fa fa-trash-o"></i></a>
+                                    <tr id="@Cuenta.IDDatosBancarios">
+                                        <td>@Cuenta.Banco.Descripcion</td>
+                                        <td>@Cuenta.Titular</td>
+                                        <td>@Cuenta.NumCuenta</td>
+                                        <td>@Cuenta.NumTarjeta</td>
+                                        <td>@Cuenta.Clabe</td>
+                                        <td><img class='file-preview-image vista_previa' style='width: 150px; height: 150px;' src='@Cuenta.FotoCuenta' />"</td>
+                                        <td style="text-align:center;">
+                                            <div class="visible-md visible-lg hidden-sm hidden-xs">
+                                                <a title="Editar" class="btn btn-yellow" href="@Url.Action("EditarCuenta", "CatCliente", new { id = Cuenta.IDDatosBancarios, idC = ViewBag.ID })"><i class="fa fa-edit"></i></a>
+                                                <a title="Eliminar" class="btn delete btn-danger deleteRow" id="delete-@Cuenta.IDDatosBancarios" data-hrefa="@Url.Action("DeleteDatosBancarios", "CatCliente", new { IDCuenta = Cuenta.IDDatosBancarios, IDCliente = ViewBag.ID})" onClick="delete_row('@Cuenta.IDDatosBancarios');"><i class="fa fa-trash-o"></i></a>
+                                            </div>
+                                            <div class="visible-xs visible-sm hidden-md hidden-lg">
+                                                <div class="btn-group">
+                                                    <a class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
+                                                        <i class="fa fa-cog"></i> <span class="caret"></span>
+                                                    </a>
+                                                    <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
+                                                        <li>
+                                                            <a role="menuitem" tabindex="-1" href="@Url.Action("EditarCuenta", "CatCliente", new { id = Cuenta.IDDatosBancarios, idC = ViewBag.ID })">
+                                                                <i class="fa fa-edit"></i> Editar
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a role="menuitem" tabindex="-1" id="delete-@Cuenta.IDDatosBancarios" data-hrefa="@Url.Action("DeleteDatosBancarios", "CatCliente", new { IDCuenta = Cuenta.IDDatosBancarios, IDCliente = ViewBag.ID})" onClick="delete_row('@Cuenta.IDDatosBancarios');">
+                                                                <i class="fa fa-trash-o"></i> Eliminar
+                                                            </a>
+                                                        </li>
+                                                    </ul>
                                                 </div>
-                                                <div class="visible-xs visible-sm hidden-md hidden-lg">
-                                                    <div class="btn-group">
-                                                        <a class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
-                                                            <i class="fa fa-cog"></i> <span class="caret"></span>
-                                                        </a>
-                                                        <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
-                                                            <li>
-                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("EditarCuenta", "CatCliente", new { id = Cuenta.IDDatosBancarios, idC = ViewBag.ID })">
-                                                                    <i class="fa fa-edit"></i> Editar
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a role="menuitem" tabindex="-1" id="delete-@Cuenta.IDDatosBancarios" data-hrefa="@Url.Action("DeleteDatosBancarios", "CatCliente", new { IDCuenta = Cuenta.IDDatosBancarios, IDCliente = ViewBag.ID})" onClick="delete_row('@Cuenta.IDDatosBancarios');">
-                                                                    <i class="fa fa-trash-o"></i> Eliminar
-                                                                </a>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
+                                            </div>
+                                        </td>
+                                    </tr>
                                     }
                                 </tbody>
                             </table>
@@ -90,6 +106,26 @@
                 </div>
                 <!-- END DEFAULT DATATABLE -->
             </div>
+        </div>
+    </div>
+    <!-- Modal Image -->
+    <div class="modal fade" id="modalImagen" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Imagen</h4>
+                </div>
+                <div class="modal-body">
+                    <img id="imagen_previa" src="" alt="Imagen_previa" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+
         </div>
     </div>
     <!-- PAGE CONTENT WRAPPER -->
@@ -121,9 +157,24 @@
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
     <script>
-    jQuery(document).ready(function () {
-        Mensaje(message, typemessage);
-    });
+        jQuery(document).ready(function () {
+            Mensaje(message, typemessage);
+            var tbl_cuentas = $('#tbl_cuentas').DataTable({
+                "language": {
+                    "url": "/Content/assets/json/Spanish.json"
+                },
+                responsive: true,
+                "drawCallback": function (settings) {
+
+                    $('img.vista_previa').on('click', function () {
+                        var src_image = $(this).attr('src');
+                        $("#imagen_previa").attr("src", src_image);
+                        $("#modalImagen").modal();
+                    });
+
+                }
+            });
+        });
     </script>
 }
 

@@ -26,16 +26,23 @@
             rules: {
                 IDBanco: { CMBINT: true },
                 Titular: { required: true, nombre: true, maxlength: 300 },
-                NumTarjeta: { tarjetaCredito : true },
+                FotoCuenta: { ImagenRequerida: ["FotoCuenta"] },
+                NumTarjeta: { tarjetaCredito: true },
                 NumCuenta: { cuenta: true },
                 Clabe: { clabe: true }
+                
             },
             messages: {
                 IDBanco: { CMBINT: "Seleccione un banco." },
                 Titular: { required: "Ingrese el nombre del titular de la cuenta.", nombre: "Ingrese un nombre del titular válido.", maxlength: "El campo nombre del titular admite máximo 300 caracteres." },
+                FotoCuenta: {
+                    ImagenRequerida:
+                        "Seleccione una imagén válida de la cuenta bancaria, formatos válidos: PNG, JPG, JPEG, HEIC y BMP."
+                },
                 NumTarjeta: { tarjetaCredito: "Ingrese un número de tarjeta válido." },
                 NumCuenta: { cuenta: "Ingrese un número de cuenta válido."},
                 Clabe: { clabe: "Ingrese una clabe interbancaria válida." }
+                
             },
             invalidHandler: function (event, validator) { //display error alert on form submit
                 successHandler1.hide();

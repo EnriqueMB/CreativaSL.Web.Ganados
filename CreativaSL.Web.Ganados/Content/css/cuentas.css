@@ -1,0 +1,32 @@
+﻿#map {
+    height: 400px;
+}
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+#floating-panel {
+    display: block;
+    top: 10px;
+    left: 25%;
+    z-index: 5;
+    background-color: #fff;
+    padding: 5px;
+    border: 1px solid #999;
+    text-align: center;
+    font-family: 'Roboto','sans-serif';
+    line-height: 30px;
+    padding-left: 10px;
+}
+
+.izquierda {
+    float: left;
+}
+
+.derecha {
+    float: right;
+}
+.form-control[disabled], .form-control[readonly] {
+    color: #000 !important;
+}
