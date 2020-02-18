@@ -1355,11 +1355,11 @@ namespace CreativaSL.Web.Ganados.Models
             return lista;
         }
 
-        public List<ReporteProveedorGanadoDto> ObtenerReporteProveedorGanadoDtos(List<string> proveedores)
+        public List<ReporteProveedorGanadoDto> ObtenerReporteProveedorGanadoDtos(List<string> idProveedores)
         {
             var lista = new List<ReporteProveedorGanadoDto>();
 
-            foreach (var proveedor in proveedores)
+            foreach (var idProveedor in idProveedores)
             {
                 var item = new ReporteProveedorGanadoDto();
 
@@ -1370,7 +1370,7 @@ namespace CreativaSL.Web.Ganados.Models
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
 
-                        cmd.Parameters.Add("@IdProveedor", SqlDbType.Char).Value = proveedor;
+                        cmd.Parameters.Add("@IdProveedor", SqlDbType.Char).Value = idProveedor;
 
                         sqlcon.Open();
 
@@ -1409,13 +1409,35 @@ namespace CreativaSL.Web.Ganados.Models
                                 IFormatProvider culture = new CultureInfo("es-MX", true);
                                 item.FechaIngreso = DateTime.ParseExact(reader["FechaIngreso"].ToString(), "dd/MM/yyyy hh:mm:ss tt",
                                     culture).ToString("dd/MM/yyyy", culture);
+
+                                item.ContactoId = reader["ContactoId"].ToString();
+                                item.ContactoNombre = reader["ContactoNombre"].ToString();
+                                item.ContactoTelefono = reader["ContactoTelefono"].ToString();
+                                item.ContactoEmail = reader["ContactoEmail"].ToString();
+                                item.ContactoDireccion = reader["ContactoDireccion"].ToString();
+                                item.ContactoObservacion = reader["ContactoObservacion"].ToString();
+
+                                item.CuentaBancariaId = reader["CuentaBancariaId"].ToString();
+                                item.BancoNombre = reader["BancoNombre"].ToString();
+                                item.CuentaBancariaTitular = reader["CuentaBancariaTitular"].ToString();
+                                item.CuentaBancariaNumTarjeta = reader["CuentaBancariaNumTarjeta"].ToString();
+                                item.CuentaBancariaNumCuenta = reader["CuentaBancariaNumCuenta"].ToString();
+                                item.CuentaBancariaClabeInterbancaria = reader["CuentaBancariaClabeInterbancaria"].ToString();
+
+                                item.CuentaBancariaImagenUrl = Auxiliar.FileMapPath(
+                                    reader["CuentaBancariaImagenUrl"].ToString(),
+                                    ProjectSettings.BaseDirProveedorCuentasBancarias);
+
+                                item.MostrarTablaContactos = (bool)reader["MostrarTablaContactos"];
+                                item.MostrarTablaCuentasBancarias = (bool)reader["MostrarTablaCuentasBancarias"];
+
+                                lista.Add(item);
                             }
                         }
 
                         reader.Close();
                     }
                 }
-                lista.Add(item);
             }
             return lista;
         }

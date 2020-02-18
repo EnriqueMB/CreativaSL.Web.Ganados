@@ -1725,13 +1725,13 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             {
                 var proveedoresSplit = proveedores.Split(',');
                 var rpt = new LocalReport();
-                //rpt.ProcessingMode = ProcessingMode.Local;
                 var reporteDatos = new Reporte_Datos();
                 var proveedorDatos = new _CatProveedor_Datos();
 
                 var datosEmpresa = reporteDatos.ObtenerDatosEmpresaGeneral(Conexion);
-                var listaProveedores = proveedorDatos.ObtenerReporteProveedorGanadoDtos(proveedoresSplit.ToList());
-                
+
+                var listaProveedorsDto = proveedorDatos.ObtenerReporteProveedorGanadoDtos(proveedoresSplit.ToList());
+
                 rpt.EnableExternalImages = true;
                 rpt.DataSources.Clear();
                 var path = Path.Combine(Server.MapPath("~/Reports"), "ReporteProveedoresGanado.rdlc");
@@ -1751,7 +1751,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 parametros[2] = new ReportParameter("DireccionEmpresa", datosEmpresa.DireccionFiscal);
 
                 rpt.SetParameters(parametros);
-                rpt.DataSources.Add(new ReportDataSource("ProveedoresDS", listaProveedores));
+                rpt.DataSources.Add(new ReportDataSource("ProveedoresDS", listaProveedorsDto));
                
                 var reportType = "pdf";
                 string mimeType;
@@ -1777,7 +1777,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
                 return File(renderedBytes, mimeType);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 TempData["typemessage"] = "2";
                 TempData["message"] = "Se ha producido un error, intentelo más tarde o contacte con soporte técnico.";
