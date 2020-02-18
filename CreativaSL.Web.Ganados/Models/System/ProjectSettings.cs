@@ -1,4 +1,7 @@
-﻿namespace CreativaSL.Web.Ganados.Models.System
+﻿using System.IO;
+using System.Web.Hosting;
+
+namespace CreativaSL.Web.Ganados.Models.System
 {
     public static class ProjectSettings
     {
@@ -8,5 +11,7 @@
         public const string BaseDirProveedorDocumentacionExtra = "/Imagenes/Proveedor/DocumentacionExtra/";
         public const string BaseDirProveedorCuentasBancarias = "/Imagenes/Proveedor/CuentasBancarias/";
         public const string BaseDirProveedorFotoPerfil = "/Imagenes/Proveedor/FotoPerfil/";
+
+        public const string PathDefaultImage = "/Content/img/GrupoOcampo.png";
     }
 }

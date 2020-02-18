@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Globalization;
+using System.Web.Hosting;
 using System.Web.Mvc;
 using System.Web.UI.WebControls;
 using CreativaSL.Web.Ganados.Models.Datatable;
@@ -1379,9 +1380,13 @@ namespace CreativaSL.Web.Ganados.Models
                         {
                             while (reader.Read())
                             {
+                                var auxUrlFotoPerfil = reader["UrlFotoPerfil"].ToString();
+
+                                item.FotoPerfilUrl = Auxiliar.FileMapPath(auxUrlFotoPerfil,
+                                    ProjectSettings.BaseDirProveedorFotoPerfil);
+
                                 item.IdProveedor = reader["id_proveedor"].ToString();
                                 item.RazonSocial_Nombre = reader["nombreRazonSocial"].ToString();
-                                item.FotoPerfilUrl = reader["UrlFotoPerfil"].ToString();
                                 item.Rfc = reader["rfc"].ToString();
                                 item.Sucursal = reader["Sucursal"].ToString();
                                 item.TipoProveedor = reader["TipoProveedor"].ToString();
@@ -1390,14 +1395,16 @@ namespace CreativaSL.Web.Ganados.Models
                                 item.Observacion = reader["observaciones"].ToString();
                                 item.Telefonos = reader["Telefono"].ToString();
                                 item.Email = reader["correo"].ToString();
-                                item.IneBase64 = reader["imgINE"].ToString();
-                                item.ManifestacionFierroBase64 = reader["imgManifestacionFierro"].ToString();
-                                item.UppPsgBase64 = reader["imagenUPP"].ToString();
-
-                                if (!string.IsNullOrWhiteSpace(item.FotoPerfilUrl))
-                                {
-                                    item.FotoPerfilUrl = ProjectSettings.BaseDirProveedorFotoPerfil + item.FotoPerfilUrl;
-                                }
+                                item.IneBase64 = string.IsNullOrEmpty(reader["imgINE"].ToString())
+                                    ? Auxiliar.SetDefaultImage()
+                                    : reader["imgINE"].ToString();
+                                item.ManifestacionFierroBase64 =
+                                    string.IsNullOrWhiteSpace(reader["imgManifestacionFierro"].ToString())
+                                        ? Auxiliar.SetDefaultImage()
+                                        : reader["imgManifestacionFierro"].ToString();
+                                item.UppPsgBase64 = string.IsNullOrWhiteSpace(reader["imagenUPP"].ToString())
+                                    ? Auxiliar.SetDefaultImage()
+                                    : reader["imagenUPP"].ToString();
 
                                 IFormatProvider culture = new CultureInfo("es-MX", true);
                                 item.FechaIngreso = DateTime.ParseExact(reader["FechaIngreso"].ToString(), "dd/MM/yyyy hh:mm:ss tt",

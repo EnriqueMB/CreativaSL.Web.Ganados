@@ -1724,20 +1724,20 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             try
             {
                 var proveedoresSplit = proveedores.Split(',');
-                var rpt = new ReportViewer();
-                rpt.ProcessingMode = ProcessingMode.Local;
+                var rpt = new LocalReport();
+                //rpt.ProcessingMode = ProcessingMode.Local;
                 var reporteDatos = new Reporte_Datos();
                 var proveedorDatos = new _CatProveedor_Datos();
 
                 var datosEmpresa = reporteDatos.ObtenerDatosEmpresaGeneral(Conexion);
                 var listaProveedores = proveedorDatos.ObtenerReporteProveedorGanadoDtos(proveedoresSplit.ToList());
                 
-                rpt.LocalReport.EnableExternalImages = true;
-                rpt.LocalReport.DataSources.Clear();
+                rpt.EnableExternalImages = true;
+                rpt.DataSources.Clear();
                 var path = Path.Combine(Server.MapPath("~/Reports"), "ReporteProveedoresGanado.rdlc");
                 if (System.IO.File.Exists(path))
                 {
-                    rpt.LocalReport.ReportPath = path;
+                    rpt.ReportPath = path;
                 }
                 else
                 {
@@ -1750,8 +1750,9 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 parametros[1] = new ReportParameter("UrlLogo", datosEmpresa.LogoEmpresa);
                 parametros[2] = new ReportParameter("DireccionEmpresa", datosEmpresa.DireccionFiscal);
 
-                rpt.LocalReport.SetParameters(parametros);
-                rpt.LocalReport.DataSources.Add(new ReportDataSource("ProveedoresDS", listaProveedores));
+                rpt.SetParameters(parametros);
+                rpt.DataSources.Add(new ReportDataSource("ProveedoresDS", listaProveedores));
+               
                 var reportType = "pdf";
                 string mimeType;
                 string encoding;
@@ -1765,7 +1766,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 string[] streams;
                 byte[] renderedBytes;
 
-                renderedBytes = rpt.LocalReport.Render(
+                renderedBytes = rpt.Render(
                     reportType,
                     deviceInfo,
                     out mimeType,
