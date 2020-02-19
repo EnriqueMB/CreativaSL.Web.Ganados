@@ -177,52 +177,55 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult Create(CatProveedorModels Proveedor)
         {
-            _CatProveedor_Datos ProveedorDatos = new _CatProveedor_Datos();
+            var ProveedorDatos = new _CatProveedor_Datos();
             try
             {
                 if (Token.IsTokenValid())
                 {
                     if (ModelState.IsValid)
                     {
-                        HttpPostedFileBase bannerImage = Request.Files["ImgINE"] as HttpPostedFileBase;
-                        if (bannerImage != null && bannerImage.ContentLength > 0)
+                        var inePostedFileBase = Request.Files["ImgINE"] as HttpPostedFileBase;
+                        var manifestacionFierroPostedFileBase = Request.Files["ImgManifestacionFierro"] as HttpPostedFileBase;
+
+                        if (inePostedFileBase == null || inePostedFileBase.ContentLength <= 0 || manifestacionFierroPostedFileBase == null || manifestacionFierroPostedFileBase.ContentLength <= 0)
                         {
-                            var baseDir = Server.MapPath("~/Imagenes/Proveedor/INE/");
-                            var s = bannerImage.InputStream;
-
-                            if (Path.GetExtension(bannerImage.FileName).ToLower() == ".heic")
-                            {
-
-                                var img = (Image)Auxiliar.ProcessFile(s);
-                                var image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
-                                Proveedor.ImgINE = image.ToBase64String(ImageFormat.Jpeg);
-                            }
-                            else
-                            {
-                                var img = new Bitmap(s);
-                                Bitmap IMG3 = ComprimirImagen.SaveJpeg("", img, 50, false);
-                                Proveedor.ImgINE = IMG3.ToBase64String(img.RawFormat);
-                            }
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Las imagenes del INE y de manifestacion de fierro son requeridas.";
                         }
-                        HttpPostedFileBase bannerImage2 = Request.Files["ImgManifestacionFierro"] as HttpPostedFileBase;
-                        if (bannerImage2 != null && bannerImage2.ContentLength > 0)
+
+                        var fileName = DateTime.Now.ToString("MM_dd_yyyy_hh_mm_ss");
+                        var uploadImageINEToserver = new UploadFileToServerModel();
+                        uploadImageINEToserver.FileBase = inePostedFileBase;
+                        uploadImageINEToserver.BaseDir = ProjectSettings.BaseDirProveedorINE;
+                        uploadImageINEToserver.FileName = fileName;
+                        CidFaresHelper.UploadFileToServer(uploadImageINEToserver);
+                        Proveedor.ImgINE = uploadImageINEToserver.FileName;
+
+                        if (!uploadImageINEToserver.Success)
                         {
-                            Stream s = bannerImage2.InputStream;
-
-                            if (Path.GetExtension(bannerImage2.FileName).ToLower() == ".heic")
-                            {
-
-                                Image img = (Image)Auxiliar.ProcessFile(s);
-                                Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
-                                Proveedor.ImgManifestacionFierro = image.ToBase64String(ImageFormat.Jpeg);
-                            }
-                            else
-                            {
-                                Image img = new Bitmap(s);
-                                Bitmap IMG3 = ComprimirImagen.SaveJpeg("", img, 50, false);
-                                Proveedor.ImgManifestacionFierro = IMG3.ToBase64String(img.RawFormat);
-                            }
+                            //borramos en caso que se halla subido y marque error
+                            CidFaresHelper.DeleteFilesWithOutExtensionFromServer(uploadImageINEToserver);
+                            TempData["typemessage"] = "2";
+                            TempData["message"] =
+                                "Ha ocurrido un error al guardar la imagen del INE, intenlo subir de nuevo o contacte con soporte técnico.";
                         }
+
+                        var uploadImageManifestacionFierroToserver = new UploadFileToServerModel();
+                        uploadImageManifestacionFierroToserver.FileBase = manifestacionFierroPostedFileBase;
+                        uploadImageManifestacionFierroToserver.BaseDir = ProjectSettings.BaseDirProveedorManifestacionFierro;
+                        uploadImageManifestacionFierroToserver.FileName = fileName;
+                        CidFaresHelper.UploadFileToServer(uploadImageManifestacionFierroToserver);
+                        Proveedor.ImgManifestacionFierro =uploadImageManifestacionFierroToserver.FileName;
+
+                        if (!uploadImageManifestacionFierroToserver.Success)
+                        {
+                            //borramos en caso que se halla subido y marque error
+                            CidFaresHelper.DeleteFilesWithOutExtensionFromServer(uploadImageManifestacionFierroToserver);
+                            TempData["typemessage"] = "2";
+                            TempData["message"] =
+                                "Ha ocurrido un error al guardar la imagen de la manifestación del fierro, intenlo subir de nuevo o contacte con soporte técnico.";
+                        }
+
                         Proveedor.Conexion = Conexion;
                         Proveedor.Usuario = User.Identity.Name;
                         Proveedor.Opcion = 1;
@@ -239,7 +242,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                                 var uploadImageToserver = new UploadFileToServerModel();
                                 uploadImageToserver.FileBase = fotoPerfilPostedFileBase;
                                 uploadImageToserver.BaseDir = ProjectSettings.BaseDirProveedorFotoPerfil;
-                                uploadImageToserver.FileName = "fp_" + Proveedor.IDProveedor;
+                                uploadImageToserver.FileName = fileName;
                                 CidFaresHelper.UploadFileToServer(uploadImageToserver);
 
                                 if (uploadImageToserver.Success)
@@ -339,7 +342,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult Edit(string id, CatProveedorModels Proveedor)
         {
-            _CatProveedor_Datos ProveedorDatos = new _CatProveedor_Datos();
+            var ProveedorDatos = new _CatProveedor_Datos();
             try
             {
                 if (Token.IsTokenValid())
@@ -349,48 +352,59 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         Proveedor.Conexion = Conexion;
                         Proveedor.Usuario = User.Identity.Name;
 
-                        HttpPostedFileBase bannerImage = Request.Files["ImgINE"] as HttpPostedFileBase;
+                        var inePostedFileBase = Request.Files["ImgINE"] as HttpPostedFileBase;
+                        var fileName = DateTime.Now.ToString("MM_dd_yyyy_hh_mm_ss");
 
-                        if (bannerImage != null && bannerImage.ContentLength > 0)
+                        if (inePostedFileBase != null && inePostedFileBase.ContentLength > 0)
                         {
-                            Stream s = bannerImage.InputStream;
+                            var uploadImageINEToserver = new UploadFileToServerModel();
+                            uploadImageINEToserver.FileBase = inePostedFileBase;
+                            uploadImageINEToserver.BaseDir = ProjectSettings.BaseDirProveedorINE;
+                            uploadImageINEToserver.FileName =
+                                Proveedor.ImgINE.Replace(ProjectSettings.BaseDirProveedorINE, string.Empty);
+                            //borro la imagen anterior
+                            CidFaresHelper.DeleteFilesWithOutExtensionFromServer(uploadImageINEToserver);
+                            uploadImageINEToserver.FileName = fileName;
+                            CidFaresHelper.UploadFileToServer(uploadImageINEToserver);
+                            Proveedor.ImgINE = uploadImageINEToserver.FileName;
 
-                            if (Path.GetExtension(bannerImage.FileName).ToLower() == ".heic")
+                            if (!uploadImageINEToserver.Success)
                             {
-
-                                Image img = (Image)Auxiliar.ProcessFile(s);
-                                Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
-                                Proveedor.ImgINE = image.ToBase64String(ImageFormat.Jpeg);
-                            }
-                            else
-                            {
-                                Image img = new Bitmap(s);
-                                Bitmap IMG3 = ComprimirImagen.SaveJpeg("", img, 50, false);
-                                Proveedor.ImgINE = IMG3.ToBase64String(img.RawFormat);
+                                //borramos en caso que se halla subido y marque error
+                                CidFaresHelper.DeleteFilesWithOutExtensionFromServer(uploadImageINEToserver);
+                                TempData["typemessage"] = "2";
+                                TempData["message"] =
+                                    "Ha ocurrido un error al guardar la imagen del INE, intenlo subir de nuevo o contacte con soporte técnico.";
                             }
                         }
                         else
                         {
                             Proveedor.BandINE = true;
                         }
-                        HttpPostedFileBase bannerImage2 = Request.Files["ImgManifestacionFierro"] as HttpPostedFileBase;
+                        var manifestacionFierroPostedFileBase = Request.Files["ImgManifestacionFierro"] as HttpPostedFileBase;
 
-                        if (bannerImage2 != null && bannerImage2.ContentLength > 0)
+                        if (manifestacionFierroPostedFileBase != null && manifestacionFierroPostedFileBase.ContentLength > 0)
                         {
-                            Stream s = bannerImage2.InputStream;
+                            var uploadImageManifestacionFierroToserver = new UploadFileToServerModel();
+                            uploadImageManifestacionFierroToserver.FileBase = manifestacionFierroPostedFileBase;
+                            uploadImageManifestacionFierroToserver.BaseDir = ProjectSettings.BaseDirProveedorManifestacionFierro;
+                            uploadImageManifestacionFierroToserver.FileName =
+                                Proveedor.ImgManifestacionFierro.Replace(
+                                    ProjectSettings.BaseDirProveedorManifestacionFierro, string.Empty);
+                            
+                            //borro la imagen anterior
+                            CidFaresHelper.DeleteFilesWithOutExtensionFromServer(uploadImageManifestacionFierroToserver);
+                            uploadImageManifestacionFierroToserver.FileName = fileName;
+                            CidFaresHelper.UploadFileToServer(uploadImageManifestacionFierroToserver);
+                            Proveedor.ImgManifestacionFierro = uploadImageManifestacionFierroToserver.FileName;
 
-                            if (Path.GetExtension(bannerImage.FileName).ToLower() == ".heic")
+                            if (!uploadImageManifestacionFierroToserver.Success)
                             {
-
-                                Image img = (Image)Auxiliar.ProcessFile(s);
-                                Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
-                                Proveedor.ImgManifestacionFierro = image.ToBase64String(ImageFormat.Jpeg);
-                            }
-                            else
-                            {
-                                Image img = new Bitmap(s);
-                                Bitmap IMG3 = ComprimirImagen.SaveJpeg("", img, 50, false);
-                                Proveedor.ImgManifestacionFierro = IMG3.ToBase64String(img.RawFormat);
+                                //borramos en caso que se halla subido y marque error
+                                CidFaresHelper.DeleteFilesWithOutExtensionFromServer(uploadImageManifestacionFierroToserver);
+                                TempData["typemessage"] = "2";
+                                TempData["message"] =
+                                    "Ha ocurrido un error al guardar la imagen de la manifestación del fierro, intenlo subir de nuevo o contacte con soporte técnico.";
                             }
                         }
                         else
@@ -403,12 +417,14 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         var uploadImageToserver = new UploadFileToServerModel();
                         uploadImageToserver.FileBase = fotoPerfilPostedFileBase;
                         uploadImageToserver.BaseDir = ProjectSettings.BaseDirProveedorFotoPerfil;
-                        uploadImageToserver.FileName = "fp_" + Proveedor.IDProveedor;
+                        uploadImageToserver.FileName = Proveedor.FotoPerfil.Replace(
+                            ProjectSettings.BaseDirProveedorFotoPerfil, string.Empty);
 
                         if (fotoPerfilPostedFileBase != null && fotoPerfilPostedFileBase.ContentLength > 0)
                         {
                             //borramos la anterior
                             CidFaresHelper.DeleteFilesWithOutExtensionFromServer(uploadImageToserver);
+                            uploadImageToserver.FileName = fileName;
                             //hay foto nueva
                             CidFaresHelper.UploadFileToServer(uploadImageToserver);
 

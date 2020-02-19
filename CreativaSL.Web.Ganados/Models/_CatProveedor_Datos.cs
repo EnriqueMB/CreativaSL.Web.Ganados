@@ -329,7 +329,15 @@ namespace CreativaSL.Web.Ganados.Models
                     {
                         datos.FotoPerfil = ProjectSettings.BaseDirProveedorFotoPerfil + datos.FotoPerfil;
                     }
-                    
+                    if (!string.IsNullOrWhiteSpace(datos.ImgINE))
+                    {
+                        datos.ImgINE = ProjectSettings.BaseDirProveedorINE + datos.ImgINE;
+                    }
+                    if (!string.IsNullOrWhiteSpace(datos.ImgManifestacionFierro))
+                    {
+                        datos.ImgManifestacionFierro = ProjectSettings.BaseDirProveedorManifestacionFierro + datos.ImgManifestacionFierro;
+                    }
+
                 }
                 dr.Close();
                 return datos;
