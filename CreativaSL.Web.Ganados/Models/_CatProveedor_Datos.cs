@@ -271,29 +271,54 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
-        public CatProveedorModels EliminarProveedor(CatProveedorModels datos)
+        public List<PathFileXModuloDto> EliminarProveedor(CatProveedorModels datos)
         {
             try
             {
+                var lista = new List<PathFileXModuloDto>();
+
                 object[] parametros =
                 {
                     datos.IDProveedor, datos.Usuario
                 };
-                object aux = SqlHelper.ExecuteScalar(datos.Conexion, "spCSLDB_Catalogo_del_CatProveedor", parametros);
-                datos.IDProveedor = aux.ToString();
-                if (!string.IsNullOrEmpty(datos.IDProveedor))
+                var dr = SqlHelper.ExecuteReader(datos.Conexion, "spCSLDB_Catalogo_del_CatProveedor", parametros);
+                while (dr.Read())
                 {
-                    datos.Completado = true;
+                    var item = new PathFileXModuloDto();
+                    item.Modulo = int.Parse(dr["Modulo"].ToString());
+                    item.FileName = dr["FileName"].ToString();
+                    switch (item.Modulo)
+                    {
+                        //imagen ine
+                        case 1:
+                            item.BaseDir = ProjectSettings.BaseDirProveedorINE;
+                            break;
+                        //manifestacion fierro
+                        case 2:
+                            item.BaseDir = ProjectSettings.BaseDirProveedorManifestacionFierro;
+                            break;
+                        //foto perfil
+                        case 3:
+                            item.BaseDir = ProjectSettings.BaseDirProveedorFotoPerfil;
+                            break;
+                        //upp/psg
+                        case 4:
+                            item.BaseDir = ProjectSettings.BaseDirProveedorUppPsg;
+                            break;
+                        //documentacion extra
+                        case 5:
+                            item.BaseDir = ProjectSettings.BaseDirProveedorDocumentacionExtra;
+                            break;
+                    }
+
+                    lista.Add(item);
                 }
-                else
-                {
-                    datos.Completado = false;
-                }
-                return datos;
+
+                return lista;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
+                throw ;
             }
         }
         public CatProveedorModels ObtenerDetalleCatProveedor(CatProveedorModels datos)
@@ -877,8 +902,12 @@ namespace CreativaSL.Web.Ganados.Models
                         Datos.id_municipio = !dr.IsDBNull(dr.GetOrdinal("IDMunicipio")) ? dr.GetInt32(dr.GetOrdinal("IDMunicipio")) : 0;
                         Datos.nombrePredio = !dr.IsDBNull(dr.GetOrdinal("nombrePredio")) ? dr.GetString(dr.GetOrdinal("nombrePredio")) : string.Empty;
                         Datos.propietario = !dr.IsDBNull(dr.GetOrdinal("Propietario")) ? dr.GetString(dr.GetOrdinal("Propietario")) : string.Empty;
-                        Datos.Imagen = !dr.IsDBNull(dr.GetOrdinal("imagenUPP")) ? dr.GetString(dr.GetOrdinal("imagenUPP")) : string.Empty;
-                        Datos.ImagenServer = !dr.IsDBNull(dr.GetOrdinal("imagenServer")) ? dr.GetInt32(dr.GetOrdinal("imagenServer")) : 0;
+                        Datos.ImagenHttp = !dr.IsDBNull(dr.GetOrdinal("imagenUPP")) ? dr.GetString(dr.GetOrdinal("imagenUPP")) : string.Empty;
+                        
+                        if (!string.IsNullOrWhiteSpace(Datos.ImagenHttp))
+                        {
+                            Datos.ImagenHttp = ProjectSettings.BaseDirProveedorUppPsg + Datos.ImagenHttp;
+                        }
                     }
                 }
                 else

@@ -30,6 +30,27 @@ namespace CreativaSL.Web.Ganados.Models.Helpers
                 uploadFileToServer.Success = false;
             }
         }
+
+        public static void DeleteFileromServer(UploadFileToServerModel uploadFileToServer)
+        {
+            try
+            {
+                var urlRelative = uploadFileToServer.BaseDir + uploadFileToServer.FileName;
+                var path = HostingEnvironment.MapPath(urlRelative);
+
+                if (File.Exists(path))
+                {
+                    File.Delete(path);
+                }
+                uploadFileToServer.Success = true;
+            }
+            catch (Exception ex)
+            {
+                uploadFileToServer.Exception = ex;
+                uploadFileToServer.Success = false;
+            }
+        }
+
         public static void UploadFileToServer(UploadFileToServerModel uploadImageToServer)
         {
             try

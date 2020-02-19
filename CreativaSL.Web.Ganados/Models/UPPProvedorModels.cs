@@ -13,7 +13,7 @@ namespace CreativaSL.Web.Ganados.Models
         private string _id_proveedor;
 
         public string ImagenMostrar { get; set; }
-        public HttpPostedFileBase ImagenHttp { get; set; }
+        public string ImagenHttp { get; set; }
 
         public string id_proveedor
         {
