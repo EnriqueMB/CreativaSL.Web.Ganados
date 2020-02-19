@@ -505,16 +505,27 @@ namespace CreativaSL.Web.Ganados.Models
 
         public static string FileMapPath(string fileName, string baseDir)
         {
-            
-            if (string.IsNullOrWhiteSpace(fileName))
-            {
-                var defaultFileImage = "file:///" + HostingEnvironment.MapPath(ProjectSettings.PathDefaultImage);
-                return defaultFileImage;
-            }
+            string filePath;
             var urlRelative = baseDir + fileName;
-            var filePath = "file:///" + HostingEnvironment.MapPath(urlRelative);
+            try
+            {
+                var path = HostingEnvironment.MapPath(urlRelative);
 
+                if (File.Exists(path) && !string.IsNullOrWhiteSpace(fileName))
+                {
+                    filePath = "file:///" + HostingEnvironment.MapPath(urlRelative);
+                }
+                else
+                {
+                    filePath = "file:///" + HostingEnvironment.MapPath(ProjectSettings.PathDefaultImage);
+                }
+            }
+            catch (Exception)
+            {
+                filePath = "file:///" + HostingEnvironment.MapPath(ProjectSettings.PathDefaultImage);
+            }
             return filePath;
+
         }
     }
 }

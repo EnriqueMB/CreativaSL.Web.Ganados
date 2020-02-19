@@ -13,6 +13,7 @@ using CreativaSL.Web.Ganados.Models.Dto.ProveedorGanado;
 using CreativaSL.Web.Ganados.Models.System;
 using Newtonsoft.Json;
 using CreativaSL.Web.Ganados.Models.Dto.ProveedorGanado;
+using CreativaSL.Web.Ganados.Models.Helpers;
 
 namespace CreativaSL.Web.Ganados.Models
 {
@@ -1398,8 +1399,6 @@ namespace CreativaSL.Web.Ganados.Models
 
             foreach (var idProveedor in idProveedores)
             {
-                var item = new ReporteProveedorGanadoDto();
-
                 using (var sqlcon = new SqlConnection(ConexionSql))
                 {
                     using (var cmd = new SqlCommand("spCIDDB_CatProveedor_Reporte_ObtenerProveedor",
@@ -1417,10 +1416,25 @@ namespace CreativaSL.Web.Ganados.Models
                         {
                             while (reader.Read())
                             {
-                                var auxUrlFotoPerfil = reader["UrlFotoPerfil"].ToString();
+                                var item = new ReporteProveedorGanadoDto();
+                                var auxFotoPerfilUrl = reader["UrlFotoPerfil"].ToString();
+                                var auxIneUrl = reader["imgINE"].ToString();
+                                var auxManifestacionFierroUrl = reader["imgManifestacionFierro"].ToString();
+                                var auxUppBaseUrl = reader["imagenUPP"].ToString();
+                                var auxCuentaBancariaImagenUrl = reader["CuentaBancariaImagenUrl"].ToString();
+                                var auxDocumentacionExtraImagenUrl = reader["DocumentacionExtraImagenUrl"].ToString();
 
-                                item.FotoPerfilUrl = Auxiliar.FileMapPath(auxUrlFotoPerfil,
+                                item.FotoPerfilUrl = Auxiliar.FileMapPath(auxFotoPerfilUrl,
                                     ProjectSettings.BaseDirProveedorFotoPerfil);
+                                item.IneUrl = Auxiliar.FileMapPath(auxIneUrl, ProjectSettings.BaseDirProveedorINE);
+                                item.ManifestacionFierroUrl = Auxiliar.FileMapPath(auxManifestacionFierroUrl,
+                                    ProjectSettings.BaseDirProveedorManifestacionFierro);
+                                item.UppPsgUrl = Auxiliar.FileMapPath(auxUppBaseUrl,
+                                    ProjectSettings.BaseDirProveedorUppPsg);
+                                item.CuentaBancariaImagenUrl = Auxiliar.FileMapPath(auxCuentaBancariaImagenUrl,
+                                    ProjectSettings.BaseDirProveedorCuentasBancarias);
+                                item.DocumentacionExtraImagenUrl = Auxiliar.FileMapPath(auxDocumentacionExtraImagenUrl,
+                                    ProjectSettings.BaseDirProveedorDocumentacionExtra);
 
                                 item.IdProveedor = reader["id_proveedor"].ToString();
                                 item.RazonSocial_Nombre = reader["nombreRazonSocial"].ToString();
@@ -1432,17 +1446,7 @@ namespace CreativaSL.Web.Ganados.Models
                                 item.Observacion = reader["observaciones"].ToString();
                                 item.Telefonos = reader["Telefono"].ToString();
                                 item.Email = reader["correo"].ToString();
-                                item.IneBase64 = string.IsNullOrEmpty(reader["imgINE"].ToString())
-                                    ? Auxiliar.SetDefaultImage()
-                                    : reader["imgINE"].ToString();
-                                item.ManifestacionFierroBase64 =
-                                    string.IsNullOrWhiteSpace(reader["imgManifestacionFierro"].ToString())
-                                        ? Auxiliar.SetDefaultImage()
-                                        : reader["imgManifestacionFierro"].ToString();
-                                item.UppPsgBase64 = string.IsNullOrWhiteSpace(reader["imagenUPP"].ToString())
-                                    ? Auxiliar.SetDefaultImage()
-                                    : reader["imagenUPP"].ToString();
-
+                                
                                 IFormatProvider culture = new CultureInfo("es-MX", true);
                                 item.FechaIngreso = DateTime.ParseExact(reader["FechaIngreso"].ToString(), "dd/MM/yyyy hh:mm:ss tt",
                                     culture).ToString("dd/MM/yyyy", culture);
@@ -1461,12 +1465,14 @@ namespace CreativaSL.Web.Ganados.Models
                                 item.CuentaBancariaNumCuenta = reader["CuentaBancariaNumCuenta"].ToString();
                                 item.CuentaBancariaClabeInterbancaria = reader["CuentaBancariaClabeInterbancaria"].ToString();
 
-                                item.CuentaBancariaImagenUrl = Auxiliar.FileMapPath(
-                                    reader["CuentaBancariaImagenUrl"].ToString(),
-                                    ProjectSettings.BaseDirProveedorCuentasBancarias);
+                                item.DocumentacionExtraId = reader["DocumentacionExtraId"].ToString();
+                                item.DocumentacionExtraTipoDocumentacionExtra =
+                                    reader["DocumentacionExtraTipoDocumentacionExtra"].ToString();
+                                
 
                                 item.MostrarTablaContactos = (bool)reader["MostrarTablaContactos"];
                                 item.MostrarTablaCuentasBancarias = (bool)reader["MostrarTablaCuentasBancarias"];
+                                item.MostrarTablaDocumentacionExtra = (bool) reader["MostrarTablaDocumentacionExtra"];
 
                                 lista.Add(item);
                             }

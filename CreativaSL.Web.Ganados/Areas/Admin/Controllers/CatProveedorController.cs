@@ -1805,7 +1805,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
                 return File(renderedBytes, mimeType);
             }
-            catch (Exception)
+            catch (Exception ex) 
             {
                 TempData["typemessage"] = "2";
                 TempData["message"] = "Se ha producido un error, intentelo más tarde o contacte con soporte técnico.";
