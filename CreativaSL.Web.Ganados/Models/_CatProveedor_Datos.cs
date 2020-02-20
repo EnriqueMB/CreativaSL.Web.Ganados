@@ -1393,6 +1393,9 @@ namespace CreativaSL.Web.Ganados.Models
             return lista;
         }
 
+        #endregion
+
+        #region Reporte
         public List<ReporteProveedorGanadoDto> ObtenerReporteProveedorGanadoDtos(List<string> idProveedores)
         {
             var lista = new List<ReporteProveedorGanadoDto>();
@@ -1446,7 +1449,7 @@ namespace CreativaSL.Web.Ganados.Models
                                 item.Observacion = reader["observaciones"].ToString();
                                 item.Telefonos = reader["Telefono"].ToString();
                                 item.Email = reader["correo"].ToString();
-                                
+
                                 IFormatProvider culture = new CultureInfo("es-MX", true);
                                 item.FechaIngreso = DateTime.ParseExact(reader["FechaIngreso"].ToString(), "dd/MM/yyyy hh:mm:ss tt",
                                     culture).ToString("dd/MM/yyyy", culture);
@@ -1468,11 +1471,11 @@ namespace CreativaSL.Web.Ganados.Models
                                 item.DocumentacionExtraId = reader["DocumentacionExtraId"].ToString();
                                 item.DocumentacionExtraTipoDocumentacionExtra =
                                     reader["DocumentacionExtraTipoDocumentacionExtra"].ToString();
-                                
+
 
                                 item.MostrarTablaContactos = (bool)reader["MostrarTablaContactos"];
                                 item.MostrarTablaCuentasBancarias = (bool)reader["MostrarTablaCuentasBancarias"];
-                                item.MostrarTablaDocumentacionExtra = (bool) reader["MostrarTablaDocumentacionExtra"];
+                                item.MostrarTablaDocumentacionExtra = (bool)reader["MostrarTablaDocumentacionExtra"];
 
                                 lista.Add(item);
                             }
@@ -1484,6 +1487,8 @@ namespace CreativaSL.Web.Ganados.Models
             }
             return lista;
         }
+
+
         #endregion
     }
 }
