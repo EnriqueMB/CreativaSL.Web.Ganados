@@ -1,0 +1,109 @@
+﻿@model CreativaSL.Web.Ganados.Models.DocumentacionExtra_CatClienteModel
+@{
+    ViewBag.Title = "Create Documento Extra";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@section css
+{
+    <!--FILEINPUT-->
+    <link href="@Url.Content("~/Content/js/plugins/uploadFiles/fileinput.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/js/plugins/font-awesome.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/js/plugins/uploadFiles/theme.css")" rel="stylesheet" />
+
+}
+
+@section featured{
+    @{
+        var message = TempData["message"] ?? string.Empty;
+        var typemessage = TempData["typemessage"] ?? string.Empty;
+    }
+    <div class="row">
+        <div id="Error" class="progress-bar progress-bar-striped active errorCSL" style="display:none; width:100%">
+            <h3></h3>
+        </div>
+        <div id="Success" class="progress-bar progress-bar-striped active successCSL" style="display:none; width:100%">
+            <h3></h3>
+        </div>
+
+        @{ Html.EnableClientValidation(false); }
+        @using (Html.BeginForm("CreateDocumentoExtra", "CatCliente", FormMethod.Post, new { id = "form", @class = "form-horizontal", autocomplete = "off", enctype = "multipart/form-data" }))
+        {
+
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
+            @Html.HiddenFor(model => model.IdCliente)
+            <div id="validation_summary" class="field_error "></div> //JS
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><strong>Documento extra</strong></h3>
+                </div>
+                <ul class="panel-controls"></ul>
+
+                <div class="panel-body">
+                    <div id="validation_summary" class="field_error "></div>
+                    <div class="form-group">
+                        <div class="col-md-6">
+                            <label class="col-md-4 control-label">Seleccione el tipo de documento extra:</label>
+                            <div class="col-md-8 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                    @Html.DropDownListFor(model => model.IdTipoDocumentacionExtra, new SelectList(ViewBag.ListaCatTipoDocumentacionExtra, "IdTipoDocumentacionExtra", "Descripcion"), new { @class = "form-control select", data_live_search = "true", data_style = "form-control" })
+                                </div>
+                                @Html.ValidationMessageFor(model => model.IdTipoDocumentacionExtra)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <label class="col-md-2 control-label">Ingrese una imagen:</label>
+                                <div class="col-md-10 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="fa fa-camera"></span></span>
+                                        @Html.TextBoxFor(model => model.Archivo, new { @type = "file", @class = "form-control" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.Archivo)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <a href="@Url.Action("DocumentosExtras", "CatCliente",  new { id = Model.IdCliente })" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
+                    <button type="submit" class="btn btn-primary pull-right">Guardar <span class="fa fa-floppy-o fa-right"></span></button>
+                </div>
+            </div>
+        }
+
+    </div>
+    <script>
+        var message = '@message';
+        var typemessage = '@typemessage';
+    </script>
+}
+@section script{
+
+    <script src="@Url.Content("~/Scripts/jquery.validate.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")"></script>
+    <script src="@Url.Content("~/Content/js/validaciones/additionals.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-datepicker.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-select.js")"></script>
+    <!--FILEINPUT-->
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/fileinput.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/es.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/explorer-fa/theme.js")"></script>
+    <script type="text/javascript" src="/Content/js/plugins/bootstrap/bootstrap-file-input.js"></script>
+    <script src="@Url.Content("~/Content/js/plugins/popper.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/js/plugins/uploadFiles/theme.js")" type="text/javascript"></script>
+    <script src="~/Content/js/Cliente/CreateEditDocumentoExtraJs.js"></script>
+    <script>
+        jQuery(document).ready(function () {
+            Mensaje(message, typemessage);
+            DocumentoExtra.init();
+        });
+    </script>
+}

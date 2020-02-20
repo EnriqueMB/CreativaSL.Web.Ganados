@@ -67,6 +67,7 @@
                                                 <div class="visible-md visible-lg hidden-sm hidden-xs">
                                                     <a title="UPP cliente" class="btn btn-green" href="@Url.Action("UPPCliente", "CatCliente", new { id = Cliente.IDCliente })"><i class="fa fa-plus"></i></a>
                                                     <a title="Notas" class="btn btn-blue" href="@Url.Action("Notas", "CatCliente", new { id = Cliente.IDCliente })"><i class="fa fa-file-text"></i></a>
+                                                    <a title="Documento Extra" class="btn btn-blue" href="@Url.Action("DocumentosExtras", "CatCliente", new { id = Cliente.IDCliente })"><i class="fa fa-archive"></i></a>
                                                     <a title="Lugares" class="btn btn-primary" href="@Url.Action("Lugares", "CatCliente", new { id = Cliente.IDCliente,id2=Cliente.IDSucursal })"><i class="fa fa-map-marker"></i></a>
                                                     <a title="Datos bancarios" class="btn btn-green" href="@Url.Action("Cuentas", "CatCliente", new { id = Cliente.IDCliente })"><i class="fa fa-money"></i></a>
                                                     <a title="Editar" class="btn btn-yellow" href="@Url.Action("Edit", "CatCliente", new { id = Cliente.IDCliente })"><i class="fa fa-edit"></i></a>
@@ -90,7 +91,11 @@
                                                                     <i class="fa fa-file-text"></i> Notas
                                                                 </a>
                                                             </li>
-
+                                                            <li>
+                                                                <a role="menuitem" tabindex="-1" href="@Url.Action("DocumentosExtras", "CatCliente", new { id = Cliente.IDCliente })">
+                                                                    <i class="fa fa-archive"></i> Documentos Extras
+                                                                </a>
+                                                            </li>
                                                             <li>
                                                                 <a role="menuitem" tabindex="-1" href="@Url.Action("Lugares", "CatCliente", new { id = Cliente.IDCliente,id2=Cliente.IDSucursal })">
                                                                     <i class="fa fa-money"></i> Lugares

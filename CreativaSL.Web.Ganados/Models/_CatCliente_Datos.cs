@@ -1,4 +1,9 @@
-﻿using Microsoft.ApplicationBlocks.Data;
+﻿using CreativaSL.Web.Ganados.Models.Datatable;
+using CreativaSL.Web.Ganados.Models.Dto.Base;
+using CreativaSL.Web.Ganados.Models.Dto.Cliente;
+using CreativaSL.Web.Ganados.Models.System;
+using Microsoft.ApplicationBlocks.Data;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -8,8 +13,10 @@ using System.Web;
 
 namespace CreativaSL.Web.Ganados.Models
 {
-    public class CatCliente_Datos
+    public class CatCliente_Datos:BaseSQL
     {
+       // public string ConexionSql { get; private set; }
+
         public CatClienteModels ObtenerClientes(CatClienteModels datos)
         {
             try
@@ -893,6 +900,205 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
 
+        #endregion
+        #region DocumentosExtra
+        public string DocumentosExtras_ObtenerIndex(DataTableAjaxPostModel dataTableAjaxPostModel, string id)
+        {
+            try
+            {
+                using (var sqlcon = new SqlConnection(ConexionSql))
+                {
+                    using (var cmd = new SqlCommand("spCSLDB_Catalogo_DocumentacionExtra_CatCliente_ObtenerIndex", sqlcon))
+                    {
+                        //parametros de entrada
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        cmd.Parameters.Add("@Start", SqlDbType.Int).Value = dataTableAjaxPostModel.start;
+                        cmd.Parameters.Add("@Length", SqlDbType.Int).Value = dataTableAjaxPostModel.length;
+                        cmd.Parameters.Add("@SearchValue", SqlDbType.NVarChar).Value = dataTableAjaxPostModel.search.value;
+                        cmd.Parameters.Add("@Draw", SqlDbType.Int).Value = dataTableAjaxPostModel.draw;
+                        cmd.Parameters.Add("@ColumnNumber", SqlDbType.Int).Value = dataTableAjaxPostModel.order[0].column;
+                        cmd.Parameters.Add("@ColumnDir", SqlDbType.NVarChar).Value = dataTableAjaxPostModel.order[0].dir;
+                        cmd.Parameters.Add("@IdCliente", SqlDbType.Char).Value = id;
+
+                        // execute
+                        sqlcon.Open();
+
+                        var reader = cmd.ExecuteReader();
+
+                        var indexDatatableDto = new IndexDatatableDto();
+
+                        if (reader.HasRows)
+                        {
+                            indexDatatableDto.Data = new List<object>();
+                            var firstData = true;
+
+                            while (reader.Read())
+                            {
+                                if (firstData)
+                                {
+                                    indexDatatableDto.Draw = int.Parse(reader["Draw"].ToString()); ;
+                                    indexDatatableDto.RecordsFiltered = int.Parse(reader["RecordsFiltered"].ToString());
+                                    indexDatatableDto.RecordsTotal = int.Parse(reader["RecordsTotal"].ToString());
+                                    firstData = false;
+                                }
+
+                                var indexDto = new IndexClienteGanadoDocumentacionExtraDto();
+
+                                indexDto.IdDocumentacionExtra = reader["IdDocumentacionExtra"].ToString();
+                                indexDto.IdTipoDocumentacionExtra = int.Parse(reader["IdTipoDocumentacionExtra"].ToString());
+                                indexDto.NombreTipoDocumentacionExtra = reader["NombreTipoDocumentacionExtra"].ToString();
+                                indexDto.IdCliente = reader["IdCliente"].ToString();
+                                indexDto.UrlArchivo = ProjectSettings.BaseDirClienteDocumentacionExtra + reader["UrlArchivo"];
+
+                                indexDatatableDto.Data.Add(indexDto);
+                            }
+                        }
+
+                        var json = JsonConvert.SerializeObject(indexDatatableDto);
+
+                        reader.Close();
+
+                        return json;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        public RespuestaAjax GuardarDocumentoExtra(DocumentacionExtra_CatClienteModel model)
+        {
+            var respuesta = new RespuestaAjax();
+            try
+            {
+                using (var sqlcon = new SqlConnection(ConexionSql))
+                {
+                    using (var cmd = new SqlCommand("spCSLDB_DocumentacionExtra_CatCliente_GuardarArchivo",
+                        sqlcon))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        cmd.Parameters.Add("@UrlArchivo", SqlDbType.NVarChar).Value = model.Archivo;
+                        cmd.Parameters.Add("@IdCliente", SqlDbType.Char).Value = model.IdCliente;
+                        cmd.Parameters.Add("@IdTipoDocumentacionExtra", SqlDbType.Int).Value =
+                            model.IdTipoDocumentacionExtra;
+                        cmd.Parameters.Add("@IdUsuario", SqlDbType.Char).Value = UsuarioActual;
+                        cmd.Parameters.Add("@IdDocumentacionExtra", SqlDbType.Char).Value = model.IdDocumentacionExtra;
+
+
+                        sqlcon.Open();
+
+                        var reader = cmd.ExecuteReader();
+
+                        if (reader.HasRows)
+                        {
+                            while (reader.Read())
+                            {
+                                respuesta.Success = (bool)reader["Success"];
+                                respuesta.Mensaje = reader["Mensaje"].ToString();
+                                if (!respuesta.Success)
+                                    respuesta.MensajeErrorSQL = reader["MensejeErrorSQL"].ToString();
+                            }
+                        }
+
+                        reader.Close();
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                respuesta.Success = false;
+                respuesta.MensajeErrorSQL = e.Message;
+                respuesta.Mensaje =
+                    "Se ha producido un error al guardar el documento, intentelo más tarde o contacte con soporte técnico.";
+            }
+
+            return respuesta;
+        }
+        public DocumentacionExtra_CatClienteModel ObtenerDocumentacionExtra(string idCliente, string idDocumentacionExtra)
+        {
+            var model = new DocumentacionExtra_CatClienteModel();
+
+            using (var sqlcon = new SqlConnection(ConexionSql))
+            {
+                using (var cmd = new SqlCommand("CSLDB_DocumentacionExtra_CatCliente_ObtenerArchivo",
+                    sqlcon))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.Add("@IdCliente", SqlDbType.Char).Value = idCliente;
+                    cmd.Parameters.Add("@IdDocumentacionExtra", SqlDbType.Char).Value = idDocumentacionExtra;
+
+                    sqlcon.Open();
+
+                    var reader = cmd.ExecuteReader();
+
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            model.IdTipoDocumentacionExtra = int.Parse(reader["IdTipoDocumentacionExtra"].ToString());
+                            model.Archivo = ProjectSettings.BaseDirClienteDocumentacionExtra+ reader["UrlArchivo"];
+                            model.IdCliente = reader["IdCliente"].ToString();
+                            model.IdDocumentacionExtra = reader["IdDocumentacionExtra"].ToString();
+                        }
+                    }
+
+                    reader.Close();
+                }
+            }
+
+            return model;
+        }
+        public RespuestaAjax EliminarDocumentoExtra(string idCliente, string idDocumentacionExtra, string urlArchivo)
+        {
+            var respuesta = new RespuestaAjax();
+            try
+            {
+                using (var sqlcon = new SqlConnection(ConexionSql))
+                {
+                    using (var cmd = new SqlCommand("spCSLDB_DocumentacionExtra_CatClientes_EliminarDocumentacionExtra",
+                        sqlcon))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        cmd.Parameters.Add("@IdCliente", SqlDbType.Char).Value = idCliente;
+                        cmd.Parameters.Add("@IdDocumentacionExtra", SqlDbType.Char).Value = idDocumentacionExtra;
+                        cmd.Parameters.Add("@UrlArchivo", SqlDbType.NVarChar).Value = urlArchivo;
+
+
+                        sqlcon.Open();
+
+                        var reader = cmd.ExecuteReader();
+
+                        if (reader.HasRows)
+                        {
+                            while (reader.Read())
+                            {
+                                respuesta.Success = (bool)reader["Success"];
+                                respuesta.Mensaje = reader["Mensaje"].ToString();
+                                if (!respuesta.Success)
+                                    respuesta.MensajeErrorSQL = reader["MensejeErrorSQL"].ToString();
+                            }
+                        }
+
+                        reader.Close();
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                respuesta.Success = false;
+                respuesta.MensajeErrorSQL = e.Message;
+                respuesta.Mensaje =
+                    "Se ha producido un error al guardar el documento, intentelo más tarde o contacte con soporte técnico.";
+            }
+
+            return respuesta;
+        }
         #endregion
     }
 }
