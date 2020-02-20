@@ -4,12 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Web;
+using CreativaSL.Web.Ganados.Models.System;
 
 namespace CreativaSL.Web.Ganados.Models
 {
-    public class Reporte_Datos
+    public class Reporte_Datos : BaseSQL
     {
         public DatosEmpresaViewModels ObtenerDatosEmpresaGeneral(string Cadena)
         {

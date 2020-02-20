@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Globalization;
+using System.Web.Hosting;
+using System.Web.Mvc;
+using System.Web.UI.WebControls;
 using CreativaSL.Web.Ganados.Models.Datatable;
 using CreativaSL.Web.Ganados.Models.Dto.Base;
 using CreativaSL.Web.Ganados.Models.Dto.ProveedorGanado;
@@ -1302,6 +1305,142 @@ namespace CreativaSL.Web.Ganados.Models
             return model;
         }
 
+        #endregion
+
+        #region Obtener proveevedores por
+
+        public List<ConfiguracionReporteProveedorGanadoDto> ObtenerProveedorXSucursal(List<string> sucursales)
+        {
+            var lista = new List<ConfiguracionReporteProveedorGanadoDto>();
+
+            using (var sqlcon = new SqlConnection(ConexionSql))
+            {
+                using (var cmd = new SqlCommand("spCIDDB_Catalogo_CatProveedore_ObtenerProveedoresXSucursal",
+                    sqlcon))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    DataTable dataTable;
+                    dataTable = new DataTable();
+
+                    dataTable.Columns.Add("Id", typeof(string));
+                    if (sucursales != null)
+                    {
+                        foreach (var item in sucursales)
+                        {
+                            dataTable.Rows.Add(item);
+                        }
+                    }
+
+                    cmd.Parameters.Add("@UDTT_Sucursales", SqlDbType.Structured).Value = dataTable;
+                    sqlcon.Open();
+
+                    var reader = cmd.ExecuteReader();
+
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            var item = new ConfiguracionReporteProveedorGanadoDto();
+                            item.IdProveedor = reader["id_proveedor"].ToString();
+                            item.Proveedor = reader["nombreRazonSocial"].ToString();
+                            item.Sucursal = reader["nombreSuc"].ToString();
+
+                            lista.Add(item);
+                        }
+                    }
+                    reader.Close();
+                }
+            }
+
+            return lista;
+        }
+
+        public List<ReporteProveedorGanadoDto> ObtenerReporteProveedorGanadoDtos(List<string> idProveedores)
+        {
+            var lista = new List<ReporteProveedorGanadoDto>();
+
+            foreach (var idProveedor in idProveedores)
+            {
+                var item = new ReporteProveedorGanadoDto();
+
+                using (var sqlcon = new SqlConnection(ConexionSql))
+                {
+                    using (var cmd = new SqlCommand("spCIDDB_CatProveedor_Reporte_ObtenerProveedor",
+                        sqlcon))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        cmd.Parameters.Add("@IdProveedor", SqlDbType.Char).Value = idProveedor;
+
+                        sqlcon.Open();
+
+                        var reader = cmd.ExecuteReader();
+
+                        if (reader.HasRows)
+                        {
+                            while (reader.Read())
+                            {
+                                var auxUrlFotoPerfil = reader["UrlFotoPerfil"].ToString();
+
+                                item.FotoPerfilUrl = Auxiliar.FileMapPath(auxUrlFotoPerfil,
+                                    ProjectSettings.BaseDirProveedorFotoPerfil);
+
+                                item.IdProveedor = reader["id_proveedor"].ToString();
+                                item.RazonSocial_Nombre = reader["nombreRazonSocial"].ToString();
+                                item.Rfc = reader["rfc"].ToString();
+                                item.Sucursal = reader["Sucursal"].ToString();
+                                item.TipoProveedor = reader["TipoProveedor"].ToString();
+                                item.Direccion = reader["direccion"].ToString();
+                                item.Tolerancia = reader["tolerancia"].ToString() + " %";
+                                item.Observacion = reader["observaciones"].ToString();
+                                item.Telefonos = reader["Telefono"].ToString();
+                                item.Email = reader["correo"].ToString();
+                                item.IneBase64 = string.IsNullOrEmpty(reader["imgINE"].ToString())
+                                    ? Auxiliar.SetDefaultImage()
+                                    : reader["imgINE"].ToString();
+                                item.ManifestacionFierroBase64 =
+                                    string.IsNullOrWhiteSpace(reader["imgManifestacionFierro"].ToString())
+                                        ? Auxiliar.SetDefaultImage()
+                                        : reader["imgManifestacionFierro"].ToString();
+                                item.UppPsgBase64 = string.IsNullOrWhiteSpace(reader["imagenUPP"].ToString())
+                                    ? Auxiliar.SetDefaultImage()
+                                    : reader["imagenUPP"].ToString();
+
+                                IFormatProvider culture = new CultureInfo("es-MX", true);
+                                item.FechaIngreso = DateTime.ParseExact(reader["FechaIngreso"].ToString(), "dd/MM/yyyy hh:mm:ss tt",
+                                    culture).ToString("dd/MM/yyyy", culture);
+
+                                item.ContactoId = reader["ContactoId"].ToString();
+                                item.ContactoNombre = reader["ContactoNombre"].ToString();
+                                item.ContactoTelefono = reader["ContactoTelefono"].ToString();
+                                item.ContactoEmail = reader["ContactoEmail"].ToString();
+                                item.ContactoDireccion = reader["ContactoDireccion"].ToString();
+                                item.ContactoObservacion = reader["ContactoObservacion"].ToString();
+
+                                item.CuentaBancariaId = reader["CuentaBancariaId"].ToString();
+                                item.BancoNombre = reader["BancoNombre"].ToString();
+                                item.CuentaBancariaTitular = reader["CuentaBancariaTitular"].ToString();
+                                item.CuentaBancariaNumTarjeta = reader["CuentaBancariaNumTarjeta"].ToString();
+                                item.CuentaBancariaNumCuenta = reader["CuentaBancariaNumCuenta"].ToString();
+                                item.CuentaBancariaClabeInterbancaria = reader["CuentaBancariaClabeInterbancaria"].ToString();
+
+                                item.CuentaBancariaImagenUrl = Auxiliar.FileMapPath(
+                                    reader["CuentaBancariaImagenUrl"].ToString(),
+                                    ProjectSettings.BaseDirProveedorCuentasBancarias);
+
+                                item.MostrarTablaContactos = (bool)reader["MostrarTablaContactos"];
+                                item.MostrarTablaCuentasBancarias = (bool)reader["MostrarTablaCuentasBancarias"];
+
+                                lista.Add(item);
+                            }
+                        }
+
+                        reader.Close();
+                    }
+                }
+            }
+            return lista;
+        }
         #endregion
     }
 }

@@ -3,10 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using CreativaSL.Web.Ganados.Models.System;
 
 namespace CreativaSL.Web.Ganados.Models
 {
-    public class _CatSucursal_Datos 
+    public class _CatSucursal_Datos : BaseSQL
     {
         public List<CatLugarModels> GetLugares(CatSucursalesModels Sucursal)
         {
@@ -335,6 +336,38 @@ namespace CreativaSL.Web.Ganados.Models
                         lista.Add(homeMetaXSucursalDTO);
                     }
                     sqlDataReader.Close();
+                }
+            }
+
+            return lista;
+        }
+
+        public List<CatSucursalesModels> ObtenerSucursalesEmpresaPrincipal()
+        {
+            var lista = new List<CatSucursalesModels>();
+
+            using (var sqlcon = new SqlConnection(ConexionSql))
+            {
+                using (var cmd = new SqlCommand("spCIDDB_Catalogo_CatSucusales_ObtenerSucursalesEmpresaPrincipal",
+                    sqlcon))
+                {
+                    sqlcon.Open();
+
+                    var reader = cmd.ExecuteReader();
+
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            var item = new CatSucursalesModels();
+
+                            item.IDSucursal = reader["id_sucursal"].ToString();
+                            item.NombreSucursal = reader["nombreSuc"].ToString();
+
+                            lista.Add(item);
+                        }
+                    }
+                    reader.Close();
                 }
             }
 

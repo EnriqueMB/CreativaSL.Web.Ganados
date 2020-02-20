@@ -497,6 +497,7 @@
     <Content Include="Content\js\MetaXSucursal.js" />
     <Content Include="Content\js\plugins\nvd3\src\models\backup\bullet.js" />
     <Content Include="Content\js\PrestamoHerramientasDetalle.js" />
+    <Content Include="Content\js\Proveedor\ConfiguracionReporteProveedorGanadoJs.js" />
     <Content Include="Content\js\Proveedor\CreateEditDocumentoExtraJs.js" />
     <Content Include="Content\js\Proveedor\IndexDocumentoExtraJs.js" />
     <Content Include="Content\js\ReporteTipoFlete.js" />
@@ -1597,6 +1598,7 @@
     <Content Include="Areas\Admin\Views\CatCliente\DocumentosExtras.cshtml" />
     <Content Include="Areas\Admin\Views\CatCliente\CreateDocumentoExtra.cshtml" />
     <Content Include="Areas\Admin\Views\CatCliente\EditDocumentoExtra.cshtml" />
+    <Content Include="Areas\Admin\Views\CatProveedor\ConfiguracionReporteProveedorGanado.cshtml" />
     <None Include="Properties\PublishProfiles\Ocampo.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
@@ -1851,9 +1853,11 @@
     <Compile Include="Models\Dto\Cliente\IndexClienteGanadoDocumentacionExtraDto.cs" />
     <Compile Include="Models\Dto\Compra\IndexCompraDto.cs" />
     <Compile Include="Models\Dto\Base\IndexDatatableDto.cs" />
+    <Compile Include="Models\Dto\ProveedorGanado\ConfiguracionReporteProveedorGanadoDto.cs" />
     <Compile Include="Models\Dto\ProveedorGanado\ImagenesProveedorGanadoDto.cs" />
     <Compile Include="Models\Dto\ProveedorGanado\IndexProveedorGanadoDocumentacionExtraDto.cs" />
     <Compile Include="Models\Dto\ProveedorGanado\IndexProveedorGanadoDto.cs" />
+    <Compile Include="Models\Dto\ProveedorGanado\ReporteProveedorGanadoDto.cs" />
     <Compile Include="Models\Dto\Venta\IndexVentaDto.cs" />
     <Compile Include="Models\EntradaAlmacenDetalleModels.cs" />
     <Compile Include="Models\EntradaAlmacenModels.cs" />
@@ -2221,6 +2225,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Reports\ReporteCombustible.rdlc" />
     <EmbeddedResource Include="Reports\ReportePagosProveedor.rdlc" />
+    <EmbeddedResource Include="Reports\ReporteProveedoresGanado.rdlc" />
     <EmbeddedResource Include="Reports\ReporteTipoFlete.rdlc" />
     <EmbeddedResource Include="Reports\RptUtilidadVentaCompra.rdlc" />
   </ItemGroup>
