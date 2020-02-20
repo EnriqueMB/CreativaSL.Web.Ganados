@@ -478,6 +478,8 @@
     <Content Include="Content\js\AgregarArchivoVehiculo.js" />
     <Content Include="Content\js\Bancos.js" />
     <Content Include="Content\js\CatTipoDocumentacionExtraJs.js" />
+    <Content Include="Content\js\Cliente\CreateEditDocumentoExtraJs.js" />
+    <Content Include="Content\js\Cliente\IndexDocumentoExtraJs.js" />
     <Content Include="Content\js\DevolucionHerramienta.js" />
     <Content Include="Content\js\EntradaCajaChica.js" />
     <Content Include="Content\js\CajaChica.js" />
@@ -1592,6 +1594,9 @@
     <Content Include="Areas\Admin\Views\CatProveedor\EditDocumentoExtra.cshtml" />
     <Content Include="Content\js\plugins\uploadFiles\fileinputv5.0.9.js" />
     <Content Include="Areas\Admin\Views\CatProveedor\Imagenes.cshtml" />
+    <Content Include="Areas\Admin\Views\CatCliente\DocumentosExtras.cshtml" />
+    <Content Include="Areas\Admin\Views\CatCliente\CreateDocumentoExtra.cshtml" />
+    <Content Include="Areas\Admin\Views\CatCliente\EditDocumentoExtra.cshtml" />
     <None Include="Properties\PublishProfiles\Ocampo.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
@@ -1828,6 +1833,7 @@
     <Compile Include="Models\DatosGeneralesGanados.cs" />
     <Compile Include="Models\DeduccionModels.cs" />
     <Compile Include="Models\DevolucionHerramientaDetalleModels.cs" />
+    <Compile Include="Models\DocumentacionExtra_CatClienteModel.cs" />
     <Compile Include="Models\DocumentacionExtra_CatProveedorModel.cs" />
     <Compile Include="Models\DocumentoCompraModels.cs" />
     <Compile Include="Models\DocumentoModels.cs" />
@@ -1842,6 +1848,7 @@
     <Compile Include="Models\Dto\CatModulos\SelectCatModuloDto.cs" />
     <Compile Include="Models\Dto\CatTipoDocumentacionExtra\CreateEditCatTipoDocumentacionExtraDto.cs" />
     <Compile Include="Models\Dto\CatTipoDocumentacionExtra\IndexCatTipoDocumentacionExtraDto.cs" />
+    <Compile Include="Models\Dto\Cliente\IndexClienteGanadoDocumentacionExtraDto.cs" />
     <Compile Include="Models\Dto\Compra\IndexCompraDto.cs" />
     <Compile Include="Models\Dto\Base\IndexDatatableDto.cs" />
     <Compile Include="Models\Dto\ProveedorGanado\ImagenesProveedorGanadoDto.cs" />
