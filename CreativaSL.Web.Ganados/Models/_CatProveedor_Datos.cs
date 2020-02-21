@@ -1451,7 +1451,8 @@ namespace CreativaSL.Web.Ganados.Models
                                 item.Email = reader["correo"].ToString();
 
                                 IFormatProvider culture = new CultureInfo("es-MX", true);
-                                item.FechaIngreso = DateTime.ParseExact(reader["FechaIngreso"].ToString(), "dd/MM/yyyy hh:mm:ss tt",
+                                item.FechaIngreso = DateTime.ParseExact(reader["FechaIngreso"].ToString(),
+                                    "dd/MM/yyyy hh:mm:ss tt",
                                     culture).ToString("dd/MM/yyyy", culture);
 
                                 item.ContactoId = reader["ContactoId"].ToString();
@@ -1466,16 +1467,85 @@ namespace CreativaSL.Web.Ganados.Models
                                 item.CuentaBancariaTitular = reader["CuentaBancariaTitular"].ToString();
                                 item.CuentaBancariaNumTarjeta = reader["CuentaBancariaNumTarjeta"].ToString();
                                 item.CuentaBancariaNumCuenta = reader["CuentaBancariaNumCuenta"].ToString();
-                                item.CuentaBancariaClabeInterbancaria = reader["CuentaBancariaClabeInterbancaria"].ToString();
+                                item.CuentaBancariaClabeInterbancaria =
+                                    reader["CuentaBancariaClabeInterbancaria"].ToString();
 
                                 item.DocumentacionExtraId = reader["DocumentacionExtraId"].ToString();
                                 item.DocumentacionExtraTipoDocumentacionExtra =
                                     reader["DocumentacionExtraTipoDocumentacionExtra"].ToString();
 
+                                item.CompraId = reader["CompraId"].ToString();
+                                item.CompraFecha = 
+                                    string.IsNullOrEmpty(reader["CompraFecha"].ToString())
+                                        ? "Sin fecha"
+                                        : DateTime.ParseExact(reader["CompraFecha"].ToString(),
+                                            "dd/MM/yyyy hh:mm:ss tt",
+                                            culture).ToString("dd/MM/yyyy", culture);
+
+                                item.CompraMerma =
+                                    string.IsNullOrEmpty(reader["CompraMerma"].ToString())
+                                        ? 0
+                                        : decimal.Parse(reader["CompraMerma"].ToString());
+                                
+                                item.CompraCantidadGanadoMacho =
+                                    string.IsNullOrEmpty(reader["CompraCantidadGanadoMacho"].ToString())
+                                        ? 0
+                                        : int.Parse(reader["CompraCantidadGanadoMacho"].ToString());
+                                    
+                                item.CompraCantidadGanadoHembra =
+                                    string.IsNullOrEmpty(reader["CompraCantidadGanadoHembra"].ToString())
+                                        ? 0
+                                        : int.Parse(reader["CompraCantidadGanadoHembra"].ToString());
+
+                                item.CompraCantidadGanadoTotal =
+                                    string.IsNullOrEmpty(reader["CompraCantidadGanadoTotal"].ToString())
+                                        ? 0
+                                        : int.Parse(reader["CompraCantidadGanadoTotal"].ToString()); 
+                                
+                                item.CompraKilosGanadoMacho =
+                                    string.IsNullOrEmpty(reader["CompraKilosGanadoMacho"].ToString())
+                                        ? 0
+                                        : decimal.Parse(reader["CompraKilosGanadoMacho"].ToString());
+                                
+                                item.CompraKilosGanadoHembra =
+                                    string.IsNullOrEmpty(reader["CompraKilosGanadoHembra"].ToString())
+                                        ? 0
+                                        : decimal.Parse(reader["CompraKilosGanadoHembra"].ToString());
+
+                                item.CompraKilosGanadoTotal =
+                                    string.IsNullOrEmpty(reader["CompraKilosGanadoTotal"].ToString())
+                                        ? 0
+                                        : decimal.Parse(reader["CompraKilosGanadoTotal"].ToString());
+
+                                item.CompraImporteGanadoMacho =
+                                    string.IsNullOrEmpty(reader["CompraImporteGanadoMacho"].ToString())
+                                        ? 0
+                                        : decimal.Parse(reader["CompraImporteGanadoMacho"].ToString());
+
+                                item.CompraImporteGanadoHembra =
+                                    string.IsNullOrEmpty(reader["CompraImporteGanadoHembra"].ToString())
+                                        ? 0
+                                        : decimal.Parse(reader["CompraImporteGanadoHembra"].ToString());
+
+                                item.CompraImportePorCobrar =
+                                    string.IsNullOrEmpty(reader["CompraImportePorCobrar"].ToString())
+                                        ? 0
+                                        : decimal.Parse(reader["CompraImportePorCobrar"].ToString());
+
+                                item.CompraImportePorPagar =
+                                    string.IsNullOrEmpty(reader["CompraImportePorPagar"].ToString())
+                                        ? 0
+                                        : decimal.Parse(reader["CompraImportePorPagar"].ToString());
+
+                                item.CompraImporteTotal =
+                                    string.IsNullOrEmpty(reader["CompraImporteTotal"].ToString())
+                                        ? 0
+                                        : decimal.Parse(reader["CompraImporteTotal"].ToString());
 
                                 item.MostrarTablaContactos = (bool)reader["MostrarTablaContactos"];
                                 item.MostrarTablaCuentasBancarias = (bool)reader["MostrarTablaCuentasBancarias"];
                                 item.MostrarTablaDocumentacionExtra = (bool)reader["MostrarTablaDocumentacionExtra"];
+                                item.MostrarTablaCompras = (bool) reader["MostrarTablaCompras"];
 
                                 lista.Add(item);
                             }

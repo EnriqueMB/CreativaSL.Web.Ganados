@@ -876,9 +876,11 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=IIF(IsNothing(Fields!TotalKilos.Value), "0 kg.", Int(Fields!TotalKilos.Value) &amp; " kg.")</Value>
+                                  <Value>=IIF(IsNothing(Fields!TotalKilos.Value)
+, "0 kg."
+, Int(Fields!TotalKilos.Value))</Value>
                                   <Style>
-                                    <Format>#,0.00</Format>
+                                    <Format>#,0 kg'.'</Format>
                                     <Language>es-MX</Language>
                                   </Style>
                                 </TextRun>
@@ -896,17 +898,14 @@
                             </Border>
                             <TopBorder>
                               <Color>Black</Color>
-                              <Style>Solid</Style>
                               <Width>1pt</Width>
                             </TopBorder>
                             <LeftBorder>
                               <Color>Black</Color>
-                              <Style>Solid</Style>
                               <Width>1pt</Width>
                             </LeftBorder>
                             <RightBorder>
                               <Color>Black</Color>
-                              <Style>Solid</Style>
                               <Width>1pt</Width>
                             </RightBorder>
                             <BackgroundColor>= IIF(RowNumber(Nothing) mod 2, "White", "LightGrey")</BackgroundColor>
@@ -1122,8 +1121,12 @@ SUM(Fields!TotalKilos.Value)/Sum(Fields!Cantidad.Value))</Value>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=IIF(IsNothing(Fields!TotalKilos.Value), "0 kg.", Sum(CInt(Fields!TotalKilos.Value)) &amp; " kg.")</Value>
-                                  <Style />
+                                  <Value>=IIF(IsNothing(Fields!TotalKilos.Value)
+, "0 kg."
+, Sum(CInt(Fields!TotalKilos.Value)))</Value>
+                                  <Style>
+                                    <Format>#,0 kg'.'</Format>
+                                  </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style>
@@ -1155,6 +1158,7 @@ SUM(Fields!TotalKilos.Value)/Sum(Fields!Cantidad.Value))</Value>
                             <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
+                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>
@@ -3387,9 +3391,12 @@ SUM(Fields!TotalKilos.Value)/Sum(Fields!Cantidad.Value))</Value>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=IIF(IsNothing(Fields!Kilos.Value), "0 kg.", Int(Fields!Kilos.Value) &amp; " kg.")</Value>
+                                  <Value>=IIF(IsNothing(Fields!Kilos.Value)
+, "0 kg."
+, Int(Fields!Kilos.Value))</Value>
                                   <Style>
                                     <FontSize>9pt</FontSize>
+                                    <Format>#,0 kg'.'</Format>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -3633,9 +3640,10 @@ SUM(Fields!TotalKilos.Value)/Sum(Fields!Cantidad.Value))</Value>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=IIF(IsNothing(Fields!Kilos.Value), "0 kg.", Sum(CInt(Fields!Kilos.Value)) &amp; " kg.")</Value>
+                                  <Value>=IIF(IsNothing(Fields!Kilos.Value), "0 kg.", Sum(CInt(Fields!Kilos.Value)))</Value>
                                   <Style>
                                     <FontSize>9pt</FontSize>
+                                    <Format>#,0 kg'.'</Format>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -4240,9 +4248,12 @@ SUM(Fields!TotalKilos.Value)/Sum(Fields!Cantidad.Value))</Value>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=IIF(IsNothing(Fields!Kilos.Value), "0 kg.", Int(Fields!Kilos.Value) &amp; " kg.")</Value>
+                                  <Value>=IIF(IsNothing(Fields!Kilos.Value)
+, "0 kg."
+, Int(Fields!Kilos.Value))</Value>
                                   <Style>
                                     <FontSize>9pt</FontSize>
+                                    <Format>#,0 kg'.'</Format>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -4486,9 +4497,12 @@ SUM(Fields!TotalKilos.Value)/Sum(Fields!Cantidad.Value))</Value>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=IIF(IsNothing(Fields!Kilos.Value), "0 kg.", Sum(CInt(Fields!Kilos.Value)) &amp; " kg.")</Value>
+                                  <Value>=IIF(IsNothing(Fields!Kilos.Value)
+, "0 kg."
+, Sum(CInt(Fields!Kilos.Value)))</Value>
                                   <Style>
                                     <FontSize>9pt</FontSize>
+                                    <Format>#,0 kg'.'</Format>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
