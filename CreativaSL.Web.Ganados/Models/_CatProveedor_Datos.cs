@@ -1408,7 +1408,7 @@ namespace CreativaSL.Web.Ganados.Models
                         sqlcon))
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
-
+                        cmd.CommandTimeout = 0;
                         cmd.Parameters.Add("@IdProveedor", SqlDbType.Char).Value = idProveedor;
 
                         sqlcon.Open();
