@@ -1747,7 +1747,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             return Content(json, "application/json");
         }
 
-        public ActionResult GenerarReporteProveedoresGanado(string proveedores)
+        public ActionResult GenerarReporteProveedoresGanado(string proveedores, DateTime fechaInicio, DateTime fechaFin)
         {
             try
             {
@@ -1758,7 +1758,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
                 var datosEmpresa = reporteDatos.ObtenerDatosEmpresaGeneral(Conexion);
 
-                var listaProveedorsDto = proveedorDatos.ObtenerReporteProveedorGanadoDtos(proveedoresSplit.ToList());
+                var listaProveedorsDto =
+                    proveedorDatos.ObtenerReporteProveedorGanadoDtos(proveedoresSplit.ToList(), fechaInicio, fechaFin);
 
                 rpt.EnableExternalImages = true;
                 rpt.DataSources.Clear();
@@ -1773,10 +1774,12 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     TempData["message"] = "No se ha localizado el formato del reporte, contacte con soporte técnico.";
                     return RedirectToAction("Index", "CatProveedor");
                 }
-                var parametros = new ReportParameter[3];
+                var parametros = new ReportParameter[5];
                 parametros[0] = new ReportParameter("Empresa", datosEmpresa.RazonFiscal);
                 parametros[1] = new ReportParameter("UrlLogo", datosEmpresa.LogoEmpresa);
                 parametros[2] = new ReportParameter("DireccionEmpresa", datosEmpresa.DireccionFiscal);
+                parametros[3] = new ReportParameter("CompraFechaInicio", fechaInicio.ToShortDateString());
+                parametros[4] = new ReportParameter("CompraFechaFin", fechaFin.ToShortDateString());
 
                 rpt.SetParameters(parametros);
                 rpt.DataSources.Add(new ReportDataSource("ProveedoresDS", listaProveedorsDto));

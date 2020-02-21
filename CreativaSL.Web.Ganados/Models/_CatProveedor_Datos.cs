@@ -1396,7 +1396,7 @@ namespace CreativaSL.Web.Ganados.Models
         #endregion
 
         #region Reporte
-        public List<ReporteProveedorGanadoDto> ObtenerReporteProveedorGanadoDtos(List<string> idProveedores)
+        public List<ReporteProveedorGanadoDto> ObtenerReporteProveedorGanadoDtos(List<string> idProveedores, DateTime fechaInicio, DateTime fechaFin)
         {
             var lista = new List<ReporteProveedorGanadoDto>();
 
@@ -1410,6 +1410,8 @@ namespace CreativaSL.Web.Ganados.Models
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.CommandTimeout = 0;
                         cmd.Parameters.Add("@IdProveedor", SqlDbType.Char).Value = idProveedor;
+                        cmd.Parameters.Add("@FechaInicio", SqlDbType.Date).Value = fechaInicio;
+                        cmd.Parameters.Add("@FechaFin", SqlDbType.Date).Value = fechaFin;
 
                         sqlcon.Open();
 
@@ -1527,15 +1529,15 @@ namespace CreativaSL.Web.Ganados.Models
                                         ? 0
                                         : decimal.Parse(reader["CompraImporteGanadoHembra"].ToString());
 
-                                item.CompraImportePorCobrar =
-                                    string.IsNullOrEmpty(reader["CompraImportePorCobrar"].ToString())
+                                item.CompraImporteGanadoTotal =
+                                    string.IsNullOrEmpty(reader["CompraImporteGanadoTotal"].ToString())
                                         ? 0
-                                        : decimal.Parse(reader["CompraImportePorCobrar"].ToString());
+                                        : decimal.Parse(reader["CompraImporteGanadoTotal"].ToString());
 
-                                item.CompraImportePorPagar =
-                                    string.IsNullOrEmpty(reader["CompraImportePorPagar"].ToString())
+                                item.CompraImporteDeducciones =
+                                    string.IsNullOrEmpty(reader["CompraImporteDeducciones"].ToString())
                                         ? 0
-                                        : decimal.Parse(reader["CompraImportePorPagar"].ToString());
+                                        : decimal.Parse(reader["CompraImporteDeducciones"].ToString());
 
                                 item.CompraImporteTotal =
                                     string.IsNullOrEmpty(reader["CompraImporteTotal"].ToString())

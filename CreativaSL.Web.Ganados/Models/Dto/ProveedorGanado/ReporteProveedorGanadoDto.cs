@@ -70,8 +70,7 @@
         public decimal CompraImporteGanadoMacho { get; set; }
         public decimal CompraImporteGanadoHembra { get; set; }
         public decimal CompraImporteGanadoTotal { get; set; }
-        public decimal CompraImportePorCobrar { get; set; }
-        public decimal CompraImportePorPagar { get; set; }
+        public decimal CompraImporteDeducciones { get; set; }
         public decimal CompraImporteTotal { get; set; }
         #endregion
     }
