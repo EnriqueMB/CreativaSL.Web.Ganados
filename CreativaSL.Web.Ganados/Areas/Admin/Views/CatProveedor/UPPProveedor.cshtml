@@ -30,11 +30,9 @@
             @{ Html.EnableClientValidation(false); }
             @using (Html.BeginForm("UPPProveedor", "CatProveedor", FormMethod.Post, new { @class = "form-horizontal", id = "form-dg", autocomplete = "off", @enctype = "multipart/form-data" }))
             {
-                @Html.HiddenFor(model => model.Imagen)
-                @Html.HiddenFor(model => model.ImagenServer)
                 @Html.AntiForgeryToken()
-                @*@Html.ValidationSummary(true)*@
                 @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
+                @Html.HiddenFor(model=>model.ImagenHttp)
                 <div id="validation_summary" class="field_error "></div> //JS
 
                 <div class="panel panel-default">
@@ -117,7 +115,7 @@
                                 <div class="form-group">
                                     <label class="col-md-3 control-label">Estado</label>
                                     <div class="col-md-9">
-                                        @Html.DropDownListFor(model => model.id_estadoCodigo, new SelectList(Model.listaEstado, "codigoEstado", "descripcion"), new { id = "id_estadoCodigo", @class = "form-control select", data_live_search = "true" })
+                                        @Html.DropDownListFor(model => model.id_estadoCodigo, new SelectList(Model.listaEstado, "codigoEstado", "descripcion"), new { @class = "form-control select", data_live_search = "true" })
 
                                     </div>
                                     @Html.ValidationMessageFor(model => model.id_estadoCodigo)
@@ -143,7 +141,7 @@
                             <div class="col-md-6 col-xs-12">
                                 <div class="input-group">
                                     <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                    @Html.TextBoxFor(model => model.ImagenHttp, new { id = "ImagenHttp", @type = "file", @class = "form-control" })
+                                    @Html.TextBoxFor(model => model.ImagenHttp, new { @type = "file", @class = "form-control" })
                                 </div>
                                 @Html.ValidationMessageFor(model => model.ImagenHttp)
                                 <span class="help-block">Ingrese por lo menos 1 imagen.</span>
@@ -154,7 +152,7 @@
 
 
                 <div class="panel-footer">
-                    <a href="@Url.Action("Index","CatProveedor")" class="btn btn-danger"><i class="icon-prev"></i>Cancelar</a>
+                    <a href="@Url.Action("Index","CatProveedor")" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
                     <button form="form-dg" class="btn btn-primary pull-right">Guardar <span class="fa fa-floppy-o fa-right"></span></button>
                 </div>
             }
@@ -177,63 +175,63 @@
     <script type="text/javascript" src="@Url.Content("~/Content/js/UPPProveedor.js")"></script>
 
     <script>
-        jQuery(document).ready(function () {
+        jQuery(document).ready(function() {
             Mensaje(message, typemessage);
             UPPProveedor.init();
 
-            $('#ImagenHttp').fileinput({
-            theme: 'fa',
-            language: 'es',
-            maxFileCount: 1,
-            overwriteInitial: true,
-            showUploadedThumbs: false,
-            initialPreview: [
-            '<img class="file-preview-image"  style=" width: auto !important; height: auto; max-width: 100%; max-height: 100%;" src="data:image/png;base64,@Model.ImagenMostrar" />'
-            ],
-            initialPreviewConfig: [
-               { caption: 'Imagen' }
-            ],
-            initialPreviewShowDelete: false,
-            showRemove: false,
-            showClose: false,
-            showUpload: false,
-            layoutTemplates: { actionDelete: '' },
+            $('input[name="ImagenHttp"]').fileinput({
+                theme: 'fa',
+                language: 'es',
+                maxFileCount: 1,
+                overwriteInitial: true,
+                showUploadedThumbs: false,
+                initialPreview: [
+                    '<img class="file-preview-image" style="width: auto; height: auto; max-width: 100%; max-height: 100%;" src="@Url.Content(string.IsNullOrEmpty(Model.ImagenHttp) ? "/Content/img/GrupoOcampo.png" : Model.ImagenHttp)" />'
+                ],
+                initialPreviewConfig: [
+                    { caption: 'Imagen' }
+                ],
+                initialPreviewShowDelete: false,
+                showRemove: false,
+                showClose: false,
+                showUpload: false,
+                layoutTemplates: { actionDelete: '' },
 
-            allowedFileExtensions: ['png', 'jpg', 'gif', 'jpeg', 'heic'],
-            previewFileIcon: '<i class="fa fa-file"></i>',
-            preferIconicPreview: true, // this will force thumbnails to display icons for following file extensions
-            previewFileIconSettings: { // configure your icon file extensions
-                'heic': '<i class="fa fa-file-text text-primary"></i>'
-            },
-            previewFileExtSettings: { // configure the logic for determining icon file extensions
-                'heic': function (ext) {
-                    return ext.match(/(heic)$/i);
+                allowedFileExtensions: ['png', 'jpg', 'gif', 'jpeg', 'heic'],
+                previewFileIcon: '<i class="fa fa-file"></i>',
+                preferIconicPreview: true, // this will force thumbnails to display icons for following file extensions
+                previewFileIconSettings: { // configure your icon file extensions
+                    'heic': '<i class="fa fa-file-text text-primary"></i>'
+                },
+                previewFileExtSettings: { // configure the logic for determining icon file extensions
+                    'heic': function(ext) {
+                        return ext.match(/(heic)$/i);
+                    }
                 }
-            }
 
-            })
+            });
         });
-        jQuery(document).ready(function () {
-
-
+        jQuery(document).ready(function() {
+            var idEstadoCodigo = "@Model.id_estadoCodigo";
             //LISTA DE ESTADOS CUANDO COMBO PAISES CAMBIA
             @if (string.IsNullOrEmpty(Model.Imagen))
             {
                 <text>$("#id_pais").val('MEX');
-        
-                getEstado($("#id_pais").val());</text>
+
+                    getEstado($("#id_pais").val());</text>
             }
-            $("#id_pais").change(function () {
+            $("#id_pais").change(function() {
 
                 var id = $("#id_pais").val();
                 getEstado(id);
 
             });
-            $("#id_estadoCodigo").change(function () {
+            $("#id_estadoCodigo").change(function() {
                 var id2 = $("#id_pais").val();
                 var id = $("#id_estadoCodigo").val();
                 getMunicipio(id2, id);
             });
+
             function getEstado(id) {
 
                 $.ajax({
@@ -241,22 +239,36 @@
                     data: { id: id },
                     dataType: "json",
                     type: "POST",
-                    error: function () {
+                    error: function() {
                         $("#id_estadoCodigo").html('');
                     },
-                    success: function (estado) {
+                    success: function(estado) {
 
                         var items = "";
                         for (var i = 0; i < estado.length; i++) {
 
-                            items += "<option value=\"" + estado[i].codigoEstado + "\">" + estado[i].descripcion + "</option>";
+                            if (idEstadoCodigo === estado[i].codigoEstado) {
+                                items += "<option value=\"" +
+                                    estado[i].codigoEstado +
+                                    "\" selected='selected'>" +
+                                    estado[i].descripcion +
+                                    "</option>";
+                            } else {
+                                items += "<option value=\"" +
+                                    estado[i].codigoEstado +
+                                    "\" >" +
+                                    estado[i].descripcion +
+                                    "</option>";
+                            }
                         }
+
                         $("#id_estadoCodigo").html(items);
 
                         $('#id_estadoCodigo.select').selectpicker('refresh');
                     }
                 });
             }
+
             function getMunicipio(IdP, id) {
                 $.ajax({
                     url: "/Admin/CatLugar/Municipio",
@@ -266,13 +278,17 @@
                     },
                     dataType: "json",
                     type: "POST",
-                    error: function () {
+                    error: function() {
                         $("#id_municipio").html('');
                     },
-                    success: function (municipio) {
+                    success: function(municipio) {
                         var items = "";
                         for (var i = 0; i < municipio.length; i++) {
-                            items += "<option value=\"" + municipio[i].id_municipio + "\">" + municipio[i].descripcion + "</option>";
+                            items += "<option value=\"" +
+                                municipio[i].id_municipio +
+                                "\">" +
+                                municipio[i].descripcion +
+                                "</option>";
                         }
                         $("#id_municipio").html(items);
 

@@ -5,7 +5,6 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Hosting;
-using System.Web.Razor.Generator;
 using CreativaSL.Web.Ganados.Models.System;
 
 namespace CreativaSL.Web.Ganados.Models.Helpers
@@ -30,6 +29,27 @@ namespace CreativaSL.Web.Ganados.Models.Helpers
                 uploadFileToServer.Success = false;
             }
         }
+
+        public static void DeleteFileromServer(UploadFileToServerModel uploadFileToServer)
+        {
+            try
+            {
+                var urlRelative = uploadFileToServer.BaseDir + uploadFileToServer.FileName;
+                var path = HostingEnvironment.MapPath(urlRelative);
+
+                if (File.Exists(path))
+                {
+                    File.Delete(path);
+                }
+                uploadFileToServer.Success = true;
+            }
+            catch (Exception ex)
+            {
+                uploadFileToServer.Exception = ex;
+                uploadFileToServer.Success = false;
+            }
+        }
+
         public static void UploadFileToServer(UploadFileToServerModel uploadImageToServer)
         {
             try
@@ -147,6 +167,7 @@ namespace CreativaSL.Web.Ganados.Models.Helpers
 
             return extensionsImages.Any(extensionImage => Path.GetExtension(fileName).ToLower().Equals(extensionImage));
         }
+        
         private static Image VaryQualityLevel(Image image, long value)
         {
             using (var bmp = new Bitmap(image))
@@ -162,6 +183,7 @@ namespace CreativaSL.Web.Ganados.Models.Helpers
                 return Image.FromStream(ms);
             }
         }
+        
         private static ImageCodecInfo GetEncoder(ImageFormat format)
         {
             var codecs = ImageCodecInfo.GetImageDecoders();
@@ -174,6 +196,7 @@ namespace CreativaSL.Web.Ganados.Models.Helpers
             }
             return null;
         }
+        
         private static ImageFormat GetImageFormat(Image img)
         {
             using (img)
