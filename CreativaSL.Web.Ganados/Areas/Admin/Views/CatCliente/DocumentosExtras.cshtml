@@ -1,0 +1,154 @@
+﻿@model CreativaSL.Web.Ganados.Models.DocumentoModels
+@{
+    ViewBag.Title = "Documentos extras";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@section css
+{
+    <link href="~/Content/css/datatable/jquery.dataTables.min.css" rel="stylesheet" />
+    <style>
+
+        #imagen_previa {
+            width: 100% !important;
+        }
+
+        .vista_previa {
+            cursor: pointer;
+        }
+    </style>
+}
+
+@section featured
+{
+    @{
+        var message = TempData["message"] ?? string.Empty;
+        var typemessage = TempData["typemessage"] ?? string.Empty;
+    }
+    <div class="row">
+        <div id="Error" class="progress-bar progress-bar-striped active errorCSL" style="display:none; width:100%">
+            <h3></h3>
+        </div>
+        <div id="Success" class="progress-bar progress-bar-striped active successCSL" style="display:none; width:100%">
+            <h3></h3>
+        </div>
+        <!--INICIA TABS-->
+        <div class="panel panel-default">
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><strong>Documentación extra</strong> para el cliente </h3>
+                    <ul class="panel-controls"></ul>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <!-- START DEFAULT DATATABLE -->
+                            <div class="panel panel-default">
+                                @Html.Hidden("IdCliente", (object)ViewBag.IdCliente)
+                                <div class="panel-heading">
+                                    <h3 class="panel-title"></h3>
+                                    <ul class="panel-controls">
+                                        <li><a id="btnNuevo" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nuevo Documento extra</a></li>
+                                        <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
+                                        <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
+                                    </ul>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="col-md-12">
+                                        <h3></h3>
+                                        <div class="table-responsive">
+                                            <table id="tblDocumentosExtras" class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Tipo de documento</th>
+                                                        <th>Imagen</th>
+                                                        <th>Acción</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody></tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- END DEFAULT DATATABLE -->
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <a href="@Url.Action("Index", "CatCliente")" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
+                </div>
+            </div>
+        </div>
+
+
+        <!--TERMINA TABS-->
+
+        <div id="ModalDocumento" class="modal fade" role="dialog" style="display:none" aria-hidden="true">
+            <div class="modal-dialog modal-lg" id="ContenidoModalDocumento">
+
+            </div>
+        </div>
+        <div class="message-box animated fadeIn" data-sound="alert" id="mb-deleteDocumento">
+            <div class="mb-container">
+                <div class="mb-middle">
+                    <div class="mb-title"><span class="fa fa-times"></span> Eliminar <strong>Registro</strong> ?</div>
+                    <div class="mb-content">
+                        <p>¿Seguro que quieres eliminar este documento?</p>
+                        <p>Presione "sí" si está seguro.</p>
+                    </div>
+                    <div class="mb-footer">
+                        <div class="pull-right">
+                            <button class="btn btn-success btn-lg mb-control-yes">Si</button>
+                            <button class="btn btn-default btn-lg mb-control-close">No</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="modalImagen" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Imagen</h4>
+                </div>
+                <div class="modal-body">
+                    <img id="imagen_previa" src="" alt="Imagen_previa" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <script>
+        var message     = "@message";
+        var typemessage = "@typemessage";
+    </script>
+}
+
+@section script
+{
+    <script src="@Url.Content("~/Scripts/jquery.validate.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")"></script>
+    <script src="@Url.Content("~/Content/js/validaciones/additionals.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
+    <script src="~/Content/js/Cliente/IndexDocumentoExtraJs.js"></script>
+
+    <script>
+        jQuery(document).ready(function () {
+            Mensaje(message, typemessage);
+            Index.init();
+        });
+    </script>
+}

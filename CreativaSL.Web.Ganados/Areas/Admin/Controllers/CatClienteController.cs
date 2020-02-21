@@ -14,6 +14,8 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using CreativaSL.Web.Ganados.Models.System;
 using CreativaSL.Web.Ganados.Models.Helpers;
+using CreativaSL.Web.Ganados.Models.Datatable;
+
 
 namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 {
@@ -1155,5 +1157,235 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return Json("", JsonRequestBehavior.AllowGet);
             }
         }
+        #region Documentos Extras
+        [HttpPost]
+        public ActionResult JsonIndexDocumentosExtras(string id, DataTableAjaxPostModel dataTableAjaxPostModel)
+        {
+            var ClienteDatos = new CatCliente_Datos();
+
+            var json = ClienteDatos.DocumentosExtras_ObtenerIndex(dataTableAjaxPostModel, id);
+
+            return Content(json, "application/json");
+        }
+
+        [HttpGet]
+        public ActionResult DocumentosExtras(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Verifique sus datos.";
+                return RedirectToAction("Index");
+            }
+
+            ViewBag.IdCliente = id;
+
+            return View();
+        }
+        [HttpGet]
+        public ActionResult CreateDocumentoExtra(string IdCliente)
+        {
+            if (string.IsNullOrWhiteSpace(IdCliente))
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Verifique sus datos.";
+                return RedirectToAction("Index");
+            }
+            Token.SaveToken();
+            var model = new DocumentacionExtra_CatClienteModel();
+            var CatTipoDocumentacionExtraDatos = new _CatTipoDocumentacionExtra_Datos();
+
+            var modulo = ProjectSettings.ModuloCliente;
+            ViewBag.ListaCatTipoDocumentacionExtra = CatTipoDocumentacionExtraDatos.ObtenerComboCatTiposDocumentacionExtraXIdModulo(modulo);
+            model.IdCliente = IdCliente;
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult CreateDocumentoExtra(DocumentacionExtra_CatClienteModel model)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    if (Token.IsTokenValid())
+                    {
+                        var fotoPerfilPostedFileBase = Request.Files["Archivo"] as HttpPostedFileBase;
+                        var uploadFileToserver = new UploadFileToServerModel();
+                        uploadFileToserver.FileBase = fotoPerfilPostedFileBase;
+                        uploadFileToserver.BaseDir = ProjectSettings.BaseDirClienteDocumentacionExtra;
+                        uploadFileToserver.FileName = DateTime.Now.ToString("MM_dd_yyyy_hh_mm_ss");
+
+                        if (fotoPerfilPostedFileBase != null && fotoPerfilPostedFileBase.ContentLength > 0)
+                        {
+                            CidFaresHelper.UploadFileToServer(uploadFileToserver);
+
+                            if (!uploadFileToserver.Success)
+                            {
+                                CidFaresHelper.DeleteFilesWithOutExtensionFromServer(uploadFileToserver);
+                                var CatTipoDocumentacionExtraDatos = new _CatTipoDocumentacionExtra_Datos();
+                                var modulo = ProjectSettings.ModuloCliente;
+                                ViewBag.ListaCatTipoDocumentacionExtra = CatTipoDocumentacionExtraDatos.ObtenerComboCatTiposDocumentacionExtraXIdModulo(modulo);
+
+                                TempData["typemessage"] = "2";
+                                TempData["message"] = "Ocurrio un error al intentar guardar la imagen de perfil, intentelo más tarde.";
+                                return View(model);
+                            }
+
+                            model.Archivo = uploadFileToserver.FileName;
+                            var datos = new CatCliente_Datos();
+                            var respuesta = datos.GuardarDocumentoExtra(model);
+
+                            TempData["typemessage"] = respuesta.Success ? "1" : "2";
+                            TempData["message"] = respuesta.Mensaje;
+
+                            if (!respuesta.Success)
+                                CidFaresHelper.DeleteFilesWithOutExtensionFromServer(uploadFileToserver);
+
+                            return RedirectToAction("DocumentosExtras", new {id= model.IdCliente });
+                        }
+                        else
+                        {
+                            TempData["typemessage"] = "2";
+                            TempData["message"] = "Verifique sus datos.";
+                            return RedirectToAction("Index");
+                        }
+                    }
+                    else
+                    {
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = "Verifique sus datos.";
+                        return RedirectToAction("Index");
+                    }
+                }
+                else
+                {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "Verifique sus datos.";
+                    return RedirectToAction("Index");
+                }
+
+            }
+            catch (Exception e)
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Verifique sus datos.";
+                return RedirectToAction("Index");
+            }
+        }
+        [HttpGet]
+        public ActionResult EditDocumentoExtra(string idCliente, string idDocumentacionExtra)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(idCliente) || string.IsNullOrWhiteSpace(idDocumentacionExtra))
+                {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "Verifique sus datos.";
+                    return RedirectToAction("Index");
+                }
+
+                Token.SaveToken();
+                var clienteDatos = new CatCliente_Datos();
+                var catTipoDocumentacionExtraDatos = new _CatTipoDocumentacionExtra_Datos();
+                var modulo = ProjectSettings.ModuloCliente;
+                ViewBag.ListaCatTipoDocumentacionExtra = catTipoDocumentacionExtraDatos.ObtenerComboCatTiposDocumentacionExtraXIdModulo(modulo);
+                var model = clienteDatos.ObtenerDocumentacionExtra(idCliente, idDocumentacionExtra);
+                return View(model);
+            }
+            catch (Exception)
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Verifique sus datos.";
+                return RedirectToAction("Index");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult EditDocumentoExtra(DocumentacionExtra_CatClienteModel model)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    if (Token.IsTokenValid())
+                    {
+                        var archivoHttpPostedFileBase = Request.Files["Archivo"] as HttpPostedFileBase;
+                        if (archivoHttpPostedFileBase != null && archivoHttpPostedFileBase.ContentLength > 0)
+                        {
+                            var uploadFileToserver = new UploadFileToServerModel();
+                            uploadFileToserver.FileBase = archivoHttpPostedFileBase;
+                            uploadFileToserver.BaseDir = ProjectSettings.BaseDirClienteDocumentacionExtra;
+
+                            //borramos la imagen anterior
+                            uploadFileToserver.FileName = model.Archivo.Replace(ProjectSettings.BaseDirClienteDocumentacionExtra, string.Empty);
+                            CidFaresHelper.DeleteFilesWithOutExtensionFromServer(uploadFileToserver);
+
+                            //generamos el nombre del nuevo archivo
+                            uploadFileToserver.FileName = DateTime.Now.ToString("MM_dd_yyyy_hh_mm_ss");
+                            CidFaresHelper.UploadFileToServer(uploadFileToserver);
+
+                            if (!uploadFileToserver.Success)
+                            {
+                                CidFaresHelper.DeleteFilesWithOutExtensionFromServer(uploadFileToserver);
+                                throw new Exception("No se ha podido subir el archivo al servidor.");
+                            }
+
+                            model.Archivo = uploadFileToserver.FileName;
+                        }
+                        var clienteDatos = new CatCliente_Datos();
+                        var respuestaDb = clienteDatos.GuardarDocumentoExtra(model);
+
+                        TempData["typemessage"] = respuestaDb.Success ? "1" : "2";
+                        TempData["message"] = respuestaDb.Mensaje;
+
+                        return RedirectToAction("DocumentosExtras", new { id = model.IdCliente });
+                    }
+                    else
+                    {
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = "Verifique sus datos.";
+                        return RedirectToAction("Index");
+                    }
+                }
+                else
+                {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "Verifique sus datos.";
+                    return RedirectToAction("Index");
+                }
+            }
+            catch (Exception)
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Verifique sus datos.";
+                return RedirectToAction("Index");
+            }
+        }
+        [HttpPost]
+        public ActionResult EliminarDocumentoExtra(string idCliente, string idDocumentacionExtra, string urlArchivo)
+        {
+            urlArchivo = urlArchivo.Replace(ProjectSettings.BaseDirClienteDocumentacionExtra, string.Empty);
+            if (string.IsNullOrWhiteSpace(idCliente) || string.IsNullOrWhiteSpace(idDocumentacionExtra) || string.IsNullOrEmpty(urlArchivo))
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Verifique sus datos.";
+                return RedirectToAction("Index");
+            }
+            var clienteDatos = new CatCliente_Datos();
+            var responseDb = clienteDatos.EliminarDocumentoExtra(idCliente, idDocumentacionExtra, urlArchivo);
+            if (responseDb.Success)
+            {
+                var uploadFileToserver = new UploadFileToServerModel();
+                uploadFileToserver.BaseDir = ProjectSettings.BaseDirClienteDocumentacionExtra;
+                uploadFileToserver.FileName = urlArchivo;
+                CidFaresHelper.DeleteFilesWithOutExtensionFromServer(uploadFileToserver);
+            }
+            TempData["typemessage"] = "1";
+            TempData["message"] = responseDb.Mensaje;
+            return Json("");
+        }
+        #endregion
     }
 }
