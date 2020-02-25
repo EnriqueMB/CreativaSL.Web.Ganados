@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 
@@ -1098,6 +1099,94 @@ namespace CreativaSL.Web.Ganados.Models
             }
 
             return respuesta;
+        }
+        #endregion
+        #region Imagenes
+
+        public ImagenesClienteGanadoDto ObtenerCliente(string idCliente)
+        {
+            var model = new ImagenesClienteGanadoDto();
+
+            using (var sqlcon = new SqlConnection(ConexionSql))
+            {
+                using (var cmd = new SqlCommand("spCIDDB_CatCliente_Imagenes_ObtenerCliente",
+                    sqlcon))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.Add("@IdCliente", SqlDbType.Char).Value = idCliente;
+
+                    sqlcon.Open();
+
+                    var reader = cmd.ExecuteReader();
+
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            model.IdCliente = reader["id_cliente"].ToString();
+                            model.RazonSocial_Nombre = reader["nombreRazonSocial"].ToString();
+                            model.FotoPerfilUrl = reader["UrlFotoPerfil"].ToString();
+                            model.Rfc = reader["rfc"].ToString();
+                            model.Sucursal = reader["Sucursal"].ToString();
+                            model.TipoCliente = reader["TipoCliente"].ToString();
+                            model.Direccion = reader["direccion"].ToString();
+                            model.Tolerancia = reader["tolerancia"].ToString() + " %";
+                           //model.Observacion = reader["observaciones"].ToString();
+                            model.Telefonos = reader["Telefono"].ToString();
+                            model.Email = reader["correo"].ToString();
+                            //model.IneBase64 = reader["imgINE"].ToString();
+                            //model.ManifestacionFierroBase64 = reader["imgManifestacionFierro"].ToString();
+                            model.UppPsgBase64 = reader["imagenUPP"].ToString();
+
+                            /*if (!string.IsNullOrWhiteSpace(model.FotoPerfilUrl))
+                            {
+                                model.FotoPerfilUrl = ProjectSettings.BaseDirClienteFotoPerfil + model.FotoPerfilUrl;
+                            }*/
+
+                            IFormatProvider culture = new CultureInfo("es-MX", true);
+                            model.FechaIngreso = DateTime.ParseExact(reader["FechaIngreso"].ToString(), "dd/MM/yyyy hh:mm:ss tt",
+                                culture).ToString("dd/MM/yyyy", culture);
+                        }
+                    }
+
+                    reader.Close();
+                }
+            }
+
+            return model;
+        }
+        public List<CuentaBancariaClienteModels> ObtenerCuentasBancarias(CuentaBancariaClienteModels Datos)
+        {
+            try
+            {
+                List<CuentaBancariaClienteModels> lista = new List<CuentaBancariaClienteModels>();
+                CuentaBancariaClienteModels item;
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(Datos.Conexion, "spCSLDB_Catalogo_get_CatClienteDatosBancarios", Datos.IDCliente);
+                while (dr.Read())
+                {
+                    item = new CuentaBancariaClienteModels();
+                    item.IDDatosBancarios = !dr.IsDBNull(dr.GetOrdinal("IDDatosBancarios")) ? dr.GetString(dr.GetOrdinal("IDDatosBancarios")) : string.Empty;
+                    item.Banco.Descripcion = !dr.IsDBNull(dr.GetOrdinal("NombreBanco")) ? dr.GetString(dr.GetOrdinal("NombreBanco")) : string.Empty;
+                    item.Titular = !dr.IsDBNull(dr.GetOrdinal("NombreTitular")) ? dr.GetString(dr.GetOrdinal("NombreTitular")) : string.Empty;
+                    item.NumTarjeta = !dr.IsDBNull(dr.GetOrdinal("NumeroTarjeta")) ? dr.GetString(dr.GetOrdinal("NumeroTarjeta")) : string.Empty;
+                    item.NumCuenta = !dr.IsDBNull(dr.GetOrdinal("NumeroCuenta")) ? dr.GetString(dr.GetOrdinal("NumeroCuenta")) : string.Empty;
+                    item.Clabe = !dr.IsDBNull(dr.GetOrdinal("ClaveInterbancaria")) ? dr.GetString(dr.GetOrdinal("ClaveInterbancaria")) : string.Empty;
+                    item.ImagenUrl = !dr.IsDBNull(dr.GetOrdinal("ImagenUrl")) ? dr.GetString(dr.GetOrdinal("ImagenUrl")) : string.Empty;
+                    /*if (!string.IsNullOrWhiteSpace(item.ImagenUrl))
+                    {
+                        item.ImagenUrl = ProjectSettings.BaseDirClienteCuentasBancarias + item.ImagenUrl;
+                    }*/
+                    lista.Add(item);
+                }
+                dr.Close();
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         #endregion
     }

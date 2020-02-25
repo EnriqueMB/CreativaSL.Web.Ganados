@@ -1599,6 +1599,7 @@
     <Content Include="Areas\Admin\Views\CatCliente\CreateDocumentoExtra.cshtml" />
     <Content Include="Areas\Admin\Views\CatCliente\EditDocumentoExtra.cshtml" />
     <Content Include="Areas\Admin\Views\CatProveedor\ConfiguracionReporteProveedorGanado.cshtml" />
+    <Content Include="Areas\Admin\Views\CatCliente\Imagenes.cshtml" />
     <None Include="Properties\PublishProfiles\Ocampo.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
@@ -1825,6 +1826,7 @@
     <Compile Include="Models\ConciliacionAlmacenDetalleModel.cs" />
     <Compile Include="Models\ConciliacionAlmacenModels.cs" />
     <Compile Include="Models\CostoExtra.cs" />
+    <Compile Include="Models\CuentaBancariaClienteModels.cs" />
     <Compile Include="Models\CuentaBancariaModels.cs" />
     <Compile Include="Models\CuentaBancariaProveedorModels.cs" />
     <Compile Include="Models\CuentaBancariasProveedorAlmacenModels.cs" />
@@ -1850,6 +1852,8 @@
     <Compile Include="Models\Dto\CatModulos\SelectCatModuloDto.cs" />
     <Compile Include="Models\Dto\CatTipoDocumentacionExtra\CreateEditCatTipoDocumentacionExtraDto.cs" />
     <Compile Include="Models\Dto\CatTipoDocumentacionExtra\IndexCatTipoDocumentacionExtraDto.cs" />
+    <Compile Include="Models\Dto\Cliente\ClienteGanadoDto.cs" />
+    <Compile Include="Models\Dto\Cliente\ImagenesClienteGanadoDto.cs" />
     <Compile Include="Models\Dto\Cliente\IndexClienteGanadoDocumentacionExtraDto.cs" />
     <Compile Include="Models\Dto\Compra\IndexCompraDto.cs" />
     <Compile Include="Models\Dto\Base\IndexDatatableDto.cs" />
