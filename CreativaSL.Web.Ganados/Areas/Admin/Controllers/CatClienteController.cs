@@ -195,7 +195,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                             {
                                 var uploadImageToserver = new UploadFileToServerModel();
                                 uploadImageToserver.FileBase = fotoPerfilPostedFileBase;
-                                uploadImageToserver.BaseDir = "/Imagenes/Cliente/FotoPerfil/";
+                                uploadImageToserver.BaseDir = ProjectSettings.BaseDirClienteFotoPerfil;
                                 uploadImageToserver.FileName = "fp_" + clienteID.IDCliente;
                                 CidFaresHelper.UploadFileToServer(uploadImageToserver);
 
@@ -1385,6 +1385,34 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             TempData["typemessage"] = "1";
             TempData["message"] = responseDb.Mensaje;
             return Json("");
+        }
+        #endregion
+        #region Imagenes
+        public ActionResult Imagenes(string id)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(id))
+                {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "Verifique sus datos.";
+                    return RedirectToAction("Index");
+                }
+                var datosCliente = new CatCliente_Datos();
+                var modelCuenta = new CuentaBancariaClienteModels();
+
+                modelCuenta.Conexion = Conexion;
+                modelCuenta.IDCliente = id;
+                var model = datosCliente.ObtenerCliente(id);
+                ViewBag.ListaCuentasBancarias = datosCliente.ObtenerCuentasBancarias(modelCuenta);
+                return View(model);
+            }
+            catch (Exception)
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Verifique sus datos.";
+                return RedirectToAction("Index");
+            }
         }
         #endregion
     }
