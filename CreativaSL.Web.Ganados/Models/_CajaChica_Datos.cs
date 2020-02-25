@@ -3,11 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Web.Http.Description;
 using System.Xml;
+using CreativaSL.Web.Ganados.Models.System;
 
 namespace CreativaSL.Web.Ganados.Models
 {
-    public class _CajaChica_Datos
+    public class _CajaChica_Datos : BaseSQL
     {
         public List<CajaChicaModels> ObtenerCajasChicasAbiertas()
         {
@@ -420,9 +422,14 @@ namespace CreativaSL.Web.Ganados.Models
                     model.Recibe = !Dr.IsDBNull(Dr.GetOrdinal("PersonaRecibe")) ? Dr.GetString(Dr.GetOrdinal("PersonaRecibe")) : string.Empty;
                     model.FolioCheque = !Dr.IsDBNull(Dr.GetOrdinal("Folio")) ? Dr.GetString(Dr.GetOrdinal("Folio")) : string.Empty;
                     model.Alias = !Dr.IsDBNull(Dr.GetOrdinal("Alias")) ? Dr.GetString(Dr.GetOrdinal("Alias")) : string.Empty;
-                    model.FotoCheque = Dr.IsDBNull(Dr.GetOrdinal("FotoComprobante")) ?
-                        Auxiliar.SetDefaultImage() : string.IsNullOrEmpty(Dr.GetString(Dr.GetOrdinal("FotoComprobante"))) ?
-                       Auxiliar.SetDefaultImage() : Dr.GetString(Dr.GetOrdinal("FotoComprobante"));
+                    model.FotoCheque = Dr.IsDBNull(Dr.GetOrdinal("FotoComprobante"))
+                        ?
+                        ProjectSettings.PathDefaultImage
+                        : string.IsNullOrEmpty(Dr.GetString(Dr.GetOrdinal("FotoComprobante")))
+                            ? ProjectSettings.PathDefaultImage
+                            : ProjectSettings.BaseDirCajaChicaChequeComprobante +
+                              Dr.GetString(Dr.GetOrdinal("FotoComprobante"));
+
                     model.Estatus = !Dr.IsDBNull(Dr.GetOrdinal("Estatus")) ? Dr.GetBoolean(Dr.GetOrdinal("Estatus")) : false;
                     break;
                 }
@@ -627,6 +634,43 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
 
-       
+        public RespuestaAjax ActualizarFotoComprobate(Int64 idCajaDetalle, string base64)
+        {
+            var respuestaAjax = new RespuestaAjax();
+
+            using (var sqlcon = new SqlConnection(ConexionSql))
+            {
+                using (var cmd = new SqlCommand("[cajachica].[spCIDDB_ActualizarFotoComprobate]",
+                    sqlcon))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.Add("@IdCajaDetalle", SqlDbType.BigInt).Value = idCajaDetalle;
+                    cmd.Parameters.Add("@FotoUrl", SqlDbType.NVarChar).Value = base64;
+                    
+                    sqlcon.Open();
+
+                    var reader = cmd.ExecuteReader();
+
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            respuestaAjax.Success = (bool)reader["Success"];
+                            respuestaAjax.Mensaje = reader["Message"].ToString();
+                            if (!respuestaAjax.Success)
+                            {
+                                respuestaAjax.MensajeErrorSQL = reader["ErrorMessage"].ToString();
+                            }
+
+                        }
+                    }
+                    reader.Close();
+                }
+            }
+
+            return respuestaAjax;
+        }
+
     }
 }

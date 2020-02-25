@@ -75,6 +75,67 @@ namespace CreativaSL.Web.Ganados.Models.Helpers
             }
         }
 
+        public static UploadBase64ToServerModel UploadBase64ToServer(string stringBase64, string baseDir)
+        {
+            var uploadBase64ToServer = new UploadBase64ToServerModel
+            {
+                BaseDir = baseDir
+                , StringBase64 = stringBase64.Replace(ProjectSettings.BaseDirCajaChicaChequeComprobante, string.Empty)
+            };
+
+            try
+            {
+                GetBitmapFromBase64(uploadBase64ToServer);
+                
+                if (uploadBase64ToServer.Success)
+                {
+                    uploadBase64ToServer.FileName = Guid.NewGuid().ToString().ToUpper() +
+                                                    ObtenerExtensionImagenBase64(uploadBase64ToServer.StringBase64);
+
+                    uploadBase64ToServer.UrlRelative = SaveBitmapToServer(uploadBase64ToServer.BitmapBase,
+                        uploadBase64ToServer.BaseDir, uploadBase64ToServer.FileName);
+                }
+                else
+                {
+                    throw new Exception("No se pudo hacer la conversion string base 64 a bitmap.");
+                }
+                uploadBase64ToServer.Success = true;
+            }
+            catch (Exception e)
+            {
+                uploadBase64ToServer.Exception = e;
+                uploadBase64ToServer.Success = false;
+            }
+
+            return uploadBase64ToServer;
+        }
+
+        private static void GetBitmapFromBase64(UploadBase64ToServerModel uploadBase64ToServer)
+        {
+            try
+            {
+                byte[] byteBuffer = Convert.FromBase64String(
+                    uploadBase64ToServer.StringBase64);
+                MemoryStream memoryStream = new MemoryStream(byteBuffer);
+
+                memoryStream.Position = 0;
+
+                var img = Bitmap.FromStream(memoryStream);
+                uploadBase64ToServer.BitmapBase =
+                    new Bitmap(VaryQualityLevel((Image) img.Clone(), uploadBase64ToServer.QualityImage));
+
+                memoryStream.Close();
+                memoryStream = null;
+                byteBuffer = null;
+
+                uploadBase64ToServer.Success = true;
+            }
+            catch (Exception)
+            {
+                uploadBase64ToServer.Success = false;
+            }
+        }
+
         private static string GetNewImageNameFromHttpPostedFileBase(HttpPostedFileBase fileBase, string fileName)
         {
             if (fileBase == null || fileBase.ContentLength == 0)
@@ -158,6 +219,20 @@ namespace CreativaSL.Web.Ganados.Models.Helpers
             return urlRelative;
         }
 
+        private static string SaveBitmapToServer(Bitmap bitmap, string baseDir, string fileName)
+        {
+            if (!CreateFolder(baseDir))
+            {
+                throw new Exception("Directorio no válido.");
+            }
+
+            var urlRelative = baseDir + fileName;
+            
+            bitmap.Save(HostingEnvironment.MapPath(urlRelative));
+
+            return urlRelative;
+        }
+
         private static bool IsFileImage(string fileName)
         {
             var extensionsImages = new[]
@@ -203,6 +278,36 @@ namespace CreativaSL.Web.Ganados.Models.Helpers
             {
                 return img.RawFormat;
             }
+        }
+        private static string ObtenerExtensionImagenBase64(string imagen64)
+        {
+            var extension = string.Empty;
+            var position = 0;
+
+            position = imagen64.IndexOf("iVBOR");
+            if (position == 0)
+                return extension = ".png";
+
+            position = imagen64.IndexOf("/9j/4");
+            if (position == 0)
+                return extension = ".jpeg";
+
+            //bmp de 256 colores
+            position = imagen64.IndexOf("Qk3");
+            if (position == 0)
+                return extension = ".bmp";
+
+            //bmp de monocromatico colores
+            position = imagen64.IndexOf("Qk2");
+            if (position == 0)
+                return extension = ".bmp";
+
+            //bmp de 16 colores
+            position = imagen64.IndexOf("Qk1");
+            if (position == 0)
+                return extension = ".bmp";
+
+            return extension;
         }
     }
 }

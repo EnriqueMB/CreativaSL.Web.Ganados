@@ -1,4 +1,5 @@
-﻿@model CreativaSL.Web.Ganados.Models.CalendarioModels
+﻿@using System.Web.UI.WebControls
+@model CreativaSL.Web.Ganados.Models.CalendarioModels
 
 @{
     ViewBag.Title = "Index";
@@ -42,20 +43,22 @@
                 </div>
                 <div class="panel-body">
                     <div class="col-md-4">
+                        Usuario: @ViewBag.HostName
+                        <br/>
                         Ganado:
-                        <span class="label label-default" style="background:#ffd633">Programada</span>
-                        <span class="label label-primary" style="background:#ff8533">En camino</span>
-                        <span class="label label-success" style="background:#3377ff">Recepción</span>
-                        <span class="label label-info" style="background:#00cc00">Pago</span>
-                        <br />
-                        <br />
+                        <span class="label label-default" style="background: #ffd633">Programada</span>
+                        <span class="label label-primary" style="background: #ff8533">En camino</span>
+                        <span class="label label-success" style="background: #3377ff">Recepción</span>
+                        <span class="label label-info" style="background: #00cc00">Pago</span>
+                        <br/>
+                        <br/>
                         Flete:
-                        <span class="label label-default" style="background:#949494">Agendado</span>
-                        <span class="label label-primary" style="background:#983da9">En camino</span>
-                        <br />
-                        <br />
+                        <span class="label label-default" style="background: #949494">Agendado</span>
+                        <span class="label label-primary" style="background: #983da9">En camino</span>
+                        <br/>
+                        <br/>
                         Servicios:
-                        <span class="label label-default" style="background:#873737">Procesado</span>
+                        <span class="label label-default" style="background: #873737">Procesado</span>
                     </div>
                     <div class="col-md-8">
                         @if (listaMetasXSucursal.Count > 0)
