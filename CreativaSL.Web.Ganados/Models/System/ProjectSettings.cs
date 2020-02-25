@@ -7,6 +7,7 @@ namespace CreativaSL.Web.Ganados.Models.System
     {
         public const int ModuloCliente = 1;
         public const int ModuloProveedor = 2;
+        public const string BaseDirClienteUppPsg = "/Imagenes/Cliente/UppPsg/";
         public const string BaseDirClienteFotoPerfil = "/Imagenes/Cliente/FotoPerfil/";
         public const string BaseDirClienteDocumentacionExtra = "/Imagenes/Cliente/DocumentacionExtra/";
         public const string BaseDirClienteCuentasBancarias = "/Imagenes/Cliente/FotoCuentas/";
@@ -16,7 +17,6 @@ namespace CreativaSL.Web.Ganados.Models.System
         public const string BaseDirProveedorINE = "/Imagenes/Proveedor/INE/";
         public const string BaseDirProveedorManifestacionFierro = "/Imagenes/Proveedor/ManifestacionFierro/";
         public const string BaseDirProveedorUppPsg = "/Imagenes/Proveedor/UppPsg/";
-
         public const string PathDefaultImage = "/Content/img/GrupoOcampo.png";
     }
 }

@@ -1034,29 +1034,19 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             {
                 if (Token.IsTokenValid())
                 {
-                    //HttpPostedFileBase bannerImage = Request.Files[0] as HttpPostedFileBase;
-                    if (uppModel.ImagenHttp != null)
+                    var uppPostedFileBase = Request.Files["ImagenHttp"] as HttpPostedFileBase;
+                    if (uppPostedFileBase != null && uppPostedFileBase.ContentLength > 0)
                     {
-                        //uppModel.Imagen = Auxiliar.ImageToBase64(uppModel.ImagenHttp);
-
-                        Stream s = uppModel.ImagenHttp.InputStream;
-
-                        if (Path.GetExtension(uppModel.ImagenHttp.FileName).ToLower() == ".heic")
-                        {
-
-                            Image img = (Image)Auxiliar.ProcessFile(s);
-                            Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
-                            uppModel.Imagen = image.ToBase64String(ImageFormat.Jpeg);
-                        }
-                        else
-                        {
-                            Image img = new Bitmap(s);
-                            Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
-                            uppModel.Imagen = image.ToBase64String(img.RawFormat);
-                        }
-
+                        var fileName = uppModel.id_cliente;
+                        var uploadImageUppPsgToserver = new UploadFileToServerModel();
+                        uploadImageUppPsgToserver.FileBase = uppPostedFileBase;
+                        uploadImageUppPsgToserver.BaseDir = ProjectSettings.BaseDirClienteUppPsg;
+                        uploadImageUppPsgToserver.FileName = uppModel.ImagenHttp.Replace(ProjectSettings.BaseDirClienteUppPsg, string.Empty);
+                        CidFaresHelper.DeleteFileromServer(uploadImageUppPsgToserver);
+                        uploadImageUppPsgToserver.FileName = fileName;
+                        CidFaresHelper.UploadFileToServer(uploadImageUppPsgToserver);
+                        uppModel.Imagen = uploadImageUppPsgToserver.UrlRelative;
                     }
-
 
                     if (ModelState.IsValid)
                     {
