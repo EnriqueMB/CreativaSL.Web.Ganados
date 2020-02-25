@@ -4,7 +4,12 @@
     var UrlProveedores = "/Admin/CatProveedor/ObtenerProveedoresXSucursal/";
     var UrlReporteProveedorGanado = "/Admin/CatProveedor/GenerarReporteProveedoresGanado/";
 
-    var initEvents = function() {
+    var initEvents = function () {
+        $('.datepicker').datepicker({
+            format: 'dd/mm/yyyy',
+            language: 'es'
+        });
+
         $('input[type="checkbox"]').on("change", function () {
             var sucursales = [];
             $('input[type="checkbox"]').each(function () {
@@ -150,15 +155,10 @@
 
                     proveedores.push(idProveedor);
                 }
+                var fechaInicio = $("#FechaInicio").val().trim();
+                var fechaFin = $("#FechaFin").val().trim();
 
-                //var xhr = new XMLHttpRequest();
-                //xhr.open("POST", UrlReporteProveedorGanado, true);
-                //xhr.setRequestHeader('Content-Type', 'application/json');
-                //xhr.send(JSON.stringify({
-                //    proveedores: proveedores
-                //}));
-
-                post(UrlReporteProveedorGanado, { proveedores: proveedores });
+                post(UrlReporteProveedorGanado, { proveedores: proveedores, fechaInicio: fechaInicio, fechaFin: fechaFin});
             }
         });
 
@@ -197,19 +197,46 @@
 
 
     function Validar() {
-        var error = true;
+        var error = false;
         var proveedoresSeleccionados = tblProveedoresSeleccionados.rows().data();
 
         if (proveedoresSeleccionados.length === 0) {
             $("#tblProveedoresSeleccionados").addClass("errorCID");
             $("#tblProveedoresSeleccionados").removeClass("successCID");
             $("#validation_summary").find("dd[for='ErrorProveedor']").addClass('help-block valid').text('-Debe de seleccionar por lo menos un proveedor.');
+            error = true;
         }
         else {
             $("#tblProveedoresSeleccionados").addClass("successCID");
             $("#tblProveedoresSeleccionados").removeClass("errorCID");
             $("#validation_summary").find("dd[for='ErrorProveedor']").addClass('help-block valid').text('');
-            error = false;
+        }
+
+        var fechaInicio = $("#FechaInicio").val().trim();
+        if (fechaInicio) {
+            $("#FechaInicio").addClass("successCID");
+            $("#FechaInicio").removeClass("errorCID");
+            $("#validation_summary").find("dd[for='ErrorFechaInicio']").addClass('help-block valid').text('');
+        }
+        else 
+        {
+            $("#FechaInicio").addClass("errorCID");
+            $("#FechaInicio").removeClass("successCID");
+            $("#validation_summary").find("dd[for='ErrorFechaInicio']").addClass('help-block valid').text('-Debe de seleccionar una fecha de inicio.');
+            error = true;
+        }
+
+        var fechaFin = $("#FechaFin").val().trim();
+        if (fechaFin) {
+            $("#FechaFin").addClass("successCID");
+            $("#FechaFin").removeClass("errorCID");
+            $("#validation_summary").find("dd[for='ErrorFechaFin']").addClass('help-block valid').text('');
+        }
+        else {
+            $("#FechaFin").addClass("errorCID");
+            $("#FechaFin").removeClass("successCID");
+            $("#validation_summary").find("dd[for='ErrorFechaFin']").addClass('help-block valid').text('-Debe de seleccionar una fecha fin.');
+            error = true;
         }
 
         return error;

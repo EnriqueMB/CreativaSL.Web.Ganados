@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace CreativaSL.Web.Ganados.Models.Dto.ProveedorGanado
+﻿namespace CreativaSL.Web.Ganados.Models.Dto.ProveedorGanado
 {
     public class ReporteProveedorGanadoDto
     {
@@ -17,14 +15,16 @@ namespace CreativaSL.Web.Ganados.Models.Dto.ProveedorGanado
         public string Telefonos { get; set; }
         public string Email { get; set; }
 
-        public string UppPsgBase64 { get; set; }
-        public string IneBase64 { get; set; }
-        public string ManifestacionFierroBase64 { get; set; }
+        public string UppPsgUrl { get; set; }
+        public string IneUrl { get; set; }
+        public string ManifestacionFierroUrl { get; set; }
 
         #region Mostrar tablas
 
         public bool MostrarTablaContactos { get; set; }
         public bool MostrarTablaCuentasBancarias { get; set; }
+        public bool MostrarTablaDocumentacionExtra { get; set; }
+        public bool MostrarTablaCompras { get; set; }
         #endregion
 
         #region Contactos
@@ -48,7 +48,30 @@ namespace CreativaSL.Web.Ganados.Models.Dto.ProveedorGanado
         public string CuentaBancariaImagenUrl { get; set; }
         #endregion
 
+        #region Documentos extras
 
+        public string DocumentacionExtraId { get; set; }
+        public string DocumentacionExtraTipoDocumentacionExtra { get; set; }
+        public string DocumentacionExtraImagenUrl { get; set; }
 
+        #endregion
+
+        #region Compras
+
+        public string CompraId { get; set; }
+        public string CompraFecha { get; set; }
+        public decimal CompraMerma { get; set; }
+        public int CompraCantidadGanadoMacho { get; set; }
+        public int CompraCantidadGanadoHembra { get; set; }
+        public int CompraCantidadGanadoTotal { get; set; }
+        public decimal CompraKilosGanadoMacho { get; set; }
+        public decimal CompraKilosGanadoHembra { get; set; }
+        public decimal CompraKilosGanadoTotal { get; set; }
+        public decimal CompraImporteGanadoMacho { get; set; }
+        public decimal CompraImporteGanadoHembra { get; set; }
+        public decimal CompraImporteGanadoTotal { get; set; }
+        public decimal CompraImporteDeducciones { get; set; }
+        public decimal CompraImporteTotal { get; set; }
+        #endregion
     }
 }

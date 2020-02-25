@@ -13,6 +13,7 @@ using CreativaSL.Web.Ganados.Models.Dto.ProveedorGanado;
 using CreativaSL.Web.Ganados.Models.System;
 using Newtonsoft.Json;
 using CreativaSL.Web.Ganados.Models.Dto.ProveedorGanado;
+using CreativaSL.Web.Ganados.Models.Helpers;
 
 namespace CreativaSL.Web.Ganados.Models
 {
@@ -271,29 +272,54 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
-        public CatProveedorModels EliminarProveedor(CatProveedorModels datos)
+        public List<PathFileXModuloDto> EliminarProveedor(CatProveedorModels datos)
         {
             try
             {
+                var lista = new List<PathFileXModuloDto>();
+
                 object[] parametros =
                 {
                     datos.IDProveedor, datos.Usuario
                 };
-                object aux = SqlHelper.ExecuteScalar(datos.Conexion, "spCSLDB_Catalogo_del_CatProveedor", parametros);
-                datos.IDProveedor = aux.ToString();
-                if (!string.IsNullOrEmpty(datos.IDProveedor))
+                var dr = SqlHelper.ExecuteReader(datos.Conexion, "spCSLDB_Catalogo_del_CatProveedor", parametros);
+                while (dr.Read())
                 {
-                    datos.Completado = true;
+                    var item = new PathFileXModuloDto();
+                    item.Modulo = int.Parse(dr["Modulo"].ToString());
+                    item.FileName = dr["FileName"].ToString();
+                    switch (item.Modulo)
+                    {
+                        //imagen ine
+                        case 1:
+                            item.BaseDir = ProjectSettings.BaseDirProveedorINE;
+                            break;
+                        //manifestacion fierro
+                        case 2:
+                            item.BaseDir = ProjectSettings.BaseDirProveedorManifestacionFierro;
+                            break;
+                        //foto perfil
+                        case 3:
+                            item.BaseDir = ProjectSettings.BaseDirProveedorFotoPerfil;
+                            break;
+                        //upp/psg
+                        case 4:
+                            item.BaseDir = ProjectSettings.BaseDirProveedorUppPsg;
+                            break;
+                        //documentacion extra
+                        case 5:
+                            item.BaseDir = ProjectSettings.BaseDirProveedorDocumentacionExtra;
+                            break;
+                    }
+
+                    lista.Add(item);
                 }
-                else
-                {
-                    datos.Completado = false;
-                }
-                return datos;
+
+                return lista;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
+                throw ;
             }
         }
         public CatProveedorModels ObtenerDetalleCatProveedor(CatProveedorModels datos)
@@ -329,7 +355,15 @@ namespace CreativaSL.Web.Ganados.Models
                     {
                         datos.FotoPerfil = ProjectSettings.BaseDirProveedorFotoPerfil + datos.FotoPerfil;
                     }
-                    
+                    if (!string.IsNullOrWhiteSpace(datos.ImgINE))
+                    {
+                        datos.ImgINE = ProjectSettings.BaseDirProveedorINE + datos.ImgINE;
+                    }
+                    if (!string.IsNullOrWhiteSpace(datos.ImgManifestacionFierro))
+                    {
+                        datos.ImgManifestacionFierro = ProjectSettings.BaseDirProveedorManifestacionFierro + datos.ImgManifestacionFierro;
+                    }
+
                 }
                 dr.Close();
                 return datos;
@@ -869,8 +903,12 @@ namespace CreativaSL.Web.Ganados.Models
                         Datos.id_municipio = !dr.IsDBNull(dr.GetOrdinal("IDMunicipio")) ? dr.GetInt32(dr.GetOrdinal("IDMunicipio")) : 0;
                         Datos.nombrePredio = !dr.IsDBNull(dr.GetOrdinal("nombrePredio")) ? dr.GetString(dr.GetOrdinal("nombrePredio")) : string.Empty;
                         Datos.propietario = !dr.IsDBNull(dr.GetOrdinal("Propietario")) ? dr.GetString(dr.GetOrdinal("Propietario")) : string.Empty;
-                        Datos.Imagen = !dr.IsDBNull(dr.GetOrdinal("imagenUPP")) ? dr.GetString(dr.GetOrdinal("imagenUPP")) : string.Empty;
-                        Datos.ImagenServer = !dr.IsDBNull(dr.GetOrdinal("imagenServer")) ? dr.GetInt32(dr.GetOrdinal("imagenServer")) : 0;
+                        Datos.ImagenHttp = !dr.IsDBNull(dr.GetOrdinal("imagenUPP")) ? dr.GetString(dr.GetOrdinal("imagenUPP")) : string.Empty;
+                        
+                        if (!string.IsNullOrWhiteSpace(Datos.ImagenHttp))
+                        {
+                            Datos.ImagenHttp = ProjectSettings.BaseDirProveedorUppPsg + Datos.ImagenHttp;
+                        }
                     }
                 }
                 else
@@ -1355,22 +1393,25 @@ namespace CreativaSL.Web.Ganados.Models
             return lista;
         }
 
-        public List<ReporteProveedorGanadoDto> ObtenerReporteProveedorGanadoDtos(List<string> idProveedores)
+        #endregion
+
+        #region Reporte
+        public List<ReporteProveedorGanadoDto> ObtenerReporteProveedorGanadoDtos(List<string> idProveedores, DateTime fechaInicio, DateTime fechaFin)
         {
             var lista = new List<ReporteProveedorGanadoDto>();
 
             foreach (var idProveedor in idProveedores)
             {
-                var item = new ReporteProveedorGanadoDto();
-
                 using (var sqlcon = new SqlConnection(ConexionSql))
                 {
                     using (var cmd = new SqlCommand("spCIDDB_CatProveedor_Reporte_ObtenerProveedor",
                         sqlcon))
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
-
+                        cmd.CommandTimeout = 0;
                         cmd.Parameters.Add("@IdProveedor", SqlDbType.Char).Value = idProveedor;
+                        cmd.Parameters.Add("@FechaInicio", SqlDbType.Date).Value = fechaInicio;
+                        cmd.Parameters.Add("@FechaFin", SqlDbType.Date).Value = fechaFin;
 
                         sqlcon.Open();
 
@@ -1380,10 +1421,25 @@ namespace CreativaSL.Web.Ganados.Models
                         {
                             while (reader.Read())
                             {
-                                var auxUrlFotoPerfil = reader["UrlFotoPerfil"].ToString();
+                                var item = new ReporteProveedorGanadoDto();
+                                var auxFotoPerfilUrl = reader["UrlFotoPerfil"].ToString();
+                                var auxIneUrl = reader["imgINE"].ToString();
+                                var auxManifestacionFierroUrl = reader["imgManifestacionFierro"].ToString();
+                                var auxUppBaseUrl = reader["imagenUPP"].ToString();
+                                var auxCuentaBancariaImagenUrl = reader["CuentaBancariaImagenUrl"].ToString();
+                                var auxDocumentacionExtraImagenUrl = reader["DocumentacionExtraImagenUrl"].ToString();
 
-                                item.FotoPerfilUrl = Auxiliar.FileMapPath(auxUrlFotoPerfil,
+                                item.FotoPerfilUrl = Auxiliar.FileMapPath(auxFotoPerfilUrl,
                                     ProjectSettings.BaseDirProveedorFotoPerfil);
+                                item.IneUrl = Auxiliar.FileMapPath(auxIneUrl, ProjectSettings.BaseDirProveedorINE);
+                                item.ManifestacionFierroUrl = Auxiliar.FileMapPath(auxManifestacionFierroUrl,
+                                    ProjectSettings.BaseDirProveedorManifestacionFierro);
+                                item.UppPsgUrl = Auxiliar.FileMapPath(auxUppBaseUrl,
+                                    ProjectSettings.BaseDirProveedorUppPsg);
+                                item.CuentaBancariaImagenUrl = Auxiliar.FileMapPath(auxCuentaBancariaImagenUrl,
+                                    ProjectSettings.BaseDirProveedorCuentasBancarias);
+                                item.DocumentacionExtraImagenUrl = Auxiliar.FileMapPath(auxDocumentacionExtraImagenUrl,
+                                    ProjectSettings.BaseDirProveedorDocumentacionExtra);
 
                                 item.IdProveedor = reader["id_proveedor"].ToString();
                                 item.RazonSocial_Nombre = reader["nombreRazonSocial"].ToString();
@@ -1395,19 +1451,10 @@ namespace CreativaSL.Web.Ganados.Models
                                 item.Observacion = reader["observaciones"].ToString();
                                 item.Telefonos = reader["Telefono"].ToString();
                                 item.Email = reader["correo"].ToString();
-                                item.IneBase64 = string.IsNullOrEmpty(reader["imgINE"].ToString())
-                                    ? Auxiliar.SetDefaultImage()
-                                    : reader["imgINE"].ToString();
-                                item.ManifestacionFierroBase64 =
-                                    string.IsNullOrWhiteSpace(reader["imgManifestacionFierro"].ToString())
-                                        ? Auxiliar.SetDefaultImage()
-                                        : reader["imgManifestacionFierro"].ToString();
-                                item.UppPsgBase64 = string.IsNullOrWhiteSpace(reader["imagenUPP"].ToString())
-                                    ? Auxiliar.SetDefaultImage()
-                                    : reader["imagenUPP"].ToString();
 
                                 IFormatProvider culture = new CultureInfo("es-MX", true);
-                                item.FechaIngreso = DateTime.ParseExact(reader["FechaIngreso"].ToString(), "dd/MM/yyyy hh:mm:ss tt",
+                                item.FechaIngreso = DateTime.ParseExact(reader["FechaIngreso"].ToString(),
+                                    "dd/MM/yyyy hh:mm:ss tt",
                                     culture).ToString("dd/MM/yyyy", culture);
 
                                 item.ContactoId = reader["ContactoId"].ToString();
@@ -1422,14 +1469,85 @@ namespace CreativaSL.Web.Ganados.Models
                                 item.CuentaBancariaTitular = reader["CuentaBancariaTitular"].ToString();
                                 item.CuentaBancariaNumTarjeta = reader["CuentaBancariaNumTarjeta"].ToString();
                                 item.CuentaBancariaNumCuenta = reader["CuentaBancariaNumCuenta"].ToString();
-                                item.CuentaBancariaClabeInterbancaria = reader["CuentaBancariaClabeInterbancaria"].ToString();
+                                item.CuentaBancariaClabeInterbancaria =
+                                    reader["CuentaBancariaClabeInterbancaria"].ToString();
 
-                                item.CuentaBancariaImagenUrl = Auxiliar.FileMapPath(
-                                    reader["CuentaBancariaImagenUrl"].ToString(),
-                                    ProjectSettings.BaseDirProveedorCuentasBancarias);
+                                item.DocumentacionExtraId = reader["DocumentacionExtraId"].ToString();
+                                item.DocumentacionExtraTipoDocumentacionExtra =
+                                    reader["DocumentacionExtraTipoDocumentacionExtra"].ToString();
+
+                                item.CompraId = reader["CompraId"].ToString();
+                                item.CompraFecha = 
+                                    string.IsNullOrEmpty(reader["CompraFecha"].ToString())
+                                        ? "Sin fecha"
+                                        : DateTime.ParseExact(reader["CompraFecha"].ToString(),
+                                            "dd/MM/yyyy hh:mm:ss tt",
+                                            culture).ToString("dd/MM/yyyy", culture);
+
+                                item.CompraMerma =
+                                    string.IsNullOrEmpty(reader["CompraMerma"].ToString())
+                                        ? 0
+                                        : decimal.Parse(reader["CompraMerma"].ToString());
+                                
+                                item.CompraCantidadGanadoMacho =
+                                    string.IsNullOrEmpty(reader["CompraCantidadGanadoMacho"].ToString())
+                                        ? 0
+                                        : int.Parse(reader["CompraCantidadGanadoMacho"].ToString());
+                                    
+                                item.CompraCantidadGanadoHembra =
+                                    string.IsNullOrEmpty(reader["CompraCantidadGanadoHembra"].ToString())
+                                        ? 0
+                                        : int.Parse(reader["CompraCantidadGanadoHembra"].ToString());
+
+                                item.CompraCantidadGanadoTotal =
+                                    string.IsNullOrEmpty(reader["CompraCantidadGanadoTotal"].ToString())
+                                        ? 0
+                                        : int.Parse(reader["CompraCantidadGanadoTotal"].ToString()); 
+                                
+                                item.CompraKilosGanadoMacho =
+                                    string.IsNullOrEmpty(reader["CompraKilosGanadoMacho"].ToString())
+                                        ? 0
+                                        : decimal.Parse(reader["CompraKilosGanadoMacho"].ToString());
+                                
+                                item.CompraKilosGanadoHembra =
+                                    string.IsNullOrEmpty(reader["CompraKilosGanadoHembra"].ToString())
+                                        ? 0
+                                        : decimal.Parse(reader["CompraKilosGanadoHembra"].ToString());
+
+                                item.CompraKilosGanadoTotal =
+                                    string.IsNullOrEmpty(reader["CompraKilosGanadoTotal"].ToString())
+                                        ? 0
+                                        : decimal.Parse(reader["CompraKilosGanadoTotal"].ToString());
+
+                                item.CompraImporteGanadoMacho =
+                                    string.IsNullOrEmpty(reader["CompraImporteGanadoMacho"].ToString())
+                                        ? 0
+                                        : decimal.Parse(reader["CompraImporteGanadoMacho"].ToString());
+
+                                item.CompraImporteGanadoHembra =
+                                    string.IsNullOrEmpty(reader["CompraImporteGanadoHembra"].ToString())
+                                        ? 0
+                                        : decimal.Parse(reader["CompraImporteGanadoHembra"].ToString());
+
+                                item.CompraImporteGanadoTotal =
+                                    string.IsNullOrEmpty(reader["CompraImporteGanadoTotal"].ToString())
+                                        ? 0
+                                        : decimal.Parse(reader["CompraImporteGanadoTotal"].ToString());
+
+                                item.CompraImporteDeducciones =
+                                    string.IsNullOrEmpty(reader["CompraImporteDeducciones"].ToString())
+                                        ? 0
+                                        : decimal.Parse(reader["CompraImporteDeducciones"].ToString());
+
+                                item.CompraImporteTotal =
+                                    string.IsNullOrEmpty(reader["CompraImporteTotal"].ToString())
+                                        ? 0
+                                        : decimal.Parse(reader["CompraImporteTotal"].ToString());
 
                                 item.MostrarTablaContactos = (bool)reader["MostrarTablaContactos"];
                                 item.MostrarTablaCuentasBancarias = (bool)reader["MostrarTablaCuentasBancarias"];
+                                item.MostrarTablaDocumentacionExtra = (bool)reader["MostrarTablaDocumentacionExtra"];
+                                item.MostrarTablaCompras = (bool) reader["MostrarTablaCompras"];
 
                                 lista.Add(item);
                             }
@@ -1441,6 +1559,8 @@ namespace CreativaSL.Web.Ganados.Models
             }
             return lista;
         }
+
+
         #endregion
     }
 }

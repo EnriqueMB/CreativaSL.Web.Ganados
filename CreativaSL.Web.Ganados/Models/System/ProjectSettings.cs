@@ -13,6 +13,10 @@ namespace CreativaSL.Web.Ganados.Models.System
         public const string BaseDirProveedorDocumentacionExtra = "/Imagenes/Proveedor/DocumentacionExtra/";
         public const string BaseDirProveedorCuentasBancarias = "/Imagenes/Proveedor/CuentasBancarias/";
         public const string BaseDirProveedorFotoPerfil = "/Imagenes/Proveedor/FotoPerfil/";
+        public const string BaseDirProveedorINE = "/Imagenes/Proveedor/INE/";
+        public const string BaseDirProveedorManifestacionFierro = "/Imagenes/Proveedor/ManifestacionFierro/";
+        public const string BaseDirProveedorUppPsg = "/Imagenes/Proveedor/UppPsg/";
+
         public const string PathDefaultImage = "/Content/img/GrupoOcampo.png";
     }
 }

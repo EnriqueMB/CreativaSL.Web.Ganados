@@ -1862,6 +1862,7 @@
     <Compile Include="Models\Dto\ProveedorGanado\IndexProveedorGanadoDocumentacionExtraDto.cs" />
     <Compile Include="Models\Dto\ProveedorGanado\IndexProveedorGanadoDto.cs" />
     <Compile Include="Models\Dto\ProveedorGanado\ReporteProveedorGanadoDto.cs" />
+    <Compile Include="Models\Dto\ProveedorGanado\PathFileXModuloDto.cs" />
     <Compile Include="Models\Dto\Venta\IndexVentaDto.cs" />
     <Compile Include="Models\EntradaAlmacenDetalleModels.cs" />
     <Compile Include="Models\EntradaAlmacenModels.cs" />
