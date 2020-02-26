@@ -3,10 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Globalization;
 using System.IO;
 using System.Web.Hosting;
 using System.Web.Http.Description;
 using System.Xml;
+using CreativaSL.Web.Ganados.Models.Dto.CajaChica;
 using CreativaSL.Web.Ganados.Models.Helpers;
 using CreativaSL.Web.Ganados.Models.System;
 
@@ -334,8 +336,13 @@ namespace CreativaSL.Web.Ganados.Models
                             ProjectSettings.BaseDirCajaChicaChequeComprobante + cajaChica.ImagenCajaChica;
                     }
                 }
+
+                if(string.IsNullOrEmpty(cajaChica.ImagenCajaChica))
+                {
+                    cajaChica.ImagenCajaChica = ProjectSettings.PathDefaultImage;
+                }
+
                 dr.Close();
- 
             }
             catch (Exception ex)
             {
@@ -618,6 +625,77 @@ namespace CreativaSL.Web.Ganados.Models
             {
                 throw ex;
             }
+        }
+
+        public List<ReportCajaChicaImagenesDto> ObtenerConceptosParaCajaChica(Int64 idCajaChica)
+        {
+            var list = new List<ReportCajaChicaImagenesDto>();
+
+            using (var sqlcon = new SqlConnection(ConexionSql))
+            {
+                using (var cmd = new SqlCommand("[cajachica].[spCIDDB_ActualizarFotoComprobate]",
+                    sqlcon))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.Add("@IdCaja", SqlDbType.BigInt).Value = idCajaChica;
+
+                    sqlcon.Open();
+
+                    var reader = cmd.ExecuteReader();
+
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            IFormatProvider culture = new CultureInfo("es-MX", true);
+
+                            var item = new ReportCajaChicaImagenesDto();
+                            item.IdCajaChicaDetalle = Int64.Parse(reader["IdCajaChicaDetalle"].ToString());
+                            item.ConceptoSalida = reader["ConceptoSalida"].ToString();
+                            item.Descripcion = reader["Descripcion"].ToString();
+                            item.FechaHora = DateTime.ParseExact(reader["FechaHora"].ToString(), "dd/MM/yyyy hh:mm:ss tt",
+                                culture).ToString("dd/MM/yyyy HH:mm", culture);
+                            item.Monto = decimal.Parse(reader["Monto"].ToString());
+
+                            item.FormaPago = reader["FormaPago"].ToString();
+                            item.PersonaRecibe = reader["personaRecibe"].ToString();
+                            item.PersonaEntrega = reader["PersonaEntrega"].ToString();
+                            item.FolioCheque = reader["folioCheque"].ToString();
+                            item.Alias = reader["alias"].ToString();
+                            item.Imagen = reader["imagen"].ToString();
+
+
+                            var uploadBase64ToServerModel = CidFaresHelper.UploadBase64ToServer(item.Imagen,
+                                ProjectSettings.BaseDirCajaChicaChequeComprobante);
+
+                            if (uploadBase64ToServerModel.Success)
+                            {
+                                var responseDb = ActualizarFotoComprobate(item.IdCajaChicaDetalle, uploadBase64ToServerModel.FileName);
+                                item.Imagen = uploadBase64ToServerModel.UrlRelative;
+                                continue;
+                            }
+
+                            var path = HostingEnvironment.MapPath(ProjectSettings.BaseDirCajaChicaChequeComprobante + item.Imagen);
+                            var fileName = item.Imagen;
+
+                            if (!File.Exists(path) || string.IsNullOrWhiteSpace(fileName))
+                            {
+                                item.Imagen = ProjectSettings.PathDefaultImage;
+                            }
+                            else
+                            {
+                                item.Imagen = ProjectSettings.BaseDirCajaChicaChequeComprobante + item.Imagen;
+                            }
+
+                            list.Add(item);
+                        }
+                    }
+                    reader.Close();
+                }
+            }
+
+            return list;
         }
 
         public int GuardarMovimientoEntrada(CajaChicaModels model, string IdUsuario)

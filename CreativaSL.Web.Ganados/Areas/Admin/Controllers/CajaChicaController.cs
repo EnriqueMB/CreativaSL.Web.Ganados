@@ -6,6 +6,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Web.Mvc;
+using CreativaSL.Web.Ganados.Models.Helpers;
+using CreativaSL.Web.Ganados.Models.System;
 
 namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 {
@@ -356,13 +358,21 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         //parte de boton ver en cajachica
         public ActionResult ModalTicket2(int ID)
         {
-            CajaChicaModels Imagen = new CajaChicaModels();
+            var Imagen = new CajaChicaModels();
             Imagen.IdCaja = ID;
   
             _CajaChica_Datos datos = new _CajaChica_Datos();
             datos.ObtenerImagenCajaChica(Imagen);
 
-            
+            var uploadBase64ToServerModel = CidFaresHelper.UploadBase64ToServer(Imagen.ImagenCajaChica,
+                ProjectSettings.BaseDirCajaChicaChequeComprobante);
+
+            if (uploadBase64ToServerModel.Success)
+            {
+                var responseDb = datos.ActualizarFotoComprobate(Imagen.IdCaja, uploadBase64ToServerModel.FileName);
+                Imagen.ImagenCajaChica = uploadBase64ToServerModel.UrlRelative;
+            }
+
             return PartialView("ModalTicket2", Imagen);
         }
     }

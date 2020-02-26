@@ -323,7 +323,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             var Imagen = new CajaChicaModels();
             Imagen.IdCaja = ID;
 
-            _CajaChica_Datos datos = new _CajaChica_Datos();
+            var datos = new _CajaChica_Datos();
             datos.ObtenerImagenCajaChica(Imagen);
 
             var uploadBase64ToServerModel = CidFaresHelper.UploadBase64ToServer(Imagen.ImagenCajaChica,
