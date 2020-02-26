@@ -4,6 +4,7 @@ using System.Web.Mvc;
 using CreativaSL.Web.Ganados.Models;
 using CreativaSL.Web.Ganados.Filters;
 using System.Configuration;
+using System.Net;
 
 namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 {
@@ -17,7 +18,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
-
                 CalendarioModels Compra = new CalendarioModels();
                 _Compra_Datos CompraDatos = new _Compra_Datos();
                 Compra.Conexion = Conexion;

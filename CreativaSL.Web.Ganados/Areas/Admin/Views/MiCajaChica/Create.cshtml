@@ -119,7 +119,7 @@
                             <div class="col-md-6 col-xs-12">
                                 <div class="input-group">
                                     <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                    @Html.TextBoxFor(model => model.FotoCheque, new { id = "FotoCheque", @type = "file", @class = "form-control" })
+                                    @Html.TextBoxFor(model => model.FotoCheque, new { @type = "file", @class = "form-control" })
                                 </div>
                                 @Html.ValidationMessageFor(model => model.FotoCheque)
                                 <span class="help-block">Ingrese por lo menos 1 imagen.</span>

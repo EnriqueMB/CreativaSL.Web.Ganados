@@ -35,6 +35,8 @@
                 @Html.ValidationSummary(true)
                 @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
                 @Html.HiddenFor(model => model.IdMovimiento);
+                @Html.HiddenFor(model=>model.FotoCheque);
+
                 <div id="validation_summary" class="field_error "></div> //JS
                 <div class="panel panel-default">
                     <div class="panel-heading">
@@ -159,39 +161,38 @@
         jQuery(document).ready(function () {
             Mensaje(message, typemessage);
             CajaChica.init();
-            $('#FotoCheque').fileinput({
-            theme: 'fa',
-            language: 'es',
-            maxFileCount: 1,
-            autoReplace: true,
-            uploadUrl: "#",
-            overwriteInitial: true,
-            showUploadedThumbs: false,
-            initialPreview: [
-                '<img class="file-preview-image" style="width: auto; height: auto; max-width: 100%; max-height: 100%;" src="data:image/png;base64, @Model.FotoCheque" />'
-            ],
-            initialCaption : 'Foto Comprobante ó Cheque.png',
-            initialPreviewConfig: [
-                { caption: 'Foto Comprobante ó Cheque.png'}
-            ],
-            initialPreviewShowDelete: false,
-            showRemove: false,
-            showClose: false,
-            showUpload: false,
-            layoutTemplates: { actionDelete: '' },
+            $('input[name="FotoCheque"]').fileinput({
+                language: 'es',
+                maxFileCount: 1,
+                autoReplace: true,
+                uploadUrl: "#",
+                overwriteInitial: true,
+                showUploadedThumbs: false,
+                initialPreview: [
+                    '<img class="file-preview-image" style="width: auto; height: auto; max-width: 100%; max-height: 100%;" src="@Url.Content(string.IsNullOrEmpty(Model.FotoCheque) ? "/Content/img/GrupoOcampo.png" : Model.FotoCheque)" />'
+                ],
+                initialCaption: 'Foto Comprobante ó Cheque.png',
+                initialPreviewConfig: [
+                    { caption: 'Foto Comprobante ó Cheque.png' }
+                ],
+                initialPreviewShowDelete: false,
+                showRemove: false,
+                showClose: false,
+                showUpload: false,
+                layoutTemplates: { actionDelete: '' },
 
-            allowedFileExtensions: ['png', 'jpg', 'gif', 'jpeg', 'heic'],
-            previewFileIcon: '<i class="fa fa-file"></i>',
-            preferIconicPreview: true, // this will force thumbnails to display icons for following file extensions
-            previewFileIconSettings: { // configure your icon file extensions
-                'heic': '<i class="fa fa-file-text text-primary"></i>'
-            },
-            previewFileExtSettings: { // configure the logic for determining icon file extensions
-                'heic': function (ext) {
-                    return ext.match(/(heic)$/i);
+                allowedFileExtensions: ['png', 'jpg', 'gif', 'jpeg', 'heic'],
+                previewFileIcon: '<i class="fa fa-file"></i>',
+                preferIconicPreview: true, // this will force thumbnails to display icons for following file extensions
+                previewFileIconSettings: { // configure your icon file extensions
+                    'heic': '<i class="fa fa-file-text text-primary"></i>'
+                },
+                previewFileExtSettings: { // configure the logic for determining icon file extensions
+                    'heic': function(ext) {
+                        return ext.match(/(heic)$/i);
+                    }
                 }
-            }
-        })
+            });
         });
     </script>
 }
