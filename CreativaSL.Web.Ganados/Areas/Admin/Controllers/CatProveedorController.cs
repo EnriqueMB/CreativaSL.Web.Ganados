@@ -370,7 +370,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         Proveedor.Usuario = User.Identity.Name;
 
                         var inePostedFileBase = Request.Files["ImgINE"] as HttpPostedFileBase;
-                        var fileName = DateTime.Now.ToString("MM_dd_yyyy_hh_mm_ss");
+                        var fileName = Guid.NewGuid().ToString().ToUpper();
 
                         if (inePostedFileBase != null && inePostedFileBase.ContentLength > 0)
                         {

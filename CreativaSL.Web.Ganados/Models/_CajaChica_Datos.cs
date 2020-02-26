@@ -3,8 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.IO;
+using System.Web.Hosting;
 using System.Web.Http.Description;
 using System.Xml;
+using CreativaSL.Web.Ganados.Models.Helpers;
 using CreativaSL.Web.Ganados.Models.System;
 
 namespace CreativaSL.Web.Ganados.Models
@@ -253,6 +256,8 @@ namespace CreativaSL.Web.Ganados.Models
                         IdFormaPago = !Dr.IsDBNull(Dr.GetOrdinal("IDFormaPago")) ? Dr.GetInt32(Dr.GetOrdinal("IDFormaPago")) : 0,
                         Estatus = XmlConvert.ToBoolean(Dr.GetInt32(Dr.GetOrdinal("Estatus")).ToString()),
                         FolioCheque = !Dr.IsDBNull(Dr.GetOrdinal("Folio")) ? Dr.GetString(Dr.GetOrdinal("Folio")):string.Empty
+
+
                     };
                     Lista.Add(Item);
                 }
@@ -295,19 +300,40 @@ namespace CreativaSL.Web.Ganados.Models
             try
             {
                 object[] parametros = { cajaChica.IdCaja };
-                SqlDataReader dr = SqlHelper.ExecuteReader(_ConexionRepositorio.CadenaConexion, "[cajachica].[spCIDDB_get_ImageCajaChica]", parametros);
+                var dr = SqlHelper.ExecuteReader(_ConexionRepositorio.CadenaConexion,
+                    "[cajachica].[spCIDDB_get_ImageCajaChica]", parametros);
                
                 while (dr.Read())
                 {
 
-                    cajaChica.ImagenCajaChica = !dr.IsDBNull(dr.GetOrdinal("imagen")) ? dr.GetString(dr.GetOrdinal("imagen")) : string.Empty; 
-                }
+                    cajaChica.ImagenCajaChica = !dr.IsDBNull(dr.GetOrdinal("imagen"))
+                        ? dr.GetString(dr.GetOrdinal("imagen"))
+                        : string.Empty;
 
-                if (string.IsNullOrEmpty(cajaChica.ImagenCajaChica))
-                {
-                    cajaChica.ImagenCajaChica = Auxiliar.SetDefaultImage();
-                }
 
+                    var uploadBase64ToServerModel = CidFaresHelper.UploadBase64ToServer(cajaChica.ImagenCajaChica,
+                        ProjectSettings.BaseDirCajaChicaChequeComprobante);
+
+                    if (uploadBase64ToServerModel.Success)
+                    {
+                        var responseDb = ActualizarFotoComprobate(cajaChica.IdCaja, uploadBase64ToServerModel.FileName);
+                        cajaChica.ImagenCajaChica = uploadBase64ToServerModel.UrlRelative;
+                        continue;
+                    }
+
+                    var path = HostingEnvironment.MapPath(ProjectSettings.BaseDirCajaChicaChequeComprobante + cajaChica.ImagenCajaChica);
+                    var fileName = cajaChica.ImagenCajaChica;
+
+                    if (!File.Exists(path) || string.IsNullOrWhiteSpace(fileName))
+                    {
+                        cajaChica.ImagenCajaChica = ProjectSettings.PathDefaultImage;
+                    }
+                    else
+                    {
+                        cajaChica.ImagenCajaChica =
+                            ProjectSettings.BaseDirCajaChicaChequeComprobante + cajaChica.ImagenCajaChica;
+                    }
+                }
                 dr.Close();
  
             }

@@ -159,7 +159,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
                 var uploadBase64ToServerModel = CidFaresHelper.UploadBase64ToServer(model.FotoCheque,
                     ProjectSettings.BaseDirCajaChicaChequeComprobante);
-                var host = Dns.GetHostEntry(Request.ServerVariables["REMOTE_ADDR"]).HostName;
                 //Si hizo una conversion y subio el archivo al server, por lo que hay que guardar el nombre del archivo al registro
                 if (uploadBase64ToServerModel.Success)
                 {
@@ -277,6 +276,19 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 int Resultado = datos.EliminarMovimiento(id, User.Identity.Name);
                 if (Resultado == 1)
                 {
+
+                    var cajaChica = new CajaChicaModels();
+                    cajaChica.IdCaja = id;
+
+                    datos.ObtenerImagenCajaChica(cajaChica);
+                    var uploadFileToServer = new UploadFileToServerModel();
+                    uploadFileToServer.BaseDir = ProjectSettings.BaseDirCajaChicaChequeComprobante;
+                    uploadFileToServer.FileName =
+                        cajaChica.ImagenCajaChica.Replace(ProjectSettings.BaseDirCajaChicaChequeComprobante,
+                            string.Empty);
+
+                    CidFaresHelper.DeleteFileromServer(uploadFileToServer);
+
                     return Json("true");
                 }
                 return Json("false");
@@ -308,13 +320,21 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         }
         public ActionResult ModalTicket2(int ID)
         {
-            CajaChicaModels Imagen = new CajaChicaModels();
+            var Imagen = new CajaChicaModels();
             Imagen.IdCaja = ID;
 
             _CajaChica_Datos datos = new _CajaChica_Datos();
             datos.ObtenerImagenCajaChica(Imagen);
 
+            var uploadBase64ToServerModel = CidFaresHelper.UploadBase64ToServer(Imagen.ImagenCajaChica,
+                ProjectSettings.BaseDirCajaChicaChequeComprobante);
 
+            if (uploadBase64ToServerModel.Success)
+            {
+                var responseDb = datos.ActualizarFotoComprobate(Imagen.IdCaja, uploadBase64ToServerModel.FileName);
+                Imagen.ImagenCajaChica = uploadBase64ToServerModel.UrlRelative;
+            }
+            
             return PartialView("ModalTicket2", Imagen);
         }
 

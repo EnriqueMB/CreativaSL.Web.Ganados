@@ -18,7 +18,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
-                ViewBag.HostName = Dns.GetHostEntry(Request.ServerVariables["REMOTE_ADDR"]).HostName;
                 CalendarioModels Compra = new CalendarioModels();
                 _Compra_Datos CompraDatos = new _Compra_Datos();
                 Compra.Conexion = Conexion;
