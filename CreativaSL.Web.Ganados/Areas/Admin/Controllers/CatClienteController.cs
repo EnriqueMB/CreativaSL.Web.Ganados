@@ -195,7 +195,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                             {
                                 var uploadImageToserver = new UploadFileToServerModel();
                                 uploadImageToserver.FileBase = fotoPerfilPostedFileBase;
-                                uploadImageToserver.BaseDir = "/Imagenes/Cliente/FotoPerfil/";
+                                uploadImageToserver.BaseDir = ProjectSettings.BaseDirClienteFotoPerfil;
                                 uploadImageToserver.FileName = "fp_" + clienteID.IDCliente;
                                 CidFaresHelper.UploadFileToServer(uploadImageToserver);
 
@@ -1034,29 +1034,19 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             {
                 if (Token.IsTokenValid())
                 {
-                    //HttpPostedFileBase bannerImage = Request.Files[0] as HttpPostedFileBase;
-                    if (uppModel.ImagenHttp != null)
+                    var uppPostedFileBase = Request.Files["ImagenHttp"] as HttpPostedFileBase;
+                    if (uppPostedFileBase != null && uppPostedFileBase.ContentLength > 0)
                     {
-                        //uppModel.Imagen = Auxiliar.ImageToBase64(uppModel.ImagenHttp);
-
-                        Stream s = uppModel.ImagenHttp.InputStream;
-
-                        if (Path.GetExtension(uppModel.ImagenHttp.FileName).ToLower() == ".heic")
-                        {
-
-                            Image img = (Image)Auxiliar.ProcessFile(s);
-                            Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
-                            uppModel.Imagen = image.ToBase64String(ImageFormat.Jpeg);
-                        }
-                        else
-                        {
-                            Image img = new Bitmap(s);
-                            Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
-                            uppModel.Imagen = image.ToBase64String(img.RawFormat);
-                        }
-
+                        var fileName = uppModel.id_cliente;
+                        var uploadImageUppPsgToserver = new UploadFileToServerModel();
+                        uploadImageUppPsgToserver.FileBase = uppPostedFileBase;
+                        uploadImageUppPsgToserver.BaseDir = ProjectSettings.BaseDirClienteUppPsg;
+                        uploadImageUppPsgToserver.FileName = uppModel.ImagenHttp.Replace(ProjectSettings.BaseDirClienteUppPsg, string.Empty);
+                        CidFaresHelper.DeleteFileromServer(uploadImageUppPsgToserver);
+                        uploadImageUppPsgToserver.FileName = fileName;
+                        CidFaresHelper.UploadFileToServer(uploadImageUppPsgToserver);
+                        uppModel.Imagen = uploadImageUppPsgToserver.UrlRelative;
                     }
-
 
                     if (ModelState.IsValid)
                     {
@@ -1385,6 +1375,34 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             TempData["typemessage"] = "1";
             TempData["message"] = responseDb.Mensaje;
             return Json("");
+        }
+        #endregion
+        #region Imagenes
+        public ActionResult Imagenes(string id)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(id))
+                {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "Verifique sus datos.";
+                    return RedirectToAction("Index");
+                }
+                var datosCliente = new CatCliente_Datos();
+                var modelCuenta = new CuentaBancariaClienteModels();
+
+                modelCuenta.Conexion = Conexion;
+                modelCuenta.IDCliente = id;
+                var model = datosCliente.ObtenerCliente(id);
+                ViewBag.ListaCuentasBancarias = datosCliente.ObtenerCuentasBancarias(modelCuenta);
+                return View(model);
+            }
+            catch (Exception)
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Verifique sus datos.";
+                return RedirectToAction("Index");
+            }
         }
         #endregion
     }
