@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Metadata.Edm;
 using System.Data.SqlClient;
 using System.Globalization;
 using System.IO;
@@ -633,7 +634,7 @@ namespace CreativaSL.Web.Ganados.Models
 
             using (var sqlcon = new SqlConnection(ConexionSql))
             {
-                using (var cmd = new SqlCommand("[cajachica].[spCIDDB_ActualizarFotoComprobate]",
+                using (var cmd = new SqlCommand("[cajachica].[spCIDDB_ObtenerConceptosParaCajaChica]",
                     sqlcon))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
@@ -673,6 +674,10 @@ namespace CreativaSL.Web.Ganados.Models
                             {
                                 var responseDb = ActualizarFotoComprobate(item.IdCajaChicaDetalle, uploadBase64ToServerModel.FileName);
                                 item.Imagen = uploadBase64ToServerModel.UrlRelative;
+                                item.Imagen = Auxiliar.FileMapPath(
+                                    item.Imagen.Replace(ProjectSettings.BaseDirCajaChicaChequeComprobante, string.Empty),
+                                    ProjectSettings.BaseDirCajaChicaChequeComprobante);
+                                list.Add(item);
                                 continue;
                             }
 
@@ -687,6 +692,10 @@ namespace CreativaSL.Web.Ganados.Models
                             {
                                 item.Imagen = ProjectSettings.BaseDirCajaChicaChequeComprobante + item.Imagen;
                             }
+
+                            item.Imagen = Auxiliar.FileMapPath(
+                                item.Imagen.Replace(ProjectSettings.BaseDirCajaChicaChequeComprobante, string.Empty),
+                                ProjectSettings.BaseDirCajaChicaChequeComprobante);
 
                             list.Add(item);
                         }

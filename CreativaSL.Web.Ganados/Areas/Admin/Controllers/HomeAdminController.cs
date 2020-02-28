@@ -5,6 +5,7 @@ using CreativaSL.Web.Ganados.Models;
 using CreativaSL.Web.Ganados.Filters;
 using System.Configuration;
 using System.Net;
+using System.Net.NetworkInformation;
 
 namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 {
@@ -22,6 +23,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 _Compra_Datos CompraDatos = new _Compra_Datos();
                 Compra.Conexion = Conexion;
 
+                var ip = GetIP();
+
                 //obtenemos la meta x sucursal
                 List<string> sucursales = (List<string>)System.Web.HttpContext.Current.Session["lista_id_sucursales"];
                 _CatSucursal_Datos sucursal_Datos = new _CatSucursal_Datos();
@@ -38,6 +41,24 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return View(Compra);
             }
         }
+
+        private string GetIP()
+        {
+            NetworkInterface[] nics = NetworkInterface.GetAllNetworkInterfaces();
+            String sMacAddress = string.Empty;
+            foreach (NetworkInterface adapter in nics)
+            {
+                if (sMacAddress == String.Empty)// only return MAC Address from first card  
+                {
+                    IPInterfaceProperties properties = adapter.GetIPProperties();
+                    sMacAddress = adapter.GetPhysicalAddress().ToString();
+                }
+            }
+            return sMacAddress;
+
+        }
+
+
         [HttpPost]
         public ActionResult Eventos(string start,string end)
         {

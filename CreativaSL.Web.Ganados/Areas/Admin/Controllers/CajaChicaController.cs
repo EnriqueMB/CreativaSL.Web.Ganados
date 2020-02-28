@@ -223,6 +223,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Reporte_Datos R = new Reporte_Datos();
                 ReporteCajaChica model = datos.ObtenerDatosReporteCajaChica(id);
                 DatosEmpresaViewModels x = R.ObtenerDatosEmpresaGeneral(_ConexionRepositorio.CadenaConexion);
+                var listaDetallesConceptos = datos.ObtenerConceptosParaCajaChica(id);
                 LocalReport Rtp = new LocalReport
                 {
                     EnableExternalImages = true
@@ -250,6 +251,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Rtp.DataSources.Add(new ReportDataSource("Arqueo", model.ListaDenominaciones));
                 Rtp.DataSources.Add(new ReportDataSource("Conceptos", model.ListaConceptos));
                 Rtp.DataSources.Add(new ReportDataSource("MovimientosCheque", model.ListaMovimientosCheque));
+                Rtp.DataSources.Add(new ReportDataSource("DetallesConcepto", listaDetallesConceptos));
+
                 string reportType = "PDF";
                 string mimeType;
                 string encoding;
