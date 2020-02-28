@@ -265,6 +265,7 @@ namespace CreativaSL.Web.Ganados.Models
                                 indexCompraDto.TotalCobros = decimal.Parse(reader["TotalCobros"].ToString());
                                 indexCompraDto.TotalPagos = decimal.Parse(reader["TotalPagos"].ToString());
                                 indexCompraDto.Folio = reader["Folio"].ToString();
+                                indexCompraDto.IdSucursal = reader["id_sucursal"].ToString();
 
                                 if (!string.IsNullOrEmpty(reader["FechaProgramada"].ToString()))
                                 {

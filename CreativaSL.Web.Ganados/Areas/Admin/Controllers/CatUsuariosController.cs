@@ -3,8 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using CreativaSL.Web.Ganados.Filters;
 using CreativaSL.Web.Ganados.App_Start;
