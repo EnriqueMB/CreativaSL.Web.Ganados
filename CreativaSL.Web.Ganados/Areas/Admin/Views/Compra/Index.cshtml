@@ -433,33 +433,33 @@
                         console.log(idSucursalAsignada);
                         console.log("-------------------------");
 
-                        if (full["id_sucursal"] !== idSucursalAsignada) {
+                        //if (full["id_sucursal"] !== idSucursalAsignada) {
 
-                            botones = botones +
-                                "<a data-id='" +
-                                full["id_compra"] +
-                                "' class='btn tooltips   btn-primary details btnMargin' title='Detalles'  data-placement='top' data-original-title='Detalles'><i class='fa fa-eye'></i></a>" +
-                                "</div>" +
-                                "<div class='visible-xs visible-sm visible-md hidden-lg'>" +
-                                "<div class='btn-group'>" +
-                                "<a class='btn btn-danger dropdown-toggle  ' data-toggle='dropdown' href='#'" +
-                                "<i class='fa fa-cog'></i> <span class='caret'></span>" +
-                                "</a>" +
-                                "<ul role='menu' class='dropdown-menu pull-right dropdown-dark'>" +
-                                "<li>" +
-                                "<a class='details' data-id='" +
-                                full["id_compra"] +
-                                "'  role='menuitem' tabindex='-1'>" +
-                                "<i class='fa fa-eye'></i> Detalles" +
-                                "</a>" +
-                                "</li>" +
-                                "</ul>" +
-                                "</div>" +
-                                "</div>";
-                            return botones;
-                        }
-                        else
-                        {
+                        //    botones = botones +
+                        //        "<a data-id='" +
+                        //        full["id_compra"] +
+                        //        "' class='btn tooltips   btn-primary details btnMargin' title='Detalles'  data-placement='top' data-original-title='Detalles'><i class='fa fa-eye'></i></a>" +
+                        //        "</div>" +
+                        //        "<div class='visible-xs visible-sm visible-md hidden-lg'>" +
+                        //        "<div class='btn-group'>" +
+                        //        "<a class='btn btn-danger dropdown-toggle  ' data-toggle='dropdown' href='#'" +
+                        //        "<i class='fa fa-cog'></i> <span class='caret'></span>" +
+                        //        "</a>" +
+                        //        "<ul role='menu' class='dropdown-menu pull-right dropdown-dark'>" +
+                        //        "<li>" +
+                        //        "<a class='details' data-id='" +
+                        //        full["id_compra"] +
+                        //        "'  role='menuitem' tabindex='-1'>" +
+                        //        "<i class='fa fa-eye'></i> Detalles" +
+                        //        "</a>" +
+                        //        "</li>" +
+                        //        "</ul>" +
+                        //        "</div>" +
+                        //        "</div>";
+                        //    return botones;
+                        //}
+                        //else
+                        //{
                             var status_actual = full["Estatus"];
                             var agendado = "Programado";
                             var en_camino = "En camino";
@@ -542,7 +542,8 @@
                                     "</div>";
 
                             return botones;
-                            }
+                        }
+
                             igual = status_actual.localeCompare(en_camino);
                             if (igual == 0) {
                                 botones = botones + "<a data-id='" + full["id_compra"] + "' class='btn tooltips   btn-primary details btnMargin' title='Detalles'  data-placement='top' data-original-title='Detalles'><i class='fa fa-eye'></i></a>" +
@@ -587,7 +588,8 @@
                                     "</div>";
 
                                 return botones;
-                            }
+                        }
+
                             igual = status_actual.localeCompare(ganado);
                             if (igual == 0) {
                                 botones = botones + "<a data-id='" + full["id_compra"] + "' class='btn tooltips btn-primary details btnMargin' title='Detalles'  data-placement='top' data-original-title='Detalles'><i class='fa fa-eye'></i></a>" +
@@ -711,7 +713,7 @@
                                     "</div>";
                                 return botones;
                             }
-                        }
+                        //}
                     },
                     "width": "40%"
                 }

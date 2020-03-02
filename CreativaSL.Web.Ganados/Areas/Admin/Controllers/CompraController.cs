@@ -33,16 +33,16 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
-                var idSucursalAsignada = Auxiliar.IdSucursalAsignada;
-                
-                if (string.IsNullOrEmpty(idSucursalAsignada))
-                {
-                    TempData["typemessage"] = "2";
-                    TempData["message"] = "Verifique sus datos.";
-                    return View("Index");
-                }
+                //var idSucursalAsignada = Auxiliar.IdSucursalAsignada;
+                //var sucursales = new List<string> { idSucursalAsignada };
 
-                var sucursales = new List<string> { idSucursalAsignada };
+                //if (string.IsNullOrEmpty(idSucursalAsignada))
+                //{
+                //    TempData["typemessage"] = "2";
+                //    TempData["message"] = "Verifique sus datos.";
+                //    return View("Index");
+                //}
+                
                 Token.SaveToken();
                 Compra = new CompraModels();
                 CompraDatos = new _Compra_Datos();
@@ -61,10 +61,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     Compra = CompraDatos.GetCompraProgramada(Compra);
                     Compra = CompraDatos.GetCompraEmbarque(Compra);
                 }
-
-
-                //var sucursales = (List<string>)System.Web.HttpContext.Current.Session["lista_id_sucursales"];
-
+                var sucursales = (List<string>)System.Web.HttpContext.Current.Session["lista_id_sucursales"];
                 Compra.ListaEmpresas = CompraDatos.GetListadoEmpresas(Compra);
                 Compra.ListaSucursales = CompraDatos.GetSucursalesPermitidas(sucursales, 1, Conexion);
                 Compra.ListaProveedores = CompraDatos.GetListaProveedores(Compra);

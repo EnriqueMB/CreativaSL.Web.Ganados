@@ -1,11 +1,9 @@
 ﻿using CreativaSL.Web.Ganados.App_Start;
 using CreativaSL.Web.Ganados.Models;
 using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Web.Configuration;
 using System.Web.Mvc;
-using DotNetOpenAuth.OpenId.Extensions.AttributeExchange;
 
 namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 {
