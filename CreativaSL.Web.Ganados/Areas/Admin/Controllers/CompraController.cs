@@ -1611,6 +1611,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             return Content(jsString, "application/json");
         }
         #endregion
+
         #region Vista Detalles
 
         [HttpGet]
@@ -2683,7 +2684,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     {
                         if (DocumentoPorPagarPago.HttpImagen != null)
                         {
-                            //DocumentoPorPagarPago.ImagenBase64 = Auxiliar.ImageToBase64(DocumentoPorPagarPago.HttpImagen);
                             Stream s = DocumentoPorPagarPago.HttpImagen.InputStream;
 
                             if (Path.GetExtension(DocumentoPorPagarPago.HttpImagen.FileName).ToLower() == ".heic")
