@@ -1601,6 +1601,7 @@
     <Content Include="Areas\Admin\Views\CatCliente\EditDocumentoExtra.cshtml" />
     <Content Include="Areas\Admin\Views\CatProveedor\ConfiguracionReporteProveedorGanado.cshtml" />
     <Content Include="Areas\Admin\Views\CatCliente\Imagenes.cshtml" />
+    <Content Include="Areas\Admin\Views\Ticket\AsignarSucursal.cshtml" />
     <None Include="Properties\PublishProfiles\Ocampo.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />

@@ -77,5 +77,8 @@ namespace CreativaSL.Web.Ganados.Models
         //vista producto servicio
         public List<CatTipoClasificacionCobroModels> ListaTipoClasificacionCobro { get; set; }
         public List<DocumentoPorPagarDetallePagosModels> ListaPagosDocumento { get; set; }
+
+        //Datos del cheque para el pago
+        public string PagarA { get; set; }
     }
 }

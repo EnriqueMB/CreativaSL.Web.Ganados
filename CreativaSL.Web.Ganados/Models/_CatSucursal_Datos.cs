@@ -98,7 +98,6 @@ namespace CreativaSL.Web.Ganados.Models
             }
             catch (Exception ex)
             {
-
                 throw ex;
             }
         }

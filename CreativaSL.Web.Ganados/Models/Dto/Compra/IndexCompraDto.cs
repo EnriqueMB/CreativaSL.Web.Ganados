@@ -67,5 +67,9 @@ namespace CreativaSL.Web.Ganados.Models.Dto.Compra
 
         [JsonProperty("Pendiente")]
         public decimal Pendiente { get; set; }
+
+
+        [JsonProperty("id_sucursal")]
+        public string IdSucursal { get; set; }
     }
 }

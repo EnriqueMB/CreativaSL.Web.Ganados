@@ -265,6 +265,7 @@ namespace CreativaSL.Web.Ganados.Models
                                 indexCompraDto.TotalCobros = decimal.Parse(reader["TotalCobros"].ToString());
                                 indexCompraDto.TotalPagos = decimal.Parse(reader["TotalPagos"].ToString());
                                 indexCompraDto.Folio = reader["Folio"].ToString();
+                                indexCompraDto.IdSucursal = reader["id_sucursal"].ToString();
 
                                 if (!string.IsNullOrEmpty(reader["FechaProgramada"].ToString()))
                                 {
@@ -2534,7 +2535,8 @@ namespace CreativaSL.Web.Ganados.Models
                     DocumentosPorPagarModels.FolioIFE,                             DocumentosPorPagarModels.Usuario,
                     DocumentosPorPagarModels.Bancarizado,                          DocumentosPorPagarModels.RfcEmisorOrdenante,
                     DocumentosPorPagarModels.RfcEmisorBeneficiario,                DocumentosPorPagarModels.ImagenBase64,
-                    DocumentosPorPagarModels.Email,                                DocumentosPorPagarModels.Celular
+                    DocumentosPorPagarModels.Email,                                DocumentosPorPagarModels.Celular,
+                    DocumentosPorPagarModels.PagarA
                 };
                 SqlDataReader dr = null;
                 dr = SqlHelper.ExecuteReader(DocumentosPorPagarModels.Conexion, "spCSLDB_Compra_AC_DetallesPago", parametros);
@@ -2989,6 +2991,7 @@ namespace CreativaSL.Web.Ganados.Models
                         DocumentoPago.Email = !dr.IsDBNull(dr.GetOrdinal("email")) ? dr.GetString(dr.GetOrdinal("email")) : string.Empty;
                         DocumentoPago.Celular = !dr.IsDBNull(dr.GetOrdinal("celular")) ? dr.GetString(dr.GetOrdinal("celular")) : string.Empty;
                         DocumentoPago.pendiente = !dr.IsDBNull(dr.GetOrdinal("pendiente")) ? dr.GetDecimal(dr.GetOrdinal("pendiente")) : 0;
+                        DocumentoPago.PagarA = !dr.IsDBNull(dr.GetOrdinal("PagarA")) ? dr.GetString(dr.GetOrdinal("PagarA")) : string.Empty;
                     }
                     else
                     {
