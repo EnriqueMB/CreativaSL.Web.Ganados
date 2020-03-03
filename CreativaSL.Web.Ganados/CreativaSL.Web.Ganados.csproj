@@ -1866,6 +1866,7 @@
     <Compile Include="Models\Dto\ProveedorGanado\IndexProveedorGanadoDto.cs" />
     <Compile Include="Models\Dto\ProveedorGanado\ReporteProveedorGanadoDto.cs" />
     <Compile Include="Models\Dto\ProveedorGanado\PathFileXModuloDto.cs" />
+    <Compile Include="Models\Dto\Reporte\ReportePagosChequeDto.cs" />
     <Compile Include="Models\System\Base64Model.cs" />
     <Compile Include="Models\Dto\Venta\IndexVentaDto.cs" />
     <Compile Include="Models\EntradaAlmacenDetalleModels.cs" />
@@ -2234,6 +2235,7 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Reports\ReporteCombustible.rdlc" />
+    <EmbeddedResource Include="Reports\ReportePagosCheque.rdlc" />
     <EmbeddedResource Include="Reports\ReportePagosProveedor.rdlc" />
     <EmbeddedResource Include="Reports\ReporteProveedoresGanado.rdlc" />
     <EmbeddedResource Include="Reports\ReporteTipoFlete.rdlc" />

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using CreativaSL.Web.Ganados.Models.Dto.Reporte;
 using CreativaSL.Web.Ganados.Models.System;
 
 namespace CreativaSL.Web.Ganados.Models
@@ -902,6 +903,46 @@ namespace CreativaSL.Web.Ganados.Models
 
                 throw;
             }
+        }
+
+        public List<ReportePagosChequeDto>ObtenerDatosReporteCheques(string fechaInicio, string fechaFin, string idSucursal)
+        {
+            var list = new List<ReportePagosChequeDto>();
+            
+            object[] parametros = { idSucursal, fechaInicio, fechaFin };
+            SqlDataReader ds = null;
+            ds = SqlHelper.ExecuteReader(ConexionSql, "[dbo].[spCIDDB_Reporte_ObtenerDatosReporteCheques]",
+                parametros);
+                
+            while (ds.Read())
+            {
+
+                var item = new ReportePagosChequeDto();
+                item.IdSucursal = !ds.IsDBNull(ds.GetOrdinal("IdSucursal"))
+                        ? ds.GetString(ds.GetOrdinal("IdSucursal"))
+                        : string.Empty;
+
+                item.NombreSucursal = !ds.IsDBNull(ds.GetOrdinal("NombreSucursal"))
+                    ? ds.GetString(ds.GetOrdinal("NombreSucursal"))
+                    : string.Empty;
+
+                item.PagarA = !ds.IsDBNull(ds.GetOrdinal("PagarA"))
+                    ? ds.GetString(ds.GetOrdinal("PagarA"))
+                    : string.Empty;
+
+                item.Monto = !ds.IsDBNull(ds.GetOrdinal("Monto"))
+                    ? ds.GetDecimal(ds.GetOrdinal("Monto"))
+                    : 0;
+
+                item.Fecha = !ds.IsDBNull(ds.GetOrdinal("Fecha"))
+                    ? ds.GetDateTime(ds.GetOrdinal("Fecha")).ToShortDateString()
+                    : string.Empty;
+                list.Add(item);
+            }
+
+            ds.Close();
+
+            return list;
         }
     }
 }
