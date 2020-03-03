@@ -10,7 +10,7 @@ namespace CreativaSL.Web.Ganados.Models
         public string IdSucursalVenta { get; set; }
         public string NombreSucursal { get; set; }
         public string IdVenta { get; set; }
-        public long FolioVenta { get; set; }
+        public string FolioVenta { get; set; }
         public decimal Compra { get; set; }
         public decimal Venta { get; set; }
         public decimal Utilidad { get; set; }
