@@ -85,18 +85,18 @@
                                 </div>
                             </div>
                         </div>
-                        @*<div class="form-group">
+                    <div class="form-group">
                             <div class="col-md-12 controlError">
-                                <label class="col-md-3 control-label">Merma predeterminada</label>
+                                <label class="col-md-3 control-label">Nombre corto</label>
                                 <div class="col-md-8 col-xs-12">
                                     <div class="input-group">
                                         <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                        @Html.TextBox("MermaPredeterminada", @String.Format("{0:N0}", Model.MermaPredeterminada), new { id = "MermaPredeterminada", @class = "form-control", placeholder = "Ingrese la merma predeterminada para esta sucursal. (%)" })
+                                        @Html.TextBoxFor(model=>model.NombreCorto , new { @class = "form-control", placeholder = "Ingrese corto para los folios" })
                                     </div>
                                     <span class="help-block"></span>
                                 </div>
                             </div>
-                        </div>*@
+                        </div>
                         <div class="form-group">
                             <div class="col-md-12 controlError">
                                 <label class="col-md-3 control-label">Ubicación</label>

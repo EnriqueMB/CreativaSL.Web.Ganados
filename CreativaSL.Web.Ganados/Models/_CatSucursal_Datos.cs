@@ -80,9 +80,10 @@ namespace CreativaSL.Web.Ganados.Models
                     Sucursal.IDEmpresa,
                     Sucursal.NombreSucursal,
                     Sucursal.Direccion,
-                    0, //Sucursal.MermaPredeterminada,
+                    0, 
                     Sucursal.Usuario,
                     Sucursal.IDLugar
+                    , Sucursal.NombreCorto
                 };
                 SqlDataReader dr = null;
 
@@ -97,7 +98,6 @@ namespace CreativaSL.Web.Ganados.Models
             }
             catch (Exception ex)
             {
-
                 throw ex;
             }
         }
@@ -117,9 +117,8 @@ namespace CreativaSL.Web.Ganados.Models
                     Sucursal.IDEmpresa = !dr.IsDBNull(dr.GetOrdinal("id_empresa")) ? dr.GetString(dr.GetOrdinal("id_empresa")) : string.Empty;
                     Sucursal.NombreSucursal = !dr.IsDBNull(dr.GetOrdinal("nombreSuc")) ? dr.GetString(dr.GetOrdinal("nombreSuc")) : string.Empty;
                     Sucursal.Direccion = !dr.IsDBNull(dr.GetOrdinal("direccion")) ? dr.GetString(dr.GetOrdinal("direccion")) : string.Empty;
-                    //Sucursal.MermaPredeterminada = !dr.IsDBNull(dr.GetOrdinal("mermaPredeterminada")) ? dr.GetDecimal(dr.GetOrdinal("mermaPredeterminada")) : 0;
+                    Sucursal.NombreCorto = !dr.IsDBNull(dr.GetOrdinal("NombreCorto")) ? dr.GetString(dr.GetOrdinal("NombreCorto")) : string.Empty;
                     Sucursal.IDLugar = !dr.IsDBNull(dr.GetOrdinal("id_lugar")) ? dr.GetString(dr.GetOrdinal("id_lugar")) : string.Empty;
-
                 }
                 dr.Close();
                 return Sucursal;

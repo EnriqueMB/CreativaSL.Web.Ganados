@@ -6,6 +6,7 @@
     var cuentaBeneficiante = $("#Id_cuentaBancariaBeneficiante");
     var cuentaOrdenante = $("#Id_cuentaBancariaOrdenante");
     var imagen = $("#HttpImagen");
+    var PagarA = $("#PagarA");
 
     var RunEventsComprobantePago = function () {
         var ExtensionImagen = document.getElementById("ExtensionImagenBase64").value;
@@ -68,8 +69,8 @@
                 $('#divBancarizado').show(1000);
                 bancarizadoForm.value = true;
                 cuentaBeneficiante.rules("add", { required: true });
-                //cuentaOrdenante.rules("add", { required: true });
-                imagen.rules("add", { ImagenRequerida: true, ImagenRequerida: ["ImagenServer"] });
+                imagen.rules("add", { ImagenRequerida: ["ImagenServer"] });
+                PagarA.rules("add", { required: true });
             }
             else {
                 $('#divBancarizado').hide(1000);
@@ -101,16 +102,16 @@
     }
     function QuitarValidacionesBancarizadas() {
         cuentaBeneficiante.rules("remove", "required");
-        //cuentaOrdenante.rules("remove", "required");
         imagen.rules("remove", "ImagenRequerida");
+        PagarA.rules("remove", "required");
 
         cuentaBeneficiante.closest(".controlError").removeClass("has-success has-error");
-        //cuentaOrdenante.closest(".controlError").removeClass("has-success has-error");
         imagen.closest(".controlError").removeClass("has-success has-error");
+        PagarA.closest(".controlError").removeClass("has-success has-error");
 
         $("#validation_summary").find("dd[for='HttpImagen']").addClass('help-block valid').text('');
-        //$("#validation_summary").find("dd[for='Id_cuentaBancariaOrdenante']").addClass('help-block valid').text('');
         $("#validation_summary").find("dd[for='Id_cuentaBancariaBeneficiante']").addClass('help-block valid').text('');
+        $("#validation_summary").find("dd[for='PagarA']").addClass('help-block valid').text('');
     }
     function CuentasBancarias() {
         $.ajax({
@@ -174,12 +175,10 @@
                     ImagenRequerida: true,
                     ImagenRequerida: ["ImagenServer"]
                 },
-                //"Id_cuentaBancariaOrdenante": {
-                //   required: true
-                //},
                 "Id_cuentaBancariaBeneficiante": {
                     required: true
-                }
+                }, 
+                PagarA: { required: true }
             },
             messages: {
                 Id_documentoPorCobrar: {
@@ -196,12 +195,10 @@
                 fecha: {
                     required: "Seleccione la fecha"
                 },
-                //Id_cuentaBancariaOrdenante: {
-                //    required: "Seleccione una cuenta de banco del proveedor / cliente"
-                //},
                 Id_cuentaBancariaBeneficiante: {
                     required: "Seleccione una cuenta de banco de la empresa"
                 }
+                , PagarA: { required: "Por favor, ingrese el nombre de la persona a la cual saldrá el cheque." }
             },
             invalidHandler: function (event, validator) {
                 successHandler1.hide();

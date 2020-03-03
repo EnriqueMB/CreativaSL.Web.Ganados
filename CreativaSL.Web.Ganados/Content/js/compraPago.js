@@ -5,6 +5,7 @@
     var cuentaBeneficiante = $("#Id_cuentaBancariaBeneficiante");
     var cuentaOrdenante = $("#Id_cuentaBancariaOrdenante");
     var imagen = $("#HttpImagen");
+    var PagarA = $("#PagarA");
 
     var RunEventsComprobantePago = function () {
         var ExtensionImagen = document.getElementById("ExtensionImagenBase64").value;
@@ -54,10 +55,8 @@
                 $('#divBancarizado').show(1000);
                 bancarizadoForm.value = true;
                 cuentaBeneficiante.rules("add", { required: true });
-                //cuentaOrdenante.rules("add", { required: true });
-                imagen.rules("add", { ImagenRequerida: true, ImagenRequerida: ["ImagenServer"] });
-                //folioINE.rules("add", { required: true });
-                //numeroAutorizacion.rules("add", { required: true });
+                imagen.rules("add", { ImagenRequerida: ["ImagenServer"] });
+                PagarA.rules("add", { required:true });
             }
             else{
                 $('#divBancarizado').hide(1000);
@@ -85,22 +84,16 @@
     }
     function QuitarValidacionesBancarizadas() {
         cuentaBeneficiante.rules("remove", "required");
-        //cuentaOrdenante.rules("remove", "required");
         imagen.rules("remove", "ImagenRequerida");
-        //folioINE.rules("remove", "required");
-        //numeroAutorizacion.rules("remove", "required");
+        PagarA.rules("remove", "required");
 
         cuentaBeneficiante.closest(".controlError").removeClass("has-success has-error");
-        //cuentaOrdenante.closest(".controlError").removeClass("has-success has-error");
         imagen.closest(".controlError").removeClass("has-success has-error");
-        //folioINE.closest(".controlError").removeClass("has-success has-error");
-        //numeroAutorizacion.closest(".controlError").removeClass("has-success has-error");
+        PagarA.closest(".controlError").removeClass("has-success has-error");
 
-        //$("#validation_summary").find("dd[for='FolioIFE']").addClass('help-block valid').text('');
-        //$("#validation_summary").find("dd[for='NumeroAutorizacion']").addClass('help-block valid').text('');
         $("#validation_summary").find("dd[for='HttpImagen']").addClass('help-block valid').text('');
-        //$("#validation_summary").find("dd[for='Id_cuentaBancariaOrdenante']").addClass('help-block valid').text('');
         $("#validation_summary").find("dd[for='Id_cuentaBancariaBeneficiante']").addClass('help-block valid').text('');
+        $("#validation_summary").find("dd[for='PagarA']").addClass('help-block valid').text('');
     }
     
     var LoadValidation_AC_Documento = function () {
@@ -127,28 +120,20 @@
             },
             ignore: "",
             rules: {
-                //Id_documentoPorCobrar: { required: true },
                 Id_formaPago: { required: true, min: 1 },
                 Monto: { required: true, min: 1 },
                 fecha: { required: true  },
-                //bancarizado
-                //"FolioIFE": { required: true },
-                //"NumeroAutorizacion": { required: true },
-                "HttpImagen": { ImagenRequerida: true, ImagenRequerida: ["ImagenServer"] },
-                //"Id_cuentaBancariaOrdenante": { required: true },
-                "Id_cuentaBancariaBeneficiante":{ required: true }
+                "HttpImagen": { ImagenRequerida: ["ImagenServer"] },
+                "Id_cuentaBancariaBeneficiante": { required: true },
+                PagarA: {required:true}
             },
             messages: {
-                //Id_documentoPorCobrar: { required: "Por favor, seleccione a quien se le asignara el cobro." },
                 Id_formaPago: { required: "Por favor, seleccione la forma de pago.", min: "Por favor, seleccione la forma de pago." },
                 Monto: { required: "Por favor, escriba el monto.", min: "Por favor, escriba el monto." },
                 fecha: { required: "Por favor, seleccione la fecha." },
-                //bancarizado
-                //FolioIFE: { required: "Por favor, escriba el folio del INE" },
-                //NumeroAutorizacion: { required: "Por favor, escriba el numero de autorización" },
                 HttpImagen: { required: "Por favor, ingrese una imagen" },
-                //Id_cuentaBancariaOrdenante: { required: "Por favor, seleccione una cuenta de banco del cliente." },
-                Id_cuentaBancariaBeneficiante: { required: "Por favor, seleccione una cuenta de banco de la empresa." }
+                Id_cuentaBancariaBeneficiante: { required: "Por favor, seleccione una cuenta de banco de la empresa." },
+                PagarA: {required: "Por favor, ingrese el nombre de la persona a la cual saldrá el cheque."}
             },
             invalidHandler: function (event, validator) {
                 successHandler1.hide();

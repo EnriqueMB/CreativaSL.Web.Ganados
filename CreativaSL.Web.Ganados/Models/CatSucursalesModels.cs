@@ -68,6 +68,9 @@ namespace CreativaSL.Web.Ganados.Models
 
         public List<CatLugarModels> ListaLugares { get; set; }
 
+        [DisplayName("Nombre corto")]
+        public string NombreCorto { get; set; }
+
         #region Datos De Control
         public string Conexion { get; set; }
         public int Resultado { get; set; }

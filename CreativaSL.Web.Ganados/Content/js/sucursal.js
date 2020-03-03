@@ -1,5 +1,5 @@
 ﻿var Sucursal = function () {
-    "use strict"
+    "use strict";
     var map, marker;
     var selectLugar = document.getElementById('IDLugar');
 
@@ -42,10 +42,10 @@
                 IDLugar: {
                     required:true
                 }
-                //MermaPredeterminada: {
-                //    required: true,
-                //    digits: true
-                //}
+                , NombreCorto: {
+                    required: true,
+                    maxlength: 4
+                }
             },
             messages: {
                 NombreSucursalMatriz: {
@@ -65,10 +65,10 @@
                 IDLugar: {
                     required: "Por favor, seleccione un lugar de la sucursal."
                 }
-                //MermaPredeterminada: {
-                //    required: "-El campo: Merma predeterminada, es requerido",
-                //    digits: "-El campo: Merma predeterminada, debe ser igual o mayor que 0 (solo números enteros)."
-                //}
+                , NombreCorto: {
+                    required: "Por favor, escriba un nombre corto para el foliador.",
+                    maxlength: jQuery.validator.format("-El campo: Dirección,  debe tener un máximo de caracteres de: {0}")
+                },
             },
             invalidHandler: function (event, validator) { 
                 successHandler1.hide();

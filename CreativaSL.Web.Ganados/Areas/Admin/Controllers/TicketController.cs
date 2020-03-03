@@ -1,11 +1,8 @@
 ﻿using CreativaSL.Web.Ganados.App_Start;
-using CreativaSL.Web.Ganados.Filters;
 using CreativaSL.Web.Ganados.Models;
 using System;
-using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
-using System.Web;
+using System.Web.Configuration;
 using System.Web.Mvc;
 
 namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
@@ -103,6 +100,50 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 TempData["message"] = "Ocurrio un error al intentar guardar los datos. Contacte a soporte técnico.";
                 return View(ticket);
             }
+        }
+
+        [HttpGet]
+        public ActionResult AsignarSucursal()
+        {
+            var idSucursalAsignada = Auxiliar.IdSucursalAsignada;
+            var datosSucursal = new _CatSucursal_Datos();
+            ViewBag.IdSucursalAsignada = idSucursalAsignada;
+            ViewBag.ListaSucursales = datosSucursal.GetSucursales(Conexion);
+
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult AsignarSucursal(string sucursales)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(sucursales))
+                {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] =
+                        "Verifique sus datos.";
+
+                    return RedirectToAction("Index");
+                }
+                var webConfigApp = WebConfigurationManager.OpenWebConfiguration("~");
+                //Modifying the AppKey from AppValue to AppValue1
+                webConfigApp.AppSettings.Settings["idSucursalAsignada"].Value = sucursales;
+                //Save the Modified settings of AppSettings.
+                webConfigApp.Save();
+            }
+            catch (Exception e)
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] =
+                    "Se ha producido un error al asignar el equipo, intentelo de nuevo más tarde o contacte con soporte técnico.";
+
+                return RedirectToAction("Index");
+            }
+            TempData["typemessage"] = "1";
+            TempData["message"] = "Equipo asiganado correctamente.";
+            
+            return RedirectToAction("Index");
         }
     }
 }

@@ -395,6 +395,9 @@ namespace CreativaSL.Web.Ganados.Models
                     DocumentoPago.ImagenBase64 = !dr.IsDBNull(dr.GetOrdinal("imagen")) ? dr.GetString(dr.GetOrdinal("imagen")) : string.Empty;
                     DocumentoPago.ImagenServer = !dr.IsDBNull(dr.GetOrdinal("imagenServer")) ? dr.GetInt32(dr.GetOrdinal("imagenServer")) : 0;
                     DocumentoPago.pendiente = !dr.IsDBNull(dr.GetOrdinal("pendiente")) ? dr.GetDecimal(dr.GetOrdinal("pendiente")) : 0;
+                    DocumentoPago.PagarA = !dr.IsDBNull(dr.GetOrdinal("PagarA"))
+                        ? dr.GetString(dr.GetOrdinal("PagarA"))
+                        : string.Empty;
                 }
                 dr.Close();
                 return DocumentoPago;
@@ -420,6 +423,7 @@ namespace CreativaSL.Web.Ganados.Models
                     DocumentosPagarModels.FolioIFE,                             DocumentosPagarModels.Usuario,
                     DocumentosPagarModels.Bancarizado,                          DocumentosPagarModels.RfcEmisorOrdenante,
                     DocumentosPagarModels.RfcEmisorBeneficiario,                DocumentosPagarModels.ImagenBase64
+                    , DocumentosPagarModels.PagarA
                 };
                 SqlDataReader dr = null;
                 dr = SqlHelper.ExecuteReader(DocumentosPagarModels.Conexion, "spCSLDB_DocumentoPorPagar_AC_DetallesPago", parametros);

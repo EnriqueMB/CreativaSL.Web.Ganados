@@ -33,6 +33,16 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
+                //var idSucursalAsignada = Auxiliar.IdSucursalAsignada;
+                //var sucursales = new List<string> { idSucursalAsignada };
+
+                //if (string.IsNullOrEmpty(idSucursalAsignada))
+                //{
+                //    TempData["typemessage"] = "2";
+                //    TempData["message"] = "Verifique sus datos.";
+                //    return View("Index");
+                //}
+                
                 Token.SaveToken();
                 Compra = new CompraModels();
                 CompraDatos = new _Compra_Datos();
@@ -51,11 +61,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     Compra = CompraDatos.GetCompraProgramada(Compra);
                     Compra = CompraDatos.GetCompraEmbarque(Compra);
                 }
-
-                List<string> sucursales = (List<string>)System.Web.HttpContext.Current.Session["lista_id_sucursales"];
-
+                var sucursales = (List<string>)System.Web.HttpContext.Current.Session["lista_id_sucursales"];
                 Compra.ListaEmpresas = CompraDatos.GetListadoEmpresas(Compra);
-                //Compra.ListaSucursales = CompraDatos.GetListadoSucursales(Compra);
                 Compra.ListaSucursales = CompraDatos.GetSucursalesPermitidas(sucursales, 1, Conexion);
                 Compra.ListaProveedores = CompraDatos.GetListaProveedores(Compra);
                 Compra.ListaLugares = CompraDatos.GetListadoLugaresLugarXIDEmpresa(Compra);
@@ -168,6 +175,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
+                ViewBag.IdSucursalAsignada = Auxiliar.IdSucursalAsignada;
                 Compra = new CompraModels();
                 Token.SaveToken();
                 return View(Compra);
@@ -1528,7 +1536,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         }
         #endregion
 
-
         #region Imágenes
         [HttpPost]
         public ContentResult SaveImageFierro(string IDCompra)
@@ -1684,9 +1691,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
         #endregion
 
-
         #region Datatable
-
         [HttpPost]
         public ActionResult JsonGeneralesGanado(string IDCompra)
         {
@@ -1984,7 +1989,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 CompraDatos = new _Compra_Datos();
                 Compra.Conexion = Conexion;
                 
-                List<string> sucursales = (List<string>)System.Web.HttpContext.Current.Session["lista_id_sucursales"];
+                var sucursales = (List<string>)System.Web.HttpContext.Current.Session["lista_id_sucursales"];
 
                 Compra.RespuestaAjax.Mensaje = CompraDatos.ObtenerCompraIndexDataTable(Compra, sucursales, dataTableAjaxPostModel);
                 Compra.RespuestaAjax.Success = true;
@@ -2679,7 +2684,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     {
                         if (DocumentoPorPagarPago.HttpImagen != null)
                         {
-                            //DocumentoPorPagarPago.ImagenBase64 = Auxiliar.ImageToBase64(DocumentoPorPagarPago.HttpImagen);
                             Stream s = DocumentoPorPagarPago.HttpImagen.InputStream;
 
                             if (Path.GetExtension(DocumentoPorPagarPago.HttpImagen.FileName).ToLower() == ".heic")

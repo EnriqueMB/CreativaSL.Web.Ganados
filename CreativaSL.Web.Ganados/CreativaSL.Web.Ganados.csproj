@@ -171,6 +171,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Management" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
@@ -1602,6 +1603,7 @@
     <Content Include="Areas\Admin\Views\CatProveedor\ConfiguracionReporteProveedorGanado.cshtml" />
     <Content Include="Areas\Admin\Views\CatCliente\Imagenes.cshtml" />
     <Content Include="Areas\Admin\Views\CatCliente\ConfiguracionReporteCliente.cshtml" />
+    <Content Include="Areas\Admin\Views\Ticket\AsignarSucursal.cshtml" />
     <None Include="Properties\PublishProfiles\Ocampo.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
@@ -1851,6 +1853,7 @@
     <Compile Include="Models\DocumentosPorCobrarDetallePagosBancarizadoModels.cs" />
     <Compile Include="Models\DocumentosPorCobrarDetallePagosModels.cs" />
     <Compile Include="Models\DocumentosPorCobrarModels.cs" />
+    <Compile Include="Models\Dto\CajaChica\ReportCajaChicaImagenesDto.cs" />
     <Compile Include="Models\Dto\CatModulos\SelectCatModuloDto.cs" />
     <Compile Include="Models\Dto\CatTipoDocumentacionExtra\CreateEditCatTipoDocumentacionExtraDto.cs" />
     <Compile Include="Models\Dto\CatTipoDocumentacionExtra\IndexCatTipoDocumentacionExtraDto.cs" />
@@ -1867,6 +1870,8 @@
     <Compile Include="Models\Dto\ProveedorGanado\IndexProveedorGanadoDto.cs" />
     <Compile Include="Models\Dto\ProveedorGanado\ReporteProveedorGanadoDto.cs" />
     <Compile Include="Models\Dto\ProveedorGanado\PathFileXModuloDto.cs" />
+    <Compile Include="Models\Dto\Reporte\ReportePagosChequeDto.cs" />
+    <Compile Include="Models\System\Base64Model.cs" />
     <Compile Include="Models\Dto\Venta\IndexVentaDto.cs" />
     <Compile Include="Models\EntradaAlmacenDetalleModels.cs" />
     <Compile Include="Models\EntradaAlmacenModels.cs" />
@@ -1961,6 +1966,7 @@
     <Compile Include="Models\ListaGenerica.cs" />
     <Compile Include="Models\System\BaseSQL.cs" />
     <Compile Include="Models\System\ProjectSettings.cs" />
+    <Compile Include="Models\System\UploadBase64ToServerModel.cs" />
     <Compile Include="Models\System\UploadFileToServerModel.cs" />
     <Compile Include="Models\TelefonosContactoSucursalModels.cs" />
     <Compile Include="Models\ConfiguracionModels.cs" />
@@ -2234,6 +2240,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Reports\ReporteClientes.rdlc" />
     <EmbeddedResource Include="Reports\ReporteCombustible.rdlc" />
+    <EmbeddedResource Include="Reports\ReportePagosCheque.rdlc" />
     <EmbeddedResource Include="Reports\ReportePagosProveedor.rdlc" />
     <EmbeddedResource Include="Reports\ReporteProveedoresGanado.rdlc" />
     <EmbeddedResource Include="Reports\ReporteTipoFlete.rdlc" />
