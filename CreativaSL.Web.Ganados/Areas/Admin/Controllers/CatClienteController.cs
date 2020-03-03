@@ -15,7 +15,9 @@ using System.Drawing.Imaging;
 using CreativaSL.Web.Ganados.Models.System;
 using CreativaSL.Web.Ganados.Models.Helpers;
 using CreativaSL.Web.Ganados.Models.Datatable;
-
+using CreativaSL.Web.Ganados.Models.Dto.Cliente;
+using Newtonsoft.Json;
+using Microsoft.Reporting.WebForms;
 
 namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 {
@@ -1402,6 +1404,96 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 TempData["typemessage"] = "2";
                 TempData["message"] = "Verifique sus datos.";
                 return RedirectToAction("Index");
+            }
+        }
+        #endregion
+        #region ReporteClientes
+        public ActionResult ConfiguracionReporteCliente()
+        {
+            var sucursalesModel = new _CatSucursal_Datos();
+            ViewBag.ListaSucursales = sucursalesModel.ObtenerSucursalesEmpresaPrincipal();
+
+            return View();
+        }
+        public ActionResult ObtenerClienteXSucursal(List<string> sucursales)
+        {
+            if (sucursales == null || sucursales.Count == 0)
+            {
+                var listaVacia = new List<ConfiguracionReporteCliente>();
+                var jsonVacio = JsonConvert.SerializeObject(listaVacia);
+                return Content(jsonVacio, "application/json");
+            }
+            var clienteDatos = new CatCliente_Datos();
+            var listaProveedoresXSucursal = clienteDatos.ObtenerClienteXSucursal(sucursales);
+            var json = JsonConvert.SerializeObject(listaProveedoresXSucursal);
+            return Content(json, "application/json");
+        }
+        public ActionResult GenerarReporteClientes(string clientes, DateTime fechaInicio, DateTime fechaFin)
+        {
+            try
+            {
+                var clientesSplit = clientes.Split(',');
+                var rpt = new LocalReport();
+                var reporteDatos = new Reporte_Datos();
+                var clienteDatos = new CatCliente_Datos();
+
+                var datosEmpresa = reporteDatos.ObtenerDatosEmpresaGeneral(Conexion);
+
+                var listaClientesDto =
+                    clienteDatos.ObtenerReporteClienteDtos(clientesSplit.ToList(), fechaInicio, fechaFin);
+
+                rpt.EnableExternalImages = true;
+                rpt.DataSources.Clear();
+                var path = Path.Combine(Server.MapPath("~/Reports"), "ReporteClientes.rdlc");
+                if (System.IO.File.Exists(path))
+                {
+                    rpt.ReportPath = path;
+                }
+                else
+                {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = "No se ha localizado el formato del reporte, contacte con soporte técnico.";
+                    return RedirectToAction("Index", "CatCliente");
+                }
+                var parametros = new ReportParameter[5];
+                parametros[0] = new ReportParameter("Empresa", datosEmpresa.RazonFiscal);
+                parametros[1] = new ReportParameter("UrlLogo", datosEmpresa.LogoEmpresa);
+                parametros[2] = new ReportParameter("DireccionEmpresa", datosEmpresa.DireccionFiscal);
+                parametros[3] = new ReportParameter("VentaFechaInicio", fechaInicio.ToShortDateString());
+                parametros[4] = new ReportParameter("VentaFechaFin", fechaFin.ToShortDateString());
+
+                rpt.SetParameters(parametros);
+                rpt.DataSources.Add(new ReportDataSource("ClientesDS", listaClientesDto));
+
+                var reportType = "pdf";
+                string mimeType;
+                string encoding;
+                string fileNameExtension;
+
+                var deviceInfo = "<DeviceInfo>" +
+                "  <OutputFormat>pdf</OutputFormat>" +
+                "</DeviceInfo>";
+
+                Warning[] warnings;
+                string[] streams;
+                byte[] renderedBytes;
+
+                renderedBytes = rpt.Render(
+                    reportType,
+                    deviceInfo,
+                    out mimeType,
+                    out encoding,
+                    out fileNameExtension,
+                    out streams,
+                    out warnings);
+
+                return File(renderedBytes, mimeType);
+            }
+            catch (Exception ex)
+            {
+                TempData["typemessage"] = "2";
+                TempData["message"] = "Se ha producido un error, intentelo más tarde o contacte con soporte técnico.";
+                return RedirectToAction("Index", "CatCliente");
             }
         }
         #endregion
