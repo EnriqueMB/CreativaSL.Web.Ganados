@@ -1189,5 +1189,213 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
         #endregion
+        #region Obtener proveevedores por
+
+        public List<ConfiguracionReporteCliente> ObtenerClienteXSucursal(List<string> sucursales)
+        {
+            var lista = new List<ConfiguracionReporteCliente>();
+
+            using (var sqlcon = new SqlConnection(ConexionSql))
+            {
+                using (var cmd = new SqlCommand("spCIDDB_Catalogo_CatCliente_ObtenerClientesXSucursal",
+                    sqlcon))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    DataTable dataTable;
+                    dataTable = new DataTable();
+
+                    dataTable.Columns.Add("Id", typeof(string));
+                    if (sucursales != null)
+                    {
+                        foreach (var item in sucursales)
+                        {
+                            dataTable.Rows.Add(item);
+                        }
+                    }
+
+                    cmd.Parameters.Add("@UDTT_Sucursales", SqlDbType.Structured).Value = dataTable;
+                    sqlcon.Open();
+
+                    var reader = cmd.ExecuteReader();
+
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            var item = new ConfiguracionReporteCliente();
+                            item.IdCliente = reader["id_cliente"].ToString();
+                            item.Cliente = reader["nombreRazonSocial"].ToString();
+                            item.Sucursal = reader["nombreSuc"].ToString();
+
+                            lista.Add(item);
+                        }
+                    }
+                    reader.Close();
+                }
+            }
+
+            return lista;
+        }
+
+        #endregion
+        #region Reporte Cliente
+        public List<ReporteClienteDto> ObtenerReporteClienteDtos(List<string> idClientes, DateTime fechaInicio, DateTime fechaFin)
+        {
+            var lista = new List<ReporteClienteDto>();
+
+            foreach (var idCliente in idClientes)
+            {
+                using (var sqlcon = new SqlConnection(ConexionSql))
+                {
+                    using (var cmd = new SqlCommand("spCIDDB_CatCliente_Reporte_ObtenerCliente",
+                        sqlcon))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.CommandTimeout = 0;
+                        cmd.Parameters.Add("@IdCliente", SqlDbType.Char).Value = idCliente;
+                        cmd.Parameters.Add("@FechaInicio", SqlDbType.Date).Value = fechaInicio;
+                        cmd.Parameters.Add("@FechaFin", SqlDbType.Date).Value = fechaFin;
+                        sqlcon.Open();
+                        var reader = cmd.ExecuteReader();
+                        if (reader.HasRows)
+                        {
+                            while (reader.Read())
+                            {
+                                var item = new ReporteClienteDto();
+                                var auxFotoPerfilUrl = reader["UrlFotoPerfil"].ToString();
+                                //var auxIneUrl = reader["imgINE"].ToString();
+                                //var auxManifestacionFierroUrl = reader["imgManifestacionFierro"].ToString();
+                                var auxUppBaseUrl = reader["imagenUPP"].ToString();
+                                var auxCuentaBancariaImagenUrl = reader["CuentaBancariaImagenUrl"].ToString();
+                                var auxDocumentacionExtraImagenUrl = reader["DocumentacionExtraImagenUrl"].ToString();
+
+                                item.FotoPerfilUrl = Auxiliar.FileMapPath(auxFotoPerfilUrl,
+                                    ProjectSettings.BaseDirClienteFotoPerfil);                                
+                                item.UppPsgUrl = Auxiliar.FileMapPath(auxUppBaseUrl,
+                                    ProjectSettings.BaseDirClienteUppPsg);
+                                item.CuentaBancariaImagenUrl = Auxiliar.FileMapPath(auxCuentaBancariaImagenUrl,
+                                    ProjectSettings.BaseDirClienteCuentasBancarias);
+                                item.DocumentacionExtraImagenUrl = Auxiliar.FileMapPath(auxDocumentacionExtraImagenUrl,
+                                    ProjectSettings.BaseDirClienteDocumentacionExtra);
+
+                                item.IdCliente = reader["id_cliente"].ToString();
+                                item.RazonSocial_Nombre = reader["nombreRazonSocial"].ToString();
+                                item.Rfc = reader["rfc"].ToString();
+                                item.Sucursal = reader["Sucursal"].ToString();
+                                item.TipoCliente = reader["TipoCliente"].ToString();
+                                item.Direccion = reader["direccion"].ToString();
+                                item.Tolerancia = reader["tolerancia"].ToString() + " %";                                
+                                item.Telefonos = reader["Telefono"].ToString();
+                                item.Email = reader["correo"].ToString();
+
+                                IFormatProvider culture = new CultureInfo("es-MX", true);
+                                item.FechaIngreso = DateTime.ParseExact(reader["FechaIngreso"].ToString(),
+                                    "dd/MM/yyyy hh:mm:ss tt",
+                                    culture).ToString("dd/MM/yyyy", culture);
+
+                                item.ContactoId = reader["ContactoId"].ToString();
+                                item.ContactoNombre = reader["ContactoNombre"].ToString();
+                                item.ContactoTelefono = reader["ContactoTelefono"].ToString();
+                                item.ContactoEmail = reader["ContactoEmail"].ToString();
+                                item.ContactoDireccion = reader["ContactoDireccion"].ToString();
+                                item.ContactoObservacion = reader["ContactoObservacion"].ToString();
+
+                                item.CuentaBancariaId = reader["CuentaBancariaId"].ToString();
+                                item.BancoNombre = reader["BancoNombre"].ToString();
+                                item.CuentaBancariaTitular = reader["CuentaBancariaTitular"].ToString();
+                                item.CuentaBancariaNumTarjeta = reader["CuentaBancariaNumTarjeta"].ToString();
+                                item.CuentaBancariaNumCuenta = reader["CuentaBancariaNumCuenta"].ToString();
+                                item.CuentaBancariaClabeInterbancaria =
+                                    reader["CuentaBancariaClabeInterbancaria"].ToString();
+
+                                item.DocumentacionExtraId = reader["DocumentacionExtraId"].ToString();
+                                item.DocumentacionExtraTipoDocumentacionExtra =
+                                    reader["DocumentacionExtraTipoDocumentacionExtra"].ToString();
+                                item.VentaId = reader["VentaId"].ToString();
+                                item.VentaFecha =
+                                    string.IsNullOrEmpty(reader["VentaFecha"].ToString())
+                                        ? "Sin fecha"
+                                        : DateTime.ParseExact(reader["VentaFecha"].ToString(),
+                                            "dd/MM/yyyy hh:mm:ss tt",
+                                            culture).ToString("dd/MM/yyyy", culture);
+
+                                item.VentaMerma =
+                                    string.IsNullOrEmpty(reader["VentaMerma"].ToString())
+                                        ? 0
+                                        : decimal.Parse(reader["VentaMerma"].ToString());
+
+                                item.VentaCantidadGanadoMacho =
+                                    string.IsNullOrEmpty(reader["VentaCantidadGanadoMacho"].ToString())
+                                        ? 0
+                                        : int.Parse(reader["VentaCantidadGanadoMacho"].ToString());
+
+                                item.VentaCantidadGanadoHembra =
+                                    string.IsNullOrEmpty(reader["VentaCantidadGanadoHembra"].ToString())
+                                        ? 0
+                                        : int.Parse(reader["VentaCantidadGanadoHembra"].ToString());
+
+                                item.VentaCantidadGanadoTotal =
+                                    string.IsNullOrEmpty(reader["VentaCantidadGanadoTotal"].ToString())
+                                        ? 0
+                                        : int.Parse(reader["VentaCantidadGanadoTotal"].ToString());
+
+                                item.VentaKilosGanadoMacho =
+                                    string.IsNullOrEmpty(reader["VentaKilosGanadoMacho"].ToString())
+                                        ? 0
+                                        : decimal.Parse(reader["VentaKilosGanadoMacho"].ToString());
+
+                                item.VentaKilosGanadoHembra =
+                                    string.IsNullOrEmpty(reader["VentaKilosGanadoHembra"].ToString())
+                                        ? 0
+                                        : decimal.Parse(reader["VentaKilosGanadoHembra"].ToString());
+
+                                item.VentaKilosGanadoTotal =
+                                    string.IsNullOrEmpty(reader["VentaKilosGanadoTotal"].ToString())
+                                        ? 0
+                                        : decimal.Parse(reader["VentaKilosGanadoTotal"].ToString());
+
+                                item.VentaImporteGanadoMacho =
+                                    string.IsNullOrEmpty(reader["VentaImporteGanadoMacho"].ToString())
+                                        ? 0
+                                        : decimal.Parse(reader["VentaImporteGanadoMacho"].ToString());
+
+                                item.VentaImporteGanadoHembra =
+                                    string.IsNullOrEmpty(reader["VentaImporteGanadoHembra"].ToString())
+                                        ? 0
+                                        : decimal.Parse(reader["VentaImporteGanadoHembra"].ToString());
+
+                                item.VentaImporteGanadoTotal =
+                                    string.IsNullOrEmpty(reader["VentaImporteGanadoTotal"].ToString())
+                                        ? 0
+                                        : decimal.Parse(reader["VentaImporteGanadoTotal"].ToString());
+
+                                item.VentaImporteDeducciones =
+                                    string.IsNullOrEmpty(reader["VentaImporteDeducciones"].ToString())
+                                        ? 0
+                                        : decimal.Parse(reader["VentaImporteDeducciones"].ToString());
+
+                                item.VentaImporteTotal =
+                                    string.IsNullOrEmpty(reader["VentaImporteTotal"].ToString())
+                                        ? 0
+                                        : decimal.Parse(reader["VentaImporteTotal"].ToString());
+                                item.Flete =
+                                    string.IsNullOrEmpty(reader["Flete"].ToString())
+                                        ? 0
+                                        : decimal.Parse(reader["Flete"].ToString());
+                                item.MostrarTablaContactos = (bool)reader["MostrarTablaContactos"];
+                                item.MostrarTablaCuentasBancarias = (bool)reader["MostrarTablaCuentasBancarias"];
+                                item.MostrarTablaDocumentacionExtra = (bool)reader["MostrarTablaDocumentacionExtra"];
+                                item.MostrarTablaVentas = (bool)reader["MostrarTablaVentas"];
+                                lista.Add(item);
+                            }
+                        }
+
+                        reader.Close();
+                    }
+                }
+            }
+            return lista;
+        }
+        #endregion
     }
 }

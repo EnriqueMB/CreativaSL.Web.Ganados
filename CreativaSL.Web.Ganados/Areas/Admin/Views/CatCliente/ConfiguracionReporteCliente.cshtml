@@ -1,0 +1,206 @@
+﻿@using CreativaSL.Web.Ganados.Models
+@model CreativaSL.Web.Ganados.Models.VentaModels2
+
+@{
+    ViewBag.Title = "Configuración del reporte de clientes";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    var listaSucursales = ViewBag.ListaSucursales as List<CatSucursalesModels>;
+}
+@section css
+{
+    <link href="~/Content/js/plugins/select.bootstrap.min.css" rel="stylesheet" />
+
+    <style>
+        .errorCID {
+            border: 1px solid #ff004d;
+        }
+
+        .successCID {
+            border-color: #95b75d !important;
+        }
+
+        table {
+            cursor: pointer
+        }
+    </style>
+
+}
+@section featured
+{
+    @{
+        var message = TempData["message"] ?? string.Empty;
+        var typemessage = TempData["typemessage"] ?? string.Empty;
+    }
+    <div class="row">
+        <div id="Error" class="progress-bar progress-bar-striped active errorCSL" style="display:none; width:100%">
+            <h3></h3>
+        </div>
+        <div id="Success" class="progress-bar progress-bar-striped active successCSL" style="display:none; width:100%">
+            <h3></h3>
+        </div>
+
+        @{ Html.EnableClientValidation(false); }
+        @using (Html.BeginForm("Index", "CatCliente", FormMethod.Post, new { id = "form", @class = "form-horizontal", autocomplete = "off" }))
+        {
+            <div id="validation_summary" class="field_error ">
+                <dd for="ErrorFechaInicio" class="successCID" style="color: #ff004d !important;"></dd>
+                <dd for="ErrorFechaFin" class="successCID" style="color: #ff004d !important;"></dd>
+                <dd for="ErrorProveedor" class="successCID" style="color: #ff004d !important;"></dd>
+            </div> //JS
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(model => model.Id_venta)
+            @Html.HiddenFor(model => model.Id_sucursal)
+            @Html.HiddenFor(model => model.TipoVenta)
+
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><strong>Reporte de clientes por sucursal</strong></h3>
+                        <ul class="panel-controls"></ul>
+                    </div>
+                    <div class="panel-body">
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label">Sucursales</label>
+                                    <div class="col-md-9">
+                                        <div class="input-group">
+
+                                            @for (int i = 0; i < listaSucursales.Count(); i++)
+                                            {
+                                                <label>
+                                                    @Html.CheckBox("Sucursal", false, new { data_idsucursal = listaSucursales[i].IDSucursal })
+                                                    @listaSucursales[i].NombreSucursal
+                                                </label>
+                                                <br />
+                                            }
+                                        </div>
+                                        <span class="help-block">Por favor seleccione una sucursal</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="col-md-5 control-label">Fecha inicio para las ventas</label>
+                                    <div class="col-md-7">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-building-o"></span></span>
+                                            @Html.TextBox("FechaInicio", null, new { @class = "form-control datepicker", @readonly = "readonly" })
+                                        </div>
+                                        <span class="help-block">Por favor seleccione una fecha de inicio</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="col-md-5 control-label">Fecha fin para las ventas</label>
+                                    <div class="col-md-7">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-building-o"></span></span>
+                                            @Html.TextBox("FechaFin", null, new { @class = "form-control datepicker", @readonly = "readonly" })
+                                        </div>
+                                        <span class="help-block">Por favor seleccione una fecha de fin</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                <div class="btn-group text-center">
+
+                                    <button type="button" id="seleccionarTodaLaTblClientesNoSeleccionados" class="btn btn-default"><i class="fa fa-hand-o-down"></i></button>
+                                    <button type="button" id="enviar" class="btn btn-default"><i class="fa fa-forward"></i></button>
+                                    <button type="button" id="regresar" class="btn btn-default"><i class="fa fa-backward"></i></button>
+                                    <button type="button" id="seleccionarTodaLaTblClientesSeleccionados" class="btn btn-default"><i class="fa fa-hand-o-down"></i></button>
+
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="table-responsive">
+                                    <div class="text-center">
+                                        <h3>Clientes sin seleccionar</h3>
+                                    </div>
+                                    <table id="tblClientesNoSeleccionados" class="display table " style="width: 100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Id cliente</th>
+                                                <th>Sucursal</th>
+                                                <th>Cliente</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <th>Id cliente</th>
+                                                <th>Sucursal</th>
+                                                <th>Cliente</th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="table-responsive">
+                                    <div class="text-center">
+                                        <h3>Cliente seleccionados</h3>
+                                    </div>
+                                    <table id="tblClientesSeleccionados" class="display table " style="width: 100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Id cliente</th>
+                                                <th>Sucursal</th>
+                                                <th>Cliente</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <th>Id cliente</th>
+                                                <th>Sucursal</th>
+                                                <th>Cliente</th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-footer">
+                        <input id="generarReporte" type="button" value="Generar reporte" class="btn btn-primary pull-right">
+                        <a href="@Url.Action("Index", "CatCliente")" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <script>
+    var message     = '@message';
+    var typemessage = '@typemessage';
+    </script>
+}
+
+@section script
+{
+    <script src="@Url.Content("~/Scripts/jquery.validate.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")"></script>
+    <script src="@Url.Content("~/Content/js/validaciones/additionals.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-select.js")"></script>
+    <script src="@Url.Content("~/Content/js/plugins/popper.min.js")" type="text/javascript"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-datepicker.js")"></script>
+    <script src="~/Content/js/Cliente/ConfiguracionReporteClienteJs.js"></script>
+    <script>
+        jQuery(document).ready(function () {
+            Mensaje(message, typemessage);
+            ConfiguracionReporteCliente.init();
+        });
+    </script>
+}

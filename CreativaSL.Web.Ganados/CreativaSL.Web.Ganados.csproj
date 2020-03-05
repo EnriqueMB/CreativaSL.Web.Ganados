@@ -479,6 +479,7 @@
     <Content Include="Content\js\AgregarArchivoVehiculo.js" />
     <Content Include="Content\js\Bancos.js" />
     <Content Include="Content\js\CatTipoDocumentacionExtraJs.js" />
+    <Content Include="Content\js\Cliente\ConfiguracionReporteClienteJs.js" />
     <Content Include="Content\js\Cliente\CreateEditDocumentoExtraJs.js" />
     <Content Include="Content\js\Cliente\IndexDocumentoExtraJs.js" />
     <Content Include="Content\js\DevolucionHerramienta.js" />
@@ -1601,6 +1602,7 @@
     <Content Include="Areas\Admin\Views\CatCliente\EditDocumentoExtra.cshtml" />
     <Content Include="Areas\Admin\Views\CatProveedor\ConfiguracionReporteProveedorGanado.cshtml" />
     <Content Include="Areas\Admin\Views\CatCliente\Imagenes.cshtml" />
+    <Content Include="Areas\Admin\Views\CatCliente\ConfiguracionReporteCliente.cshtml" />
     <Content Include="Areas\Admin\Views\Ticket\AsignarSucursal.cshtml" />
     <None Include="Properties\PublishProfiles\Ocampo.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
@@ -1856,8 +1858,10 @@
     <Compile Include="Models\Dto\CatTipoDocumentacionExtra\CreateEditCatTipoDocumentacionExtraDto.cs" />
     <Compile Include="Models\Dto\CatTipoDocumentacionExtra\IndexCatTipoDocumentacionExtraDto.cs" />
     <Compile Include="Models\Dto\Cliente\ClienteGanadoDto.cs" />
+    <Compile Include="Models\Dto\Cliente\ConfiguracionReporteCliente.cs" />
     <Compile Include="Models\Dto\Cliente\ImagenesClienteGanadoDto.cs" />
     <Compile Include="Models\Dto\Cliente\IndexClienteGanadoDocumentacionExtraDto.cs" />
+    <Compile Include="Models\Dto\Cliente\ReporteClienteDto.cs" />
     <Compile Include="Models\Dto\Compra\IndexCompraDto.cs" />
     <Compile Include="Models\Dto\Base\IndexDatatableDto.cs" />
     <Compile Include="Models\Dto\ProveedorGanado\ConfiguracionReporteProveedorGanadoDto.cs" />
@@ -2234,6 +2238,7 @@
     <Content Include="Formatos\ComprobanteVentaGeneral.rdlc" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Reports\ReporteClientes.rdlc" />
     <EmbeddedResource Include="Reports\ReporteCombustible.rdlc" />
     <EmbeddedResource Include="Reports\ReportePagosCheque.rdlc" />
     <EmbeddedResource Include="Reports\ReportePagosProveedor.rdlc" />
