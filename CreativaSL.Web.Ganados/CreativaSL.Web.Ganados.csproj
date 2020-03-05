@@ -1604,6 +1604,7 @@
     <Content Include="Areas\Admin\Views\CatCliente\Imagenes.cshtml" />
     <Content Include="Areas\Admin\Views\CatCliente\ConfiguracionReporteCliente.cshtml" />
     <Content Include="Areas\Admin\Views\Ticket\AsignarSucursal.cshtml" />
+    <Content Include="Areas\Admin\Views\CostoExtra\Index.cshtml" />
     <None Include="Properties\PublishProfiles\Ocampo.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
@@ -1645,6 +1646,7 @@
     <Compile Include="Areas\Admin\Controllers\CatRangoPesoVentaController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatTipoClienteController.cs" />
     <Compile Include="Areas\Admin\Controllers\CatTipoDocumentacionExtraController.cs" />
+    <Compile Include="Areas\Admin\Controllers\CostoExtraController.cs" />
     <Compile Include="Areas\Admin\Controllers\CuentaUserController.cs" />
     <Compile Include="Areas\Admin\Controllers\ErrorController.cs" />
     <Compile Include="Areas\Admin\Controllers\HistorialCajaChicaController.cs" />
