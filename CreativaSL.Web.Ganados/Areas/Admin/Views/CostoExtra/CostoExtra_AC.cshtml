@@ -1,0 +1,159 @@
+﻿@model CreativaSL.Web.Ganados.Models.CostoExtra
+@{
+    ViewBag.Title = "Costo extra";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@section css
+{
+
+}
+
+@section featured{
+
+    @{
+        var message = TempData["message"] ?? string.Empty;
+        var typemessage = TempData["typemessage"] ?? string.Empty;
+    }
+    <div class="row">
+        <div id="Error" class="progress-bar progress-bar-striped active errorCSL" style="display:none; width:100%">
+            <h3></h3>
+        </div>
+        <div id="Success" class="progress-bar progress-bar-striped active successCSL" style="display:none; width:100%">
+            <h3></h3>
+        </div>
+        <div class="col-md-12">
+
+            @{ Html.EnableClientValidation(false); }
+            @using (Html.BeginForm("CostoExtra_AC", "CostoExtra", FormMethod.Post, new { id = "frmCostoExtra", @class = "form-horizontal", autocomplete = "off" }))
+            {
+                @Html.AntiForgeryToken()
+
+                @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
+                <div id="validation_summary" class="field_error "></div> //JS
+
+                @Html.HiddenFor(model => model.Id)
+                @Html.HiddenFor(model => model.IdVenta)
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><strong>Costo extra</strong></h3>
+                        <ul class="panel-controls">
+                        </ul>
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-md-12 control-label text-center">Nombre del producto/servicio</label>
+                                    <div class="col-md-12 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.NombreProducto, new { @class = "form-control" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.NombreProducto)
+                                        <span class="help-block">Escriba el nombre del producto o servicio</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-md-12 control-label text-center">Unidad de medida</label>
+                                    <div class="col-md-12 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.NombreUnidadMedida, new { @class = "form-control" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.NombreUnidadMedida)
+                                        <span class="help-block">Escriba la unidad de medida</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="col-md-12 control-label text-center">Cantidad</label>
+                                    <div class="col-md-12 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextBoxFor(model => model.Cantidad, new { @class = "form-control mskNumber eventSubtotal" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.Cantidad)
+                                        <span class="help-block">Escriba una cantidad</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="col-md-12 control-label text-center">Precio unitario</label>
+                                    <div class="col-md-12 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-usd"></span></span>
+                                            @Html.TextBoxFor(model => model.PrecioUnitario, new { @class = "form-control mskMoney eventSubtotal" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.PrecioUnitario)
+                                        <span class="help-block">Escriba el precio unitario </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="col-md-12 control-label text-center">Subtotal</label>
+                                    <div class="col-md-12 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-usd"></span></span>
+                                            @Html.TextBoxFor(model => model.Subtotal, new { @class = "form-control mskMoney", disabled = "disabled" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.Subtotal)
+                                        <span class="help-block">Campo calculado </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="col-md-12 control-label text-center">Observación</label>
+                                    <div class="col-md-12 col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                            @Html.TextAreaFor(model => model.Observacion, new { @class = "form-control" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.Observacion)
+                                        <span class="help-block ">Escriba una observación (opcional)</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="panel-footer">
+                        <input type="submit" value="Guardar" class="btn btn-primary pull-right">
+                        <a href="@Url.Action("CostosExtra", "CostoExtra", new { idVenta = Model.IdVenta})" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    <script>
+        var message = '@message';
+        var typemessage = '@typemessage';
+    </script>
+}
+@section script{
+    <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/jquery-validation/jquery.validate.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/validaciones/additionals.js")"></script>
+    <script src="~/Content/js/plugins/jquery.maskMoney.min.js"></script>
+    <script src="~/Content/js/CostoExtra/CostoExtra_ACJS.js"></script>
+
+    <script>
+        jQuery(document).ready(function () {
+            Mensaje(message, typemessage);
+            CostoExtra_AC.init();
+        });
+    </script>
+}
