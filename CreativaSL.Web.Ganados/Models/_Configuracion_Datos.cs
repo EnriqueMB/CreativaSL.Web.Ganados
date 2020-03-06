@@ -1,13 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.ApplicationBlocks.Data;
-using System.Linq;
-using System.Web;
 using System.Data.SqlClient;
+using CreativaSL.Web.Ganados.Models.Dto.Configuracion;
+using CreativaSL.Web.Ganados.Models.System;
+using System.Data;
+using CreativaSL.Web.Ganados.Models.Datatable;
+using CreativaSL.Web.Ganados.Models.Dto.Base;
+using Newtonsoft.Json;
+using CreativaSL.Web.Ganados.Models.Helpers;
+using System.Web.Hosting;
+using System.IO;
 
 namespace CreativaSL.Web.Ganados.Models
 {
-    public class _Configuracion_Datos
+    public class _Configuracion_Datos : BaseSQL
     {
         public List<ConfiguracionModels> ObtenerListaTicket(ConfiguracionModels datos)
         {
@@ -88,6 +95,133 @@ namespace CreativaSL.Web.Ganados.Models
 
                 throw ex;
             }
+        }
+
+        public string ObtenerRegistrosTablaBase64ToUrl(int idTabla, DataTableAjaxPostModel dataTableAjaxPostModel, string baseDir)
+        {
+            try
+            {
+                using (var sqlcon = new SqlConnection(ConexionSql))
+                {
+                    using (var cmd = new SqlCommand("[dbo].[spCIDDB_Configuracion_ObtenerRegistrosTablaBase64ToUrl]", sqlcon))
+                    {
+                        //parametros de entrada
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        cmd.Parameters.Add("@IdTabla", SqlDbType.Int).Value = idTabla; 
+                        cmd.Parameters.Add("@Start", SqlDbType.Int).Value = dataTableAjaxPostModel.start;
+                        cmd.Parameters.Add("@Length", SqlDbType.Int).Value = dataTableAjaxPostModel.length;
+                        cmd.Parameters.Add("@SearchValue", SqlDbType.NVarChar).Value = dataTableAjaxPostModel.search.value;
+                        cmd.Parameters.Add("@Draw", SqlDbType.Int).Value = dataTableAjaxPostModel.draw;
+                        cmd.Parameters.Add("@ColumnNumber", SqlDbType.Int).Value = dataTableAjaxPostModel.order[0].column;
+                        cmd.Parameters.Add("@ColumnDir", SqlDbType.NVarChar).Value = dataTableAjaxPostModel.order[0].dir;
+
+                        // execute
+                        sqlcon.Open();
+
+                        var reader = cmd.ExecuteReader();
+
+                        var indexDatatableDto = new IndexDatatableDto();
+
+                        if (reader.HasRows)
+                        {
+                            indexDatatableDto.Data = new List<object>();
+                            var firstData = true;
+                            
+                            while (reader.Read())
+                            {
+                                if (firstData)
+                                {
+                                    indexDatatableDto.Draw = int.Parse(reader["Draw"].ToString()); ;
+                                    indexDatatableDto.RecordsFiltered = int.Parse(reader["RecordsFiltered"].ToString());
+                                    indexDatatableDto.RecordsTotal = int.Parse(reader["RecordsTotal"].ToString());
+                                    firstData = false;
+                                }
+
+                                var indexDto = new RegistrosDeTablaBase64ToUrlDto();
+
+                                indexDto.Id = reader["Id"].ToString();
+                                indexDto.Imagen = reader["Imagen"].ToString();
+
+                                var uploadBase64ToServerModel =
+                                    CidFaresHelper.UploadBase64ToServer(indexDto.Imagen, baseDir);
+
+                                if (uploadBase64ToServerModel.Success)
+                                {
+                                    var responseDb = ActualizarRegistroPorImagen(indexDto.Id,
+                                        uploadBase64ToServerModel.FileName, idTabla);
+                                    indexDto.Imagen = uploadBase64ToServerModel.UrlRelative;
+                                    indexDatatableDto.Data.Add(indexDto);
+                                    continue;
+                                }
+
+                                var path = HostingEnvironment.MapPath(baseDir + indexDto.Imagen);
+                                var fileName = indexDto.Imagen;
+
+                                if (!File.Exists(path) || string.IsNullOrWhiteSpace(fileName))
+                                {
+                                    indexDto.Imagen = ProjectSettings.PathDefaultImage;
+                                }
+                                else
+                                {
+                                    indexDto.Imagen = baseDir + indexDto.Imagen;
+                                }
+
+                                indexDatatableDto.Data.Add(indexDto);
+                            }
+                        }
+
+                        var json = JsonConvert.SerializeObject(indexDatatableDto);
+
+                        reader.Close();
+
+                        return json;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public RespuestaAjax ActualizarRegistroPorImagen(string id, string fileName, int idTabla)
+        {
+            var respuestaDb = new RespuestaAjax();
+
+            using (var sqlcon = new SqlConnection(ConexionSql))
+            {
+                using (var cmd = new SqlCommand("[dbo].[spCIDDB_ActualizarRegistroPorImagen]",
+                    sqlcon))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.Add("@Id", SqlDbType.VarChar).Value = id;
+                    cmd.Parameters.Add("@Imagen", SqlDbType.NVarChar).Value = fileName;
+                    cmd.Parameters.Add("@IdTabla", SqlDbType.Int).Value = idTabla;
+
+                    sqlcon.Open();
+
+                    var reader = cmd.ExecuteReader();
+
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            respuestaDb.Success = (bool)reader["Success"];
+                            respuestaDb.Mensaje = reader["Message"].ToString();
+                            if (!respuestaDb.Success)
+                            {
+                                respuestaDb.MensajeErrorSQL = reader["ErrorMessage"].ToString();
+                            }
+
+                        }
+                    }
+                    reader.Close();
+                }
+            }
+
+            return respuestaDb;
         }
     }
 }

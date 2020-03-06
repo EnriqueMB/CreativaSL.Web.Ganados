@@ -1,0 +1,97 @@
+﻿@{
+    ViewBag.Title = "Tablas";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+@section featured{
+
+    @{
+        var message = TempData["message"] ?? string.Empty;
+        var typemessage = TempData["typemessage"] ?? string.Empty;
+    }
+    <div class="row">
+        <div id="Error" class="progress-bar progress-bar-striped active errorCSL" style="display:none; width:100%">
+            <h3></h3>
+        </div>
+        <div id="Success" class="progress-bar progress-bar-striped active successCSL" style="display:none; width:100%">
+            <h3></h3>
+        </div>
+        <div class="col-md-12">
+            @using (Html.BeginForm("RegistrosDeTablaBase64ToUrl", "Ticket", FormMethod.Post, new { @class = "form-horizontal", autocomplete = "off" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Por favor seleccione una tabla.</h3>
+                        <ul class="panel-controls">
+                            <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
+                            <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
+                        </ul>
+                    </div>
+
+                    <div class="panel-body">
+
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Tabla</th>
+                                    <th style="text-align:center">Acción</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                
+                            <tr>
+                                <td>tbl_CajaChicaDetalleCheque</td>
+                                <td style="text-align:center;">
+                                    <div class="visible-md visible-lg hidden-sm hidden-xs">
+                                        <a title="Ver registros" href="@Url.Action("RegistrosDeTablaBase64ToUrl", "Ticket", new { id =1  })" class="btn btn-primary tooltips" data-placement="top" data-original-title="Contatos"><i class="fa fa-eye"></i></a>
+                                    </div>
+                                    <div class="visible-xs visible-sm hidden-md hidden-lg">
+                                        <div class="btn-group">
+                                            <a class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
+                                                <i class="fa fa-cog"></i> <span class="caret"></span>
+                                            </a>
+                                            <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
+                                                <li>
+                                                    <a role="menuitem" tabindex="-1" href="@Url.Action("RegistrosDeTablaBase64ToUrl", "Ticket", new { id = 1  })">
+                                                        <i class="fa fa-user"></i> Ver registros
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                                
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="panel-footer">
+                        <input type="submit" value="Guardar" class="btn btn-primary pull-right">
+                        <a href="@Url.Action("Index", "Ticket")" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    <script>
+        var message = '@message';
+        var typemessage = '@typemessage';
+    </script>
+
+}
+@section script{
+    <script type='text/javascript' src='@Url.Content("~/Content/js/plugins/icheck/icheck.min.js")'></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-datepicker.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-file-input.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-select.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/tagsinput/jquery.tagsinput.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
+    <script>
+        jQuery(document).ready(function () {
+            Mensaje(message, typemessage);
+        });
+    </script>
+}

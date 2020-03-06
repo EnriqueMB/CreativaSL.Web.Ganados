@@ -1,9 +1,11 @@
 ﻿using CreativaSL.Web.Ganados.App_Start;
 using CreativaSL.Web.Ganados.Models;
+using CreativaSL.Web.Ganados.Models.Datatable;
 using System;
 using System.Configuration;
 using System.Web.Configuration;
 using System.Web.Mvc;
+using CreativaSL.Web.Ganados.Models.System;
 
 namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 {
@@ -12,7 +14,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
     {
         private TokenProcessor Token = TokenProcessor.GetInstance();
         string Conexion = ConfigurationManager.AppSettings.Get("strConnection");
-        // GET: Admin/Ticket
+
+        #region Index
         public ActionResult Index()
         {
             try
@@ -30,7 +33,10 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 TempData["message"] = "No se puede cargar la vista";
                 return View(ticket);
             }
-        }
+        } 
+        #endregion
+
+        #region Editar
         public ActionResult Edit(int id)
         {
             try
@@ -57,9 +63,9 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
-                if(Token.IsTokenValid())
+                if (Token.IsTokenValid())
                 {
-                    if(ModelState.IsValid)
+                    if (ModelState.IsValid)
                     {
                         _Configuracion_Datos datos = new _Configuracion_Datos();
                         ticket.Conexion = Conexion;
@@ -100,8 +106,10 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 TempData["message"] = "Ocurrio un error al intentar guardar los datos. Contacte a soporte técnico.";
                 return View(ticket);
             }
-        }
+        } 
+        #endregion
 
+        #region Asignar sucursal
         [HttpGet]
         public ActionResult AsignarSucursal()
         {
@@ -142,8 +150,47 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
             TempData["typemessage"] = "1";
             TempData["message"] = "Equipo asiganado correctamente.";
-            
+
             return RedirectToAction("Index");
         }
+        #endregion
+
+        #region Tablas base 64 a url
+        [HttpGet]
+        public ActionResult TablasBase64ToUrl()
+        {
+            return View();
+        }
+ 
+        public ActionResult RegistrosDeTablaBase64ToUrl(int id)
+        {
+            ViewBag.IdTabla = id;
+            return View();
+        }
+
+
+
+        #endregion
+
+        #region DataTable
+        [HttpPost]
+        public ActionResult JsonRegistrosDeTablaBase64ToUrl(DataTableAjaxPostModel dataTableAjaxPostModel, int idTabla)
+        {
+            var datos = new _Configuracion_Datos();
+            var baseDir = string.Empty;
+            switch (idTabla)
+            {
+                case 1:
+                    baseDir = ProjectSettings.BaseDirCajaChicaChequeComprobante;
+                    break;
+            }
+
+            var json = datos.ObtenerRegistrosTablaBase64ToUrl(idTabla, dataTableAjaxPostModel, baseDir);
+
+            return Content(json, "application/json");
+        }
+
+
+        #endregion
     }
 }

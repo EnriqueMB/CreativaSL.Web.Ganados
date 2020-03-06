@@ -28,7 +28,7 @@ namespace CreativaSL.Web.Ganados.Models
                 {
                     Item = new CajaChicaModels
                     {
-                        IdCaja = !Dr.IsDBNull(Dr.GetOrdinal("IdCaja")) ? Dr.GetInt64(Dr.GetOrdinal("IdCaja")) : 0,
+                        IdCaja = !Dr.IsDBNull(Dr.GetOrdinal("IdCaja")) ? Dr.GetString(Dr.GetOrdinal("IdCaja")) : string.Empty,
                         FechaApertura = !Dr.IsDBNull(Dr.GetOrdinal("FechaApertura")) ? Dr.GetDateTime(Dr.GetOrdinal("FechaApertura")) : DateTime.MinValue,
                         NombreEmpleado = !Dr.IsDBNull(Dr.GetOrdinal("NombreEmpleado")) ? Dr.GetString(Dr.GetOrdinal("NombreEmpleado")) : string.Empty,
                         MontoApertura = !Dr.IsDBNull(Dr.GetOrdinal("MontoApertura")) ? Dr.GetDecimal(Dr.GetOrdinal("MontoApertura")) : 0m,
@@ -74,7 +74,7 @@ namespace CreativaSL.Web.Ganados.Models
                         {
                             Item = new CajaChicaModels
                             {
-                                IdCaja = !Dr.IsDBNull(Dr.GetOrdinal("IdCaja")) ? Dr.GetInt64(Dr.GetOrdinal("IdCaja")) : 0,
+                                IdCaja = !Dr.IsDBNull(Dr.GetOrdinal("IdCaja")) ? Dr.GetString(Dr.GetOrdinal("IdCaja")) : string.Empty,
                                 FechaApertura = !Dr.IsDBNull(Dr.GetOrdinal("FechaApertura")) ? Dr.GetDateTime(Dr.GetOrdinal("FechaApertura")) : DateTime.MinValue,
                                 NombreEmpleado = !Dr.IsDBNull(Dr.GetOrdinal("NombreEmpleado")) ? Dr.GetString(Dr.GetOrdinal("NombreEmpleado")) : string.Empty,
                                 MontoApertura = !Dr.IsDBNull(Dr.GetOrdinal("MontoApertura")) ? Dr.GetDecimal(Dr.GetOrdinal("MontoApertura")) : 0m,
@@ -143,7 +143,7 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
 
-        public List<ArqueoCajaChicaModels> ObtenerDenominaciones(Int64 IdCaja)
+        public List<ArqueoCajaChicaModels> ObtenerDenominaciones(string IdCaja)
         {
             try
             {
@@ -173,15 +173,16 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
 
-        public int GuardarArqueoCaja(Int64 IdCaja, List<ArqueoCajaChicaModels> Lista, string IdUsuario)
+        public int GuardarArqueoCaja(string IdCaja, List<ArqueoCajaChicaModels> Lista, string IdUsuario)
         {
             try
             {
-                object Result = SqlHelper.ExecuteScalar(_ConexionRepositorio.CadenaConexion, CommandType.StoredProcedure, "cajachica.spCIDDB_ArqueoCaja",
+                object Result = SqlHelper.ExecuteScalar(_ConexionRepositorio.CadenaConexion,
+                    CommandType.StoredProcedure, "cajachica.spCIDDB_ArqueoCaja",
                     new SqlParameter("@IDCaja", IdCaja),
                     new SqlParameter("@TablaDetalle", GenerarTabla(Lista)),
                     new SqlParameter("@IDUsuario", IdUsuario)
-                    );
+                );
                 if (Result != null)
                 {
                     int Resultado = 0;
@@ -216,18 +217,18 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
 
-        public Int64 ObtenerIdCajaChica(string IdUsuario)
+        public string ObtenerIdCajaChica(string IdUsuario)
         {
             try
             {
                 object Result = SqlHelper.ExecuteScalar(_ConexionRepositorio.CadenaConexion, "cajachica.spCIDDB_TieneCajaChica", IdUsuario);
                 if (Result != null)
                 {
-                    Int64 Resultado = -1;
-                    Int64.TryParse(Result.ToString(), out Resultado);
+                    var Resultado = string.Empty;
+                    Resultado = Result.ToString();
                     return Resultado;
                 }
-                return -1;
+                return string.Empty;
             }
             catch (Exception ex)
             {
@@ -235,33 +236,52 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
 
-        public List<MovimientosCajaChicaModels> ObtenerDetalleXIdCaja(Int64 IdCaja)
+        public List<MovimientosCajaChicaModels> ObtenerDetalleXIdCaja(string IdCaja)
         {
             try
             {
                 List<MovimientosCajaChicaModels> Lista = new List<MovimientosCajaChicaModels>();
-                SqlDataReader Dr = SqlHelper.ExecuteReader(_ConexionRepositorio.CadenaConexion, "cajachica.spCIDDB_get_MovimientosCajaChica", IdCaja);
+                SqlDataReader Dr = SqlHelper.ExecuteReader(_ConexionRepositorio.CadenaConexion,
+                    "cajachica.spCIDDB_get_MovimientosCajaChica", IdCaja);
                 MovimientosCajaChicaModels Item;
                 while (Dr.Read())
                 {
-                    Item = new MovimientosCajaChicaModels
-                    {
-                        IdMovimiento = !Dr.IsDBNull(Dr.GetOrdinal("IdMovimiento")) ? Dr.GetInt64(Dr.GetOrdinal("IdMovimiento")) : 0,
-                        Fecha = !Dr.IsDBNull(Dr.GetOrdinal("Fecha")) ? Dr.GetDateTime(Dr.GetOrdinal("Fecha")) : DateTime.MinValue,
-                        Entrega = !Dr.IsDBNull(Dr.GetOrdinal("Entrega")) ? Dr.GetString(Dr.GetOrdinal("Entrega")) : string.Empty,
-                        Entrada = !Dr.IsDBNull(Dr.GetOrdinal("Entrada")) ? Dr.GetDecimal(Dr.GetOrdinal("Entrada")) : 0m,
-                        Salida = !Dr.IsDBNull(Dr.GetOrdinal("Salida")) ? Dr.GetDecimal(Dr.GetOrdinal("Salida")) : 0m,
-                        Recibe = !Dr.IsDBNull(Dr.GetOrdinal("Recibe")) ? Dr.GetString(Dr.GetOrdinal("Recibe")) : string.Empty,
-                        Concepto = !Dr.IsDBNull(Dr.GetOrdinal("Concepto")) ? Dr.GetString(Dr.GetOrdinal("Concepto")) : string.Empty,
-                        Saldo = !Dr.IsDBNull(Dr.GetOrdinal("Saldo")) ? Dr.GetDecimal(Dr.GetOrdinal("Saldo")) : 0m,
-                        FormaPago = !Dr.IsDBNull(Dr.GetOrdinal("Tipo")) ? Dr.GetString(Dr.GetOrdinal("Tipo")) : string.Empty,
-                        IDTipoMovimiento = !Dr.IsDBNull(Dr.GetOrdinal("IDTipoMovimiento")) ? Dr.GetInt32(Dr.GetOrdinal("IDTipoMovimiento")) : 0,
-                        IdFormaPago = !Dr.IsDBNull(Dr.GetOrdinal("IDFormaPago")) ? Dr.GetInt32(Dr.GetOrdinal("IDFormaPago")) : 0,
-                        Estatus = XmlConvert.ToBoolean(Dr.GetInt32(Dr.GetOrdinal("Estatus")).ToString()),
-                        FolioCheque = !Dr.IsDBNull(Dr.GetOrdinal("Folio")) ? Dr.GetString(Dr.GetOrdinal("Folio")):string.Empty
+                    Item = new MovimientosCajaChicaModels();
 
-
-                    };
+                    Item.IdMovimiento = !Dr.IsDBNull(Dr.GetOrdinal("IdMovimiento"))
+                        ? Dr.GetString(Dr.GetOrdinal("IdMovimiento"))
+                        : string.Empty;
+                    Item.Fecha = !Dr.IsDBNull(Dr.GetOrdinal("Fecha"))
+                        ? Dr.GetDateTime(Dr.GetOrdinal("Fecha"))
+                        : DateTime.MinValue;
+                    Item.Entrega = !Dr.IsDBNull(Dr.GetOrdinal("Entrega"))
+                        ? Dr.GetString(Dr.GetOrdinal("Entrega"))
+                        : string.Empty;
+                    Item.Entrada = !Dr.IsDBNull(Dr.GetOrdinal("Entrada"))
+                        ? Dr.GetDecimal(Dr.GetOrdinal("Entrada"))
+                        : 0m;
+                    Item.Salida = !Dr.IsDBNull(Dr.GetOrdinal("Salida")) ? Dr.GetDecimal(Dr.GetOrdinal("Salida")) : 0m;
+                    Item.Recibe = !Dr.IsDBNull(Dr.GetOrdinal("Recibe"))
+                        ? Dr.GetString(Dr.GetOrdinal("Recibe"))
+                        : string.Empty;
+                    Item.Concepto = !Dr.IsDBNull(Dr.GetOrdinal("Concepto"))
+                        ? Dr.GetString(Dr.GetOrdinal("Concepto"))
+                        : string.Empty;
+                    Item.Saldo = !Dr.IsDBNull(Dr.GetOrdinal("Saldo")) ? Dr.GetDecimal(Dr.GetOrdinal("Saldo")) : 0m;
+                    Item.FormaPago = !Dr.IsDBNull(Dr.GetOrdinal("Tipo"))
+                        ? Dr.GetString(Dr.GetOrdinal("Tipo"))
+                        : string.Empty;
+                    Item.IDTipoMovimiento = !Dr.IsDBNull(Dr.GetOrdinal("IDTipoMovimiento"))
+                        ? Dr.GetInt32(Dr.GetOrdinal("IDTipoMovimiento"))
+                        : 0;
+                    Item.IdFormaPago = !Dr.IsDBNull(Dr.GetOrdinal("IDFormaPago"))
+                        ? Dr.GetInt32(Dr.GetOrdinal("IDFormaPago"))
+                        : 0;
+                    Item.Estatus = XmlConvert.ToBoolean(Dr.GetInt32(Dr.GetOrdinal("Estatus")).ToString());
+                    Item.FolioCheque = !Dr.IsDBNull(Dr.GetOrdinal("Folio"))
+                        ? Dr.GetString(Dr.GetOrdinal("Folio"))
+                        : string.Empty;
+                    
                     Lista.Add(Item);
                 }
                 Dr.Close();
@@ -440,7 +460,7 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
 
-        public MovimientosCajaChicaModels ObtenerDetalleMovimientoXId(Int64 IdMovimiento)
+        public MovimientosCajaChicaModels ObtenerDetalleMovimientoXId(string IdMovimiento)
         {
             try
             {
@@ -476,7 +496,7 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
 
-        public int EliminarMovimiento(Int64 IdMovimiento, string IdUsuario)
+        public int EliminarMovimiento(string IdMovimiento, string IdUsuario)
         {
             try
             {
@@ -496,7 +516,7 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
 
-        public int EliminarCaja(Int64 IdCaja, string IdUsuario)
+        public int EliminarCaja(string IdCaja, string IdUsuario)
         {
             try
             {
@@ -516,11 +536,12 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
 
-        public ReporteCajaChica ObtenerDatosReporteCajaChica(Int64 IdCaja)
+        public ReporteCajaChica ObtenerDatosReporteCajaChica(string IdCaja)
         {
             try
             {
-                DataSet Ds = SqlHelper.ExecuteDataset(_ConexionRepositorio.CadenaConexion, "cajachica.spCIDDB_get_ReporteCajaChica", IdCaja);
+                DataSet Ds = SqlHelper.ExecuteDataset(_ConexionRepositorio.CadenaConexion,
+                    "cajachica.spCIDDB_get_ReporteCajaChica", IdCaja);
                 if (Ds != null)
                 {
                     if (Ds.Tables.Count == 4)
@@ -536,7 +557,7 @@ namespace CreativaSL.Web.Ganados.Models
                         {
                             Item = new MovimientosCajaChicaModels
                             {
-                                IdMovimiento = !Dr.IsDBNull(Dr.GetOrdinal("IdMovimiento")) ? Dr.GetInt64(Dr.GetOrdinal("IdMovimiento")) : 0,
+                                IdMovimiento = !Dr.IsDBNull(Dr.GetOrdinal("IdMovimiento")) ? Dr.GetString(Dr.GetOrdinal("IdMovimiento")) : string.Empty,
                                 Fecha = !Dr.IsDBNull(Dr.GetOrdinal("Fecha")) ? Dr.GetDateTime(Dr.GetOrdinal("Fecha")) : DateTime.MinValue,
                                 FolioCheque = !Dr.IsDBNull(Dr.GetOrdinal("Folio")) ? Dr.GetString(Dr.GetOrdinal("Folio")) : string.Empty,
                                 Entrega = !Dr.IsDBNull(Dr.GetOrdinal("Entrega")) ? Dr.GetString(Dr.GetOrdinal("Entrega")) : string.Empty,
@@ -628,7 +649,7 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
 
-        public List<ReportCajaChicaImagenesDto> ObtenerConceptosParaCajaChica(Int64 idCajaChica)
+        public List<ReportCajaChicaImagenesDto> ObtenerConceptosParaCajaChica(string idCajaChica)
         {
             var list = new List<ReportCajaChicaImagenesDto>();
 
@@ -639,7 +660,7 @@ namespace CreativaSL.Web.Ganados.Models
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
 
-                    cmd.Parameters.Add("@IdCaja", SqlDbType.BigInt).Value = idCajaChica;
+                    cmd.Parameters.Add("@IdCaja", SqlDbType.VarChar).Value = idCajaChica;
 
                     sqlcon.Open();
 
@@ -652,7 +673,7 @@ namespace CreativaSL.Web.Ganados.Models
                             IFormatProvider culture = new CultureInfo("es-MX", true);
 
                             var item = new ReportCajaChicaImagenesDto();
-                            item.IdCajaChicaDetalle = Int64.Parse(reader["IdCajaChicaDetalle"].ToString());
+                            item.IdCajaChicaDetalle = reader["IdCajaChicaDetalle"].ToString();
                             item.ConceptoSalida = reader["ConceptoSalida"].ToString();
                             item.Descripcion = reader["Descripcion"].ToString();
                             item.FechaHora = DateTime.ParseExact(reader["FechaHora"].ToString(), "dd/MM/yyyy hh:mm:ss tt",
@@ -747,7 +768,7 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
 
-        public RespuestaAjax ActualizarFotoComprobate(Int64 idCajaDetalle, string base64)
+        public RespuestaAjax ActualizarFotoComprobate(string idCajaDetalle, string base64)
         {
             var respuestaAjax = new RespuestaAjax();
 
@@ -758,7 +779,7 @@ namespace CreativaSL.Web.Ganados.Models
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
 
-                    cmd.Parameters.Add("@IdCajaDetalle", SqlDbType.BigInt).Value = idCajaDetalle;
+                    cmd.Parameters.Add("@IdCajaDetalle", SqlDbType.VarChar).Value = idCajaDetalle;
                     cmd.Parameters.Add("@FotoUrl", SqlDbType.NVarChar).Value = base64;
                     
                     sqlcon.Open();

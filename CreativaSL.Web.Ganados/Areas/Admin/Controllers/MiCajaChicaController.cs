@@ -25,9 +25,9 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             try
             {
                 _CajaChica_Datos regionDatos = new _CajaChica_Datos();
-                Int64 idCaja = regionDatos.ObtenerIdCajaChica(User.Identity.Name);
+                string idCaja = regionDatos.ObtenerIdCajaChica(User.Identity.Name);
                 //idCaja = 4;
-                if (idCaja > 0)
+                if (string.IsNullOrEmpty(idCaja) || idCaja.Trim() != "0")
                 {
                     List<MovimientosCajaChicaModels> Lista = regionDatos.ObtenerDetalleXIdCaja(idCaja);
                     ViewBag.IdCaja = idCaja;
@@ -149,7 +149,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         }
 
         // GET: Admin/MiCajaChica/Edit
-        public ActionResult Edit(Int64 id)
+        public ActionResult Edit(string id)
         {
             try
             {
@@ -268,7 +268,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
         // POST: Admin/MiCajaChica/Delete
         [HttpPost]
-        public ActionResult Delete(Int64 id)
+        public ActionResult Delete(string id)
         {
             _CajaChica_Datos datos = new _CajaChica_Datos();
             try
@@ -318,7 +318,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return Json("false");
             }
         }
-        public ActionResult ModalTicket2(int ID)
+        public ActionResult ModalTicket2(string ID)
         {
             var Imagen = new CajaChicaModels();
             Imagen.IdCaja = ID;

@@ -1,0 +1,143 @@
+﻿@{
+    ViewBag.Title = "Tablas";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+@section css
+{
+    <link href="~/Content/css/datatable/jquery.dataTables.min.css" rel="stylesheet" />
+}
+@section featured{
+
+    @{
+        var message = TempData["message"] ?? string.Empty;
+        var typemessage = TempData["typemessage"] ?? string.Empty;
+    }
+    <div class="row">
+        <div id="Error" class="progress-bar progress-bar-striped active errorCSL" style="display:none; width:100%">
+            <h3></h3>
+        </div>
+        <div id="Success" class="progress-bar progress-bar-striped active successCSL" style="display:none; width:100%">
+            <h3></h3>
+        </div>
+        <div class="col-md-12">
+            @using (Html.BeginForm("RegistrosDeTablaBase64ToUrl", "Ticket", FormMethod.Post, new { @class = "form-horizontal", autocomplete = "off" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Por favor seleccione una tabla.</h3>
+                        <ul class="panel-controls">
+                            <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
+                            <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
+                        </ul>
+                    </div>
+
+                    <div class="panel-body">
+
+                        <div class="table-responsive">
+                            <table class="table" id="tbl">
+                                <thead>
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Imagen</th>
+                                        <th>Acción</th>
+                                    </tr>
+                                </thead>
+                                <tbody> </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="panel-footer">
+                        <input type="submit" value="Guardar" class="btn btn-primary pull-right">
+                        <a href="@Url.Action("TablasBase64ToUrl", "Ticket")" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    <script>
+        var message = '@message';
+        var typemessage = '@typemessage';
+    </script>
+
+}
+@section script{
+    <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
+    <script>
+        jQuery(document).ready(function() {
+            Mensaje(message, typemessage);
+
+            var idTabla = @ViewBag.IdTabla;
+
+            $("#tbl").DataTable({
+                "processing": true,
+                "serverSide": true,
+                "language": {
+                    "url": "/Content/assets/json/Spanish.json"
+                },
+                "ajax": {
+                    "url": "/Admin/Ticket/JsonRegistrosDeTablaBase64ToUrl/",
+                    "method": "POST",
+                    "dataType": "json",
+                    "data": {
+                        "idTabla": idTabla
+                    },
+                    "dataSrc": function(json) {
+
+                        if (json.data === null)
+                            return [];
+                        else
+                            return json.data;
+                    }
+                },
+                "columns": [
+                    { "data": "Id" },
+                    {
+                        "data": null,
+                        "render": function(data, type, row) {
+
+                            var img =
+                                '<img class="vista_previa" src = "' +
+                                    row["Imagen"] +
+                                    '" alt = "Logo" style = "width: 150px; height: 150px" >';
+                            return img;
+                        }
+                    },
+                    {
+                        "data": null,
+                        "render": function(data, type, full) {
+                            var botones =
+                                "<div class='visible-md visible-lg hidden-sm hidden-xs' style='text-align:center'=>" +
+                                    "<a title='Imagenes' class='btn btn-primary' href='/Admin/CatProveedor/Imagenes?idProveedor=" +
+                                    full["IdProveedor"] +
+                                    "'><i class='fa fa-picture-o'></i></a>" +
+                                    " class='btn btn-danger tooltips eliminarProveedor btnMargin' data-placement='top' data-original-title='Eliminar'><i class='fa fa-trash-o'></i></a>" +
+                                    "</div>" +
+                                    "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
+                                    "<div class='btn-group'>" +
+                                    "<a class='btn btn-danger dropdown-toggle btn-sm' data-toggle='dropdown' href='#'>" +
+                                    "<i class='fa fa-cog'></i> <span class='caret'></span>" +
+                                    "</a>" +
+                                    "<ul role='menu' class='dropdown-menu pull-right dropdown-dark'>" +
+                                    "<li>" +
+                                    "<a role='menuitem' tabindex='-1' href='/Admin/CatProveedor/Imagenes?idProveedor=" +
+                                    full["IdProveedor"] +
+                                    "'>" +
+                                    "</ul>" +
+                                    "</div>" +
+                                    "</div>";
+                            return botones;
+                        }
+                    }
+                ],
+                responsive: true,
+                "order":
+                    [[0, "desc"]]
+            });
+        });
+    </script>
+}
