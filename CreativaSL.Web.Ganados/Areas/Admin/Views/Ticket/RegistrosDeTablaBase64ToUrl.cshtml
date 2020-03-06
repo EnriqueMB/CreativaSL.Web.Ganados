@@ -28,7 +28,14 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title">Por favor seleccione una tabla.</h3>
+
                         <ul class="panel-controls">
+                            <li>
+                                <a class="btn btn-default btnCrear iniciar">
+                                    <span class="fa fa-play">
+                                    </span> Iniciar
+                                </a>
+                            </li>
                             <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
                             <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
                         </ul>
@@ -36,18 +43,29 @@
 
                     <div class="panel-body">
 
-                        <div class="table-responsive">
-                            <table class="table" id="tbl">
-                                <thead>
-                                    <tr>
-                                        <th>Id</th>
-                                        <th>Imagen</th>
-                                        <th>Acción</th>
-                                    </tr>
-                                </thead>
-                                <tbody> </tbody>
-                            </table>
-                        </div>
+                        <table class="table" id="tbl">
+                            <thead>
+                            <tr>
+                                <th>Ids elaborados</th>
+                                <th>Imagen</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+
+                        @*<div class="table-responsive">
+            <table class="table" id="tbl">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Imagen</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody> </tbody>
+            </table>
+        </div>*@
                     </div>
                     <div class="panel-footer">
                         <input type="submit" value="Guardar" class="btn btn-primary pull-right">
@@ -72,72 +90,123 @@
             Mensaje(message, typemessage);
 
             var idTabla = @ViewBag.IdTabla;
+            var ids = "";
+            var continuar = true;
 
-            $("#tbl").DataTable({
-                "processing": true,
-                "serverSide": true,
-                "language": {
-                    "url": "/Content/assets/json/Spanish.json"
-                },
-                "ajax": {
-                    "url": "/Admin/Ticket/JsonRegistrosDeTablaBase64ToUrl/",
-                    "method": "POST",
-                    "dataType": "json",
-                    "data": {
-                        "idTabla": idTabla
-                    },
-                    "dataSrc": function(json) {
+            $(".iniciar").click(function() {
 
-                        if (json.data === null)
-                            return [];
-                        else
-                            return json.data;
-                    }
-                },
-                "columns": [
-                    { "data": "Id" },
-                    {
-                        "data": null,
-                        "render": function(data, type, row) {
+                function ObtenerFilasBase64ToUrl() {
+                    $.ajax(
+                        {
+                            type: "POST",
+                            url: '/Admin/Ticket/ObtenerFilasBase64ToUrl/',
+                            data: {ids: ids, idTabla:idTabla},
+                            dataType: "json",
+                            cache: false,
+                            success: function(data) {
 
-                            var img =
-                                '<img class="vista_previa" src = "' +
-                                    row["Imagen"] +
-                                    '" alt = "Logo" style = "width: 150px; height: 150px" >';
-                            return img;
-                        }
-                    },
-                    {
-                        "data": null,
-                        "render": function(data, type, full) {
-                            var botones =
-                                "<div class='visible-md visible-lg hidden-sm hidden-xs' style='text-align:center'=>" +
-                                    "<a title='Imagenes' class='btn btn-primary' href='/Admin/CatProveedor/Imagenes?idProveedor=" +
-                                    full["IdProveedor"] +
-                                    "'><i class='fa fa-picture-o'></i></a>" +
-                                    " class='btn btn-danger tooltips eliminarProveedor btnMargin' data-placement='top' data-original-title='Eliminar'><i class='fa fa-trash-o'></i></a>" +
-                                    "</div>" +
-                                    "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
-                                    "<div class='btn-group'>" +
-                                    "<a class='btn btn-danger dropdown-toggle btn-sm' data-toggle='dropdown' href='#'>" +
-                                    "<i class='fa fa-cog'></i> <span class='caret'></span>" +
-                                    "</a>" +
-                                    "<ul role='menu' class='dropdown-menu pull-right dropdown-dark'>" +
-                                    "<li>" +
-                                    "<a role='menuitem' tabindex='-1' href='/Admin/CatProveedor/Imagenes?idProveedor=" +
-                                    full["IdProveedor"] +
-                                    "'>" +
-                                    "</ul>" +
-                                    "</div>" +
-                                    "</div>";
-                            return botones;
-                        }
-                    }
-                ],
-                responsive: true,
-                "order":
-                    [[0, "desc"]]
+                                var trHTML = '';
+
+                                $.each(data,
+                                    function(i, item) {
+                                    
+                                        trHTML +=
+                                            '<tr>' +
+                                            '<td>' +
+                                            item.Id +
+                                            '</td>' +
+                                            '<td>' +
+                                            '<img class="vista_previa" src = "' +
+                                            item.Imagen +
+                                            '" alt = "Logo" style = "width: 150px; height: 150px" >' +
+                                            '</td>' +
+                                            '</tr>';
+
+                                        ids += item.Id + ",";
+
+                                        
+                                    });
+
+                                if(continuar)
+                                    ObtenerFilasBase64ToUrl();
+                                $('#tbl').append(trHTML);
+                                trHTML = '';
+                            },
+                            error: function(msg) {
+                                continuar = false;
+                                alert(msg.responseText);
+                            }
+                        });
+                }
+
+                ObtenerFilasBase64ToUrl();
+
             });
+
+            //$("#tbl").DataTable({
+            //    "processing": true,
+            //    "serverSide": true,
+            //    "language": {
+            //        "url": "/Content/assets/json/Spanish.json"
+            //    },
+            //    "ajax": {
+            //        "url": "/Admin/Ticket/JsonRegistrosDeTablaBase64ToUrl/",
+            //        "method": "POST",
+            //        "dataType": "json",
+            //        "data": {
+            //            "idTabla": idTabla
+            //        },
+            //        "dataSrc": function(json) {
+
+            //            if (json.data === null)
+            //                return [];
+            //            else
+            //                return json.data;
+            //        }
+            //    },
+            //    "columns": [
+            //        { "data": "Id" },
+            //        {
+            //            "data": null,
+            //            "render": function(data, type, row) {
+
+            //                var img =
+            //                    '<img class="vista_previa" src = "' +
+            //                        row["Imagen"] +
+            //                        '" alt = "Logo" style = "width: 150px; height: 150px" >';
+            //                return img;
+            //            }
+            //        },
+            //        {
+            //            "data": null,
+            //            "render": function(data, type, full) {
+            //                var botones =
+            //                    "<div class='visible-md visible-lg hidden-sm hidden-xs' style='text-align:center'=>" +
+            //                        "<a title='Imagenes' class='btn btn-primary' href='/Admin/CatProveedor/Imagenes?idProveedor=" +
+            //                        full["IdProveedor"] +
+            //                        "'><i class='fa fa-picture-o'></i></a>" +
+            //                        "</div>" +
+            //                        "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
+            //                        "<div class='btn-group'>" +
+            //                        "<a class='btn btn-danger dropdown-toggle btn-sm' data-toggle='dropdown' href='#'>" +
+            //                        "<i class='fa fa-cog'></i> <span class='caret'></span>" +
+            //                        "</a>" +
+            //                        "<ul role='menu' class='dropdown-menu pull-right dropdown-dark'>" +
+            //                        "<li>" +
+            //                        "<a role='menuitem' tabindex='-1' href='/Admin/CatProveedor/Imagenes?idProveedor=" +
+            //                        full["IdProveedor"] +
+            //                        "'>" +
+            //                        "</ul>" +
+            //                        "</div>" +
+            //                        "</div>";
+            //                return botones;
+            //            }
+            //        }
+            //    ],
+            //    responsive: true,
+            //    "order":
+            //        [[0, "desc"]]
+            //});
         });
     </script>
 }

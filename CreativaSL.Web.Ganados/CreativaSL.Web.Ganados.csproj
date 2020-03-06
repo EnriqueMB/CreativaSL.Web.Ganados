@@ -395,6 +395,7 @@
     <Content Include="Content\img\colorpicker\saturation.png" />
     <Content Include="Content\img\dropzone\spritemap%402x.png" />
     <Content Include="Content\img\dropzone\spritemap.png" />
+    <Content Include="Content\img\errorSaveFile.png" />
     <Content Include="Content\img\fileinput\loading.gif" />
     <Content Include="Content\img\filetree\application.png" />
     <Content Include="Content\img\filetree\code.png" />

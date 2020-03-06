@@ -42,7 +42,7 @@ var CompraGanado = function () {
                     { "width": 65, "targets": 13 }
                 ]
                 , "drawCallback": function (settings) {
-                    console.log("drw");
+                    //console.log("drw");
                     $(".kg").maskMoney(
                         {
                             allowZero: true,

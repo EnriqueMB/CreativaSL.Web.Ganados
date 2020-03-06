@@ -150,7 +150,17 @@ namespace CreativaSL.Web.Ganados.Models
                                 {
                                     var responseDb = ActualizarRegistroPorImagen(indexDto.Id,
                                         uploadBase64ToServerModel.FileName, idTabla);
-                                    indexDto.Imagen = uploadBase64ToServerModel.UrlRelative;
+
+                                    if (responseDb.Success)
+                                    {
+                                        indexDto.Imagen = uploadBase64ToServerModel.UrlRelative;
+                                    }
+                                    else
+                                    {
+                                        indexDto.Imagen =
+                                            @"\Content\img\errorSaveFile.png";
+                                    }
+                                    
                                     indexDatatableDto.Data.Add(indexDto);
                                     continue;
                                 }
@@ -172,6 +182,103 @@ namespace CreativaSL.Web.Ganados.Models
                         }
 
                         var json = JsonConvert.SerializeObject(indexDatatableDto);
+
+                        reader.Close();
+
+                        return json;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public string ObtenerFilasBase64ToUrl(int idTabla, string baseDir, string ids)
+        {
+            try
+            {
+                using (var sqlcon = new SqlConnection(ConexionSql))
+                {
+                    using (var cmd = new SqlCommand("[dbo].[spCIDDB_Configuracion_ObtenerFilasBase64ToUrl]", sqlcon))
+                    {
+                        //parametros de entrada
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        DataTable dataTable;
+                        dataTable = new DataTable();
+
+                        dataTable.Columns.Add("Id", typeof(string));
+
+                        var idsSlpit = ids.Split(',');
+
+                        if (!string.IsNullOrEmpty(ids))
+                        {
+                            foreach (var id in idsSlpit)
+                            {
+                                dataTable.Rows.Add(id);
+                            }
+                        }
+
+                        cmd.Parameters.Add("@UDTT_Ids", SqlDbType.Structured).Value = dataTable;
+                        cmd.Parameters.Add("@IdTabla", SqlDbType.Int).Value = idTabla;
+
+                        // execute
+                        sqlcon.Open();
+
+                        var reader = cmd.ExecuteReader();
+
+                        var list = new List<RegistrosDeTablaBase64ToUrlDto>();
+
+                        if (reader.HasRows)
+                        {
+
+                            while (reader.Read())
+                            {
+                                var item = new RegistrosDeTablaBase64ToUrlDto();
+                                item.Id = reader["Id"].ToString();
+                                item.Imagen = reader["Imagen"].ToString();
+
+                                var uploadBase64ToServerModel =
+                                    CidFaresHelper.UploadBase64ToServer(item.Imagen, baseDir);
+
+                                if (uploadBase64ToServerModel.Success)
+                                {
+                                    var responseDb = ActualizarRegistroPorImagen(item.Id,
+                                        uploadBase64ToServerModel.FileName, idTabla);
+
+                                    if (responseDb.Success)
+                                    {
+                                        item.Imagen = uploadBase64ToServerModel.UrlRelative;
+                                    }
+                                    else
+                                    {
+                                        item.Imagen =
+                                            @"\Content\img\errorSaveFile.png";
+                                    }
+
+                                    list.Add(item);
+                                    continue;
+                                }
+
+                                var path = HostingEnvironment.MapPath(baseDir + item.Imagen);
+                                var fileName = item.Imagen;
+
+                                if (!File.Exists(path) || string.IsNullOrWhiteSpace(fileName))
+                                {
+                                    item.Imagen = ProjectSettings.PathDefaultImage;
+                                }
+                                else
+                                {
+                                    item.Imagen = baseDir + item.Imagen;
+                                }
+
+                                list.Add(item);
+                            }
+                        }
+
+                        var json = JsonConvert.SerializeObject(list);
 
                         reader.Close();
 

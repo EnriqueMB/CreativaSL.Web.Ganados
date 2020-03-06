@@ -190,6 +190,22 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             return Content(json, "application/json");
         }
 
+        [HttpPost]
+        public ActionResult ObtenerFilasBase64ToUrl(string ids, int idTabla)
+        {
+            var datos = new _Configuracion_Datos();
+            var baseDir = string.Empty;
+            switch (idTabla)
+            {
+                case 1:
+                    baseDir = ProjectSettings.BaseDirCajaChicaChequeComprobante;
+                    break;
+            }
+
+            var filas = datos.ObtenerFilasBase64ToUrl(idTabla, baseDir, ids);
+
+            return Content(filas, "application/json");
+        }
 
         #endregion
     }
