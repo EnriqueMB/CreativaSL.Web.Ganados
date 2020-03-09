@@ -80,20 +80,21 @@ namespace CreativaSL.Web.Ganados.Models.Helpers
             var uploadBase64ToServer = new UploadBase64ToServerModel
             {
                 BaseDir = baseDir
-                , StringBase64 = stringBase64.Replace(baseDir, string.Empty)
+                ,
+                StringBase64 = stringBase64.Replace(baseDir, string.Empty)
             };
 
             try
             {
                 GetBitmapFromBase64(uploadBase64ToServer);
-                
+
                 if (uploadBase64ToServer.Success)
                 {
                     uploadBase64ToServer.FileName = Guid.NewGuid().ToString().ToUpper() +
                                                     ObtenerExtensionImagenBase64(uploadBase64ToServer.StringBase64);
 
                     uploadBase64ToServer.UrlRelative = SaveBitmapToServer(uploadBase64ToServer.BitmapBase,
-                        uploadBase64ToServer.BaseDir, uploadBase64ToServer.FileName);
+                        uploadBase64ToServer.BaseDir, uploadBase64ToServer.FileName, uploadBase64ToServer.QualityImage);
                 }
                 else
                 {
@@ -120,9 +121,7 @@ namespace CreativaSL.Web.Ganados.Models.Helpers
 
                 memoryStream.Position = 0;
 
-                var img = Bitmap.FromStream(memoryStream);
-                uploadBase64ToServer.BitmapBase =
-                    new Bitmap(VaryQualityLevel((Image) img.Clone(), uploadBase64ToServer.QualityImage));
+                uploadBase64ToServer.BitmapBase = new Bitmap(memoryStream);
 
                 memoryStream.Close();
                 memoryStream = null;
@@ -163,14 +162,14 @@ namespace CreativaSL.Web.Ganados.Models.Helpers
             }
 
             var folders = baseDir.Split('/');
-            for(var x = 0; x < folders.Length; x++)
+            for (var x = 0; x < folders.Length; x++)
             {
                 var currentFolder = string.Empty;
                 for (var y = 0; y <= x; y++)
                 {
                     currentFolder += "/" + folders[y];
                 }
-                
+
                 var folderPath = HostingEnvironment.MapPath(currentFolder);
                 if (!Directory.Exists(folderPath))
                 {
@@ -193,42 +192,47 @@ namespace CreativaSL.Web.Ganados.Models.Helpers
                 throw new Exception("Directorio no válido.");
             }
 
-            var urlRelative = baseDir + fileName;
+            var urlRelative = HostingEnvironment.MapPath(baseDir + fileName);
             var stream = fileBase.InputStream;
-            Image img = null;
+            Bitmap bmp = null;
 
             if (IsFileImage(fileBase.FileName))
             {
                 if (Path.GetExtension(fileBase.FileName)?.ToLower() == ".heic")
                 {
-                    img = Auxiliar.ProcessFile(stream);
+                    bmp = Auxiliar.ProcessFile(stream);
                 }
                 else
                 {
-                    img = Image.FromStream(stream);
+                    var ms = new MemoryStream();
+                    fileBase.InputStream.CopyTo(ms);
+                    bmp = new Bitmap(ms);
                 }
 
-                var bmp = new Bitmap(VaryQualityLevel((Image)img.Clone(), calidad));
-                bmp.Save(HostingEnvironment.MapPath(urlRelative));
+                VaryQualityLevel(bmp, calidad, urlRelative);
             }
             else
             {
-                fileBase.SaveAs(HostingEnvironment.MapPath(urlRelative));
+                fileBase.SaveAs(urlRelative);
             }
+
+            urlRelative = baseDir + fileName;
 
             return urlRelative;
         }
 
-        private static string SaveBitmapToServer(Bitmap bitmap, string baseDir, string fileName)
+        private static string SaveBitmapToServer(Bitmap bitmap, string baseDir, string fileName, long calidad)
         {
             if (!CreateFolder(baseDir))
             {
                 throw new Exception("Directorio no válido.");
             }
 
-            var urlRelative = baseDir + fileName;
-            
-            bitmap.Save(HostingEnvironment.MapPath(urlRelative));
+            var urlRelative = HostingEnvironment.MapPath(baseDir + fileName);
+
+            VaryQualityLevel(bitmap, calidad, urlRelative);
+
+            urlRelative = baseDir + fileName;
 
             return urlRelative;
         }
@@ -242,43 +246,39 @@ namespace CreativaSL.Web.Ganados.Models.Helpers
 
             return extensionsImages.Any(extensionImage => Path.GetExtension(fileName).ToLower().Equals(extensionImage));
         }
-        
-        private static Image VaryQualityLevel(Image image, long value)
+
+        private static void VaryQualityLevel(Image image, long value, string url)
         {
             using (var bmp = new Bitmap(image))
             {
-                var jpgEncoder = GetEncoder(GetImageFormat(image));
-                var myEncoder = Encoder.Quality;
-                var myEncoderParameters = new EncoderParameters(1);
+                ImageCodecInfo jpgEncoder = null;
 
-                var myEncoderParameter = new EncoderParameter(myEncoder, value);
-                myEncoderParameters.Param[0] = myEncoderParameter;
-                var ms = new MemoryStream();
-                bmp.Save(ms, jpgEncoder, myEncoderParameters);
-                return Image.FromStream(ms);
-            }
-        }
-        
-        private static ImageCodecInfo GetEncoder(ImageFormat format)
-        {
-            var codecs = ImageCodecInfo.GetImageDecoders();
-            foreach (var codec in codecs)
-            {
-                if (codec.FormatID == format.Guid)
+                var imageQualitysParameter =
+                    new EncoderParameter(Encoder.Quality, value);
+
+                var codecParameter = new EncoderParameters(1);
+                codecParameter.Param[0] = imageQualitysParameter;
+
+                var allCodecs = ImageCodecInfo.GetImageEncoders();
+                for (int i = 0; i < allCodecs.Length; i++)
                 {
-                    return codec;
+                    if (allCodecs[i].MimeType == "image/jpeg")
+                    {
+                        jpgEncoder = allCodecs[i];
+                        break;
+                    }
                 }
+
+                using (var g = Graphics.FromImage(bmp))
+                {
+                    g.Clear(Color.White);
+                    g.DrawImage(image, 0,0, image.Width, image.Height);
+                }
+
+                bmp.Save(url, jpgEncoder, codecParameter);
             }
-            return null;
         }
-        
-        private static ImageFormat GetImageFormat(Image img)
-        {
-            using (img)
-            {
-                return img.RawFormat;
-            }
-        }
+
         private static string ObtenerExtensionImagenBase64(string imagen64)
         {
             var extension = string.Empty;

@@ -7,7 +7,7 @@
         var successHandler1 = $('.successHandler', form1);
         
         $('#form-dg').validate({
-            debug: true,
+            //debug: true,
             errorElement: "span", // contain the error msg in a span tag
             errorClass: 'help-block color',
             errorLabelContainer: $("#validation_summary"),

@@ -336,8 +336,9 @@ namespace CreativaSL.Web.Ganados.Models
                     datos.IDSucursal = dr["id_sucursal"].ToString();
                     datos.NombreRazonSocial = dr["nombreRazonSocial"].ToString();
                     datos.RFC = dr["rfc"].ToString();
-                    datos.ImgINE = dr["imgINE"].ToString();
-                    datos.ImgManifestacionFierro = dr["imgManifestacionFierro"].ToString();
+                    datos.ImgINE = ProjectSettings.BaseDirProveedorINE + dr["imgINE"].ToString();
+                    datos.ImgManifestacionFierro = ProjectSettings.BaseDirProveedorManifestacionFierro +
+                                                   dr["imgManifestacionFierro"].ToString();
                     datos.Direccion = dr["direccion"].ToString();
                     datos.correo = dr["correo"].ToString();
                     datos.telefonoCasa = dr["telefonoCasa"].ToString();
@@ -349,22 +350,68 @@ namespace CreativaSL.Web.Ganados.Models
                     datos.Observaciones = !dr.IsDBNull(dr.GetOrdinal("observaciones")) ? dr.GetString(dr.GetOrdinal("observaciones")) : string.Empty;
                     datos.CantidadPeriodo = !dr.IsDBNull(dr.GetOrdinal("cantidadPeriodo")) ? dr.GetInt32(dr.GetOrdinal("cantidadPeriodo")) : 0;
                     datos.IDPeriodo = !dr.IsDBNull(dr.GetOrdinal("id_periodo")) ? dr.GetInt32(dr.GetOrdinal("id_periodo")) : 0;
-                    datos.FotoPerfil = !dr.IsDBNull(dr.GetOrdinal("UrlFotoPerfil")) ? dr.GetString(dr.GetOrdinal("UrlFotoPerfil")) : string.Empty;
+                    datos.FotoPerfil = !dr.IsDBNull(dr.GetOrdinal("UrlFotoPerfil"))
+                        ? ProjectSettings.BaseDirProveedorFotoPerfil + dr.GetString(dr.GetOrdinal("UrlFotoPerfil"))
+                        : string.Empty;
 
-                    if (!string.IsNullOrWhiteSpace(datos.FotoPerfil))
+                    if (!string.IsNullOrWhiteSpace(datos.FotoPerfil.Replace(ProjectSettings.BaseDirProveedorFotoPerfil, string.Empty)))
                     {
-                        datos.FotoPerfil = ProjectSettings.BaseDirProveedorFotoPerfil + datos.FotoPerfil;
+                        var uploadBase64ToServerModelFotoPerfil = CidFaresHelper.UploadBase64ToServer(datos.FotoPerfil,
+                            ProjectSettings.BaseDirProveedorFotoPerfil);
+
+                        if (uploadBase64ToServerModelFotoPerfil.Success)
+                        {
+                            var responseDb = ActualizarFotoPerfil(datos.IDProveedor, UsuarioActual,
+                                uploadBase64ToServerModelFotoPerfil.FileName, ConexionSql);
+
+                            datos.FotoPerfil = responseDb.Success
+                                ? uploadBase64ToServerModelFotoPerfil.UrlRelative
+                                : string.Empty;
+                        }
                     }
-                    if (!string.IsNullOrWhiteSpace(datos.ImgINE))
+                    else
                     {
-                        datos.ImgINE = ProjectSettings.BaseDirProveedorINE + datos.ImgINE;
-                    }
-                    if (!string.IsNullOrWhiteSpace(datos.ImgManifestacionFierro))
-                    {
-                        datos.ImgManifestacionFierro = ProjectSettings.BaseDirProveedorManifestacionFierro + datos.ImgManifestacionFierro;
+                        datos.FotoPerfil = ProjectSettings.PathDefaultImage;
                     }
 
+                    if (!string.IsNullOrWhiteSpace(datos.ImgINE.Replace(ProjectSettings.BaseDirProveedorINE, string.Empty)))
+                    {
+                        var uploadBase64ToServerModelIne = CidFaresHelper.UploadBase64ToServer(datos.ImgINE,
+                            ProjectSettings.BaseDirProveedorINE);
+
+                        if (uploadBase64ToServerModelIne.Success)
+                        {
+                            var responseDb = ActualizarIne(datos.IDProveedor, uploadBase64ToServerModelIne.FileName);
+
+                            datos.ImgINE = responseDb.Success ? uploadBase64ToServerModelIne.UrlRelative : string.Empty;
+                        }
+                    }
+                    else
+                    {
+                        datos.ImgINE = ProjectSettings.PathDefaultImage;
+                    }
+                    if (!string.IsNullOrWhiteSpace(datos.ImgManifestacionFierro.Replace(ProjectSettings.BaseDirProveedorManifestacionFierro, string.Empty)))
+                    {
+                        var uploadBase64ToServerModelManifestacionFierro = CidFaresHelper.UploadBase64ToServer(
+                            datos.ImgManifestacionFierro,
+                            ProjectSettings.BaseDirProveedorManifestacionFierro);
+
+                        if (uploadBase64ToServerModelManifestacionFierro.Success)
+                        {
+                            var responseDb = ActualizarManifestacionFierro(datos.IDProveedor,
+                                uploadBase64ToServerModelManifestacionFierro.FileName);
+
+                            datos.ImgManifestacionFierro = responseDb.Success
+                                ? uploadBase64ToServerModelManifestacionFierro.UrlRelative
+                                : string.Empty;
+                        }
+                    }
+                    else
+                    {
+                        datos.ImgManifestacionFierro = ProjectSettings.PathDefaultImage;
+                    }
                 }
+
                 dr.Close();
                 return datos;
             }
@@ -1079,6 +1126,83 @@ namespace CreativaSL.Web.Ganados.Models
                 respuesta.Success = false;
             }
             
+            return respuesta;
+        }
+        #endregion
+
+        #region Actualizacion de imagenes
+        public RespuestaAjax ActualizarIne(string idProveedor, string urlIne)
+        {
+            var respuesta = new RespuestaAjax();
+            try
+            {
+                object[] parametros =
+                {
+                    idProveedor, UsuarioActual, urlIne
+                };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(ConexionSql, "spCIDDB_Catalogo_a_CatProveedor_Ine", parametros);
+
+
+                while (dr.Read())
+                {
+                    respuesta.Success = !dr.IsDBNull(dr.GetOrdinal("Success"))
+                        ? dr.GetBoolean(dr.GetOrdinal("Success"))
+                        : false;
+                    respuesta.Mensaje = !dr.IsDBNull(dr.GetOrdinal("Mensaje"))
+                        ? dr.GetString(dr.GetOrdinal("Mensaje"))
+                        : string.Empty;
+                    respuesta.MensajeErrorSQL = !dr.IsDBNull(dr.GetOrdinal("MensajeErrorSQL"))
+                        ? dr.GetString(dr.GetOrdinal("MensajeErrorSQL"))
+                        : string.Empty;
+                }
+
+                dr.Close();
+            }
+            catch (Exception ex)
+            {
+                respuesta.Mensaje = ex.Message;
+                respuesta.Success = false;
+            }
+
+            return respuesta;
+        }
+
+        public RespuestaAjax ActualizarManifestacionFierro(string idProveedor, string urlManifestacionFierro)
+        {
+            var respuesta = new RespuestaAjax();
+            try
+            {
+                object[] parametros =
+                {
+                    idProveedor, UsuarioActual, urlManifestacionFierro
+                };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(ConexionSql, "spCIDDB_Catalogo_a_CatProveedor_ManifestacionFierro",
+                    parametros);
+
+
+                while (dr.Read())
+                {
+                    respuesta.Success = !dr.IsDBNull(dr.GetOrdinal("Success"))
+                        ? dr.GetBoolean(dr.GetOrdinal("Success"))
+                        : false;
+                    respuesta.Mensaje = !dr.IsDBNull(dr.GetOrdinal("Mensaje"))
+                        ? dr.GetString(dr.GetOrdinal("Mensaje"))
+                        : string.Empty;
+                    respuesta.MensajeErrorSQL = !dr.IsDBNull(dr.GetOrdinal("MensajeErrorSQL"))
+                        ? dr.GetString(dr.GetOrdinal("MensajeErrorSQL"))
+                        : string.Empty;
+                }
+
+                dr.Close();
+            }
+            catch (Exception ex)
+            {
+                respuesta.Mensaje = ex.Message;
+                respuesta.Success = false;
+            }
+
             return respuesta;
         }
         #endregion
