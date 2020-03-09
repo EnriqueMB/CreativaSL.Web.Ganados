@@ -483,6 +483,8 @@
     <Content Include="Content\js\Cliente\ConfiguracionReporteClienteJs.js" />
     <Content Include="Content\js\Cliente\CreateEditDocumentoExtraJs.js" />
     <Content Include="Content\js\Cliente\IndexDocumentoExtraJs.js" />
+    <Content Include="Content\js\CostoExtra\CostoExtra_ACJS.js" />
+    <Content Include="Content\js\CostoExtra\CostosExtraJS.js" />
     <Content Include="Content\js\DevolucionHerramienta.js" />
     <Content Include="Content\js\EntradaCajaChica.js" />
     <Content Include="Content\js\CajaChica.js" />
@@ -1606,8 +1608,13 @@
     <Content Include="Areas\Admin\Views\CatCliente\ConfiguracionReporteCliente.cshtml" />
     <Content Include="Areas\Admin\Views\Ticket\AsignarSucursal.cshtml" />
     <Content Include="Areas\Admin\Views\CostoExtra\Index.cshtml" />
+<<<<<<< HEAD
     <Content Include="Areas\Admin\Views\Ticket\TablasBase64ToUrl.cshtml" />
     <Content Include="Areas\Admin\Views\Ticket\RegistrosDeTablaBase64ToUrl.cshtml" />
+=======
+    <Content Include="Areas\Admin\Views\CostoExtra\CostosExtra.cshtml" />
+    <Content Include="Areas\Admin\Views\CostoExtra\CostoExtra_AC.cshtml" />
+>>>>>>> df42843ea802338512b29fba6c740173e2ec23a8
     <None Include="Properties\PublishProfiles\Ocampo.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
@@ -2065,6 +2072,7 @@
     <Compile Include="Models\_Comprobante_Datos.cs" />
     <Compile Include="Models\_ConciliacionAlmacen_Datos.cs" />
     <Compile Include="Models\_ConexionRepositorio.cs" />
+    <Compile Include="Models\_CostoExtra_Datos.cs" />
     <Compile Include="Models\_DatosRptUltCompraProveedor_Datos.cs" />
     <Compile Include="Models\_Deduccion_Datos.cs" />
     <Compile Include="Models\_DocumentoXCobrar_Datos.cs" />
