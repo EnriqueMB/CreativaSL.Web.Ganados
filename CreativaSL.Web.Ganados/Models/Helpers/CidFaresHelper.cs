@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Hosting;
+using System.Web.Services.Protocols;
 using CreativaSL.Web.Ganados.Models.System;
 
 namespace CreativaSL.Web.Ganados.Models.Helpers
@@ -191,27 +192,29 @@ namespace CreativaSL.Web.Ganados.Models.Helpers
                 throw new Exception("Directorio no válido.");
             }
 
-            var urlRelative = baseDir + fileName;
+            var urlRelative = HostingEnvironment.MapPath(baseDir + fileName);
             var stream = fileBase.InputStream;
-            Image img = null;
+            Bitmap bmp = null;
 
             if (IsFileImage(fileBase.FileName))
             {
                 if (Path.GetExtension(fileBase.FileName)?.ToLower() == ".heic")
                 {
-                    img = Auxiliar.ProcessFile(stream);
+                    bmp = Auxiliar.ProcessFile(stream);
                 }
                 else
                 {
-                    img = Image.FromStream(stream);
+                    bmp = new Bitmap(stream);
                 }
 
-                VaryQualityLevel(img, calidad, urlRelative);
+                VaryQualityLevel(bmp, calidad, urlRelative);
             }
             else
             {
-                fileBase.SaveAs(HostingEnvironment.MapPath(urlRelative));
+                fileBase.SaveAs(urlRelative);
             }
+
+            urlRelative = baseDir + fileName;
 
             return urlRelative;
         }
@@ -226,6 +229,8 @@ namespace CreativaSL.Web.Ganados.Models.Helpers
             var urlRelative = HostingEnvironment.MapPath(baseDir + fileName);
 
             VaryQualityLevel(bitmap, calidad, urlRelative);
+
+            urlRelative = baseDir + fileName;
 
             return urlRelative;
         }
