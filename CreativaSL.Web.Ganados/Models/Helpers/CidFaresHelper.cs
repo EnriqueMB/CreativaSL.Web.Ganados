@@ -93,7 +93,7 @@ namespace CreativaSL.Web.Ganados.Models.Helpers
                                                     ObtenerExtensionImagenBase64(uploadBase64ToServer.StringBase64);
 
                     uploadBase64ToServer.UrlRelative = SaveBitmapToServer(uploadBase64ToServer.BitmapBase,
-                        uploadBase64ToServer.BaseDir, uploadBase64ToServer.FileName);
+                        uploadBase64ToServer.BaseDir, uploadBase64ToServer.FileName, uploadBase64ToServer.QualityImage);
                 }
                 else
                 {
@@ -120,9 +120,7 @@ namespace CreativaSL.Web.Ganados.Models.Helpers
 
                 memoryStream.Position = 0;
 
-                var img = Bitmap.FromStream(memoryStream);
-                uploadBase64ToServer.BitmapBase =
-                    new Bitmap(VaryQualityLevel((Image) img.Clone(), uploadBase64ToServer.QualityImage));
+                uploadBase64ToServer.BitmapBase = new Bitmap(memoryStream);
 
                 memoryStream.Close();
                 memoryStream = null;
@@ -208,8 +206,7 @@ namespace CreativaSL.Web.Ganados.Models.Helpers
                     img = Image.FromStream(stream);
                 }
 
-                var bmp = new Bitmap(VaryQualityLevel((Image)img.Clone(), calidad));
-                bmp.Save(HostingEnvironment.MapPath(urlRelative));
+                VaryQualityLevel(img, calidad, urlRelative);
             }
             else
             {
@@ -219,16 +216,16 @@ namespace CreativaSL.Web.Ganados.Models.Helpers
             return urlRelative;
         }
 
-        private static string SaveBitmapToServer(Bitmap bitmap, string baseDir, string fileName)
+        private static string SaveBitmapToServer(Bitmap bitmap, string baseDir, string fileName, long calidad)
         {
             if (!CreateFolder(baseDir))
             {
                 throw new Exception("Directorio no válido.");
             }
 
-            var urlRelative = baseDir + fileName;
-            
-            bitmap.Save(HostingEnvironment.MapPath(urlRelative));
+            var urlRelative = HostingEnvironment.MapPath(baseDir + fileName);
+
+            VaryQualityLevel(bitmap, calidad, urlRelative);
 
             return urlRelative;
         }
@@ -243,19 +240,35 @@ namespace CreativaSL.Web.Ganados.Models.Helpers
             return extensionsImages.Any(extensionImage => Path.GetExtension(fileName).ToLower().Equals(extensionImage));
         }
         
-        private static Image VaryQualityLevel(Image image, long value)
+        private static void VaryQualityLevel(Image image, long value, string url)
         {
             using (var bmp = new Bitmap(image))
             {
-                var jpgEncoder = GetEncoder(GetImageFormat(image));
-                var myEncoder = Encoder.Quality;
-                var myEncoderParameters = new EncoderParameters(1);
+                ImageCodecInfo jpgEncoder = null;
 
-                var myEncoderParameter = new EncoderParameter(myEncoder, value);
-                myEncoderParameters.Param[0] = myEncoderParameter;
-                var ms = new MemoryStream();
-                bmp.Save(ms, jpgEncoder, myEncoderParameters);
-                return Image.FromStream(ms);
+                var imageQualitysParameter =
+                    new EncoderParameter(Encoder.Quality, value);
+
+                var codecParameter = new EncoderParameters(1);
+                codecParameter.Param[0] = imageQualitysParameter;
+
+                var allCodecs = ImageCodecInfo.GetImageEncoders();
+                for (int i = 0; i < allCodecs.Length; i++)
+                {
+                    if (allCodecs[i].MimeType == "image/jpeg")
+                    {
+                        jpgEncoder = allCodecs[i];
+                        break;
+                    }
+                }
+
+                using (var g = Graphics.FromImage(bmp))
+                {
+                    g.Clear(Color.White);
+                    g.DrawImageUnscaled(image, 0, 0);
+                }
+
+                bmp.Save(url, jpgEncoder, codecParameter);
             }
         }
         
