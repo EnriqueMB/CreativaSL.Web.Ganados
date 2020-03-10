@@ -733,7 +733,8 @@ namespace CreativaSL.Web.Ganados.Models
             try
             {
                 object[] Parametros = { model.IdCaja, model.MontoApertura, model.KeyWord, IdUsuario };
-                object Result = SqlHelper.ExecuteScalar(_ConexionRepositorio.CadenaConexion, "[cajachica].[spCIDDB_GuardarMovimientoEntrada]", Parametros);
+                object Result = SqlHelper.ExecuteScalar(_ConexionRepositorio.CadenaConexion,
+                    "[cajachica].[spCIDDB_GuardarMovimientoEntrada]", Parametros);
                 if (Result != null)
                 {
                     int Resultado = 0;
