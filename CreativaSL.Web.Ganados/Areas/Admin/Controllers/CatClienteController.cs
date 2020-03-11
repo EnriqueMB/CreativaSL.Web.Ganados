@@ -1044,7 +1044,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         uploadImageUppPsgToserver.FileBase = uppPostedFileBase;
                         uploadImageUppPsgToserver.BaseDir = ProjectSettings.BaseDirClienteUppPsg;
                         uploadImageUppPsgToserver.FileName = uppModel.ImagenHttp.Replace(ProjectSettings.BaseDirClienteUppPsg, string.Empty);
-                        CidFaresHelper.DeleteFileromServer(uploadImageUppPsgToserver);
+                        CidFaresHelper.DeleteFileFromServer(uploadImageUppPsgToserver);
                         uploadImageUppPsgToserver.FileName = fileName;
                         CidFaresHelper.UploadFileToServer(uploadImageUppPsgToserver);
                         uppModel.Imagen = uploadImageUppPsgToserver.UrlRelative;

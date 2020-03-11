@@ -318,7 +318,7 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
 
-        public void ObtenerImagenCajaChica(CajaChicaModels cajaChica) //metodo hecho para la imagen
+        public void ObtenerImagenCajaChica(CajaChicaModels cajaChica, bool actualizarImagenBase64ToUrl = true ) //metodo hecho para la imagen
         {
             try
             {
@@ -334,33 +334,36 @@ namespace CreativaSL.Web.Ganados.Models
                         : string.Empty;
 
 
-                    var uploadBase64ToServerModel = CidFaresHelper.UploadBase64ToServer(cajaChica.ImagenCajaChica,
-                        ProjectSettings.BaseDirCajaChicaChequeComprobante);
-
-                    if (uploadBase64ToServerModel.Success)
+                    if (actualizarImagenBase64ToUrl)
                     {
-                        var responseDb = ActualizarFotoComprobate(cajaChica.IdCaja, uploadBase64ToServerModel.FileName);
-                        cajaChica.ImagenCajaChica = uploadBase64ToServerModel.UrlRelative;
-                        continue;
+                        var uploadBase64ToServerModel = CidFaresHelper.UploadBase64ToServer(cajaChica.ImagenCajaChica,
+                                        ProjectSettings.BaseDirCajaChicaChequeComprobante);
+
+                        if (uploadBase64ToServerModel.Success)
+                        {
+                            var responseDb = ActualizarFotoComprobate(cajaChica.IdCaja, uploadBase64ToServerModel.FileName);
+                            cajaChica.ImagenCajaChica = uploadBase64ToServerModel.UrlRelative;
+                            continue;
+                        }
+
+                        var path = HostingEnvironment.MapPath(ProjectSettings.BaseDirCajaChicaChequeComprobante + cajaChica.ImagenCajaChica);
+                        var fileName = cajaChica.ImagenCajaChica;
+
+                        if (!File.Exists(path) || string.IsNullOrWhiteSpace(fileName))
+                        {
+                            cajaChica.ImagenCajaChica = ProjectSettings.PathDefaultImage;
+                        }
+                        else
+                        {
+                            cajaChica.ImagenCajaChica =
+                                ProjectSettings.BaseDirCajaChicaChequeComprobante + cajaChica.ImagenCajaChica;
+                        }
                     }
 
-                    var path = HostingEnvironment.MapPath(ProjectSettings.BaseDirCajaChicaChequeComprobante + cajaChica.ImagenCajaChica);
-                    var fileName = cajaChica.ImagenCajaChica;
-
-                    if (!File.Exists(path) || string.IsNullOrWhiteSpace(fileName))
+                    if (string.IsNullOrEmpty(cajaChica.ImagenCajaChica))
                     {
                         cajaChica.ImagenCajaChica = ProjectSettings.PathDefaultImage;
-                    }
-                    else
-                    {
-                        cajaChica.ImagenCajaChica =
-                            ProjectSettings.BaseDirCajaChicaChequeComprobante + cajaChica.ImagenCajaChica;
-                    }
-                }
-
-                if(string.IsNullOrEmpty(cajaChica.ImagenCajaChica))
-                {
-                    cajaChica.ImagenCajaChica = ProjectSettings.PathDefaultImage;
+                    } 
                 }
 
                 dr.Close();
@@ -415,7 +418,8 @@ namespace CreativaSL.Web.Ganados.Models
                                         model.Alias ?? string.Empty,
                                         model.FotoCheque,
                                         IdUsuario };
-                object Result = SqlHelper.ExecuteScalar(_ConexionRepositorio.CadenaConexion, "cajachica.spCIDDB_GuardarMovimiento", Parametros);
+                object Result = SqlHelper.ExecuteScalar(_ConexionRepositorio.CadenaConexion,
+                    "cajachica.spCIDDB_GuardarMovimiento", Parametros);
                 if (Result != null)
                 {
                     int Resultado = 0;
@@ -445,11 +449,13 @@ namespace CreativaSL.Web.Ganados.Models
                                         model.FotoCheque,
                                         model.Estatus,
                                         IdUsuario };
-                object Result = SqlHelper.ExecuteScalar(_ConexionRepositorio.CadenaConexion, "cajachica.spCIDDB_ModificarMovimiento", Parametros);
+                object Result = SqlHelper.ExecuteScalar(_ConexionRepositorio.CadenaConexion,
+                    "cajachica.spCIDDB_ModificarMovimiento", Parametros);
                 if (Result != null)
                 {
                     int Resultado = 0;
                     int.TryParse(Result.ToString(), out Resultado);
+                    
                     return Resultado;
                 }
                 return 0;
@@ -465,7 +471,8 @@ namespace CreativaSL.Web.Ganados.Models
             try
             {
                 MovimientosCajaChicaModels model = new MovimientosCajaChicaModels();
-                SqlDataReader Dr = SqlHelper.ExecuteReader(_ConexionRepositorio.CadenaConexion, "cajachica.spCIDDB_ObtenerDatosCajaChicaDetalle", IdMovimiento);
+                SqlDataReader Dr = SqlHelper.ExecuteReader(_ConexionRepositorio.CadenaConexion,
+                    "cajachica.spCIDDB_ObtenerDatosCajaChicaDetalle", IdMovimiento);
                 while (Dr.Read())
                 {
                     model.IdMovimiento = IdMovimiento;
@@ -521,7 +528,8 @@ namespace CreativaSL.Web.Ganados.Models
             try
             {
                 object[] Parametros = { IdCaja, IdUsuario };
-                object Result = SqlHelper.ExecuteScalar(_ConexionRepositorio.CadenaConexion, "cajachica.spCIDDB_EliminarCajaChica", Parametros);
+                object Result = SqlHelper.ExecuteScalar(_ConexionRepositorio.CadenaConexion,
+                    "cajachica.spCIDDB_EliminarCajaChica", Parametros);
                 if (Result != null)
                 {
                     int Resultado = 0;
@@ -749,12 +757,13 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
 
-        public int EstatusChequeCobrado(Int64 IdMovimiento, string IdUsuario)
+        public int EstatusChequeCobrado(string IdMovimiento, string IdUsuario)
         {
             try
             {
                 object[] Parametros = { IdMovimiento, IdUsuario };
-                object Result = SqlHelper.ExecuteScalar(_ConexionRepositorio.CadenaConexion, "[cajachica].[spCIDDB_CobrarChequeCajaChica]", Parametros);
+                object Result = SqlHelper.ExecuteScalar(_ConexionRepositorio.CadenaConexion,
+                    "[cajachica].[spCIDDB_CobrarChequeCajaChica]", Parametros);
                 if (Result != null)
                 {
                     int Resultado = 0;

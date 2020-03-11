@@ -5,7 +5,6 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Hosting;
-using System.Web.Services.Protocols;
 using CreativaSL.Web.Ganados.Models.System;
 
 namespace CreativaSL.Web.Ganados.Models.Helpers
@@ -31,7 +30,7 @@ namespace CreativaSL.Web.Ganados.Models.Helpers
             }
         }
 
-        public static void DeleteFileromServer(UploadFileToServerModel uploadFileToServer)
+        public static void DeleteFileFromServer(UploadFileToServerModel uploadFileToServer)
         {
             try
             {
@@ -81,13 +80,14 @@ namespace CreativaSL.Web.Ganados.Models.Helpers
             var uploadBase64ToServer = new UploadBase64ToServerModel
             {
                 BaseDir = baseDir
-                , StringBase64 = stringBase64.Replace(baseDir, string.Empty)
+                ,
+                StringBase64 = stringBase64.Replace(baseDir, string.Empty)
             };
 
             try
             {
                 GetBitmapFromBase64(uploadBase64ToServer);
-                
+
                 if (uploadBase64ToServer.Success)
                 {
                     uploadBase64ToServer.FileName = Guid.NewGuid().ToString().ToUpper() +
@@ -162,14 +162,14 @@ namespace CreativaSL.Web.Ganados.Models.Helpers
             }
 
             var folders = baseDir.Split('/');
-            for(var x = 0; x < folders.Length; x++)
+            for (var x = 0; x < folders.Length; x++)
             {
                 var currentFolder = string.Empty;
                 for (var y = 0; y <= x; y++)
                 {
                     currentFolder += "/" + folders[y];
                 }
-                
+
                 var folderPath = HostingEnvironment.MapPath(currentFolder);
                 if (!Directory.Exists(folderPath))
                 {
@@ -204,7 +204,9 @@ namespace CreativaSL.Web.Ganados.Models.Helpers
                 }
                 else
                 {
-                    bmp = new Bitmap(stream);
+                    var ms = new MemoryStream();
+                    fileBase.InputStream.CopyTo(ms);
+                    bmp = new Bitmap(ms);
                 }
 
                 VaryQualityLevel(bmp, calidad, urlRelative);
@@ -244,7 +246,7 @@ namespace CreativaSL.Web.Ganados.Models.Helpers
 
             return extensionsImages.Any(extensionImage => Path.GetExtension(fileName).ToLower().Equals(extensionImage));
         }
-        
+
         private static void VaryQualityLevel(Image image, long value, string url)
         {
             using (var bmp = new Bitmap(image))
@@ -270,33 +272,13 @@ namespace CreativaSL.Web.Ganados.Models.Helpers
                 using (var g = Graphics.FromImage(bmp))
                 {
                     g.Clear(Color.White);
-                    g.DrawImageUnscaled(image, 0, 0);
+                    g.DrawImage(image, 0, 0, image.Width, image.Height);
                 }
 
                 bmp.Save(url, jpgEncoder, codecParameter);
             }
         }
-        
-        private static ImageCodecInfo GetEncoder(ImageFormat format)
-        {
-            var codecs = ImageCodecInfo.GetImageDecoders();
-            foreach (var codec in codecs)
-            {
-                if (codec.FormatID == format.Guid)
-                {
-                    return codec;
-                }
-            }
-            return null;
-        }
-        
-        private static ImageFormat GetImageFormat(Image img)
-        {
-            using (img)
-            {
-                return img.RawFormat;
-            }
-        }
+
         private static string ObtenerExtensionImagenBase64(string imagen64)
         {
             var extension = string.Empty;

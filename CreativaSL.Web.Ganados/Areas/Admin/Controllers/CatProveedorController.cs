@@ -539,7 +539,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     var uploadImageToserver = new UploadFileToServerModel();
                     uploadImageToserver.BaseDir = file.BaseDir;
                     uploadImageToserver.FileName = file.FileName;
-                    CidFaresHelper.DeleteFileromServer(uploadImageToserver);
+                    CidFaresHelper.DeleteFileFromServer(uploadImageToserver);
                 }                
 
                 if (Proveedor.Completado)
@@ -1347,7 +1347,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         uploadImageUppPsgToserver.BaseDir = ProjectSettings.BaseDirProveedorUppPsg;
                         uploadImageUppPsgToserver.FileName = uPPProvedor.ImagenHttp.Replace(ProjectSettings.BaseDirProveedorUppPsg, string.Empty);
 
-                        CidFaresHelper.DeleteFileromServer(uploadImageUppPsgToserver);
+                        CidFaresHelper.DeleteFileFromServer(uploadImageUppPsgToserver);
 
                         uploadImageUppPsgToserver.FileName = fileName;
                         CidFaresHelper.UploadFileToServer(uploadImageUppPsgToserver);
