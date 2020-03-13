@@ -9,6 +9,7 @@ using System.Web.Hosting;
 using CreativaSL.Web.Ganados.Models.Datatable;
 using CreativaSL.Web.Ganados.Models.Dto.Base;
 using CreativaSL.Web.Ganados.Models.Dto.CatBancos;
+using CreativaSL.Web.Ganados.Models.Dto.CatEmpresas;
 using CreativaSL.Web.Ganados.Models.Dto.Compra;
 using CreativaSL.Web.Ganados.Models.System;
 using Newtonsoft.Json;
@@ -40,7 +41,9 @@ namespace CreativaSL.Web.Ganados.Models
                         HorarioAtencion = !dr.IsDBNull(dr.GetOrdinal("horarioAtencion")) ? dr.GetString(dr.GetOrdinal("horarioAtencion")) : string.Empty,
                         PermitirSucursales = !dr.IsDBNull(dr.GetOrdinal("permitirSucursales")) ? dr.GetBoolean(dr.GetOrdinal("permitirSucursales")) : false,
                     };
-                    ItemEmpresa.LogoEmpresa = ItemEmpresa.ValidarStringImage(ItemEmpresa.LogoEmpresa);
+
+                    ItemEmpresa.LogoEmpresa =
+                        Auxiliar.ValidImageFormServer(ItemEmpresa.LogoEmpresa, ProjectSettings.BaseDirCatEmpresa);
 
                     Empresa.ListaEmpresas.Add(ItemEmpresa);
                 }
@@ -86,8 +89,11 @@ namespace CreativaSL.Web.Ganados.Models
                     //No hay imgRFC en BD
                     Empresa.ImagBDRFC = (string.IsNullOrWhiteSpace(Empresa.LogoRFC)) ? false : true;
 
-                    Empresa.LogoEmpresa = Empresa.ValidarStringImage(Empresa.LogoEmpresa);
-                    Empresa.LogoRFC = Empresa.ValidarStringImage(Empresa.LogoRFC);
+                    Empresa.LogoEmpresa =
+                        Auxiliar.ValidImageFormServer(Empresa.LogoEmpresa, ProjectSettings.BaseDirCatEmpresa);
+
+                    Empresa.LogoRFC =
+                        Auxiliar.ValidImageFormServer(Empresa.LogoRFC, ProjectSettings.BaseDirCatEmpresa);
                 }
                 dr.Close();
                 return Empresa;
@@ -435,6 +441,34 @@ namespace CreativaSL.Web.Ganados.Models
                 }
                 dr.Close();
                 return respuesta;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public CatEmpresaDeleteImagenesDto ObtenerImagenes(string id)
+        {
+            try
+            {
+                CatEmpresaDeleteImagenesDto item = new CatEmpresaDeleteImagenesDto();
+                object[] parametros =
+                {
+                    id
+                };
+                SqlDataReader dr = null;
+
+                dr = SqlHelper.ExecuteReader(ConexionSql, "[dbo].[spCIDDB_CatEmpresa_ObtenerImagenes]", parametros);
+
+                while (dr.Read())
+                {
+                    item.LogoEmpresa = !dr.IsDBNull(dr.GetOrdinal("LogoEmpresa")) ? dr.GetString(dr.GetOrdinal("LogoEmpresa")) : string.Empty;
+                    item.LogoRfc = !dr.IsDBNull(dr.GetOrdinal("LogoRfc")) ? dr.GetString(dr.GetOrdinal("LogoRfc")) : string.Empty;
+                }
+                dr.Close();
+
+                return item;
             }
             catch (Exception ex)
             {

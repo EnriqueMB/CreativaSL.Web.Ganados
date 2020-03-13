@@ -4,6 +4,17 @@
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
+@section css{
+    <style>
+        /*INICIA CAMBIOS 13/03/2020*/
+        body {
+            position: absolute;
+            width: 100%;
+        }
+    /*TERMINA CAMBIOS 13/03/2020*/
+    </style>
+}
+
 @section featured{
     @{
         var message = TempData["message"] ?? string.Empty;

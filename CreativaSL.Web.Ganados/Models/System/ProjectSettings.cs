@@ -19,6 +19,9 @@ namespace CreativaSL.Web.Ganados.Models.System
         public const string BaseDirProveedorUppPsg = "/Imagenes/Proveedor/UppPsg/";
         public const string BaseDirCajaChicaChequeComprobante = "/Imagenes/CajaChica/ChequeComprobante/";
         public const string BaseDirCatBanco = "/Imagenes/Catalogos/Banco/";
+        public const string BaseDirCatEmpresa = "/Imagenes/Catalogos/Empresa/";
+        public const string BaseDirCatFierro = "/Imagenes/Catalogos/Fierro/";
+
         public const string PathDefaultImage = "/Content/img/GrupoOcampo.png";
     }
 }

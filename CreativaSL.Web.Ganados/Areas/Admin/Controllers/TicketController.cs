@@ -186,6 +186,15 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 case 2:
                     baseDir = ProjectSettings.BaseDirCatBanco;
                     break;
+                case 3:
+                    baseDir = ProjectSettings.BaseDirCatEmpresa;
+                    break;
+                case 4:
+                    baseDir = ProjectSettings.BaseDirCatEmpresa;
+                    break;
+                case 5:
+                    baseDir = ProjectSettings.BaseDirCatFierro;
+                    break;
             }
 
             var json = datos.ObtenerRegistrosTablaBase64ToUrl(idTabla, dataTableAjaxPostModel, baseDir);
@@ -205,6 +214,15 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     break;
                 case 2:
                     baseDir = ProjectSettings.BaseDirCatBanco;
+                    break;
+                case 3:
+                    baseDir = ProjectSettings.BaseDirCatEmpresa;
+                    break;
+                case 4:
+                    baseDir = ProjectSettings.BaseDirCatEmpresa;
+                    break;
+                case 5:
+                    baseDir = ProjectSettings.BaseDirCatFierro;
                     break;
             }
 

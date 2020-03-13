@@ -28,6 +28,9 @@ namespace CreativaSL.Web.Ganados.Models
                     Datos.NumTelefonico2 = !Dr.IsDBNull(Dr.GetOrdinal("NumTelefono2")) ? Dr.GetString(Dr.GetOrdinal("NumTelefono2")) : string.Empty;
                     Datos.Email = !Dr.IsDBNull(Dr.GetOrdinal("Correo")) ? Dr.GetString(Dr.GetOrdinal("Correo")) : string.Empty;
                     Datos.HorarioAtencion = !Dr.IsDBNull(Dr.GetOrdinal("HorarioAtencion")) ? Dr.GetString(Dr.GetOrdinal("HorarioAtencion")) : string.Empty;
+
+                    Datos.LogoEmpresa =
+                        Auxiliar.ImagePathToBase64(Datos.LogoEmpresa, ProjectSettings.BaseDirCatEmpresa);
                 }
                 Dr.Close();
                 return Datos;
@@ -55,9 +58,8 @@ namespace CreativaSL.Web.Ganados.Models
                     Datos.NumTelefonico2 = !Dr.IsDBNull(Dr.GetOrdinal("NumTelefono2")) ? Dr.GetString(Dr.GetOrdinal("NumTelefono2")) : string.Empty;
                     Datos.Email = !Dr.IsDBNull(Dr.GetOrdinal("Correo")) ? Dr.GetString(Dr.GetOrdinal("Correo")) : string.Empty;
                     Datos.HorarioAtencion = !Dr.IsDBNull(Dr.GetOrdinal("HorarioAtencion")) ? Dr.GetString(Dr.GetOrdinal("HorarioAtencion")) : string.Empty;
-                    //Datos.NombreSucursal = !Dr.IsDBNull(Dr.GetOrdinal("NombreSucursal")) ? Dr.GetString(Dr.GetOrdinal("NombreSucursal")) : string.Empty;
-                    //Bitmap bmpFromString = Datos.DatosEmpresa.LogoEmpresa.Base64StringToBitmap();
-                    //Datos.DatosEmpresa.ImagenContruida = bmpFromString.ToBase64ImageReport(ImageFormat.Png);
+                    Datos.LogoEmpresa =
+                        Auxiliar.ImagePathToBase64(Datos.LogoEmpresa, ProjectSettings.BaseDirCatEmpresa);
                 }
                 Dr.Close();
                 return Datos;
@@ -87,6 +89,9 @@ namespace CreativaSL.Web.Ganados.Models
                     Datos.Email = !Dr.IsDBNull(Dr.GetOrdinal("Correo")) ? Dr.GetString(Dr.GetOrdinal("Correo")) : string.Empty;
                     Datos.HorarioAtencion = !Dr.IsDBNull(Dr.GetOrdinal("HorarioAtencion")) ? Dr.GetString(Dr.GetOrdinal("HorarioAtencion")) : string.Empty;
                     Datos.NombreSucursal = !Dr.IsDBNull(Dr.GetOrdinal("NombreSucursal")) ? Dr.GetString(Dr.GetOrdinal("NombreSucursal")) : string.Empty;
+
+                    Datos.LogoEmpresa =
+                        Auxiliar.ImagePathToBase64(Datos.LogoEmpresa, ProjectSettings.BaseDirCatEmpresa);
                     break;
                 }
                 Dr.Close();

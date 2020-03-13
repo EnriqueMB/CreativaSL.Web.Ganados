@@ -7,6 +7,7 @@
 
 @section css
 {
+    <link href="~/Content/css/datatable/jquery.dataTables.min.css" rel="stylesheet" />
     <style>
         .page-content {
             height: 100% !important;
@@ -84,7 +85,7 @@
             </div>
         </div>
     </div>
-   
+
     <script>
     var message = '@message';
     var typemessage = '@typemessage';
@@ -104,18 +105,25 @@
             Mensaje(message, typemessage);
 
             var tblCatFierros = $('#tblCatFierros').DataTable({
+                "processing": true,
+                "serverSide": true,
                 "language": {
                     "url": "@Url.Content("~/Content/json/Spanish.json")"
                 },
                 responsive: true,
                 "ajax": {
-                    "data": {
-                        
-                    },
+                      "processing": true,
+            "serverSide": true,
                     "url": "/Admin/CatFierro/DatatableIndex/",
                     "type": "POST",
                     "datatype": "json",
-                    "dataSrc": ''
+                      "dataSrc": function (json) {
+
+                          if (json.data === null)
+                              return [];
+                          else
+                              return json.data;
+                      }
                 },
                 "columns": [
                     { "data": "NombreFierro" },
@@ -125,12 +133,12 @@
                         "render": function (data, type, full) {
                             var imagen64 = full["ImgFierro"];
                             var img;
-                            
+
                             if (imagen64 === null || imagen64 === '') {
                                 img = "<img class='file-preview-image' style='width: auto; height: 150px;' src='/Content/img/GrupoOcampo.png' />";
                             }
                             else {
-                                img = "<img class='file-preview-image' style='width: auto; height: 150px;' src='/Imagenes/Fierro/"+ imagen64 +"' />";
+                                img = "<img class='file-preview-image' style='width: auto; height: 150px;' src='"+ imagen64 +"' />";
                             }
                             return img;
                         }
@@ -140,7 +148,6 @@
                         "render": function (data, type, full) {
 
                             return "<div class='visible-md visible-lg hidden-sm hidden-xs'>" +
-                                //"<a data-id='" + full["IDFierro"] + "' class='btn btn-yellow tooltips btn-sm edit' title='Editar'  data-placement='top' data-original-title='Edit'><i class='fa fa-edit'></i></a>" +
                                 "<a data-hrefa='/Admin/CatFierro/Delete/' title='Eliminar' data-id='" + full["IDFierro"] + "' class='btn btn-danger tooltips btn-sm delete' data-placement='top' data-original-title='Eliminar'><i class='fa fa-trash-o'></i></a>" +
                                 "</div>" +
                                 "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
@@ -150,8 +157,6 @@
                                 "</a>" +
                                 "<ul role='menu' class='dropdown-menu pull-right dropdown-dark'>" +
                                 "<li>" +
-                                //"<a data-id='" + full["IDFierro"] + "' class='edit' role='menuitem' tabindex='-1'>" +
-                                //"<i class='fa fa-edit'></i> Editar" +
                                 "</a>" +
                                 "</li>" +
                                 "<li>" +
