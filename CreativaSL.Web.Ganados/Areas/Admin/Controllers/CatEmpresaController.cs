@@ -10,6 +10,9 @@ using CreativaSL.Web.Ganados.App_Start;
 using System.IO;
 using System.Drawing;
 using System.Drawing.Imaging;
+using CreativaSL.Web.Ganados.Models.Datatable;
+using CreativaSL.Web.Ganados.Models.Helpers;
+using CreativaSL.Web.Ganados.Models.System;
 
 namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 {
@@ -142,7 +145,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public ActionResult LoadTableCuentasBancarias(string IDEmpresa)
+        public ActionResult LoadTableCuentasBancarias(DataTableAjaxPostModel dataTableAjaxPostModel, string IDEmpresa)
         {
             try
             {
@@ -152,7 +155,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     IDEmpresa = IDEmpresa
                 };
                 EmpresaDatos = new _CatEmpresa_Datos();
-                Empresa.TablaCuentasBancarias = EmpresaDatos.GetCuentasBancarias(Empresa);
+                Empresa.TablaCuentasBancarias = EmpresaDatos.GetCuentasBancarias(dataTableAjaxPostModel, Empresa);
 
                 return Content(Empresa.TablaCuentasBancarias, "application/json");
             }
@@ -232,7 +235,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public ActionResult DeleteCuentaBancaria(string id)
+        public ActionResult DeleteCuentaBancaria(string id, string imagen)
         {
             try
             {

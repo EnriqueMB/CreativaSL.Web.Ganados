@@ -3,9 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Globalization;
 using System.IO;
 using System.Web.Hosting;
+using CreativaSL.Web.Ganados.Models.Datatable;
+using CreativaSL.Web.Ganados.Models.Dto.Base;
 using CreativaSL.Web.Ganados.Models.Dto.CatBancos;
+using CreativaSL.Web.Ganados.Models.Dto.Compra;
 using CreativaSL.Web.Ganados.Models.System;
 using Newtonsoft.Json;
 
@@ -132,33 +136,51 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
 
-        public string GetCuentasBancarias(CatEmpresaModels Empresa)
+        public string GetCuentasBancarias(DataTableAjaxPostModel dataTableAjaxPostModel, CatEmpresaModels Empresa)
         {
             try
             {
-
-                CuentaBancariaDto item = new CuentaBancariaDto();
-
-                using (var sqlcon = new SqlConnection(ConexionSql))
+                var datatable = string.Empty;
+                using (SqlConnection sqlcon = new SqlConnection(ConexionSql))
                 {
-                    using (var cmd = new SqlCommand("[dbo].[spCSLDB_EMPRESA_get_CuentasBancarias]",
-                        sqlcon))
+                    using (SqlCommand cmd = new SqlCommand("spCSLDB_EMPRESA_get_CuentasBancarias", sqlcon))
                     {
+                        //parametros de entrada
                         cmd.CommandType = CommandType.StoredProcedure;
 
-                        cmd.Parameters.Add("@id_empresa", SqlDbType.VarChar).Value = Empresa.IDEmpresa;
+                        cmd.Parameters.Add("@id_empresa", SqlDbType.Char).Value = Empresa.IDEmpresa;
+                        cmd.Parameters.Add("@Start", SqlDbType.Int).Value = dataTableAjaxPostModel.start;
+                        cmd.Parameters.Add("@Length", SqlDbType.Int).Value = dataTableAjaxPostModel.length;
+                        cmd.Parameters.Add("@SearchValue", SqlDbType.NVarChar).Value = dataTableAjaxPostModel.search.value;
+                        cmd.Parameters.Add("@Draw", SqlDbType.Int).Value = dataTableAjaxPostModel.draw;
+                        cmd.Parameters.Add("@ColumnNumber", SqlDbType.Int).Value = dataTableAjaxPostModel.order[0].column;
+                        cmd.Parameters.Add("@ColumnDir", SqlDbType.NVarChar).Value = dataTableAjaxPostModel.order[0].dir;
 
+                        // execute
                         sqlcon.Open();
 
                         var reader = cmd.ExecuteReader();
 
+                        var indexDatatableDto = new IndexDatatableDto();
+
                         if (reader.HasRows)
                         {
+                            indexDatatableDto.Data = new List<object>();
+                            bool firstData = true;
+
                             while (reader.Read())
                             {
-                                item = new CuentaBancariaDto();
+                                if (firstData)
+                                {
+                                    indexDatatableDto.Draw = int.Parse(reader["Draw"].ToString()); ;
+                                    indexDatatableDto.RecordsFiltered = int.Parse(reader["RecordsFiltered"].ToString());
+                                    indexDatatableDto.RecordsTotal = int.Parse(reader["RecordsTotal"].ToString());
+                                    firstData = false;
+                                }
+
+                                var item = new CuentaBancariaDto();
                                 item.IdDatosBan = reader["IDDatosBan"].ToString();
-                                item.IdDatosBan = reader["ImgBanco"].ToString();
+                                item.ImgBanco = reader["ImgBanco"].ToString();
                                 item.NomBanco = reader["NomBanco"].ToString();
                                 item.Titular = reader["Titular"].ToString();
                                 item.NumTarjeta = reader["NumTarjeta"].ToString();
@@ -175,13 +197,20 @@ namespace CreativaSL.Web.Ganados.Models
                                     var path = HostingEnvironment.MapPath(pathRelative);
                                     item.ImgBanco = File.Exists(path) ? pathRelative : ProjectSettings.PathDefaultImage;
                                 }
+
+                                indexDatatableDto.Data.Add(item);
                             }
                         }
+
+                        var json = JsonConvert.SerializeObject(indexDatatableDto);
+
                         reader.Close();
+
+                        return json;
                     }
                 }
-                var json = JsonConvert.SerializeObject(item);
-                return json;
+
+                return datatable;
             }
             catch (Exception ex)
             {

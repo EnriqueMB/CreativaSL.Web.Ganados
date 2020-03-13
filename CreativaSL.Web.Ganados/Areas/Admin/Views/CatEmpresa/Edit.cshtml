@@ -12,6 +12,7 @@
 
     <link href="@Url.Content("~/Content/js/plugins/uploadFiles/theme.css")" rel="stylesheet" />
     <link href="@Url.Content("~/Content/css/validator.css")" rel="stylesheet" />
+    <link href="~/Content/css/datatable/jquery.dataTables.min.css" rel="stylesheet" />
 
 }
 @section featured{
@@ -19,277 +20,277 @@
         var message = TempData["message"] ?? string.Empty;
         var typemessage = TempData["typemessage"] ?? string.Empty;
     }
-    
-        <div id="Error" class="progress-bar progress-bar-striped active errorCSL" style="display:none; width:100%">
-            <h3></h3>
-        </div>
-        <div id="Success" class="progress-bar progress-bar-striped active successCSL" style="display:none; width:100%">
-            <h3></h3>
-        </div>
-        <!--INICIA TABS-->
-        <div class="panel panel-default tabs">
-            <!-- Nav tabs -->
-            <ul class="nav nav-tabs" role="tablist">
-                <li class="active" role="presentation"><a href="#generales" aria-controls="generales" role="tab" data-toggle="tab">Generales</a></li>
-                <li role="presentation"><a href="#cuentasBancos" aria-controls="cuentasBancos" role="tab" data-toggle="tab">Cuentas de bancos</a></li>
-                <li role="presentation"><a href="#archivos" aria-controls="archivos" role="tab" data-toggle="tab">Archivos</a></li>
-            </ul>
 
-            <!-- Tab panes -->
-            <div class="tab-content">
-                <div role="tabpanel" class="tab-pane active" id="generales">
-                    <div class="col-md-12">
-                        @{ Html.EnableClientValidation(false); }
-                        @using (Html.BeginForm("SaveEmpresa", "CatEmpresa", FormMethod.Post, new { id = "frmEditEmpresa", @class = "form-horizontal", autocomplete = "off", @enctype = "multipart/form-data" }))
-                        {
-                            @Html.AntiForgeryToken()
+    <div id="Error" class="progress-bar progress-bar-striped active errorCSL" style="display:none; width:100%">
+        <h3></h3>
+    </div>
+    <div id="Success" class="progress-bar progress-bar-striped active successCSL" style="display:none; width:100%">
+        <h3></h3>
+    </div>
+    <!--INICIA TABS-->
+    <div class="panel panel-default tabs">
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">
+            <li class="active" role="presentation"><a href="#generales" aria-controls="generales" role="tab" data-toggle="tab">Generales</a></li>
+            <li role="presentation"><a href="#cuentasBancos" aria-controls="cuentasBancos" role="tab" data-toggle="tab">Cuentas de bancos</a></li>
+            <li role="presentation"><a href="#archivos" aria-controls="archivos" role="tab" data-toggle="tab">Archivos</a></li>
+        </ul>
 
-                            @Html.HiddenFor(model => model.IDEmpresa)
-                            @Html.HiddenFor(model => model.ImagBDEmpresa)
-                            @Html.HiddenFor(model => model.ImagBDRFC)
-                            @Html.HiddenFor(model => model.LogoEmpresa);
-                            @Html.HiddenFor(model => model.LogoRFC);
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h3 class="panel-title"><strong>Información</strong> Empresa</h3>
-                                    <ul class="panel-controls"></ul>
-                                </div>
-                                <div class="panel-body">
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="generales">
+                <div class="col-md-12">
+                    @{ Html.EnableClientValidation(false); }
+                    @using (Html.BeginForm("SaveEmpresa", "CatEmpresa", FormMethod.Post, new { id = "frmEditEmpresa", @class = "form-horizontal", autocomplete = "off", @enctype = "multipart/form-data" }))
+                    {
+                        @Html.AntiForgeryToken()
 
-                                    <div class="form-group">
-                                        <div class="col-md-12">
-                                            @Html.ValidationSummary(false, "Cheque los siguientes problemas:")
-                                            <div id="validation_summary" class="field_error "></div>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <div class="controlError col-md-6">
-                                            <label class="col-md-3 control-label">Nombre Razón Social</label>
-                                            <div class="col-md-9 col-xs-12">
-                                                <div class="input-group">
-                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                    @Html.TextBoxFor(model => model.RazonFiscal, new { id = "RazonFiscal", @class = "form-control" })
-                                                </div>
-                                                @Html.ValidationMessageFor(model => model.RazonFiscal, "", new { @for = "RazonFiscal" })
-                                                <span class="help-block">Ingrese el nombre de razón fiscal</span>
-                                            </div>
-                                        </div>
-                                        <div class="controlError col-md-6">
-                                            <label class="col-md-3 control-label">R.F.C.</label>
-                                            <div class="col-md-9 col-xs-12">
-                                                <div class="input-group">
-                                                    <span class="input-group-addon"><span class="fa fa-file-text"></span></span>
-                                                    @Html.TextBoxFor(model => model.RFC, new { id = "RFC", @class = "form-control" })
-                                                </div>
-                                                @Html.ValidationMessageFor(model => model.RFC)
-                                                <span class="help-block">Ingrese el R.F.C.</span>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <div class="controlError col-md-6">
-                                            <label class="col-md-3 control-label">Representante</label>
-                                            <div class="col-md-9 col-xs-12">
-                                                <div class="input-group">
-                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                    @Html.TextBoxFor(model => model.Representante, new { id = "Representante", @class = "form-control" })
-                                                </div>
-                                                @Html.ValidationMessageFor(model => model.Representante)
-                                                <span class="help-block">Ingrese el nombre del representante de la empresa</span>
-                                            </div>
-                                        </div>
-                                        <div class="controlError col-md-6">
-                                            <label class="col-md-3 control-label">Horario de atención</label>
-                                            <div class="col-md-9 col-xs-12">
-                                                <div class="input-group">
-                                                    <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
-                                                    @Html.TextBoxFor(model => model.HorarioAtencion, new { id = "HorarioAtencion", @class = "form-control" })
-                                                </div>
-                                                @Html.ValidationMessageFor(model => model.HorarioAtencion)
-                                                <span class="help-block">Ingrese el horario de atención</span>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <div class="controlError col-md-6">
-                                            <label class="col-md-3 control-label">Dirección fiscal</label>
-                                            <div class="col-md-9 col-xs-12">
-                                                <div class="input-group">
-                                                    <span class="input-group-addon"><span class="fa fa-home"></span></span>
-                                                    @Html.TextBoxFor(model => model.DireccionFiscal, new { id = "DireccionFiscal", @class = "form-control" })
-                                                </div>
-                                                @Html.ValidationMessageFor(model => model.DireccionFiscal)
-                                                <span class="help-block">Ingrese la dirección fiscal</span>
-                                            </div>
-                                        </div>
-                                        <div class="controlError col-md-6">
-                                            <label class="col-md-3 control-label">Correo electrónico</label>
-                                            <div class="col-md-9 col-xs-12">
-                                                <div class="input-group">
-                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                    @Html.TextBoxFor(model => model.Email, new { id = "Email", @class = "form-control" })
-                                                </div>
-                                                @Html.ValidationMessageFor(model => model.Email)
-                                                <span class="help-block">Ingrese el correo electrónico</span>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <div class="controlError col-md-6">
-                                            <label class="col-md-3 control-label text-center">Teléfono núm. 1</label>
-                                            <div class="col-md-9 col-xs-12">
-                                                <div class="input-group">
-                                                    <span class="input-group-addon"><span class="fa fa-phone-square"></span></span>
-                                                    @Html.TextBoxFor(model => model.NumTelefonico1, new { id = "NumTelefonico1", @class = "form-control" })
-                                                </div>
-                                                @Html.ValidationMessageFor(model => model.NumTelefonico1)
-                                                <span class="help-block">Ingrese el número teléfono 1 </span>
-                                            </div>
-                                        </div>
-                                        <div class="controlError col-md-6">
-                                            <label class="col-md-3 control-label text-center">Teléfono núm. 2</label>
-                                            <div class="col-md-9 col-xs-12">
-                                                <div class="input-group">
-                                                    <span class="input-group-addon"><span class="fa fa-phone-square"></span></span>
-                                                    @Html.TextBoxFor(model => model.NumTelefonico2, new { id = "NumTelefonico2", @class = "form-control" })
-                                                </div>
-                                                @Html.ValidationMessageFor(model => model.NumTelefonico2)
-                                                <span class="help-block">Ingrese el número teléfono 2</span>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <div class="controlError col-md-6">
-                                            <label class="col-md-3 control-label text-center">P.S.G. de la empresa</label>
-                                            <div class="col-md-9 col-xs-12">
-                                                <div class="input-group">
-                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                    @Html.TextBoxFor(model => model.PSGEmpresa, new { @class = "form-control" })
-                                                </div>
-                                                @Html.ValidationMessageFor(model => model.PSGEmpresa)
-                                                <span class="help-block">Ingrese el P.S.G. de la empresaa </span>
-                                            </div>
-                                        </div>
-                                        <div class="controlError col-md-6">
-                                            <label class="col-md-3 control-label text-center">Rubro:</label>
-                                            <div class="col-md-9 col-xs-12">
-                                                <div class="input-group">
-                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                    @Html.TextBoxFor(model => model.Rubro, new { @class = "form-control" })
-                                                </div>
-                                                @Html.ValidationMessageFor(model => model.Rubro)
-                                                <span class="help-block">Ingrese el rubro de la empresa</span>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <div class="controlError col-md-6">
-                                            <label class="col-md-3 control-label">Ingrese logo de la empresa</label>
-                                            <div class="col-md-9 col-xs-12">
-                                                <div class="input-group">
-                                                    <span class="input-group-addon"><span class="fa fa-camera"></span></span>
-                                                    @Html.TextBoxFor(model => model.LogoEmpresaHttp, new { id = "LogoEmpresaHttp", name = "LogoEmpresaHttp[]", @type = "file", @class = "form-control", data_imgBD = Model.ImagBDEmpresa })
-                                                </div>
-                                                @Html.ValidationMessageFor(model => model.LogoEmpresaHttp)
-                                                <span class="help-block">Ingrese por lo menos 1 imagen.</span>
-                                            </div>
-                                        </div>
-                                        <div class="controlError col-md-6">
-                                            <label class="col-md-3 control-label">Ingrese imagen del RFC</label>
-                                            <div class="col-md-9 col-xs-12">
-                                                <div class="input-group">
-                                                    <span class="input-group-addon"><span class="fa fa-camera"></span></span>
-                                                    @Html.TextBoxFor(model => model.LogoRFCHttp, new { id = "LogoRFCHttp", name = "LogoRFCHttp[]", @type = "file", @class = "form-control", data_imgBD = Model.ImagBDRFC })
-                                                </div>
-                                                @Html.ValidationMessageFor(model => model.LogoRFCHttp)
-                                                <span class="help-block">Ingrese por lo menos 1 imagen.</span>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-                                <div class="panel-footer">
-                                    <input type="submit" id="btnAjax" value="Guardar" class="btn btn-primary pull-right">
-                                    <a href="@Url.Action("Index","CatEmpresa")" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
-                                </div>
-                            </div>
-                        }
-                    </div>
-                </div>
-                <div role="tabpanel" class="tab-pane" id="cuentasBancos">
-                    <div class="col-md-12">
+                        @Html.HiddenFor(model => model.IDEmpresa)
+                        @Html.HiddenFor(model => model.ImagBDEmpresa)
+                        @Html.HiddenFor(model => model.ImagBDRFC)
+                        @Html.HiddenFor(model => model.LogoEmpresa);
+                        @Html.HiddenFor(model => model.LogoRFC);
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                <h3 class="panel-title">Información de las <strong>Cuentas bancarias</strong></h3>
-                                <ul class="panel-controls">
-                                    <li><a href="#" class="btn btn-default btnCrear" id="btnCrearCuentaBancaria"><span class="fa fa-plus"></span> Nueva cuenta</a></li>
-                                    <li><a href="@Url.Action("Index","CatEmpresa")" class="btn btn-danger btnCrear"><span class="fa fa-mail-reply"></span>Regresar</a></li>
-                                    <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
-                                    <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
-                                </ul>
+                                <h3 class="panel-title"><strong>Información</strong> Empresa</h3>
+                                <ul class="panel-controls"></ul>
                             </div>
                             <div class="panel-body">
-                                <div class="table-responsive">
-                                    <table id="TblCuentasBancarias" class="table">
-                                        <thead>
-                                            <tr>
-                                                <th>Imagen del Banco</th>
-                                                <th>Nombre del banco</th>
-                                                <th>Titular de la cuenta</th>
-                                                <th>Número de tarjeta</th>
-                                                <th>Número de cuenta</th>
-                                                <th>Clabe interbancaria</th>
-                                                <th>Acción</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody></tbody>
-                                    </table>
+
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        @Html.ValidationSummary(false, "Cheque los siguientes problemas:")
+                                        <div id="validation_summary" class="field_error "></div>
+                                    </div>
                                 </div>
+
+                                <div class="form-group">
+                                    <div class="controlError col-md-6">
+                                        <label class="col-md-3 control-label">Nombre Razón Social</label>
+                                        <div class="col-md-9 col-xs-12">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                @Html.TextBoxFor(model => model.RazonFiscal, new { id = "RazonFiscal", @class = "form-control" })
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.RazonFiscal, "", new { @for = "RazonFiscal" })
+                                            <span class="help-block">Ingrese el nombre de razón fiscal</span>
+                                        </div>
+                                    </div>
+                                    <div class="controlError col-md-6">
+                                        <label class="col-md-3 control-label">R.F.C.</label>
+                                        <div class="col-md-9 col-xs-12">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><span class="fa fa-file-text"></span></span>
+                                                @Html.TextBoxFor(model => model.RFC, new { id = "RFC", @class = "form-control" })
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.RFC)
+                                            <span class="help-block">Ingrese el R.F.C.</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="controlError col-md-6">
+                                        <label class="col-md-3 control-label">Representante</label>
+                                        <div class="col-md-9 col-xs-12">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                @Html.TextBoxFor(model => model.Representante, new { id = "Representante", @class = "form-control" })
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.Representante)
+                                            <span class="help-block">Ingrese el nombre del representante de la empresa</span>
+                                        </div>
+                                    </div>
+                                    <div class="controlError col-md-6">
+                                        <label class="col-md-3 control-label">Horario de atención</label>
+                                        <div class="col-md-9 col-xs-12">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+                                                @Html.TextBoxFor(model => model.HorarioAtencion, new { id = "HorarioAtencion", @class = "form-control" })
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.HorarioAtencion)
+                                            <span class="help-block">Ingrese el horario de atención</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="controlError col-md-6">
+                                        <label class="col-md-3 control-label">Dirección fiscal</label>
+                                        <div class="col-md-9 col-xs-12">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><span class="fa fa-home"></span></span>
+                                                @Html.TextBoxFor(model => model.DireccionFiscal, new { id = "DireccionFiscal", @class = "form-control" })
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.DireccionFiscal)
+                                            <span class="help-block">Ingrese la dirección fiscal</span>
+                                        </div>
+                                    </div>
+                                    <div class="controlError col-md-6">
+                                        <label class="col-md-3 control-label">Correo electrónico</label>
+                                        <div class="col-md-9 col-xs-12">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                @Html.TextBoxFor(model => model.Email, new { id = "Email", @class = "form-control" })
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.Email)
+                                            <span class="help-block">Ingrese el correo electrónico</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="controlError col-md-6">
+                                        <label class="col-md-3 control-label text-center">Teléfono núm. 1</label>
+                                        <div class="col-md-9 col-xs-12">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><span class="fa fa-phone-square"></span></span>
+                                                @Html.TextBoxFor(model => model.NumTelefonico1, new { id = "NumTelefonico1", @class = "form-control" })
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.NumTelefonico1)
+                                            <span class="help-block">Ingrese el número teléfono 1 </span>
+                                        </div>
+                                    </div>
+                                    <div class="controlError col-md-6">
+                                        <label class="col-md-3 control-label text-center">Teléfono núm. 2</label>
+                                        <div class="col-md-9 col-xs-12">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><span class="fa fa-phone-square"></span></span>
+                                                @Html.TextBoxFor(model => model.NumTelefonico2, new { id = "NumTelefonico2", @class = "form-control" })
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.NumTelefonico2)
+                                            <span class="help-block">Ingrese el número teléfono 2</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="controlError col-md-6">
+                                        <label class="col-md-3 control-label text-center">P.S.G. de la empresa</label>
+                                        <div class="col-md-9 col-xs-12">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                @Html.TextBoxFor(model => model.PSGEmpresa, new { @class = "form-control" })
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.PSGEmpresa)
+                                            <span class="help-block">Ingrese el P.S.G. de la empresaa </span>
+                                        </div>
+                                    </div>
+                                    <div class="controlError col-md-6">
+                                        <label class="col-md-3 control-label text-center">Rubro:</label>
+                                        <div class="col-md-9 col-xs-12">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                @Html.TextBoxFor(model => model.Rubro, new { @class = "form-control" })
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.Rubro)
+                                            <span class="help-block">Ingrese el rubro de la empresa</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="controlError col-md-6">
+                                        <label class="col-md-3 control-label">Ingrese logo de la empresa</label>
+                                        <div class="col-md-9 col-xs-12">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><span class="fa fa-camera"></span></span>
+                                                @Html.TextBoxFor(model => model.LogoEmpresaHttp, new { id = "LogoEmpresaHttp", name = "LogoEmpresaHttp[]", @type = "file", @class = "form-control", data_imgBD = Model.ImagBDEmpresa })
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.LogoEmpresaHttp)
+                                            <span class="help-block">Ingrese por lo menos 1 imagen.</span>
+                                        </div>
+                                    </div>
+                                    <div class="controlError col-md-6">
+                                        <label class="col-md-3 control-label">Ingrese imagen del RFC</label>
+                                        <div class="col-md-9 col-xs-12">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><span class="fa fa-camera"></span></span>
+                                                @Html.TextBoxFor(model => model.LogoRFCHttp, new { id = "LogoRFCHttp", name = "LogoRFCHttp[]", @type = "file", @class = "form-control", data_imgBD = Model.ImagBDRFC })
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.LogoRFCHttp)
+                                            <span class="help-block">Ingrese por lo menos 1 imagen.</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="panel-footer">
+                                <input type="submit" id="btnAjax" value="Guardar" class="btn btn-primary pull-right">
+                                <a href="@Url.Action("Index","CatEmpresa")" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="cuentasBancos">
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Información de las <strong>Cuentas bancarias</strong></h3>
+                            <ul class="panel-controls">
+                                <li><a href="#" class="btn btn-default btnCrear" id="btnCrearCuentaBancaria"><span class="fa fa-plus"></span> Nueva cuenta</a></li>
+                                <li><a href="@Url.Action("Index","CatEmpresa")" class="btn btn-danger btnCrear"><span class="fa fa-mail-reply"></span>Regresar</a></li>
+                                <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
+                                <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
+                            </ul>
+                        </div>
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <table id="TblCuentasBancarias" class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Imagen del Banco</th>
+                                            <th>Nombre del banco</th>
+                                            <th>Titular de la cuenta</th>
+                                            <th>Número de tarjeta</th>
+                                            <th>Número de cuenta</th>
+                                            <th>Clabe interbancaria</th>
+                                            <th>Acción</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div role="tabpanel" class="tab-pane" id="archivos">
-                    <div class="col-md-12">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h3 class="panel-title"><strong>Archivos</strong></h3>
-                                <ul class="panel-controls">
-                                    <li><a href="@Url.Action("AgregarArchivo","CatEmpresa", new { idEmpresa = Model.IDEmpresa })" class="btn btn-default btnCrear"><span class="fa fa-plus"></span>Agregar archivo</a></li>
-                                    <li><a href="@Url.Action("Index","CatEmpresa")" class="btn btn-danger btnCrear"><span class="fa fa-mail-reply"></span>Regresar</a></li>
-                                    <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
-                                    <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
-                                </ul>
-                            </div>
-                            <div class="panel-body">
-                                <div class="table-responsive">
-                                    <table id="TblArchivos" class="table">
-                                        <thead>
-                                            <tr>
-                                                <th>Nombre del archivo</th>
-                                                <th>Descripción del archivo</th>
-                                                <th>Acción</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody></tbody>
-                                    </table>
-                                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="archivos">
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title"><strong>Archivos</strong></h3>
+                            <ul class="panel-controls">
+                                <li><a href="@Url.Action("AgregarArchivo","CatEmpresa", new { idEmpresa = Model.IDEmpresa })" class="btn btn-default btnCrear"><span class="fa fa-plus"></span>Agregar archivo</a></li>
+                                <li><a href="@Url.Action("Index","CatEmpresa")" class="btn btn-danger btnCrear"><span class="fa fa-mail-reply"></span>Regresar</a></li>
+                                <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
+                                <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
+                            </ul>
+                        </div>
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <table id="TblArchivos" class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Nombre del archivo</th>
+                                            <th>Descripción del archivo</th>
+                                            <th>Acción</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <!--TERMINA TABS-->
-        <!--INICIA SECCION MODALES-->
-        <!--TERMINA SECCION MODALES-->
-    
+    </div>
+    <!--TERMINA TABS-->
+    <!--INICIA SECCION MODALES-->
+    <!--TERMINA SECCION MODALES-->
+
     <div id="ModalCuentasBancaria" class="modal fade" role="dialog" style="display:none" aria-hidden="true">
         <div class="modal-dialog modal-lg" id="ContenidoModalCuentasBancaria">
 
