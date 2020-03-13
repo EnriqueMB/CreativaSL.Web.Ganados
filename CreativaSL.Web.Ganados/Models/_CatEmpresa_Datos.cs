@@ -1,13 +1,17 @@
 ﻿using Microsoft.ApplicationBlocks.Data;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Web;
+using System.IO;
+using System.Web.Hosting;
+using CreativaSL.Web.Ganados.Models.Dto.CatBancos;
+using CreativaSL.Web.Ganados.Models.System;
+using Newtonsoft.Json;
 
 namespace CreativaSL.Web.Ganados.Models
 {
-    public class _CatEmpresa_Datos
+    public class _CatEmpresa_Datos : BaseSQL
     {
         public List<CatEmpresaModels> GetListadoEmpresas(CatEmpresaModels Empresa)
         {
@@ -132,15 +136,52 @@ namespace CreativaSL.Web.Ganados.Models
         {
             try
             {
-                object[] parametros =
+
+                CuentaBancariaDto item = new CuentaBancariaDto();
+
+                using (var sqlcon = new SqlConnection(ConexionSql))
                 {
-                    Empresa.IDEmpresa
-                };
-                SqlDataReader dr = null;
-                dr = SqlHelper.ExecuteReader(Empresa.Conexion, "spCSLDB_EMPRESA_get_CuentasBancarias", parametros);
-                string jsonDr = Auxiliar.SqlReaderToJson(dr);
-                dr.Close();
-                return jsonDr;
+                    using (var cmd = new SqlCommand("[dbo].[spCSLDB_EMPRESA_get_CuentasBancarias]",
+                        sqlcon))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        cmd.Parameters.Add("@id_empresa", SqlDbType.VarChar).Value = Empresa.IDEmpresa;
+
+                        sqlcon.Open();
+
+                        var reader = cmd.ExecuteReader();
+
+                        if (reader.HasRows)
+                        {
+                            while (reader.Read())
+                            {
+                                item = new CuentaBancariaDto();
+                                item.IdDatosBan = reader["IDDatosBan"].ToString();
+                                item.IdDatosBan = reader["ImgBanco"].ToString();
+                                item.NomBanco = reader["NomBanco"].ToString();
+                                item.Titular = reader["Titular"].ToString();
+                                item.NumTarjeta = reader["NumTarjeta"].ToString();
+                                item.NumCuenta = reader["NumCuenta"].ToString();
+                                item.ClabeInter = reader["ClabeInter"].ToString();
+
+                                if (string.IsNullOrEmpty(item.ImgBanco))
+                                {
+                                    item.ImgBanco = ProjectSettings.PathDefaultImage;
+                                }
+                                else
+                                {
+                                    var pathRelative = ProjectSettings.BaseDirCatBanco + item.ImgBanco;
+                                    var path = HostingEnvironment.MapPath(pathRelative);
+                                    item.ImgBanco = File.Exists(path) ? pathRelative : ProjectSettings.PathDefaultImage;
+                                }
+                            }
+                        }
+                        reader.Close();
+                    }
+                }
+                var json = JsonConvert.SerializeObject(item);
+                return json;
             }
             catch (Exception ex)
             {

@@ -13,7 +13,7 @@
             showUploadedThumbs: false,
             maxFileCount: 1,
             initialPreview: [
-                '<img class="file-preview-image" style="width: auto; height: auto; max-width: 100%; max-height: 100%;" src="data:image/png;base64,' + LogoEmpresa + '" />'
+                '<img class="file-preview-image" style="width: auto; height: auto; max-width: 100%; max-height: 100%;" src="' + LogoEmpresa + '" />'
             ],
             initialPreviewConfig: [
                 { caption: 'Logo de la empresa' }
@@ -49,7 +49,7 @@
             showUploadedThumbs: false,
             maxFileCount: 1,
             initialPreview: [
-                '<img class="file-preview-image" style="width: auto; height: auto; max-width: 100%; max-height: 100%;" src="data:image/png;base64,' + LogoRFC + '" />'
+                '<img class="file-preview-image" style="width: auto; height: auto; max-width: 100%; max-height: 100%;" src="' + LogoRFC + '" />'
             ],
             initialPreviewConfig: [
                 { caption: 'Imagen del R.F.C.' }
@@ -72,6 +72,7 @@
         });
     };
     var LoadTableCuentasBancarias = function (IDEmpresa) {
+
         TblCuentasBancarias = $('#TblCuentasBancarias').DataTable({
             "language": {
                 "url": "/Content/assets/json/Spanish.json"
@@ -84,13 +85,14 @@
                 "url": "/Admin/CatEmpresa/LoadTableCuentasBancarias/",
                 "type": "POST",
                 "datatype": "json",
-                "dataSrc": ''
+                "dataSrc": ""
             },
             "columns": [
                 {
                     "data": null,
                     "render": function (data, type, full) {
-                        return "<img style='width: 100px; height: 100px; max-width: 100 %; max-height: 100 %;' src='data: image/png; base64," + full["ImgBanco"] + "' />";
+                        console.log(full);
+                        return "<img style='width: 100px; height: 100px; max-width: 100 %; max-height: 100 %;' src='" + full["ImgBanco"] + "' />";
                     }
                 },
                 { "data": "NomBanco" },
@@ -313,11 +315,9 @@
                     maxlength: 100
                 },
                 LogoEmpresaHttp: {
-                    ImagenRequerida: true,
                     ImagenRequerida: ["LogoEmpresa"]
                 },
                 LogoRFCHttp: {
-                    ImagenRequerida: true,
                     ImagenRequerida: ["ImagBDRFC"]
                 },
                 PSGEmpresa: {

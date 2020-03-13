@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
+using CreativaSL.Web.Ganados.Models.System;
 
 namespace CreativaSL.Web.Ganados.Models
 {
@@ -74,6 +75,15 @@ namespace CreativaSL.Web.Ganados.Models
                     Datos.IDBanco = Convert.ToInt32(dr["id_banco"].ToString());
                     Datos.Descripcion = dr["descripcion"].ToString();
                     Datos.Imagen = dr["imagen"].ToString();
+
+                    if (string.IsNullOrWhiteSpace(Datos.Imagen))
+                    {
+                        Datos.Imagen = ProjectSettings.PathDefaultImage;
+                    }
+                    else
+                    {
+                        Datos.Imagen = ProjectSettings.BaseDirCatBanco + Datos.Imagen;
+                    }
                 }
                 dr.Close();
                 return Datos;
@@ -88,6 +98,7 @@ namespace CreativaSL.Web.Ganados.Models
         {
             try
             {
+
                 object[] parametros =
                 {
                     Datos.IDBanco, Datos.Usuario
@@ -95,14 +106,12 @@ namespace CreativaSL.Web.Ganados.Models
                 object Resultado = SqlHelper.ExecuteScalar(Datos.Conexion, "spCSLDB_Catalogo_del_CatBanco", parametros);
                 if (Resultado != null)
                 {
-                    int IDRegistro = 0;
-                    if (int.TryParse(Resultado.ToString(), out IDRegistro))
+                    var imagen = Resultado.ToString();
+
+                    if (!string.Equals(imagen, "0"))
                     {
-                        if (IDRegistro > 0)
-                        {
-                            Datos.Completado = true;
-                            Datos.IDBanco = IDRegistro;
-                        }
+                        Datos.Completado = true;
+                        Datos.Imagen = imagen;
                     }
                 }
                 return Datos;
