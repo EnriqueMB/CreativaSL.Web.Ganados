@@ -109,16 +109,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     if (!string.IsNullOrEmpty(Fierro.IDFierro))
                     {
                         
-                        //string baseDir = Server.MapPath("~/Imagenes/Fierro/");
-                        //Image Img = Comun.Base64StringToBitmap(Fierro.ImgFierro);
-                        //Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)Img.Clone(), 32L));
-                        //ImageCodecInfo jpgEncoder = ComprimirImagen.GetEncoder(ComprimirImagen.GetImageFormat(Img));
-                        //string fileName = Fierro.IDFierro + ".png";
-                        //Fierro.ImgFierro = image.ToBase64String(ImageFormat.Png);
-                        //string newImagePath = baseDir + fileName;
-                        //image.Save(newImagePath, ImageFormat.Png);
-                        
-
                         var uploadBase64ToServerModel = CidFaresHelper.UploadBase64ToServer(Fierro.ImgFierro,
                             ProjectSettings.BaseDirCatFierro);
 

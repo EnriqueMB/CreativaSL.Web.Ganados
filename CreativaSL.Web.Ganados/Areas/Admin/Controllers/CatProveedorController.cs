@@ -378,7 +378,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                             uploadImageINEToserver.FileBase = inePostedFileBase;
                             uploadImageINEToserver.BaseDir = ProjectSettings.BaseDirProveedorINE;
                             uploadImageINEToserver.FileName =
-                                Proveedor.ImgINE.Replace(ProjectSettings.BaseDirProveedorINE, string.Empty);
+                                Proveedor.ImgINE?.Replace(ProjectSettings.BaseDirProveedorINE, string.Empty);
                             //borro la imagen anterior
                             CidFaresHelper.DeleteFilesWithOutExtensionFromServer(uploadImageINEToserver);
                             uploadImageINEToserver.FileName = fileName;
@@ -406,7 +406,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                             uploadImageManifestacionFierroToserver.FileBase = manifestacionFierroPostedFileBase;
                             uploadImageManifestacionFierroToserver.BaseDir = ProjectSettings.BaseDirProveedorManifestacionFierro;
                             uploadImageManifestacionFierroToserver.FileName =
-                                Proveedor.ImgManifestacionFierro.Replace(
+                                Proveedor.ImgManifestacionFierro?.Replace(
                                     ProjectSettings.BaseDirProveedorManifestacionFierro, string.Empty);
                             
                             //borro la imagen anterior
@@ -434,7 +434,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         var uploadImageToserver = new UploadFileToServerModel();
                         uploadImageToserver.FileBase = fotoPerfilPostedFileBase;
                         uploadImageToserver.BaseDir = ProjectSettings.BaseDirProveedorFotoPerfil;
-                        uploadImageToserver.FileName = Proveedor.FotoPerfil.Replace(
+                        uploadImageToserver.FileName = Proveedor.FotoPerfil?.Replace(
                             ProjectSettings.BaseDirProveedorFotoPerfil, string.Empty);
 
                         if (fotoPerfilPostedFileBase != null && fotoPerfilPostedFileBase.ContentLength > 0)
