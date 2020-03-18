@@ -4,33 +4,80 @@ using System.Data;
 using Microsoft.ApplicationBlocks.Data;
 using System.Data.SqlClient;
 using System.Globalization;
-using System.Text;
-using System.IO;
 using CreativaSL.Web.Ganados.Models.Datatable;
-using CreativaSL.Web.Ganados.Models.Dto;
 using CreativaSL.Web.Ganados.Models.Dto.Base;
 using CreativaSL.Web.Ganados.Models.Dto.Compra;
 using CreativaSL.Web.Ganados.Models.System;
 using Newtonsoft.Json;
 
+
 namespace CreativaSL.Web.Ganados.Models
 {
-    public class _Compra_Datos
+    public class _Compra_Datos : BaseSQL
     {
         #region Json Datatables
-        public string GetDocumentosDataTable(CompraModels Compra)
+        public string GetDocumentosDataTable(DataTableAjaxPostModel dataTableAjaxPostModel, CompraModels Compra)
         {
-            object[] parametros =
-            {
-                Compra.IDCompra
-            };
-
             try
             {
-                SqlDataReader dr = null;
-                dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Compra_get_DocumentosXIDCompra", parametros);
-                string datatable = Auxiliar.SqlReaderToJson(dr);
-                dr.Close();
+                var datatable = string.Empty;
+                using (SqlConnection sqlcon = new SqlConnection(ConexionSql))
+                {
+                    using (SqlCommand cmd = new SqlCommand("spCSLDB_Compra_get_DocumentosXIDCompra", sqlcon))
+                    {
+                        //parametros de entrada
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        cmd.Parameters.Add("@id_compra", SqlDbType.Char).Value = Compra.IDCompra;
+                        cmd.Parameters.Add("@Start", SqlDbType.Int).Value = dataTableAjaxPostModel.start;
+                        cmd.Parameters.Add("@Length", SqlDbType.Int).Value = dataTableAjaxPostModel.length;
+                        cmd.Parameters.Add("@SearchValue", SqlDbType.NVarChar).Value = dataTableAjaxPostModel.search.value;
+                        cmd.Parameters.Add("@Draw", SqlDbType.Int).Value = dataTableAjaxPostModel.draw;
+                        cmd.Parameters.Add("@ColumnNumber", SqlDbType.Int).Value = dataTableAjaxPostModel.order[0].column;
+                        cmd.Parameters.Add("@ColumnDir", SqlDbType.NVarChar).Value = dataTableAjaxPostModel.order[0].dir;
+
+                        // execute
+                        sqlcon.Open();
+
+                        var reader = cmd.ExecuteReader();
+
+                        var indexDatatableDto = new IndexDatatableDto();
+
+                        if (reader.HasRows)
+                        {
+                            indexDatatableDto.Data = new List<object>();
+                            bool firstData = true;
+
+                            while (reader.Read())
+                            {
+                                if (firstData)
+                                {
+                                    indexDatatableDto.Draw = int.Parse(reader["Draw"].ToString()); ;
+                                    indexDatatableDto.RecordsFiltered = int.Parse(reader["RecordsFiltered"].ToString());
+                                    indexDatatableDto.RecordsTotal = int.Parse(reader["RecordsTotal"].ToString());
+                                    firstData = false;
+                                }
+
+                                var item = new IndexDocumentoCompraDetalleDto();
+                                item.IdDocumentoCompraDetalle = reader["IdDocumentoFleteDetalle"].ToString();
+                                item.Clave = reader["Clave"].ToString();
+                                item.Imagen = reader["Imagen"].ToString();
+                                item.Descripcion = reader["Descripcion"].ToString();
+                                item.Imagen = Auxiliar.ValidImageFormServer(item.Imagen,
+                                    ProjectSettings.BaseDirFleteDocumentoDetalle);
+
+                                indexDatatableDto.Data.Add(item);
+                            }
+                        }
+
+                        var json = JsonConvert.SerializeObject(indexDatatableDto);
+
+                        reader.Close();
+
+                        return json;
+                    }
+                }
+
                 return datatable;
             }
             catch (Exception ex)
@@ -1749,24 +1796,19 @@ namespace CreativaSL.Web.Ganados.Models
                 SqlDataReader dr = null;
                 dr = SqlHelper.ExecuteReader(Documento.Conexion, "spCSLDB_Compra_get_DocumentoXIDDocumento", parametros);
 
+                Documento.ImagenServer = ProjectSettings.PathDefaultImage;
+
                 while (dr.Read())
                 {
                     Documento.IDTipoDocumento = !dr.IsDBNull(dr.GetOrdinal("id_tipoDocumento")) ? dr.GetInt16(dr.GetOrdinal("id_tipoDocumento")) : 0;
                     Documento.Clave = !dr.IsDBNull(dr.GetOrdinal("clave")) ? dr.GetString(dr.GetOrdinal("clave")) : string.Empty;
                     //Solo para mostrar
                     Documento.ImagenServer = !dr.IsDBNull(dr.GetOrdinal("imagen")) ? dr.GetString(dr.GetOrdinal("imagen")) : string.Empty;
+                    
+                    Documento.ImagenServer = Auxiliar.ValidImageFormServer(Documento.ImagenServer,
+                        ProjectSettings.BaseDirCompraDocumentoDetalle);
                 }
-                if (string.IsNullOrEmpty(Documento.ImagenServer))
-                {
-                    //No hay imagen en el server
-                    Documento.MostrarImagen = Auxiliar.SetDefaultImage();
-                }
-                else
-                {
-                    //Guardamos el string de la imagen
-                    Documento.MostrarImagen = Documento.ImagenServer;
-                }
-                Documento.ExtensionImagenBase64 = Auxiliar.ObtenerExtensionImagenBase64(Documento.MostrarImagen);
+                
                 dr.Close();
 
                 return Documento;

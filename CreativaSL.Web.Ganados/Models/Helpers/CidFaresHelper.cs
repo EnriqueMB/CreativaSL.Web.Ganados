@@ -80,8 +80,7 @@ namespace CreativaSL.Web.Ganados.Models.Helpers
             var uploadBase64ToServer = new UploadBase64ToServerModel
             {
                 BaseDir = baseDir
-                ,
-                StringBase64 = stringBase64.Replace(baseDir, string.Empty)
+                , StringBase64 = stringBase64.Replace(baseDir, string.Empty)
             };
 
             try

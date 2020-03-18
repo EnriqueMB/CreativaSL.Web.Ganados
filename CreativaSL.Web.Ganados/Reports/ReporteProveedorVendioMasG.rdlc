@@ -394,10 +394,9 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=CInt(Fields!NombreCompra.Value)</Value>
+                                  <Value>=Fields!NombreCompra.Value</Value>
                                   <Style>
                                     <FontSize>9pt</FontSize>
-                                    <Format>n0</Format>
                                     <Language>es-MX</Language>
                                   </Style>
                                 </TextRun>
@@ -419,6 +418,7 @@
                             <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
+                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>

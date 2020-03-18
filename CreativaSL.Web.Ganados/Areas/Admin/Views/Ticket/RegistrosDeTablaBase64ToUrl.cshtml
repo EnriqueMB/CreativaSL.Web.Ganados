@@ -55,7 +55,6 @@
                         </table>
                     </div>
                     <div class="panel-footer">
-                        <input type="submit" value="Guardar" class="btn btn-primary pull-right">
                         <a href="@Url.Action("TablasBase64ToUrl", "Ticket")" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
                     </div>
                 </div>
@@ -81,6 +80,7 @@
             var continuar = true;
 
             $(".iniciar").click(function() {
+                console.log("Inicia");
 
                 function ObtenerFilasBase64ToUrl() {
                     $.ajax(

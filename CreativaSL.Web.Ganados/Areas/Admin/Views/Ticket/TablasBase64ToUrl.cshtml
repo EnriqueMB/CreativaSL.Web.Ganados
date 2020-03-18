@@ -237,12 +237,87 @@
                                             </div>
                                         </div>
                                     </td>
+                                </tr>
+                                <tr>
+                                    <td>tbl_CatVehiculo</td>
+                                    <td style="text-align:center;">
+                                        <div class="visible-md visible-lg hidden-sm hidden-xs">
+                                            <a title="Ver registros" href="@Url.Action("RegistrosDeTablaBase64ToUrl", "Ticket", new { id = 9 })" class="btn btn-primary tooltips" data-placement="top" data-original-title="Tabla">
+                                                <i class="fa fa-eye">
+                                                </i>
+                                            </a>
+                                        </div>
+                                        <div class="visible-xs visible-sm hidden-md hidden-lg">
+                                            <div class="btn-group">
+                                                <a class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
+                                                    <i class="fa fa-cog"></i> <span class="caret"></span>
+                                                </a>
+                                                <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
+                                                    <li>
+                                                        <a role="menuitem" tabindex="-1" href="@Url.Action("RegistrosDeTablaBase64ToUrl", "Ticket", new { id = 9 })">
+                                                            <i class="fa fa-user"></i> Ver registros
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>tbl_DocumentoCompraDetalles</td>
+                                    <td style="text-align:center;">
+                                        <div class="visible-md visible-lg hidden-sm hidden-xs">
+                                            <a title="Ver registros" href="@Url.Action("RegistrosDeTablaBase64ToUrl", "Ticket", new { id = 10 })" class="btn btn-primary tooltips" data-placement="top" data-original-title="Tabla">
+                                                <i class="fa fa-eye">
+                                                </i>
+                                            </a>
+                                        </div>
+                                        <div class="visible-xs visible-sm hidden-md hidden-lg">
+                                            <div class="btn-group">
+                                                <a class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
+                                                    <i class="fa fa-cog"></i> <span class="caret"></span>
+                                                </a>
+                                                <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
+                                                    <li>
+                                                        <a role="menuitem" tabindex="-1" href="@Url.Action("RegistrosDeTablaBase64ToUrl", "Ticket", new { id = 10 })">
+                                                            <i class="fa fa-user"></i> Ver registros
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td> dbo.tbl_DocumentoFleteDetalles </td>
+                                    <td style="text-align:center;">
+                                        <div class="visible-md visible-lg hidden-sm hidden-xs">
+                                            <a title="Ver registros" href="@Url.Action("RegistrosDeTablaBase64ToUrl", "Ticket", new { id = 11 })" class="btn btn-primary tooltips" data-placement="top" data-original-title="Tabla">
+                                                <i class="fa fa-eye">
+                                                </i>
+                                            </a>
+                                        </div>
+                                        <div class="visible-xs visible-sm hidden-md hidden-lg">
+                                            <div class="btn-group">
+                                                <a class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" href="#">
+                                                    <i class="fa fa-cog"></i> <span class="caret"></span>
+                                                </a>
+                                                <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
+                                                    <li>
+                                                        <a role="menuitem" tabindex="-1" href="@Url.Action("RegistrosDeTablaBase64ToUrl", "Ticket", new { id = 11 })">
+                                                            <i class="fa fa-user"></i> Ver registros
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </td>
                             </tr>
                             <tr>
-                                <td>tbl_CatVehiculo</td>
+                                <td> dbo.tbl_DocumentosPorCobrarDetallePagosBancarizado </td>
                                 <td style="text-align:center;">
                                     <div class="visible-md visible-lg hidden-sm hidden-xs">
-                                        <a title="Ver registros" href="@Url.Action("RegistrosDeTablaBase64ToUrl", "Ticket", new { id = 9 })" class="btn btn-primary tooltips" data-placement="top" data-original-title="Tabla">
+                                        <a title="Ver registros" href="@Url.Action("RegistrosDeTablaBase64ToUrl", "Ticket", new { id = 12 })" class="btn btn-primary tooltips" data-placement="top" data-original-title="Tabla">
                                             <i class="fa fa-eye">
                                             </i>
                                         </a>
@@ -254,7 +329,7 @@
                                             </a>
                                             <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
                                                 <li>
-                                                    <a role="menuitem" tabindex="-1" href="@Url.Action("RegistrosDeTablaBase64ToUrl", "Ticket", new { id = 9 })">
+                                                    <a role="menuitem" tabindex="-1" href="@Url.Action("RegistrosDeTablaBase64ToUrl", "Ticket", new { id = 12 })">
                                                         <i class="fa fa-user"></i> Ver registros
                                                     </a>
                                                 </li>
@@ -263,11 +338,11 @@
                                     </div>
                                 </td>
                             </tr>
+                                
                             </tbody>
                         </table>
                     </div>
                     <div class="panel-footer">
-                        <input type="submit" value="Guardar" class="btn btn-primary pull-right">
                         <a href="@Url.Action("Index", "Ticket")" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
                     </div>
                 </div>
