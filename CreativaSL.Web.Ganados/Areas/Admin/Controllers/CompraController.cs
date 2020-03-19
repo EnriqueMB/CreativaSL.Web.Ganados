@@ -2641,13 +2641,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
                     if (DocumentoPorPagarPago.RespuestaAjax.Success)
                     {
-                        if (string.IsNullOrEmpty(DocumentoPorPagarPago.ImagenBase64))
-                        {
-                            DocumentoPorPagarPago.ImagenBase64 = Auxiliar.SetDefaultImage();
-                        }
-                       
-                        DocumentoPorPagarPago.ExtensionImagenBase64 = Auxiliar.ObtenerExtensionImagenBase64(DocumentoPorPagarPago.ImagenBase64);
-
                         Compra = new CompraModels();
                         Compra.Conexion = Conexion;
                         DocumentoPorPagarPago.ListaFormaPagos = CompraDatos.GetListadoCFDIFormaPago(Compra);
@@ -2699,20 +2692,28 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     {
                         if (DocumentoPorPagarPago.HttpImagen != null)
                         {
-                            Stream s = DocumentoPorPagarPago.HttpImagen.InputStream;
 
-                            if (Path.GetExtension(DocumentoPorPagarPago.HttpImagen.FileName).ToLower() == ".heic")
-                            {
-                                Image img = (Image)Auxiliar.ProcessFile(s);
-                                Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
-                                DocumentoPorPagarPago.ImagenBase64 = image.ToBase64String(ImageFormat.Jpeg);
-                            }
-                            else
-                            {
-                                Image img = new Bitmap(s);
-                                Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
-                                DocumentoPorPagarPago.ImagenBase64 = image.ToBase64String(img.RawFormat);
-                            }
+                            var uploadImagenToserver = new UploadFileToServerModel();
+                            uploadImagenToserver.FileBase = DocumentoPorPagarPago.HttpImagen;
+                            uploadImagenToserver.BaseDir = ProjectSettings.BaseDirDocumentoPorPagarPagoBancarizado;
+                            uploadImagenToserver.FileName =
+                                DocumentoPorPagarPago.ImagenBase64?.Replace(
+                                    ProjectSettings.BaseDirDocumentoPorPagarPagoBancarizado, string.Empty);
+
+                            CidFaresHelper.DeleteFileFromServer(uploadImagenToserver);
+
+                            uploadImagenToserver.FileName = Guid.NewGuid().ToString().ToUpper();
+                            CidFaresHelper.UploadFileToServer(uploadImagenToserver);
+                            DocumentoPorPagarPago.ImagenBase64 = uploadImagenToserver.FileName;
+                        }
+                        else
+                        {
+                            DocumentoPorPagarPago.ImagenBase64 =
+                                DocumentoPorPagarPago.ImagenBase64?.Replace(ProjectSettings.BaseDirDocumentoPorPagarPagoBancarizado,
+                                    string.Empty);
+                            DocumentoPorPagarPago.ImagenBase64 =
+                                DocumentoPorPagarPago.ImagenBase64?.Replace(ProjectSettings.PathDefaultImage,
+                                    string.Empty);
                         }
                     }
                     CompraDatos = new _Compra_Datos();
@@ -2764,7 +2765,13 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     if (DocumentoPorPagarPago.RespuestaAjax.Success)
                     {
                         TempData["typemessage"] = "1";
-                        TempData["message"] = DocumentoPorPagarPago.RespuestaAjax.Mensaje;
+                        TempData["message"] = "Registro eliminado correctamente.";
+
+                        var uploadImagenToserver = new UploadFileToServerModel();
+                        uploadImagenToserver.BaseDir = ProjectSettings.BaseDirDocumentoPorPagarPagoBancarizado;
+                        uploadImagenToserver.FileName = DocumentoPorPagarPago.RespuestaAjax.Mensaje;
+
+                        CidFaresHelper.DeleteFileFromServer(uploadImagenToserver);
                     }
                     else
                     {

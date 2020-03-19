@@ -1,25 +1,23 @@
-﻿var DocumentoXCobrar = function () {
+﻿var DocumentoXPagar = function () {
     "use strict";
-    var Id_documentoPorCobrar;
+    var Id_documentoPorPagar;
     var tipoServicio = document.getElementById("TipoServicio").value;
     var bancarizadoForm = document.getElementById("Bancarizado");
     var cuentaBeneficiante = $("#Id_cuentaBancariaBeneficiante");
     var cuentaOrdenante = $("#Id_cuentaBancariaOrdenante");
     var imagen = $("#HttpImagen");
-    var folioINE = $("#FolioIFE");
-    var numeroAutorizacion = $("#NumeroAutorizacion");
 
     var RunEventsComprobantePago = function () {
-        var Imagen = document.getElementById("ImagenMostrar").value;
         var ExtensionImagen = document.getElementById("ExtensionImagenBase64").value;
         var ImagenServidor = document.getElementById("ImagenBase64").value;
+
         if (ImagenServidor === null || ImagenServidor.length == 0 || ImagenServidor == '') {
             document.getElementById("HttpImagen").dataset.imgBD = "0";
         }
         else {
             document.getElementById("HttpImagen").dataset.imgbd = "1";
         }
-            
+
 
         $('#HttpImagen').fileinput({
             theme: 'fa',
@@ -31,7 +29,7 @@
             showUploadedThumbs: false,
             maxFileCount: 1,
             initialPreview: [
-                '<img class="file-preview-image" style="width: auto; height: auto; max-width: 100%; max-height: 100%;" src="data:' + ExtensionImagen + ';base64,' + Imagen + '" />'
+                '<img class="file-preview-image" style="width: auto; height: auto; max-width: 100%; max-height: 100%;" src="' + ImagenServidor + '" />'
             ],
             initialPreviewConfig: [
                 { caption: 'Imagen del recibo' }
@@ -40,8 +38,20 @@
             showRemove: false,
             showClose: false,
             layoutTemplates: { actionDelete: '' },
-            allowedFileExtensions: ["png", "jpg", "png", "jpeg",]
-        })
+
+            allowedFileExtensions: ['png', 'jpg', 'gif', 'jpeg', 'heic'],
+            previewFileIcon: '<i class="fa fa-file"></i>',
+            preferIconicPreview: true, // this will force thumbnails to display icons for following file extensions
+            previewFileIconSettings: { // configure your icon file extensions
+                'heic': '<i class="fa fa-file-text text-primary"></i>'
+            },
+            previewFileExtSettings: { // configure the logic for determining icon file extensions
+                'heic': function (ext) {
+                    return ext.match(/(heic)$/i);
+                }
+            }
+        });
+
         $('#HttpImagen').on('fileclear', function (event) {
             document.getElementById("ImagenMostrar").value = "";
         });
@@ -51,7 +61,6 @@
             QuitarValidacionesBancarizadas();
         }
 
-
         $("#Id_formaPago").on("change", function () {
             var bancarizadoOpcion = $(this).find(":selected").data("bancarizado");
 
@@ -59,20 +68,17 @@
                 $('#divBancarizado').show(1000);
                 bancarizadoForm.value = true;
                 cuentaBeneficiante.rules("add", { required: true });
-                cuentaOrdenante.rules("add", { required: true });
-                imagen.rules("add", { ImagenRequerida: true });
-                folioINE.rules("add", { required: true });
-                numeroAutorizacion.rules("add", { required: true });
+                imagen.rules("add", { ImagenRequerida: ["ImagenServer"] });
             }
-            else{
+            else {
                 $('#divBancarizado').hide(1000);
                 QuitarValidacionesBancarizadas();
                 bancarizadoForm.value = false;
             }
         });
 
-        $("#Id_documentoPorCobrar").on("change", function () {
-            Id_documentoPorCobrar = $(this).val();
+        $("#Id_documentoPorPagar").on("change", function () {
+            Id_documentoPorPagar = $(this).val();
             CuentasBancarias();
         });
         $("#Id_cuentaBancariaBeneficiante").on("change", function () {
@@ -94,29 +100,20 @@
     }
     function QuitarValidacionesBancarizadas() {
         cuentaBeneficiante.rules("remove", "required");
-        cuentaOrdenante.rules("remove", "required");
         imagen.rules("remove", "ImagenRequerida");
-        folioINE.rules("remove", "required");
-        numeroAutorizacion.rules("remove", "required");
 
         cuentaBeneficiante.closest(".controlError").removeClass("has-success has-error");
-        cuentaOrdenante.closest(".controlError").removeClass("has-success has-error");
         imagen.closest(".controlError").removeClass("has-success has-error");
-        folioINE.closest(".controlError").removeClass("has-success has-error");
-        numeroAutorizacion.closest(".controlError").removeClass("has-success has-error");
 
-        $("#validation_summary").find("dd[for='FolioIFE']").addClass('help-block valid').text('');
-        $("#validation_summary").find("dd[for='NumeroAutorizacion']").addClass('help-block valid').text('');
         $("#validation_summary").find("dd[for='HttpImagen']").addClass('help-block valid').text('');
-        $("#validation_summary").find("dd[for='Id_cuentaBancariaOrdenante']").addClass('help-block valid').text('');
         $("#validation_summary").find("dd[for='Id_cuentaBancariaBeneficiante']").addClass('help-block valid').text('');
     }
     function CuentasBancarias() {
         $.ajax({
-            url: '/Admin/DocumentoXCobrar/GetCuentasBancarias/',
+            url: '/Admin/DocumentoXPagar/GetCuentasBancarias/',
             type: "POST",
             dataType: 'json',
-            data: { Id_documentoPorCobrar: Id_documentoPorCobrar, TipoServicio: tipoServicio },
+            data: { Id_documentoPorPagar: Id_documentoPorPagar, TipoServicio: tipoServicio },
             error: function () {
                 Mensaje("Ocurrió un error al cargar el combo", "2");
             },
@@ -129,10 +126,6 @@
                 $('#Id_cuentaBancariaBeneficiante.select').selectpicker('refresh');
             }
         });
-    }
-    function NombreEmpresa() {
-        var empresa = $('#Id_documentoPorCobrar').find(":selected");
-        $("#NombreEmpresa").val(empresa[0].dataset.nombre);
     }
 
     var LoadValidation_AC_Documento = function () {
@@ -173,22 +166,12 @@
                 fecha: {
                     required: true
                 },
-                //bancarizado
-                "FolioIFE": {
+                "HttpImagen": {
+                    ImagenRequerida: ["ImagenServer"]
+                },
+                "Id_cuentaBancariaBeneficiante": {
                     required: true
                 },
-                "NumeroAutorizacion": {
-                    required: true
-                },
-                "HttpImagen":{
-                    ImagenRequerida: true
-                },
-                "Id_cuentaBancariaOrdenante": {
-                    required: true
-                },
-                "Id_cuentaBancariaBeneficiante":{
-                    required: true
-                }
             },
             messages: {
                 Id_documentoPorCobrar: {
@@ -205,21 +188,8 @@
                 fecha: {
                     required: "Seleccione la fecha"
                 },
-                //bancarizado
-                FolioIFE: {
-                    required: "Ingrese el folio del INE"
-                },
-                NumeroAutorizacion: {
-                    required: "Ingrese el numero de autorización"
-                },
-                HttpImagen: {
-                    required: "Ingrese una imagen"
-                },
-                Id_cuentaBancariaOrdenante: {
-                    required: "Seleccione una cuenta de banco de la empresa"
-                },
                 Id_cuentaBancariaBeneficiante: {
-                    required: "Seleccione una cuenta de banco del proveedor / cliente"
+                    required: "Seleccione una cuenta de banco de la empresa"
                 }
             },
             invalidHandler: function (event, validator) {
@@ -241,42 +211,15 @@
             submitHandler: function (form) {
                 successHandler1.show();
                 errorHandler1.hide();
-                //form.submit();
-                AC_Comprobante();
+                form.submit();
             }
         });
     };
-    function AC_Comprobante() {
-        var form = $("#form_Comprobante")[0];
-        var formData = new FormData(form);
 
-        $.ajax({
-            type: 'POST',
-            data: formData,
-            url: '/Admin/DocumentoXCobrar/GuardarComprobante/',
-            contentType: false,
-            processData: false,
-            cache: false,
-            error: function (response) {
-                Mensaje(response.Mensaje, "2");
-            },
-            success: function (response) {
-                if (response.Success) {
-                    //Mensaje("Datos guardados con éxito.", "1");
-                    var href = $("#regresar").attr('href');
-                    window.location.href = href;
-                }
-                else
-                    Mensaje(response.Mensaje, "2");
-            }
-        });
-    }
     return {
         init: function () {
             LoadValidation_AC_Documento();
             RunEventsComprobantePago();
-            NombreEmpresa();
-            
         }
     };
 }();

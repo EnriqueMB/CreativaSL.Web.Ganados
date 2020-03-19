@@ -3040,6 +3040,9 @@ namespace CreativaSL.Web.Ganados.Models
                         DocumentoPago.Celular = !dr.IsDBNull(dr.GetOrdinal("celular")) ? dr.GetString(dr.GetOrdinal("celular")) : string.Empty;
                         DocumentoPago.pendiente = !dr.IsDBNull(dr.GetOrdinal("pendiente")) ? dr.GetDecimal(dr.GetOrdinal("pendiente")) : 0;
                         DocumentoPago.PagarA = !dr.IsDBNull(dr.GetOrdinal("PagarA")) ? dr.GetString(dr.GetOrdinal("PagarA")) : string.Empty;
+
+                        DocumentoPago.ImagenBase64 = Auxiliar.ValidImageFormServer(DocumentoPago.ImagenBase64,
+                            ProjectSettings.BaseDirDocumentoPorPagarPagoBancarizado);
                     }
                     else
                     {

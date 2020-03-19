@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
+using CreativaSL.Web.Ganados.Models.System;
 
 namespace CreativaSL.Web.Ganados.Models
 {
@@ -398,6 +399,9 @@ namespace CreativaSL.Web.Ganados.Models
                     DocumentoPago.PagarA = !dr.IsDBNull(dr.GetOrdinal("PagarA"))
                         ? dr.GetString(dr.GetOrdinal("PagarA"))
                         : string.Empty;
+
+                    DocumentoPago.ImagenBase64 = Auxiliar.ValidImageFormServer(DocumentoPago.ImagenBase64,
+                        ProjectSettings.BaseDirDocumentoPorPagarPagoBancarizado);
                 }
                 dr.Close();
                 return DocumentoPago;
@@ -495,30 +499,29 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
-        public DocumentoPorPagarDetallePagosModels EliminarPagoDocumentoPorPagar(DocumentoPorPagarDetallePagosModels datos)
+        public RespuestaAjax EliminarPagoDocumentoPorPagar(DocumentoPorPagarDetallePagosModels datos)
         {
+            var Item = new RespuestaAjax();
             try
             {
                 object[] parametros =
                 {
                     datos.Id_documentoPorPagarDetallePagos,datos.Id_documentoPorPagar, datos.Usuario
                 };
-                object aux = SqlHelper.ExecuteScalar(datos.Conexion, "spCSLDB_DocumentoPorPagar_DEL_DetallesPago", parametros);
-                if (aux != null)
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(datos.Conexion, "spCSLDB_DocumentoPorPagar_DEL_DetallesPago", parametros);
+                while (dr.Read())
                 {
-                    int Resultado = 0;
-                    int.TryParse(aux.ToString(), out Resultado);
-                    if (Resultado == 1)
-                    {
-                        datos.Completado = true;
-                    }
+                    Item.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : false;
+                    Item.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : "0";
                 }
-                return datos;
             }
             catch (Exception ex)
             {
                 throw ex;
             }
+
+            return Item;
         }
 
         public DocumentoPorPagarDetallePagosModels SpCSLDB_get_GetDetalleDocumentoPago(DocumentoPorPagarDetallePagosModels oModel)

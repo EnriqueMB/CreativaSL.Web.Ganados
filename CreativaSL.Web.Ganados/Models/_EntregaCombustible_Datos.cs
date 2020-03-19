@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
+using CreativaSL.Web.Ganados.Models.System;
 
 namespace CreativaSL.Web.Ganados.Models
 {
@@ -87,6 +88,9 @@ namespace CreativaSL.Web.Ganados.Models
                     datos.Total = !dr.IsDBNull(dr.GetOrdinal("total")) ? dr.GetDecimal(dr.GetOrdinal("total")) : 0;
                     datos.UrlImagen64 = !dr.IsDBNull(dr.GetOrdinal("imgTicket")) ? dr.GetString(dr.GetOrdinal("imgTicket")) : string.Empty;
                     datos.IDChofer= !dr.IsDBNull(dr.GetOrdinal("id_chofer")) ? dr.GetString(dr.GetOrdinal("id_chofer")) : string.Empty;
+
+                    datos.UrlImagen64 =
+                        Auxiliar.ValidImageFormServer(datos.UrlImagen64, ProjectSettings.BaseDirEntregaCombustible);
                     break;
                 }
                 dr.Close();
@@ -109,11 +113,7 @@ namespace CreativaSL.Web.Ganados.Models
                 object Result = SqlHelper.ExecuteScalar(datos.Conexion, "spCSLDB_Mantenimiento_del_EntregaCombustible", parametros);
                 if (Result != null)
                 {
-                    int Resultado = 0;
-                    int.TryParse(Result.ToString(), out Resultado);
-                    datos.Resultado = Resultado;
-                    if (Resultado == 1)
-                        datos.Completado = true;
+                    datos.UrlImagen64 = Result.ToString();
                 }
                 return datos;
             }
@@ -226,10 +226,13 @@ namespace CreativaSL.Web.Ganados.Models
                 while (dr.Read())
                 {
 
-                    datos.UrlImagen64Tickets = dr.IsDBNull(dr.GetOrdinal("imgTicket")) ?
-                         Auxiliar.SetDefaultImage(): string.IsNullOrEmpty(dr.GetString(dr.GetOrdinal("imgTicket"))) ?
-                        Auxiliar.SetDefaultImage() : dr.GetString(dr.GetOrdinal("imgTicket"));
-                    
+                    datos.UrlImagen64Tickets = !dr.IsDBNull(dr.GetOrdinal("imgTicket"))
+                        ? dr.GetString(dr.GetOrdinal("imgTicket"))
+                        : string.Empty;
+
+                    datos.UrlImagen64Tickets = Auxiliar.ValidImageFormServer(datos.UrlImagen64Tickets,
+                        ProjectSettings.BaseDirEntregaCombustible);
+
                     break;
                 }
                 dr.Close();

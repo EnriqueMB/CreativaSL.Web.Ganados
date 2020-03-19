@@ -12,6 +12,7 @@ using CreativaSL.Web.Ganados.Models.Datatable;
 using CreativaSL.Web.Ganados.Models.Dto;
 using CreativaSL.Web.Ganados.Models.Dto.Base;
 using CreativaSL.Web.Ganados.Models.Dto.Venta;
+using CreativaSL.Web.Ganados.Models.System;
 using Newtonsoft.Json;
 
 namespace CreativaSL.Web.Ganados.Models
@@ -1362,6 +1363,9 @@ namespace CreativaSL.Web.Ganados.Models
                         DocumentoPago.ImagenBase64 = !dr.IsDBNull(dr.GetOrdinal("imagen")) ? dr.GetString(dr.GetOrdinal("imagen")) : string.Empty;
                         DocumentoPago.ImagenServer = !dr.IsDBNull(dr.GetOrdinal("imagenServer")) ? dr.GetInt32(dr.GetOrdinal("imagenServer")) : 0;
                         DocumentoPago.pendiente = !dr.IsDBNull(dr.GetOrdinal("pendiente")) ? dr.GetDecimal(dr.GetOrdinal("pendiente")) : 0;
+
+                        DocumentoPago.ImagenBase64 = Auxiliar.ValidImageFormServer(DocumentoPago.ImagenBase64,
+                            ProjectSettings.BaseDirDocumentoPorCobrarPagoBancarizado);
                     }
                     else
                     {
@@ -1664,25 +1668,17 @@ namespace CreativaSL.Web.Ganados.Models
                 };
                 SqlDataReader dr = null;
                 dr = SqlHelper.ExecuteReader(Documento.Conexion, "spCSLDB_Venta_get_DocumentoXIDDocumento", parametros);
+                Documento.ImagenServer = ProjectSettings.PathDefaultImage;
 
                 while (dr.Read())
                 {
                     Documento.IDTipoDocumento = !dr.IsDBNull(dr.GetOrdinal("id_tipoDocumento")) ? dr.GetInt16(dr.GetOrdinal("id_tipoDocumento")) : 0;
                     Documento.Clave = !dr.IsDBNull(dr.GetOrdinal("clave")) ? dr.GetString(dr.GetOrdinal("clave")) : string.Empty;
-                    //Solo para mostrar
                     Documento.ImagenServer = !dr.IsDBNull(dr.GetOrdinal("imagen")) ? dr.GetString(dr.GetOrdinal("imagen")) : string.Empty;
+
+                    Documento.ImagenServer = Auxiliar.ValidImageFormServer(Documento.ImagenServer,
+                        ProjectSettings.BaseDirVentaDocumentoDetalle);
                 }
-                if (string.IsNullOrEmpty(Documento.ImagenServer))
-                {
-                    //No hay imagen en el server
-                    Documento.MostrarImagen = Auxiliar.SetDefaultImage();
-                }
-                else
-                {
-                    //Guardamos el string de la imagen
-                    Documento.MostrarImagen = Documento.ImagenServer;
-                }
-                Documento.ExtensionImagenBase64 = Auxiliar.ObtenerExtensionImagenBase64(Documento.MostrarImagen);
                 dr.Close();
 
                 return Documento;

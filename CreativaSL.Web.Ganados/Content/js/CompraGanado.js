@@ -1,9 +1,3 @@
-/// <reference path="plugins/jquery.maskmoney.min.js" />
-/// <reference path="plugins/jquery.maskmoney.min.js" />
-/// <reference path="plugins/jquery.maskmoney.min.js" />
-/// <reference path="plugins/jquery.maskmoney.min.js" />
-/// <reference path="plugins/jquery.maskmoney.min.js" />
-/// <reference path="plugins/jquery.maskmoney.min.js" />
 var CompraGanado = function () {
     "use strict";
     var CANTDECIMALES = 2;

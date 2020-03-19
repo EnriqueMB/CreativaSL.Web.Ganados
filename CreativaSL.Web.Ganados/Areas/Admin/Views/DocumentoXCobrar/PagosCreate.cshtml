@@ -38,7 +38,7 @@
                         @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                <h3 class="panel-title"><strong>Comprobante de pago</strong></h3>
+                                <h3 class="panel-title"><strong>Comprobante de cobro</strong></h3>
                                 <ul class="panel-controls"></ul>
                             </div>
                             <div class="panel-body">
@@ -52,8 +52,6 @@
                                 @Html.HiddenFor(model => model.ImagenServer)
 
                                 <div class="form-group">
-
-
                                     <div class="col-md-6">
                                         <label class="col-md-2 control-label">Empresa</label>
                                         <div class="controls">
@@ -76,7 +74,8 @@
                                             </div>
                                         </div>
                                     </div>
-
+                                </div>
+                                <div class="form-group">
                                     <div class="col-md-6 controlError">
                                         <label class="col-md-2 control-label">Forma de pago:</label>
                                         <div class="controls">
@@ -99,14 +98,14 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-md-4 controlError">
-                                        <label class="col-md-3 control-label">Monto:</label>
-                                        <div class="controls">
-                                            <div class="col-md-9 col-xs-12">
-                                                <div class="input-group">
-                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-4 controlError">
+                                    <label class="col-md-3 control-label">Monto:</label>
+                                    <div class="controls">
+                                        <div class="col-md-9 col-xs-12">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
                                                     @Html.TextBoxFor(model => model.Monto, new { @class = "form-control", type = "number" })
                                                 </div>
                                                 <span class="help-block">Monto o cantidad.</span>
@@ -120,7 +119,7 @@
                                             <div class="col-md-9 col-xs-12">
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                    @Html.TextBoxFor(model => model.pendiente, "{0:c2}" , new { @class = "form-control", @readonly = "readonly" })
+                                                    @Html.TextBoxFor(model => model.pendiente, "{0:c2}", new { @class = "form-control", @readonly = "readonly" })
                                                 </div>
                                                 <span class="help-block">Pendiente.</span>
                                             </div>
@@ -342,11 +341,7 @@
                                             </div>
                                         </div>
                                     </div>
-
                                 </div>
-
-
-
                             </div>
                             <div class="panel-footer">
                                 <input type="submit" value="Guardar y continuar" class="btn btn-primary pull-right">
@@ -375,7 +370,7 @@
     <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-datepicker.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/bootstrap/bootstrap-select.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Content/js/documentoXPagarPagos.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/documentoXCobrar.js")"></script>
     <!--FILEINPUT-->
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/fileinput.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/uploadFiles/es.js")"></script>

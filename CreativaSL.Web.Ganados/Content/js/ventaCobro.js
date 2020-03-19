@@ -7,16 +7,7 @@
     var imagen = $("#HttpImagen");
 
     var RunEventsComprobantePago = function () {
-        var ExtensionImagen = document.getElementById("ExtensionImagenBase64").value;
         var ImagenServidor = document.getElementById("ImagenBase64").value;
-
-        if (ImagenServidor === null || ImagenServidor.length == 0 || ImagenServidor == '') {
-            document.getElementById("HttpImagen").dataset.imgBD = "0";
-        }
-        else {
-            document.getElementById("HttpImagen").dataset.imgbd = "1";
-        }
-            
 
         $('#HttpImagen').fileinput({
             theme: 'fa',
@@ -28,7 +19,7 @@
             showUploadedThumbs: false,
             maxFileCount: 1,
             initialPreview: [
-                '<img class="file-preview-image" style="width: auto; height: auto; max-width: 100%; max-height: 100%;" src="data:' + ExtensionImagen + ';base64,' + ImagenServidor + '" />'
+                '<img class="file-preview-image" style="width: auto; height: auto; max-width: 100%; max-height: 100%;" src="' + ImagenServidor + '" />'
             ],
             initialPreviewConfig: [
                 { caption: 'Imagen del recibo' }
@@ -67,8 +58,7 @@
                 $('#divBancarizado').show(1000);
                 bancarizadoForm.value = true;
                 cuentaBeneficiante.rules("add", { required: true });
-                //cuentaOrdenante.rules("add", { required: true });
-                imagen.rules("add", { ImagenRequerida: true, ImagenRequerida: ["ImagenServer"] });
+                imagen.rules("add", { ImagenRequerida: ["ImagenBase64"] });
             }
             else{
                 $('#divBancarizado').hide(1000);
@@ -97,15 +87,12 @@
     }
     function QuitarValidacionesBancarizadas() {
         cuentaBeneficiante.rules("remove", "required");
-        //cuentaOrdenante.rules("remove", "required");
         imagen.rules("remove", "ImagenRequerida");
 
         cuentaBeneficiante.closest(".controlError").removeClass("has-success has-error");
-        //cuentaOrdenante.closest(".controlError").removeClass("has-success has-error");
         imagen.closest(".controlError").removeClass("has-success has-error");
 
         $("#validation_summary").find("dd[for='HttpImagen']").addClass('help-block valid').text('');
-        //$("#validation_summary").find("dd[for='Id_cuentaBancariaOrdenante']").addClass('help-block valid').text('');
         $("#validation_summary").find("dd[for='Id_cuentaBancariaBeneficiante']").addClass('help-block valid').text('');
     }
     
@@ -148,12 +135,8 @@
                     required: true
                 },
                 "HttpImagen":{
-                    ImagenRequerida: true,
-                    ImagenRequerida: ["ImagenServer"]
+                    ImagenRequerida: ["ImagenBase64"]
                 },
-                //"Id_cuentaBancariaOrdenante": {
-                //    required: true
-                //},
                 "Id_cuentaBancariaBeneficiante":{
                     required: true
                 }
@@ -173,9 +156,6 @@
                 fecha: {
                     required: "Por favor, seleccione la fecha."
                 },
-                //Id_cuentaBancariaOrdenante: {
-                //    required: "Por favor, seleccione una cuenta de banco del cliente."
-                //},
                 Id_cuentaBancariaBeneficiante: {
                     required: "Por favor, seleccione una cuenta de banco de la empresa."
                 }

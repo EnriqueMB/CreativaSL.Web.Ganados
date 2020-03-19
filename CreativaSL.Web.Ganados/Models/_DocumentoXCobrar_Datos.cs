@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
+using CreativaSL.Web.Ganados.Models.System;
 
 namespace CreativaSL.Web.Ganados.Models
 {
@@ -384,16 +385,21 @@ namespace CreativaSL.Web.Ganados.Models
                         Item.nombreRazonSocial = !dr.IsDBNull(dr.GetOrdinal("NombreORazonSocial")) ? dr.GetString(dr.GetOrdinal("NombreORazonSocial")) : string.Empty;
                         Item.ganadoTotal = !dr.IsDBNull(dr.GetOrdinal("GanadoTotalComprado")) ? dr.GetInt32(dr.GetOrdinal("GanadoTotalComprado")) : 0;
                         Item.kiloTotal = !dr.IsDBNull(dr.GetOrdinal("KilosTotal")) ? dr.GetDecimal(dr.GetOrdinal("KilosTotal")) : 0;
-                     }
-
-                    if (Item.Id_tipoDocumento == 2)
-                    {
-                        Item.FechaVenta = !dr.IsDBNull(dr.GetOrdinal("FechaVenta")) ? dr.GetDateTime(dr.GetOrdinal("FechaVenta")) : DateTime.Now;
-                        Item.Folio = !dr.IsDBNull(dr.GetOrdinal("Folio")) ? dr.GetInt64(dr.GetOrdinal("Folio")) : 0;
                     }
-                    if (Item.Id_tipoDocumento == 3)
+                    else if (Item.Id_tipoDocumento == 2)
                     {
-                        Item.Folio = !dr.IsDBNull(dr.GetOrdinal("Folio")) ? dr.GetInt64(dr.GetOrdinal("Folio")) : 0;
+                        Item.FechaVenta = !dr.IsDBNull(dr.GetOrdinal("FechaVenta"))
+                            ? dr.GetDateTime(dr.GetOrdinal("FechaVenta"))
+                            : DateTime.Now;
+                        Item.Folio = !dr.IsDBNull(dr.GetOrdinal("Folio"))
+                            ? dr.GetString(dr.GetOrdinal("Folio"))
+                            : string.Empty;
+                    }
+                    else if (Item.Id_tipoDocumento == 3)
+                    {
+                        Item.Folio = !dr.IsDBNull(dr.GetOrdinal("Folio"))
+                            ? dr.GetString(dr.GetOrdinal("Folio"))
+                            : string.Empty;
                         Item.TipoFlete = !dr.IsDBNull(dr.GetOrdinal("TipoFlete")) ? dr.GetInt16(dr.GetOrdinal("TipoFlete")) : 0;
                         Item.FechaEmbarque = !dr.IsDBNull(dr.GetOrdinal("FechaEmbarque")) ? dr.GetDateTime(dr.GetOrdinal("FechaEmbarque")) : DateTime.Now;
                         Item.FechaSalida = !dr.IsDBNull(dr.GetOrdinal("FechaSalida")) ? dr.GetDateTime(dr.GetOrdinal("FechaSalida")) : DateTime.Now;
@@ -437,19 +443,21 @@ namespace CreativaSL.Web.Ganados.Models
                         Item.ganadoTotal = !dr.IsDBNull(dr.GetOrdinal("GanadoTotalComprado")) ? dr.GetInt32(dr.GetOrdinal("GanadoTotalComprado")) : 0;
                         Item.kiloTotal = !dr.IsDBNull(dr.GetOrdinal("KilosTotal")) ? dr.GetDecimal(dr.GetOrdinal("KilosTotal")) : 0;
 
-					//A.[id_documentoCobrar] IDDetalleDocumentoCobrar,
-					
                     }
-                    if (Item.Id_tipoDocumento == 2)
+                    else if (Item.Id_tipoDocumento == 2)
                     {
                         Item.FechaVenta = !dr.IsDBNull(dr.GetOrdinal("FechaVenta")) ? dr.GetDateTime(dr.GetOrdinal("FechaVenta")) : DateTime.Now;
-                        Item.Folio = !dr.IsDBNull(dr.GetOrdinal("Folio")) ? dr.GetInt64(dr.GetOrdinal("Folio")) : 0;
+                        Item.Folio = !dr.IsDBNull(dr.GetOrdinal("Folio"))
+                            ? dr.GetString(dr.GetOrdinal("Folio"))
+                            : string.Empty;
                         Item.NombreVenta = !dr.IsDBNull(dr.GetOrdinal("NombreVenta")) ? dr.GetString(dr.GetOrdinal("NombreVenta")) : string.Empty;
 
                     }
-                    if (Item.Id_tipoDocumento == 3)
+                    else if (Item.Id_tipoDocumento == 3)
                     {
-                        Item.Folio = !dr.IsDBNull(dr.GetOrdinal("Folio")) ? dr.GetInt64(dr.GetOrdinal("Folio")) : 0;
+                        Item.Folio = !dr.IsDBNull(dr.GetOrdinal("Folio"))
+                            ? dr.GetString(dr.GetOrdinal("Folio"))
+                            : string.Empty;
                         Item.TipoFlete = !dr.IsDBNull(dr.GetOrdinal("TipoFlete")) ? dr.GetInt16(dr.GetOrdinal("TipoFlete")) : 0;
                         Item.FechaEmbarque = !dr.IsDBNull(dr.GetOrdinal("FechaEmbarque")) ? dr.GetDateTime(dr.GetOrdinal("FechaEmbarque")) : DateTime.Now;
                         Item.FechaSalida = !dr.IsDBNull(dr.GetOrdinal("FechaSalida")) ? dr.GetDateTime(dr.GetOrdinal("FechaSalida")) : DateTime.Now;
@@ -457,7 +465,7 @@ namespace CreativaSL.Web.Ganados.Models
                         Item.FechaTentativaEntrega = !dr.IsDBNull(dr.GetOrdinal("FechaTentativaEntrega")) ? dr.GetDateTime(dr.GetOrdinal("FechaSalida")) : DateTime.Now;
                         Item.FechaFinalizadoFlete = !dr.IsDBNull(dr.GetOrdinal("FechaFinalizadoFlete")) ? dr.GetDateTime(dr.GetOrdinal("FechaSalida")) : DateTime.Now;
                     }
-                    if (Item.Id_tipoDocumento == 4)
+                    else if (Item.Id_tipoDocumento == 4)
                     {
                         Item.Total = !dr.IsDBNull(dr.GetOrdinal("Total")) ? dr.GetDecimal(dr.GetOrdinal("Total")) : 0;
                         Item.Pendiente = !dr.IsDBNull(dr.GetOrdinal("Pendiente")) ? dr.GetDecimal(dr.GetOrdinal("Pendiente")) : 0;
@@ -747,6 +755,9 @@ namespace CreativaSL.Web.Ganados.Models
                     DocumentoPago.Bancarizado = !dr.IsDBNull(dr.GetOrdinal("bancarizado")) ? dr.GetBoolean(dr.GetOrdinal("bancarizado")) : false;
                     DocumentoPago.ImagenBase64 = !dr.IsDBNull(dr.GetOrdinal("imagen")) ? dr.GetString(dr.GetOrdinal("imagen")) : string.Empty;
                     DocumentoPago.pendiente = !dr.IsDBNull(dr.GetOrdinal("pendiente")) ? dr.GetDecimal(dr.GetOrdinal("pendiente")) : 0;
+
+                    DocumentoPago.ImagenBase64 = Auxiliar.ValidImageFormServer(DocumentoPago.ImagenBase64,
+                        ProjectSettings.BaseDirDocumentoPorCobrarPagoBancarizado);
                 }
                 dr.Close();
                 return DocumentoPago;
@@ -950,30 +961,31 @@ namespace CreativaSL.Web.Ganados.Models
         #endregion
 
         #region Del Documento por cobrar pago
-        public DocumentosPorCobrarDetallePagosModels EliminarPagoDocumentoPorCobrar(DocumentosPorCobrarDetallePagosModels datos)
+        public RespuestaAjax EliminarPagoDocumentoPorCobrar(DocumentosPorCobrarDetallePagosModels datos)
         {
+            RespuestaAjax Item = new RespuestaAjax();
             try
             {
                 object[] parametros =
                 {
                     datos.Id_documentoPorCobrarDetallePagos,datos.Id_documentoPorCobrar, datos.Usuario
                 };
-                object aux = SqlHelper.ExecuteScalar(datos.Conexion, "spCSLDB_DocumentoPorCobrar_DEL_DetallesPago", parametros);
-                if (aux != null)
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(datos.Conexion, "spCSLDB_DocumentoPorCobrar_DEL_DetallesPago", parametros);
+                while (dr.Read())
                 {
-                    int Resultado = 0;
-                    int.TryParse(aux.ToString(), out Resultado);
-                    if (Resultado == 1)
-                    {
-                        datos.Completado = true;
-                    }
+                    Item.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : false;
+                    Item.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : "0";
                 }
-                return datos;
             }
+
             catch (Exception ex)
             {
                 throw ex;
             }
+
+            return Item;
+
         }
         #endregion
         #region Compra

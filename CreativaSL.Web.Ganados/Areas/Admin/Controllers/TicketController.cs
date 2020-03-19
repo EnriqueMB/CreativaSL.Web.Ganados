@@ -216,6 +216,15 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 case 12:
                     baseDir = ProjectSettings.BaseDirDocumentoPorCobrarPagoBancarizado;
                     break;
+                case 13:
+                    baseDir = ProjectSettings.BaseDirDocumentoPorPagarPagoBancarizado;
+                    break;
+                case 14:
+                    baseDir = ProjectSettings.BaseDirVentaDocumentoDetalle;
+                    break;
+                case 15:
+                    baseDir = ProjectSettings.BaseDirEntregaCombustible;
+                    break;
             }
 
             var json = datos.ObtenerRegistrosTablaBase64ToUrl(idTabla, dataTableAjaxPostModel, baseDir);
@@ -265,6 +274,15 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     break;
                 case 12:
                     baseDir = ProjectSettings.BaseDirDocumentoPorCobrarPagoBancarizado;
+                    break;
+                case 13:
+                    baseDir = ProjectSettings.BaseDirDocumentoPorPagarPagoBancarizado;
+                    break;
+                case 14:
+                    baseDir = ProjectSettings.BaseDirVentaDocumentoDetalle;
+                    break;
+                case 15:
+                    baseDir = ProjectSettings.BaseDirEntregaCombustible;
                     break;
             }
 

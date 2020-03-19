@@ -1054,7 +1054,13 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     if (DocumentoPorCobrarPago.RespuestaAjax.Success)
                     {
                         TempData["typemessage"] = "1";
-                        TempData["message"] = DocumentoPorCobrarPago.RespuestaAjax.Mensaje;
+                        TempData["message"] = "Registro eliminado correctamente";
+
+                        var uploadImagenToserver = new UploadFileToServerModel();
+                        uploadImagenToserver.BaseDir = ProjectSettings.BaseDirDocumentoPorCobrarPagoBancarizado;
+                        uploadImagenToserver.FileName = DocumentoPorCobrarPago.RespuestaAjax.Mensaje;
+
+                        CidFaresHelper.DeleteFileFromServer(uploadImagenToserver);
                     }
                     else
                     {
@@ -1272,13 +1278,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
                     if (DocumentoPorCobrarPago.RespuestaAjax.Success)
                     {
-                        if (string.IsNullOrEmpty(DocumentoPorCobrarPago.ImagenBase64))
-                        {
-                            DocumentoPorCobrarPago.ImagenBase64 = Auxiliar.SetDefaultImage();
-                        }
-                        
-                        DocumentoPorCobrarPago.ExtensionImagenBase64 = Auxiliar.ObtenerExtensionImagenBase64(DocumentoPorCobrarPago.ImagenBase64);
-
                         DocumentoPorCobrarPago.ListaFormaPagos = FleteDatos.GetListadoCFDIFormaPago(DocumentoPorCobrarPago);
                         DocumentoPorCobrarPago = FleteDatos.GetNombreEmpresaProveedorCliente(DocumentoPorCobrarPago);
                         DocumentoPorCobrarPago.TipoCuentaBancaria = 1;
@@ -1324,26 +1323,30 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     {
                         if (DocumentoPorCobrarPago.HttpImagen != null)
                         {
-                            //DocumentoPorCobrarPago.ImagenBase64 = Auxiliar.ImageToBase64(DocumentoPorCobrarPago.HttpImagen);
+                            var uploadImagenToserver = new UploadFileToServerModel();
+                            uploadImagenToserver.FileBase = DocumentoPorCobrarPago.HttpImagen;
+                            uploadImagenToserver.BaseDir = ProjectSettings.BaseDirDocumentoPorCobrarPagoBancarizado;
+                            uploadImagenToserver.FileName =
+                                DocumentoPorCobrarPago.ImagenBase64?.Replace(
+                                    ProjectSettings.BaseDirDocumentoPorCobrarPagoBancarizado, string.Empty);
 
-                            Stream s = DocumentoPorCobrarPago.HttpImagen.InputStream;
-                            
-                            if (Path.GetExtension(DocumentoPorCobrarPago.HttpImagen.FileName).ToLower() == ".heic")
-                            {
-                                System.Drawing.Image img = (System.Drawing.Image)Auxiliar.ProcessFile(s);
-                                Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((System.Drawing.Image)img.Clone(), 35L));
-                                DocumentoPorCobrarPago.ImagenBase64 = image.ToBase64String(ImageFormat.Jpeg);
-                            }
-                            else
-                            {
-                                System.Drawing.Image img = new Bitmap(s);
-                                Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((System.Drawing.Image)img.Clone(), 35L));
-                                DocumentoPorCobrarPago.ImagenBase64 = image.ToBase64String(img.RawFormat);
-                            }
+                            CidFaresHelper.DeleteFileFromServer(uploadImagenToserver);
 
+                            uploadImagenToserver.FileName = Guid.NewGuid().ToString().ToUpper();
+                            CidFaresHelper.UploadFileToServer(uploadImagenToserver);
+                            DocumentoPorCobrarPago.ImagenBase64 = uploadImagenToserver.FileName;
+                        }
+                        else
+                        {
+                            DocumentoPorCobrarPago.ImagenBase64 =
+                                DocumentoPorCobrarPago.ImagenBase64?.Replace(ProjectSettings.BaseDirDocumentoPorCobrarPagoBancarizado,
+                                    string.Empty);
+                            DocumentoPorCobrarPago.ImagenBase64 =
+                                DocumentoPorCobrarPago.ImagenBase64?.Replace(ProjectSettings.PathDefaultImage,
+                                    string.Empty);
                         }
                     }
-                    _Flete_Datos FleteDatos = new _Flete_Datos();
+                    var FleteDatos = new _Flete_Datos();
 
                     DocumentoPorCobrarPago = FleteDatos.AC_ComprobanteCobro(DocumentoPorCobrarPago);
 

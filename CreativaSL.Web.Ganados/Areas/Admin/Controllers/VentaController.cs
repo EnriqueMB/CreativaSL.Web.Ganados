@@ -9,7 +9,9 @@ using Microsoft.Reporting.WebForms;
 using System.Drawing;
 using System.Drawing.Imaging;
 using CreativaSL.Web.Ganados.Models.Datatable;
+using CreativaSL.Web.Ganados.Models.Helpers;
 using CreativaSL.Web.Ganados.ViewModel.Venta;
+using CreativaSL.Web.Ganados.Models.System;
 
 namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 {
@@ -1252,21 +1254,27 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
                         if (Documento.ImagenPost != null)
                         {
-                            //Documento.ImagenServer = Auxiliar.ImageToBase64(Documento.ImagenPost);
-                            Stream s = Documento.ImagenPost.InputStream;
+                            var uploadImagenToserver = new UploadFileToServerModel();
+                            uploadImagenToserver.FileBase = Documento.ImagenPost;
+                            uploadImagenToserver.BaseDir = ProjectSettings.BaseDirVentaDocumentoDetalle;
+                            uploadImagenToserver.FileName =
+                                Documento.ImagenServer?.Replace(
+                                    ProjectSettings.BaseDirVentaDocumentoDetalle, string.Empty);
 
-                            if (Path.GetExtension(Documento.ImagenPost.FileName).ToLower() == ".heic")
-                            {
-                                System.Drawing.Image img = (System.Drawing.Image)Auxiliar.ProcessFile(s);
-                                Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((System.Drawing.Image)img.Clone(), 35L));
-                                Documento.ImagenServer = image.ToBase64String(ImageFormat.Jpeg);
-                            }
-                            else
-                            {
-                                System.Drawing.Image img = new Bitmap(s);
-                                Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((System.Drawing.Image)img.Clone(), 35L));
-                                Documento.ImagenServer = image.ToBase64String(img.RawFormat);
-                            }
+                            CidFaresHelper.DeleteFileFromServer(uploadImagenToserver);
+
+                            uploadImagenToserver.FileName = Guid.NewGuid().ToString().ToUpper();
+                            CidFaresHelper.UploadFileToServer(uploadImagenToserver);
+                            Documento.ImagenServer = uploadImagenToserver.FileName;
+                        }
+                        else
+                        {
+                            Documento.ImagenServer =
+                                Documento.ImagenServer?.Replace(ProjectSettings.BaseDirVentaDocumentoDetalle,
+                                    string.Empty);
+                            Documento.ImagenServer =
+                                Documento.ImagenServer?.Replace(ProjectSettings.PathDefaultImage,
+                                    string.Empty);
                         }
                         Documento.RespuestaAjax = new RespuestaAjax();
                         Documento = VentaDatos.AC_Documento(Documento);
@@ -1318,6 +1326,18 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         Documento.Conexion = Conexion;
                         Documento.Usuario = User.Identity.Name;
                         Documento = VentaDatos.DEL_DocumentoXIDDocumento(Documento);
+
+                        if (Documento.RespuestaAjax.Success)
+                        {
+                            var uploadImagenToserver = new UploadFileToServerModel();
+                            uploadImagenToserver.BaseDir = ProjectSettings.BaseDirVentaDocumentoDetalle;
+                            uploadImagenToserver.FileName = Documento.RespuestaAjax.Mensaje;
+
+                            CidFaresHelper.DeleteFileFromServer(uploadImagenToserver);
+
+                            Documento.RespuestaAjax.Mensaje = "Registro eliminado correctamente.";
+                        }
+
                         Token.ResetToken();
                         Token.SaveToken();
                         return Content(Documento.RespuestaAjax.ToJSON(), "application/json");
@@ -1672,7 +1692,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
-
                 if (Token.IsTokenValid())
                 {
                     DocumentoPorCobrarPago.Usuario = User.Identity.Name;
@@ -1684,7 +1703,13 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     if (DocumentoPorCobrarPago.RespuestaAjax.Success)
                     {
                         TempData["typemessage"] = "1";
-                        TempData["message"] = DocumentoPorCobrarPago.RespuestaAjax.Mensaje;
+                        TempData["message"] = "Registro eliminado correctamente.";
+
+                        var uploadImagenToserver = new UploadFileToServerModel();
+                        uploadImagenToserver.BaseDir = ProjectSettings.BaseDirDocumentoPorCobrarPagoBancarizado;
+                        uploadImagenToserver.FileName = DocumentoPorCobrarPago.RespuestaAjax.Mensaje;
+
+                        CidFaresHelper.DeleteFileFromServer(uploadImagenToserver);
                     }
                     else
                     {
@@ -1797,14 +1822,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
                     if (DocumentoPorCobrarPago.RespuestaAjax.Success)
                     {
-                        if (string.IsNullOrEmpty(DocumentoPorCobrarPago.ImagenBase64))
-                        {
-                            DocumentoPorCobrarPago.ImagenBase64 = Auxiliar.SetDefaultImage();
-                        }
-                        
-                        DocumentoPorCobrarPago.ExtensionImagenBase64 = Auxiliar.ObtenerExtensionImagenBase64(DocumentoPorCobrarPago.ImagenBase64);
-
-
                         DocumentoPorCobrarPago.ListaFormaPagos = VentaDatos.GetListadoCFDIFormaPago(DocumentoPorCobrarPago);
                         DocumentoPorCobrarPago = VentaDatos.GetNombreEmpresaCliente(DocumentoPorCobrarPago);
                         DocumentoPorCobrarPago.TipoCuentaBancaria = 1;
@@ -1850,21 +1867,28 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     {
                         if (DocumentoPorCobrarPago.HttpImagen != null)
                         {
-                            //DocumentoPorCobrarPago.ImagenBase64 = Auxiliar.ImageToBase64(DocumentoPorCobrarPago.HttpImagen);
-                            Stream s = DocumentoPorCobrarPago.HttpImagen.InputStream;
+                            
+                            var uploadImagenToserver = new UploadFileToServerModel();
+                            uploadImagenToserver.FileBase = DocumentoPorCobrarPago.HttpImagen;
+                            uploadImagenToserver.BaseDir = ProjectSettings.BaseDirDocumentoPorCobrarPagoBancarizado;
+                            uploadImagenToserver.FileName =
+                                DocumentoPorCobrarPago.ImagenBase64?.Replace(
+                                    ProjectSettings.BaseDirDocumentoPorCobrarPagoBancarizado, string.Empty);
 
-                            if (Path.GetExtension(DocumentoPorCobrarPago.HttpImagen.FileName).ToLower() == ".heic")
-                            {
-                                System.Drawing.Image img = (System.Drawing.Image)Auxiliar.ProcessFile(s);
-                                Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((System.Drawing.Image)img.Clone(), 35L));
-                                DocumentoPorCobrarPago.ImagenBase64 = image.ToBase64String(ImageFormat.Jpeg);
-                            }
-                            else
-                            {
-                                System.Drawing.Image img = new Bitmap(s);
-                                Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((System.Drawing.Image)img.Clone(), 35L));
-                                DocumentoPorCobrarPago.ImagenBase64 = image.ToBase64String(img.RawFormat);
-                            }
+                            CidFaresHelper.DeleteFileFromServer(uploadImagenToserver);
+
+                            uploadImagenToserver.FileName = Guid.NewGuid().ToString().ToUpper();
+                            CidFaresHelper.UploadFileToServer(uploadImagenToserver);
+                            DocumentoPorCobrarPago.ImagenBase64 = uploadImagenToserver.FileName;
+                        }
+                        else
+                        {
+                            DocumentoPorCobrarPago.ImagenBase64 =
+                                DocumentoPorCobrarPago.ImagenBase64?.Replace(ProjectSettings.BaseDirDocumentoPorCobrarPagoBancarizado,
+                                    string.Empty);
+                            DocumentoPorCobrarPago.ImagenBase64 =
+                                DocumentoPorCobrarPago.ImagenBase64?.Replace(ProjectSettings.PathDefaultImage,
+                                    string.Empty);
                         }
                     }
                     _Venta2_Datos VentaDatos = new _Venta2_Datos();
