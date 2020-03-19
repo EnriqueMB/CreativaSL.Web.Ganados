@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
+using CreativaSL.Web.Ganados.Models.System;
 
 namespace CreativaSL.Web.Ganados.Models
 {
@@ -99,13 +100,12 @@ namespace CreativaSL.Web.Ganados.Models
                 object Resultado = SqlHelper.ExecuteScalar(datos.Conexion, "spCSLDB_Catalogo_del_CatVehiculo", parametros);
                 if (Resultado != null)
                 {
-                    if (!string.IsNullOrEmpty(datos.IDVehiculo))
+                    var imagen = Resultado.ToString();
+
+                    if (!string.Equals(imagen, "0"))
                     {
                         datos.Completado = true;
-                    }
-                    else
-                    {
-                        datos.Completado = false;
+                        datos.img64 = imagen;
                     }
                     return datos;
                 }
@@ -146,7 +146,8 @@ namespace CreativaSL.Web.Ganados.Models
                     datos.PlacaJaula = !dr.IsDBNull(dr.GetOrdinal("placaJaula")) ? dr.GetString(dr.GetOrdinal("placaJaula")) : string.Empty;
                     datos.ColorJaula = !dr.IsDBNull(dr.GetOrdinal("colorJaula")) ? dr.GetString(dr.GetOrdinal("colorJaula")) : string.Empty;
                     datos.EsJaula = !dr.IsDBNull(dr.GetOrdinal("esJaula")) ? dr.GetBoolean(dr.GetOrdinal("esJaula")) : false;
-                    
+
+                    datos.img64 = Auxiliar.ValidImageFormServer(datos.img64, ProjectSettings.BaseDirCatVehiculo);
                 }
                 dr.Close();
                 return datos;

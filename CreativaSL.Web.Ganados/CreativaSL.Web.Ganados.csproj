@@ -1876,7 +1876,9 @@
     <Compile Include="Models\Dto\Cliente\ReporteClienteDto.cs" />
     <Compile Include="Models\Dto\Compra\IndexCompraDto.cs" />
     <Compile Include="Models\Dto\Base\IndexDatatableDto.cs" />
+    <Compile Include="Models\Dto\Compra\IndexDocumentoCompraDetalleDto.cs" />
     <Compile Include="Models\Dto\Configuracion\RegistrosDeTablaBase64ToUrlDto.cs" />
+    <Compile Include="Models\Dto\Flete\IndexDocumentoFleteDetalleDto.cs" />
     <Compile Include="Models\Dto\ProveedorGanado\ConfiguracionReporteProveedorGanadoDto.cs" />
     <Compile Include="Models\Dto\ProveedorGanado\ImagenesProveedorGanadoDto.cs" />
     <Compile Include="Models\Dto\ProveedorGanado\IndexProveedorGanadoDocumentacionExtraDto.cs" />

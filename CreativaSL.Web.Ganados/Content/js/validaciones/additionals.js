@@ -82,7 +82,7 @@ $.validator.addMethod("ImagenRequerida", function (value, element, params) {
     //Checamos que tenga un archivo el input file
     if (element.value.length === 0) {
         var imagenServidor = document.getElementById(params[0]).value;
-        if (imagenServidor === "0" || !imagenServidor)
+        if (imagenServidor === "0" || !imagenServidor || imagenServidor === '/Content/img/GrupoOcampo.png')
         {
             //validamos el defaultValue, nos sirve para el edit 
             var defaultValue = document.getElementById(params[0]).defaultValue;

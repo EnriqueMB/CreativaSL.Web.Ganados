@@ -83,6 +83,8 @@
             "language": {
                 "url": "/Content/assets/json/Spanish.json"
             },
+            "processing": true,
+            "serverSide": true,
             responsive: true,
             "ajax": {
                 "data": {
@@ -91,49 +93,23 @@
                 "url": "/Admin/Compra/TableJsonDocumentos/",
                 "type": "POST",
                 "datatype": "json",
-                "dataSrc": ''
+                "dataSrc": function (json) {
+
+                    if (json.data === null)
+                        return [];
+                    else
+                        return json.data;
+                }
             },
             "columns": [
-                { "data": "descripcion" },
-                { "data": "clave" },
+                { "data": "Descripcion" },
+                { "data": "Clave" },
                 {
                     "data": null,
                     "render": function (data, type, full) {
-                        var imagen64 = full["imagen"];
-                        var img = "";
-                        if (imagen64 != null) {
-
-                            var extension = "";
-
-                            var position = imagen64.indexOf("iVBOR");
-                            //imagen png
-                            if (position != -1)
-                                extension = "image/png";
-
-                            position = imagen64.indexOf("/9j/4");
-                            if (position != -1)
-                                extension = "image/jpeg";
-                            //bmp de 256 colores
-                            position = imagen64.indexOf("Qk3");
-                            if (position == 0)
-                                extension = "image/bmp";
-
-                            //bmp de monocromatico colores
-                            position = imagen64.indexOf("Qk2");
-                            if (position == 0)
-                                extension = "image/bmp";
-
-                            //bmp de 16 colores
-                            position = imagen64.indexOf("Qk1");
-                            if (position == 0)
-                                extension = "image/bmp";
-
-                            img = "<img class='file-preview-image' style='width: 150px; height: 150px;' src='data:" + extension + ";base64," + full["imagen"] + "' />";
-                        }
-                        else {
-                            img = "<img class='file-preview-image' style='width: 150px; height: 150px;' src='/Content/img/GrupoOcampo.png' />";
-                        }
-                        return img;
+                        return "<img style='width: 100px; height: 100px; max-width: 100 %; max-height: 100 %;' src='" +
+                            full["Imagen"] +
+                            "' />";
                     }
                 },
                 {
@@ -141,8 +117,8 @@
                     "render": function (data, type, full) {
 
                         return "<div class='visible-md visible-lg hidden-sm hidden-xs'>" +
-                            "<a data-id='" + full["id_documentoCompraDetalle"] + "' class='btn btn-yellow tooltips btn-sm editDocumento' title='Editar'  data-placement='top' data-original-title='Edit'><i class='fa fa-edit'></i></a>" +
-                            "<a data-hrefa='/Admin/Compra/DEL_Documento/' title='Eliminar' data-id='" + full["id_documentoCompraDetalle"] + "' class='btn btn-danger tooltips btn-sm deleteDocumento' data-placement='top' data-original-title='Eliminar'><i class='fa fa-trash-o'></i></a>" +
+                            "<a data-id='" + full["IdDocumentoCompraDetalle"] + "' class='btn btn-yellow tooltips btn-sm editDocumento' title='Editar'  data-placement='top' data-original-title='Edit'><i class='fa fa-edit'></i></a>" +
+                            "<a data-hrefa='/Admin/Compra/DEL_Documento/' title='Eliminar' data-id='" + full["IdDocumentoCompraDetalle"] + "' class='btn btn-danger tooltips btn-sm deleteDocumento' data-placement='top' data-original-title='Eliminar'><i class='fa fa-trash-o'></i></a>" +
                             "</div>" +
                             "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
                             "<div class='btn-group'>" +
@@ -151,12 +127,12 @@
                             "</a>" +
                             "<ul role='menu' class='dropdown-menu pull-right dropdown-dark'>" +
                             "<li>" +
-                            "<a data-id='" + full["id_documentoCompraDetalle"] + "' class='editDocumento' role='menuitem' tabindex='-1'>" +
+                            "<a data-id='" + full["IdDocumentoCompraDetalle"] + "' class='editDocumento' role='menuitem' tabindex='-1'>" +
                             "<i class='fa fa-edit'></i> Editar" +
                             "</a>" +
                             "</li>" +
                             "<li>" +
-                            "<a data-hrefa='/Admin/Compra/DEL_Documento/' class='deleteDocumento' role='menuitem' tabindex='-1' data-id='" + full["id_documentoCompraDetalle"] + "'>" +
+                            "<a data-hrefa='/Admin/Compra/DEL_Documento/' class='deleteDocumento' role='menuitem' tabindex='-1' data-id='" + full["IdDocumentoCompraDetalle"] + "'>" +
                             "<i class='fa fa-trash-o'></i> Eliminar" +
                             "</a>" +
                             "</li>" +

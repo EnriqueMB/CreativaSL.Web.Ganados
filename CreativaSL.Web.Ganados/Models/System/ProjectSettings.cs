@@ -23,6 +23,9 @@ namespace CreativaSL.Web.Ganados.Models.System
         public const string BaseDirCatFierro = "/Imagenes/Catalogos/Fierro/";
         public const string BaseDirCatProductoAlmacen = "/Imagenes/Catalogos/ProductoAlmacen/";
         public const string BaseDirCatVehiculo = "/Imagenes/Catalogos/Vehiculo/";
+        public const string BaseDirCompraDocumentoDetalle = "/Imagenes/Compra/DocumentoDetalle/";
+        public const string BaseDirFleteDocumentoDetalle = "/Imagenes/Flete/DocumentoDetalle/";
+        public const string BaseDirDocumentoPorCobrarPagoBancarizado = "/Imagenes/DocumentoPorCobrar/PagoBancarizado/";
 
         public const string PathDefaultImage = "/Content/img/GrupoOcampo.png";
     }

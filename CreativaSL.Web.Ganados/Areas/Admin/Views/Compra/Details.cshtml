@@ -7,9 +7,15 @@
 {
     <!--CSS GENERAL-->
     <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/css/compra.css")" />
+    <link href="~/Content/css/datatable/jquery.dataTables.min.css" rel="stylesheet" />
     <style>
-        .vista_previa {cursor: pointer;}
-        #imagen_previa {width: 100% !important;}
+        .vista_previa {
+            cursor: pointer;
+        }
+
+        #imagen_previa {
+            width: 100% !important;
+        }
     </style>
 }
 @section featured
@@ -48,8 +54,8 @@
                                 @Html.HiddenFor(model => model.IDCompra)
                                 @Html.HiddenFor(model => model.DocumentoPorPagar.IDDocumentoPagar)
                                 <ul class="panel-controls">
-                                    <li><a id="btnGenerarComprobantePago"   class="btn btn-default btnCrear"><span class="fa fa-plus"></span>Generar comprobante de compra</a></li>
-                                    @*<li><a href="@Url.Action("ComprobanteCompra","Compra", new {Id_1 = Model.IDCompra })" class="btn btn-default btnCrear"><span class="fa fa-plus"></span>Generar comprobante de compra</a></li>*@                                   
+                                    <li><a id="btnGenerarComprobantePago" class="btn btn-default btnCrear"><span class="fa fa-plus"></span>Generar comprobante de compra</a></li>
+                                    @*<li><a href="@Url.Action("ComprobanteCompra","Compra", new {Id_1 = Model.IDCompra })" class="btn btn-default btnCrear"><span class="fa fa-plus"></span>Generar comprobante de compra</a></li>*@
                                     <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
                                     <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
                                 </ul>
@@ -121,14 +127,14 @@
                                                 <dt>Tipo de cobro</dt>
                                                 <dd>@Model.StringTipoFlete</dd>
                                                 @*<dd>@if (Model.CobrarFlete)
-                                                { @Html.Raw("Si") }
-                                                else
-                                                { @Html.Raw("No") }</dd>*@
+                                                    { @Html.Raw("Si") }
+                                                    else
+                                                    { @Html.Raw("No") }</dd>*@
                                             </dl>
                                         </div>
                                     </div>
                                 </div>
-                             
+
                             </div>
                             <div class="panel-footer">
                                 <a href="@Url.Action("Index", "Compra")" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
@@ -138,92 +144,92 @@
                 </div>
                 <div role="tabpanel" class="tab-pane" id="ganado">
                     <div class="col-md-12">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">GANADO</h3>
-                            <ul class="panel-controls">
-                                <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
-                                <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
-                            </ul>
-                        </div>
-                        <div class="panel panel-body">
-                            <div class="table-responsive">
-                                <table id="tbl_generalGanado" class="table">
-                                    <thead>
-                                        <tr>
-                                            <th>Género</th>
-                                            <th>Cantidad</th>
-                                            <th>Total de kilos</th>
-                                            <th>Merma (%)</th>
-                                            <th>Subtotal ($)</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody></tbody>
-                                </table>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">GANADO</h3>
+                                <ul class="panel-controls">
+                                    <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
+                                    <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
+                                </ul>
+                            </div>
+                            <div class="panel panel-body">
+                                <div class="table-responsive">
+                                    <table id="tbl_generalGanado" class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Género</th>
+                                                <th>Cantidad</th>
+                                                <th>Total de kilos</th>
+                                                <th>Merma (%)</th>
+                                                <th>Subtotal ($)</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">GANADO MACHOS</h3>
-                            <ul class="panel-controls">
-                                <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
-                                <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
-                            </ul>
-                        </div>
-                        <div class="panel panel-body">
-                            <div class="table-responsive">
-                                <table id="tbl_ganadoDetalleMachos" class="table">
-                                    <thead>
-                                        <tr>
-                                            <th>Número de arete</th>
-                                            <th>Género</th>
-                                            <th>Peso inicial (kg.)</th>
-                                            <th>Peso final - Repeso (kg.)</th>
-                                            <th>Diferencia de peso(kg.)</th>
-                                            <th>Merma obtenida (%)</th>
-                                            <th>Peso pagado (kg.)</th>
-                                            <th>Precio por kilo ($)</th>
-                                            <th>Subtotal ($)</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody></tbody>
-                                </table>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">GANADO MACHOS</h3>
+                                <ul class="panel-controls">
+                                    <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
+                                    <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
+                                </ul>
+                            </div>
+                            <div class="panel panel-body">
+                                <div class="table-responsive">
+                                    <table id="tbl_ganadoDetalleMachos" class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Número de arete</th>
+                                                <th>Género</th>
+                                                <th>Peso inicial (kg.)</th>
+                                                <th>Peso final - Repeso (kg.)</th>
+                                                <th>Diferencia de peso(kg.)</th>
+                                                <th>Merma obtenida (%)</th>
+                                                <th>Peso pagado (kg.)</th>
+                                                <th>Precio por kilo ($)</th>
+                                                <th>Subtotal ($)</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">GANADO HEMBRAS</h3>
-                            <ul class="panel-controls">
-                                <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
-                                <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
-                            </ul>
-                        </div>
-                        <div class="panel panel-body">
-                            <div class="table-responsive">
-                                <table id="tbl_ganadoDetalleHembras" class="table">
-                                    <thead>
-                                        <tr>
-                                            <th>Número de arete</th>
-                                            <th>Género</th>
-                                            <th>Peso inicial (kg.)</th>
-                                            <th>Peso final - Repeso (kg.)</th>
-                                            <th>Diferencia de peso(kg.)</th>
-                                            <th>Merma obtenida (%)</th>
-                                            <th>Peso pagado (kg.)</th>
-                                            <th>Precio por kilo ($)</th>
-                                            <th>Subtotal ($)</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody></tbody>
-                                </table>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">GANADO HEMBRAS</h3>
+                                <ul class="panel-controls">
+                                    <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
+                                    <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
+                                </ul>
+                            </div>
+                            <div class="panel panel-body">
+                                <div class="table-responsive">
+                                    <table id="tbl_ganadoDetalleHembras" class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Número de arete</th>
+                                                <th>Género</th>
+                                                <th>Peso inicial (kg.)</th>
+                                                <th>Peso final - Repeso (kg.)</th>
+                                                <th>Diferencia de peso(kg.)</th>
+                                                <th>Merma obtenida (%)</th>
+                                                <th>Peso pagado (kg.)</th>
+                                                <th>Precio por kilo ($)</th>
+                                                <th>Subtotal ($)</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="panel-footer">
+                                <a href="@Url.Action("Index", "Compra")" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
                             </div>
                         </div>
-                        <div class="panel-footer">
-                            <a href="@Url.Action("Index", "Compra")" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
-                        </div>
-                    </div>
                     </div>
                 </div>
                 <div role="tabpanel" class="tab-pane" id="pagos">
@@ -541,7 +547,7 @@
                                         </table>
                                     </div>
                                 </div>
-                                
+
                             </div>
                             <div class="panel-footer">
                                 <a href="@Url.Action("Index", "Compra")" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
@@ -588,8 +594,8 @@
             </div>
         </div>
 
-            <!--TERMINA TABS-->
-        </div>
+        <!--TERMINA TABS-->
+    </div>
     <!-- Modal -->
     <div class="modal fade" id="modalImagen" role="dialog">
         <div class="modal-dialog">
@@ -601,7 +607,7 @@
                     <h4 class="modal-title">Imagen</h4>
                 </div>
                 <div class="modal-body">
-                    <img id="imagen_previa" src="" alt="Imagen_previa"/>
+                    <img id="imagen_previa" src="" alt="Imagen_previa" />
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
@@ -610,10 +616,10 @@
 
         </div>
     </div>
-        <script>
+    <script>
         var message     = '@message';
         var typemessage = '@typemessage';
-        </script>
+    </script>
 }
 
 @section script
@@ -661,10 +667,10 @@
                             return merma.toFixed(2) + ' %';
                         }
                     },
-                    {  
+                    {
                         "data": "subtotal",
                         "render": $.fn.dataTable.render.number(',', '.', 2, '$'),
-                    }, 
+                    },
                 ]
             });
             var tbl_ganadoDetalleMachos = $('#tbl_ganadoDetalleMachos').DataTable({
@@ -859,46 +865,51 @@
                             return fecha;
                         }
                     },
-                     {
-                         "data": null,
-                         "render": function (data, type, full) {
-                             var imagen64 = full["Imagen"];
+                    {
+                        "data": null,
+                        "render": function (data, type, full) {
+                            var imagen64 = full["Imagen"];
 
-                             var img = "";
+                            var img = "";
 
-                             if (imagen64) {
-                                 var extension = "";
-                                 var position = imagen64.indexOf("iVBOR");
-                                 //imagen png
-                                 if (position != -1)
-                                     extension = "image/png";
+                            if (imagen64) {
+                                var extension = "";
+                                var position = imagen64.indexOf("iVBOR");
+                                //imagen png
+                                if (position != -1)
+                                    extension = "image/png";
 
-                                 position = imagen64.indexOf("/9j/4");
-                                 if (position != -1)
-                                     extension = "image/jpeg";
-                                 //bmp de 256 colores
-                                 position = imagen64.indexOf("Qk3");
-                                 if (position == 0)
-                                     extension = "image/bmp";
+                                position = imagen64.indexOf("/9j/4");
+                                if (position != -1)
+                                    extension = "image/jpeg";
+                                //bmp de 256 colores
+                                position = imagen64.indexOf("Qk3");
+                                if (position == 0)
+                                    extension = "image/bmp";
 
-                                 //bmp de monocromatico colores
-                                 position = imagen64.indexOf("Qk2");
-                                 if (position == 0)
-                                     extension = "image/bmp";
+                                //bmp de monocromatico colores
+                                position = imagen64.indexOf("Qk2");
+                                if (position == 0)
+                                    extension = "image/bmp";
 
-                                 //bmp de 16 colores
-                                 position = imagen64.indexOf("Qk1");
-                                 if (position == 0)
-                                     extension = "image/bmp";
+                                //bmp de 16 colores
+                                position = imagen64.indexOf("Qk1");
+                                if (position == 0)
+                                    extension = "image/bmp";
 
-                                 img = "<img class='file-preview-image vista_previa' style='width: 150px; height: 150px;' src='data:" + extension + ";base64," + imagen64 + "' />";
-                             }
-                             else {
-                                 img = "<img class='file-preview-image vista_previa' style='width: 150px; height: 150px;' src='/Content/img/GrupoOcampo.png' />";
-                             }
-                             return img;
-                         }
-                     },
+                                img =
+                                    "<img class='file-preview-image vista_previa' style='width: 150px; height: 150px;' src='data:" +
+                                    extension +
+                                    ";base64," +
+                                    imagen64 +
+                                    "' />";
+                            } else {
+                                img =
+                                    "<img class='file-preview-image vista_previa' style='width: 150px; height: 150px;' src='/Content/img/GrupoOcampo.png' />";
+                            }
+                            return img;
+                        }
+                    },
                     {
                         "data": "Cantidad",
                         "render": $.fn.dataTable.render.number(',', '.', 2, '$'),
@@ -906,11 +917,12 @@
                 ],
                 "drawCallback": function (settings) {
 
-                    $('img.vista_previa').on('click', function () {
-                        var src_image = $(this).attr('src');
-                        $("#imagen_previa").attr("src", src_image);
-                        $("#modalImagen").modal();
-                    });
+                    $('img.vista_previa').on('click',
+                        function () {
+                            var src_image = $(this).attr('src');
+                            $("#imagen_previa").attr("src", src_image);
+                            $("#modalImagen").modal();
+                        });
 
                 }
             });
@@ -952,10 +964,10 @@
                         "data": "subtotal",
                         "render": $.fn.dataTable.render.number(',', '.', 2, '$'),
                     },
-                     {
-                         "data": "total",
-                         "render": $.fn.dataTable.render.number(',', '.', 2, '$'),
-                     }
+                    {
+                        "data": "total",
+                        "render": $.fn.dataTable.render.number(',', '.', 2, '$'),
+                    }
                 ]
             });
             var tbl_docxcobrardetallesPagos = $('#tbl_docxcobrardetallesPagos').DataTable({
@@ -996,82 +1008,11 @@
                             return fecha;
                         }
                     },
-                     {
-                         "data": null,
-                         "render": function (data, type, full) {
-                             var imagen64 = full["Imagen"];
-
-                             var img = "";
-
-                             if (imagen64) {
-                                 var extension = "";
-                                 var position = imagen64.indexOf("iVBOR");
-                                 //imagen png
-                                 if (position != -1)
-                                     extension = "image/png";
-
-                                 position = imagen64.indexOf("/9j/4");
-                                 if (position != -1)
-                                     extension = "image/jpeg";
-                                 //bmp de 256 colores
-                                 position = imagen64.indexOf("Qk3");
-                                 if (position == 0)
-                                     extension = "image/bmp";
-
-                                 //bmp de monocromatico colores
-                                 position = imagen64.indexOf("Qk2");
-                                 if (position == 0)
-                                     extension = "image/bmp";
-
-                                 //bmp de 16 colores
-                                 position = imagen64.indexOf("Qk1");
-                                 if (position == 0)
-                                     extension = "image/bmp";
-
-                                 img = "<img class='file-preview-image vista_previa' style='width: 150px; height: 150px;' src='data:" + extension + ";base64," + imagen64 + "' />";
-                             }
-                             else {
-                                 img = "<img class='file-preview-image vista_previa' style='width: 150px; height: 150px;' src='/Content/img/GrupoOcampo.png' />";
-                             }
-                             return img;
-                         }
-                     },
-                    {
-                        "data": "Cantidad",
-                        "render": $.fn.dataTable.render.number(',', '.', 2, '$'),
-                    }
-                ],
-                "drawCallback": function (settings) {
-
-                    $('img.vista_previa').on('click', function () {
-                        var src_image = $(this).attr('src');
-                        $("#imagen_previa").attr("src", src_image);
-                        $("#modalImagen").modal();
-                    });
-
-                }
-            });
-            var tbl_documentos = $('#tbl_documentos').DataTable({
-                "language": {
-                    "url": "/Content/assets/json/Spanish.json"
-                },
-                responsive: true,
-                "ajax": {
-                    "data": {
-                        "IDCompra": IDCompra
-                    },
-                    "url": "/Admin/Compra/TableJsonDocumentos/",
-                    "type": "POST",
-                    "datatype": "json",
-                    "dataSrc": ''
-                },
-                "columns": [
-                    { "data": "descripcion" },
-                    { "data": "clave" },
                     {
                         "data": null,
                         "render": function (data, type, full) {
-                            var imagen64 = full["imagen"];
+                            var imagen64 = full["Imagen"];
+
                             var img = "";
 
                             if (imagen64) {
@@ -1099,24 +1040,79 @@
                                 if (position == 0)
                                     extension = "image/bmp";
 
-                                img = "<img class='file-preview-image vista_previa' style='width: 150px; height: 150px;' src='data:" + extension + ";base64," + imagen64 + "' />";
-                            }
-                            else {
-                                img = "<img class='file-preview-image vista_previa' style='width: 150px; height: 150px;' src='/Content/img/GrupoOcampo.png' />";
+                                img =
+                                    "<img class='file-preview-image vista_previa' style='width: 150px; height: 150px;' src='data:" +
+                                    extension +
+                                    ";base64," +
+                                    imagen64 +
+                                    "' />";
+                            } else {
+                                img =
+                                    "<img class='file-preview-image vista_previa' style='width: 150px; height: 150px;' src='/Content/img/GrupoOcampo.png' />";
                             }
                             return img;
-                         }
+                        }
+                    },
+                    {
+                        "data": "Cantidad",
+                        "render": $.fn.dataTable.render.number(',', '.', 2, '$'),
                     }
                 ],
                 "drawCallback": function (settings) {
 
-                    $('img.vista_previa').on('click', function () {
-                        var src_image = $(this).attr('src');
-                        $("#imagen_previa").attr("src", src_image);
-                        $("#modalImagen").modal();
-                    });
-                
-                }   
+                    $('img.vista_previa').on('click',
+                        function () {
+                            var src_image = $(this).attr('src');
+                            $("#imagen_previa").attr("src", src_image);
+                            $("#modalImagen").modal();
+                        });
+
+                }
+            });
+            var tbl_documentos = $('#tbl_documentos').DataTable({
+                "processing": true,
+                "serverSide": true,
+                "language": {
+                    "url": "/Content/assets/json/Spanish.json"
+                },
+                responsive: true,
+                "ajax": {
+                    "data": {
+                        "IDCompra": IDCompra
+                    },
+                    "url": "/Admin/Compra/TableJsonDocumentos/",
+                    "type": "POST",
+                    "datatype": "json",
+                    "dataSrc": function (json) {
+
+                        if (json.data === null)
+                            return [];
+                        else
+                            return json.data;
+                    }
+                },
+                "columns": [
+                    { "data": "Descripcion" },
+                    { "data": "Clave" },
+                    {
+                        "data": null,
+                        "render": function (data, type, full) {
+                            return "<img class='vista_previa' style='width: 100px; height: 100px; max-width: 100 %; max-height: 100 %;' src='" +
+                                full["Imagen"] +
+                                "' />";
+                        }
+                    }
+                ],
+                "drawCallback": function (settings) {
+
+                    $('img.vista_previa').on('click',
+                        function () {
+                            var src_image = $(this).attr('src');
+                            $("#imagen_previa").attr("src", src_image);
+                            $("#modalImagen").modal();
+                        });
+
+                }
             });
             var tblEventos = $('#tblEventos').DataTable({
                 "language": {
@@ -1151,9 +1147,7 @@
                                 var fecha = dia + '-' + mes + '-' + año;
                             }
 
-                            return type === "display" || type === "filter" ?
-                                fecha :
-                                data;
+                            return type === "display" || type === "filter" ? fecha : data;
                         }
                     },
                     { "data": "horaDeteccion" },
@@ -1162,7 +1156,9 @@
                         "render": function (data, type, full) {
 
                             return "<div class='visible-md visible-lg hidden-sm hidden-xs'>" +
-                                "<a data-id='" + full["id_eventoCompra"] + "' class='btn btn-primary details tooltips btn-sm detalles' title='Ver'  data-placement='top' data-original-title='Ver'><i class='fa fa-eye'></i></a>" +
+                                "<a data-id='" +
+                                full["id_eventoCompra"] +
+                                "' class='btn btn-primary details tooltips btn-sm detalles' title='Ver'  data-placement='top' data-original-title='Ver'><i class='fa fa-eye'></i></a>" +
                                 "</div>" +
                                 "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
                                 "<div class='btn-group'>" +
@@ -1171,7 +1167,11 @@
                                 "</a>" +
                                 "<ul role='menu' class='dropdown-menu pull-right dropdown-dark'>" +
                                 "<li>" +
-                                "<a data-id='" + full["id_eventoCompra"] + "' class='detalles details' data-id='" + full["id_eventoCompra"] + "'  role='menuitem' tabindex='-1'>" +
+                                "<a data-id='" +
+                                full["id_eventoCompra"] +
+                                "' class='detalles details' data-id='" +
+                                full["id_eventoCompra"] +
+                                "'  role='menuitem' tabindex='-1'>" +
                                 "<i class='fa fa-eye'></i> Ver" +
                                 "</a>" +
                                 "</li>" +
@@ -1182,11 +1182,15 @@
                     }
                 ],
                 "drawCallback": function (settings) {
-                    $(".detalles").on("click", function () {
-                        var id_evento = $(this).data("id");
-                        window.location.href = '/Admin/Compra/EventoDetallesCompra_2?IDCompra=' + IDCompra + '&Id_eventoCompra=' + id_evento;
+                    $(".detalles").on("click",
+                        function () {
+                            var id_evento = $(this).data("id");
+                            window.location.href = '/Admin/Compra/EventoDetallesCompra_2?IDCompra=' +
+                                IDCompra +
+                                '&Id_eventoCompra=' +
+                                id_evento;
 
-                    });
+                        });
                 }
             });
 
@@ -1214,13 +1218,13 @@
                     }
                 ]
             });
-            $("#btnGenerarComprobantePago").on("click", function () {
-                window.open
-                    (
-                    '/Admin/Compra/ComprobanteCompra?Id_1=' + IDCompra,
-                    '_blank'
+            $("#btnGenerarComprobantePago").on("click",
+                function () {
+                    window.open(
+                        '/Admin/Compra/ComprobanteCompra?Id_1=' + IDCompra,
+                        '_blank'
                     );
-            });
+                });
 
             Mensaje(message, typemessage);
         });

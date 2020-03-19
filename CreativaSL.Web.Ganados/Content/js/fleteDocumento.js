@@ -28,7 +28,7 @@
             ignore: "",
             rules: {
                 IDTipoDocumento: { required: true, min: 1 },
-                ImagenPost: { ImagenRequerida: true, ImagenRequerida: ["ImagenServer"] }
+                ImagenPost: { ImagenRequerida: ["ImagenServer"] }
             },
             messages: { 
                 IDTipoDocumento: { required: "Por favor, seleccione un tipo de documento.", min: "Por favor, seleccione un tipo de documento." }
@@ -57,8 +57,8 @@
         });
     };
     var RunEventsDocumento = function () {
-        var Imagen = document.getElementById("MostrarImagen").value;
-        var ExtensionImagen = document.getElementById("ExtensionImagenBase64").value;
+        var Imagen = document.getElementById("ImagenServer").value;
+
         $('#ImagenPost').fileinput({
             theme: 'fa',
             language: 'es',
@@ -69,7 +69,7 @@
             showUploadedThumbs: false,
             maxFileCount: 1,
             initialPreview: [
-                '<img class="file-preview-image" style="width: auto; height: auto; max-width: 100%; max-height: 100%;" src="data:'+ ExtensionImagen +';base64,' + Imagen + '" />'
+                '<img class="file-preview-image" style="width: auto; height: auto; max-width: 100%; max-height: 100%;" src="' + Imagen + '" />'
             ],
             initialPreviewConfig: [
                 { caption: 'Imagen del documento' }

@@ -15,6 +15,8 @@ using System.Data;
 using System.Drawing;
 using System.Drawing.Imaging;
 using CreativaSL.Web.Ganados.Models.Datatable;
+using CreativaSL.Web.Ganados.Models.Helpers;
+using CreativaSL.Web.Ganados.Models.System;
 
 namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 {
@@ -1932,7 +1934,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         #endregion
         #region Funcion Json Documentos
         [HttpPost]
-        public ActionResult TableJsonDocumentos(string IDCompra)
+        public ActionResult TableJsonDocumentos(DataTableAjaxPostModel dataTableAjaxPostModel, string IDCompra)
         {
             try
             {
@@ -1941,7 +1943,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Compra.Conexion = Conexion;
                 Compra.IDCompra = IDCompra;
 
-                Compra.RespuestaAjax.Mensaje = CompraDatos.GetDocumentosDataTable(Compra);
+                Compra.RespuestaAjax.Mensaje = CompraDatos.GetDocumentosDataTable(dataTableAjaxPostModel, Compra);
                 Compra.RespuestaAjax.Success = true;
 
                 return Content(Compra.RespuestaAjax.Mensaje, "application/json");
@@ -2095,7 +2097,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         /// <returns></returns>
         [HttpGet]
         [SucursalesPermitidas]
-        public ActionResult DocumentosCompra(string Id_1, string current)
+        public ActionResult DocumentosCompra(string Id_1, string current = null)
         {
             try
             {
@@ -2255,23 +2257,25 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
                         if (Documento.ImagenPost != null)
                         {
-                            //Documento.ImagenServer = Auxiliar.ImageToBase64(Documento.ImagenPost);
+                            var uploadImageToserver = new UploadFileToServerModel();
+                            uploadImageToserver.BaseDir = ProjectSettings.BaseDirCompraDocumentoDetalle;
+                            uploadImageToserver.FileName =
+                                Documento.ImagenServer?.Replace(ProjectSettings.BaseDirCompraDocumentoDetalle,
+                                    string.Empty);
 
-                            Stream s = Documento.ImagenPost.InputStream;
+                            CidFaresHelper.DeleteFileFromServer(uploadImageToserver);
 
-                            if (Path.GetExtension(Documento.ImagenPost.FileName).ToLower() == ".heic")
-                            {
-                                Image img = (Image)Auxiliar.ProcessFile(s);
-                                Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
-                                Documento.ImagenServer = image.ToBase64String(ImageFormat.Jpeg);
-                            }
-                            else
-                            {
-                                Image img = new Bitmap(s);
-                                Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
-                                Documento.ImagenServer = image.ToBase64String(img.RawFormat);
-                            }
+                            uploadImageToserver.FileBase = Documento.ImagenPost;
+                            uploadImageToserver.FileName = Guid.NewGuid().ToString().ToUpper();
 
+                            CidFaresHelper.UploadFileToServer(uploadImageToserver);
+                            Documento.ImagenServer = uploadImageToserver.FileName;
+                        }
+                        else
+                        {
+                            Documento.ImagenServer =
+                                Documento.ImagenServer.Replace(ProjectSettings.BaseDirCompraDocumentoDetalle,
+                                    string.Empty);
                         }
                         Documento.RespuestaAjax = new RespuestaAjax();
                         Documento = CompraDatos.AC_Documento(Documento);
@@ -2280,7 +2284,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                             Token.ResetToken();
                             TempData["typemessage"] = "1";
                             TempData["message"] = Documento.RespuestaAjax.Mensaje;
-                            return RedirectToAction("DocumentosCompra", "Compra", new { Id_1 = Documento.Id_servicio });
+                            return RedirectToAction("DocumentosCompra", "Compra", new { Id_1 = Documento.Id_servicio, current = string.Empty });
                         }
                         else
                         {
@@ -2331,6 +2335,17 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         Documento.Conexion = Conexion;
                         Documento.Usuario = User.Identity.Name;
                         Documento = CompraDatos.DEL_DocumentoXIDDocumento(Documento);
+
+                        if (Documento.RespuestaAjax.Success)
+                        {
+                            var uploadImageToserver = new UploadFileToServerModel();
+                            uploadImageToserver.BaseDir = ProjectSettings.BaseDirCompraDocumentoDetalle;
+                            uploadImageToserver.FileName = Documento.RespuestaAjax.Mensaje;
+
+                            CidFaresHelper.DeleteFileFromServer(uploadImageToserver);
+                            Documento.RespuestaAjax.Mensaje = "Registro eliminado correctamente.";
+                        }
+
                         Token.ResetToken();
                         Token.SaveToken();
                         return Content(Documento.RespuestaAjax.ToJSON(), "application/json");

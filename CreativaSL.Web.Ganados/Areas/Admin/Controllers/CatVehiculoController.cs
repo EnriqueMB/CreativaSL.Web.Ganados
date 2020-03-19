@@ -12,6 +12,8 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using CreativaSL.Web.Ganados.Models.Helpers;
+using CreativaSL.Web.Ganados.Models.System;
 
 namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 {
@@ -92,23 +94,14 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         HttpPostedFileBase bannerImage = Request.Files[0] as HttpPostedFileBase;
                         if (bannerImage != null && bannerImage.ContentLength > 0)
                         {
-                            Stream s = bannerImage.InputStream;
-                            //Bitmap img = new Bitmap(s);
-                            //Vehiculo.img64 = img.ToBase64String(ImageFormat.Png);
-
-                            if (Path.GetExtension(bannerImage.FileName).ToLower() == ".heic")
-                            {
-                                Image img = (Image)Auxiliar.ProcessFile(s);
-                                Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
-                                Vehiculo.img64 = image.ToBase64String(ImageFormat.Jpeg);
-                            }
-                            else
-                            {
-                                Image img = new Bitmap(s);
-                                Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
-                                Vehiculo.img64 = image.ToBase64String(img.RawFormat);
-                            }
-
+                            var fileName = Guid.NewGuid().ToString().ToUpper();
+                            var uploadImageToserver = new UploadFileToServerModel();
+                            uploadImageToserver.FileBase = bannerImage;
+                            uploadImageToserver.BaseDir = ProjectSettings.BaseDirCatVehiculo;
+                            uploadImageToserver.FileName = fileName;
+                            
+                            CidFaresHelper.UploadFileToServer(uploadImageToserver);
+                            Vehiculo.img64 = uploadImageToserver.FileName;
                         }
                         Vehiculo.Estatus = true;
                         Vehiculo = VehiculoDatos.AcCatVehiculo(Vehiculo);
@@ -385,22 +378,18 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         {
                             if (bannerImage != null && bannerImage.ContentLength > 0)
                             {
-                                Stream s = bannerImage.InputStream;
-                                //Bitmap img = new Bitmap(s);
-                                //Vehiculo.img64 = img.ToBase64String(ImageFormat.Png);
+                                
+                                var uploadImageToserver = new UploadFileToServerModel();
+                                uploadImageToserver.BaseDir = ProjectSettings.BaseDirCatVehiculo;
+                                uploadImageToserver.FileName = Vehiculo.img64?.Replace(ProjectSettings.BaseDirCatVehiculo, string.Empty);
 
-                                if (Path.GetExtension(bannerImage.FileName).ToLower() == ".heic")
-                                {
-                                    Image img = (Image)Auxiliar.ProcessFile(s);
-                                    Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
-                                    Vehiculo.img64 = image.ToBase64String(ImageFormat.Jpeg);
-                                }
-                                else
-                                {
-                                    Image img = new Bitmap(s);
-                                    Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
-                                    Vehiculo.img64 = image.ToBase64String(img.RawFormat);
-                                }
+                                CidFaresHelper.DeleteFileFromServer(uploadImageToserver);
+
+                                uploadImageToserver.FileBase = bannerImage;
+                                uploadImageToserver.FileName = Guid.NewGuid().ToString().ToUpper();
+
+                                CidFaresHelper.UploadFileToServer(uploadImageToserver);
+                                Vehiculo.img64 = uploadImageToserver.FileName;
                             }
                         }
                         else
@@ -476,8 +465,16 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Vehiculo.Usuario = User.Identity.Name;
                 // TODO: Add delete logic here
                 Vehiculo = VehiculoDatos.EliminarVehiculo(Vehiculo);
-                //TempData["typemessage"] = "1";
-                //TempData["message"] = "El registro se ha eliminado correctamente";
+
+                if (Vehiculo.Completado)
+                {
+                    var uploadImageImagenBancoToserver = new UploadFileToServerModel();
+                    uploadImageImagenBancoToserver.BaseDir = ProjectSettings.BaseDirCatVehiculo;
+                    uploadImageImagenBancoToserver.FileName = Vehiculo.img64;
+
+                    CidFaresHelper.DeleteFileFromServer(uploadImageImagenBancoToserver);
+                }
+
                 return Json("");
             }
             catch

@@ -1,4 +1,5 @@
-﻿@model CreativaSL.Web.Ganados.Models.VentaGeneralVistaDetallesModels
+﻿@using CreativaSL.Web.Ganados.Models.System
+@model CreativaSL.Web.Ganados.Models.VentaGeneralVistaDetallesModels
 @{
     ViewBag.Title = "Detalles";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
@@ -332,6 +333,7 @@
         jQuery(document).ready(function () {
             var Id = $("#Id").val();
             var Id_documentoCobrar = $("#Id_documentoCobrar").val();
+            var baseDirDocumentoPorCobrarPagoBancarizado = "@ProjectSettings.BaseDirDocumentoPorCobrarPagoBancarizado";
 
             var tbl_docxcobrardetalles = $('#tbl_docxcobrardetalles').DataTable({
                 "language": {
@@ -409,42 +411,17 @@
                     },
                      {
                          "data": null,
-                         "render": function (data, type, full) {
+                         "render": function(data, type, full) {
                              var imagen64 = full["Imagen"];
 
-                             var img = "";
-
                              if (imagen64) {
-                                 var extension = "";
-                                 var position = imagen64.indexOf("iVBOR");
-                                 //imagen png
-                                 if (position != -1)
-                                     extension = "image/png";
-
-                                 position = imagen64.indexOf("/9j/4");
-                                 if (position != -1)
-                                     extension = "image/jpeg";
-                                 //bmp de 256 colores
-                                 position = imagen64.indexOf("Qk3");
-                                 if (position == 0)
-                                     extension = "image/bmp";
-
-                                 //bmp de monocromatico colores
-                                 position = imagen64.indexOf("Qk2");
-                                 if (position == 0)
-                                     extension = "image/bmp";
-
-                                 //bmp de 16 colores
-                                 position = imagen64.indexOf("Qk1");
-                                 if (position == 0)
-                                     extension = "image/bmp";
-
-                                 img = "<img class='file-preview-image vista_previa' style='width: 150px; height: 150px;' src='data:" + extension + ";base64," + imagen64 + "' />";
+                                 return "<img class='file-preview-image vista_previa' style='width: 150px; height: 150px;' src='" +
+                                     baseDirDocumentoPorCobrarPagoBancarizado +
+                                     imagen64 +
+                                     "' />";
+                             } else {
+                                 return "<img class='file-preview-image vista_previa' style='width: 150px; height: 150px;' src='@ProjectSettings.PathDefaultImage'/>";
                              }
-                             else {
-                                 img = "<img class='file-preview-image vista_previa' style='width: 150px; height: 150px;' src='/Content/img/GrupoOcampo.png' />";
-                             }
-                             return img;
                          }
                      },
                     {
