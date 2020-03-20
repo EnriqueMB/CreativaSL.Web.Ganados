@@ -2,6 +2,7 @@
     "use strict";
     var Id_venta = $("#Id_servicio").val();
     var tblDocumentos;
+    var BaseDir;
 
     /*INICIA DOCUMENTOS*/
      var runValidator1 = function () {
@@ -102,44 +103,10 @@
                      "data": null,
                      "render": function(data, type, full) {
                          var imagen64 = full["imagen"];
-                         var img = "";
                          if (imagen64) {
-
-                             var extension = "";
-
-                             var position = imagen64.indexOf("iVBOR");
-                             //imagen png
-                             if (position != -1)
-                                 extension = "image/png";
-
-                             position = imagen64.indexOf("/9j/4");
-                             if (position != -1)
-                                 extension = "image/jpeg";
-                             //bmp de 256 colores
-                             position = imagen64.indexOf("Qk3");
-                             if (position == 0)
-                                 extension = "image/bmp";
-
-                             //bmp de monocromatico colores
-                             position = imagen64.indexOf("Qk2");
-                             if (position == 0)
-                                 extension = "image/bmp";
-
-                             //bmp de 16 colores
-                             position = imagen64.indexOf("Qk1");
-                             if (position == 0)
-                                 extension = "image/bmp";
-
-                             img = "<img class='file-preview-image' style='width: 150px; height: 150px;' src='data:" +
-                                 extension +
-                                 ";base64," +
-                                 imagen64 +
-                                 "' />";
-                         } else {
-                             img =
-                                 "<img class='file-preview-image' style='width: 150px; height: 150px;' src='/Content/img/GrupoOcampo.png' />";
+                             return "<img class='file-preview-image' style='width: 150px; height: 150px;' src='" +  BaseDir + imagen64 + "' />";
                          }
-                         return img;
+                         
                      }
                  },
                  {
@@ -264,9 +231,10 @@
     /*TERMINA DOCUMENTOS*/
 
     return {
-        init: function () {
+        init: function (baseDir) {
             runValidator1();
             runElements();
+            BaseDir = baseDir;
         }
     };
 }();

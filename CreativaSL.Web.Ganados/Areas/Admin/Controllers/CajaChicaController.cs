@@ -111,7 +111,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         }
 
         // GET: Admin/CajaChica/ArqueoCaja
-        public ActionResult ArqueoCaja(Int64 id)
+        public ActionResult ArqueoCaja(string id)
         {
             try
             {
@@ -131,7 +131,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
         // POST: Admin/CajaChica/ArqueoCaja
         [HttpPost]
-        public ActionResult ArqueoCaja(Int64 idCaja, List<ArqueoCajaChicaModels> model)
+        public ActionResult ArqueoCaja(string idCaja, List<ArqueoCajaChicaModels> model)
         {
             _CajaChica_Datos datos = new _CajaChica_Datos();
             try
@@ -179,7 +179,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
         // POST: Admin/CajaChica/Delete
         [HttpPost]
-        public ActionResult Delete(Int64 id)
+        public ActionResult Delete(string id)
         {
             _CajaChica_Datos datos = new _CajaChica_Datos();
             try
@@ -198,7 +198,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         }
 
         // GET: Admin/CajaChica/Movimientos
-        public ActionResult Movimientos(Int64 id)
+        public ActionResult Movimientos(string id)
         {
             try
             {
@@ -215,7 +215,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
 
-        public ActionResult ReporteCajaChica(Int64 id)
+        public ActionResult ReporteCajaChica(string id)
         {
             try
             {
@@ -285,7 +285,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
         // GET: Admin/CajaChica/Movimientos/EntradaCajaChica/1
         [HttpGet]
-        public ActionResult EntradaCajaChica(Int64 id)
+        public ActionResult EntradaCajaChica(string id)
         {
             try
             {
@@ -359,7 +359,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
         //parte de boton ver en cajachica
-        public ActionResult ModalTicket2(int ID)
+        public ActionResult ModalTicket2(string ID)
         {
             var Imagen = new CajaChicaModels();
             Imagen.IdCaja = ID;

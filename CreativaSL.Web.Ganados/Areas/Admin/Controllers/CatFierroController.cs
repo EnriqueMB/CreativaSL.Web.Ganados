@@ -10,6 +10,9 @@ using System.IO;
 using System.Drawing;
 using System.Drawing.Imaging;
 using CreativaSL.Web.Ganados.App_Start;
+using CreativaSL.Web.Ganados.Models.Datatable;
+using CreativaSL.Web.Ganados.Models.Helpers;
+using CreativaSL.Web.Ganados.Models.System;
 
 namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 {
@@ -19,16 +22,16 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         private TokenProcessor Token = TokenProcessor.GetInstance();
         string Conexion = ConfigurationManager.AppSettings.Get("strConnection");
 
-        public ActionResult DatatableIndex()
+        public ActionResult DatatableIndex(DataTableAjaxPostModel dataTableAjaxPostModel)
         {
             try
             {
-                CatFierroModels fierro = new CatFierroModels();
-                CatFierro_Datos fierroDatos = new CatFierro_Datos();
+                var fierro = new CatFierroModels();
+                var fierroDatos = new CatFierro_Datos();
 
                 fierro.Conexion = Conexion;
                 fierro.RespuestaAjax = new RespuestaAjax();
-                fierro.RespuestaAjax.Mensaje = fierroDatos.DatatableIndex(fierro);
+                fierro.RespuestaAjax.Mensaje = fierroDatos.DatatableIndex(dataTableAjaxPostModel);
                 fierro.RespuestaAjax.Success = true;
 
                 return Content(fierro.RespuestaAjax.Mensaje, "application/json");
@@ -36,7 +39,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
             catch (Exception ex)
             {
-                CatFierroModels fierro = new CatFierroModels();
+                var fierro = new CatFierroModels();
                 fierro.RespuestaAjax = new RespuestaAjax();
                 fierro.RespuestaAjax.Mensaje = ex.ToString();
                 fierro.RespuestaAjax.Success = false;
@@ -75,13 +78,13 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             {
 
                 Token.SaveToken();
-                CatFierroModels Fierro = new CatFierroModels();
+                var Fierro = new CatFierroModels();
                 Fierro.Id_servicio = Id_servicio;
                 return View(Fierro);
             }
             catch (Exception)
             {
-                CatFierroModels Fierro = new CatFierroModels();
+                var Fierro = new CatFierroModels();
                 TempData["typemessage"] = "2";
                 TempData["message"] = "No se puede cargar la vista";
                 return View(Fierro);
@@ -106,16 +109,13 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     if (!string.IsNullOrEmpty(Fierro.IDFierro))
                     {
                         
-                        string baseDir = Server.MapPath("~/Imagenes/Fierro/");
-                        Image Img = Comun.Base64StringToBitmap(Fierro.ImgFierro);
-                        Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)Img.Clone(), 32L));
-                        ImageCodecInfo jpgEncoder = ComprimirImagen.GetEncoder(ComprimirImagen.GetImageFormat(Img));
-                        string fileName = Fierro.IDFierro + ".png";
-                        Fierro.ImgFierro = image.ToBase64String(ImageFormat.Png);
-                        string newImagePath = baseDir + fileName;
-                        image.Save(newImagePath, ImageFormat.Png);
-                        Fierro.NombreArchivo = fileName;
+                        var uploadBase64ToServerModel = CidFaresHelper.UploadBase64ToServer(Fierro.ImgFierro,
+                            ProjectSettings.BaseDirCatFierro);
+
+                        Fierro.NombreArchivo = uploadBase64ToServerModel.FileName;
+                        Fierro.ImgFierro = uploadBase64ToServerModel.FileName;
                         Fierro = FierroDatos.ActualizarImagen(Fierro);
+
                         if (Fierro.Completado == true)
                         {
                             if (!string.IsNullOrEmpty(Fierro.Id_servicio))
@@ -127,7 +127,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                                 Fierro.RespuestaAjax.Success = true;
                                 Fierro.RespuestaAjax.Href = Fierro.Id_servicio;
                                 return Content(Fierro.RespuestaAjax.ToJSON(), "application/json");
-                                //return RedirectToAction("DocumentosCompra", "Compra", new { Id_1 = Fierro.Id_servicio });
                             }
                             else
                             {
@@ -262,119 +261,39 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             {
                 if (Token.IsTokenValid())
                 {
-                    HttpPostedFileBase bannerImage = Request.Files[0] as HttpPostedFileBase;
+                    var bannerImage = Request.Files[0] as HttpPostedFileBase;
+                    var fileName = Guid.NewGuid().ToString().ToUpper();
+                    var uploadImageToserver = new UploadFileToServerModel();
+                    uploadImageToserver.FileBase = bannerImage;
+                    uploadImageToserver.BaseDir = ProjectSettings.BaseDirCatFierro;
+                    uploadImageToserver.FileName = fileName;
 
-                    MemoryStream ms = new MemoryStream();
-                    bannerImage.InputStream.CopyTo(ms);
-                    bannerImage.InputStream.Position = ms.Position = 0;
-                    Stream s2 = ms;
+                    CidFaresHelper.UploadFileToServer(uploadImageToserver);
 
-                    if (!string.IsNullOrEmpty(bannerImage.FileName))
-                    {
-                        if (bannerImage != null && bannerImage.ContentLength > 0)
-                        {
-                            Stream s = bannerImage.InputStream;
-
-                            if (Path.GetExtension(bannerImage.FileName).ToLower() == ".heic")
-                            {
-
-                                Image img = (Image)Auxiliar.ProcessFile(s);
-                                Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
-                                Fierro.ImgFierro = image.ToBase64String(ImageFormat.Jpeg);
-                            }
-                            else
-                            {
-                                Bitmap img = new Bitmap(s);
-                                Fierro.ImgFierro = img.ToBase64String(img.RawFormat);
-                            }
-                        }
-                    }
-                    else
-                    {
+                    if(!uploadImageToserver.Success)
+                    { 
                         ModelState.AddModelError(string.Empty, "Cargar imagen Fierro");
                     }
-                        CatFierro_Datos FierroDatos = new CatFierro_Datos();
-                        Fierro.Conexion = Conexion;
-                        Fierro.Opcion = 1;
-                        Fierro.Usuario = User.Identity.Name;
 
-                        Fierro = FierroDatos.AbcCatFierro(Fierro);
-                    if (!string.IsNullOrEmpty(Fierro.IDFierro))
+                    Fierro.ImgFierro = uploadImageToserver.FileName;
+
+                    var FierroDatos = new CatFierro_Datos();
+                    Fierro.Conexion = Conexion;
+                    Fierro.Opcion = 1;
+                    Fierro.Usuario = User.Identity.Name;
+                    
+                    Fierro = FierroDatos.AbcCatFierro(Fierro);
+                    if (!Fierro.Completado)
                     {
-                        if (!string.IsNullOrEmpty(bannerImage.FileName))
-                        {
-                            string baseDir = Server.MapPath("~/Imagenes/Fierro/");
-                            string fileExtension = Path.GetExtension(bannerImage.FileName);
-                            fileExtension = fileExtension == (".heic") ? ".png" : fileExtension;
-                            
-                            string fileName = Fierro.IDFierro + fileExtension;
-                            Bitmap IMG3 = null;
-
-                            if (Path.GetExtension(bannerImage.FileName) == ".heic")
-                            {
-                                Image img = (Image)Auxiliar.ProcessFile(s2);
-                                Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
-                                IMG3 = ComprimirImagen.SaveJpeg(baseDir + fileName, image, 50, true);
-                            }
-                            else
-                            {
-                                Image Img2 = new Bitmap(s2);
-                                IMG3 = ComprimirImagen.SaveJpeg(baseDir + fileName, Img2, 50, true);
-                            }
-
-                            Fierro.ImgFierro = IMG3.ToBase64String(ImageFormat.Jpeg);
-
-                            Fierro.NombreArchivo = fileName;
-                            Fierro = FierroDatos.ActualizarImagen(Fierro);
-                            if (Fierro.Completado == true)
-                            {
-                                if (!string.IsNullOrEmpty(Fierro.Id_servicio))
-                                {
-                                    TempData["typemessage"] = "1";
-                                    TempData["message"] = "El fierro se registro correctamente a la compra.";
-                                    Token.ResetToken();
-                                    return RedirectToAction("DocumentosCompra", "Compra", new { Id_1 = Fierro.Id_servicio });
-                                }
-                                else
-                                {
-                                    TempData["typemessage"] = "1";
-                                    TempData["message"] = "Los datos se guardaron correctamente.";
-                                    Token.ResetToken();
-                                    return RedirectToAction("Index");
-                                }
-                            }
-                            else
-                            {
-                                if (!string.IsNullOrEmpty(Fierro.Id_servicio))
-                                {
-                                    TempData["typemessage"] = "2";
-                                    TempData["message"] = "Ocurrio un error al intentar guardar la imagen de fierro. Intente más tarde.";
-                                    return RedirectToAction("DocumentosCompra", "Compra", new { Id_1 = Fierro.Id_servicio });
-                                }
-                                else
-                                {
-                                    TempData["typemessage"] = "2";
-                                    TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
-                                    return View(Fierro);
-                                }
-                            }
-                        }
+                        CidFaresHelper.DeleteFileFromServer(uploadImageToserver);
+                        TempData["typemessage"] = "2";
+                        TempData["message"] = "Verifique sus datos";
+                        return View(Fierro);
                     }
-                    else
-                    {
-                        if (!string.IsNullOrEmpty(Fierro.Id_servicio))
-                        {
-                            TempData["typemessage"] = "2";
-                            TempData["message"] = "Ocurrio un error al intentar guardar la imagen del fierro. Intente más tarde.";
-                            return RedirectToAction("DocumentosCompra", "Compra", new { Id_1 = Fierro.Id_servicio });
-                        }
-                        else
-                        {
-                            TempData["typemessage"] = "2";
-                            TempData["message"] = "Ocurrio un error al intentar guardar los datos. Intente más tarde.";
-                            return View(Fierro);
-                        }
-                    }
+
+                    TempData["typemessage"] = "1";
+                    TempData["message"] = "Fierro creado satisfactoriamente.";
+                    return RedirectToAction("Index");
                 }
                 else
                 {
@@ -515,6 +434,12 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     Token.ResetToken();
                     Fierro.RespuestaAjax = new RespuestaAjax();
                     Fierro.RespuestaAjax.Success = true;
+
+                    var uploadImageToserver = new UploadFileToServerModel();
+                    uploadImageToserver.BaseDir = ProjectSettings.BaseDirCatFierro;
+                    uploadImageToserver.FileName = Fierro.ImgFierro;
+
+                    CidFaresHelper.DeleteFileFromServer(uploadImageToserver);
 
                     return Content(Fierro.RespuestaAjax.ToJSON(), "application/json");
                 }

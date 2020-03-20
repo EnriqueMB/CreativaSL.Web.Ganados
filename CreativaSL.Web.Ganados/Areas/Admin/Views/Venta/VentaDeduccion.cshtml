@@ -10,6 +10,9 @@
             color: red !important;
             margin-bottom: 0px;
         }
+        body {
+            overflow-x: visible !important;
+        }
     </style>
 }
 
@@ -20,7 +23,9 @@
         var typemessage = TempData["typemessage"] ?? string.Empty;
     }
     <div class="row">
-        <div id="Error" class="progress-bar progress-bar-striped active errorCSL" style="display:none; width:100%">
+        <div id="Error" class="progress-bar progress-bar-striped active errorCSL" style="        display: none;
+        width: 100%
+">
             <h3></h3>
         </div>
         <div id="Success" class="progress-bar progress-bar-striped active successCSL" style="display:none; width:100%">

@@ -91,7 +91,7 @@
                                         <td style="text-align:center;">
                                             <div class="visible-md visible-lg hidden-sm hidden-xs">
 
-                                                @if (item.IdMovimiento != -1)
+                                                @if (!string.Equals(item.IdMovimiento,"-1"))
                                                 {
                                                     if (item.IDTipoMovimiento == 2)
                                                     {
@@ -119,7 +119,7 @@
                                                 }
                                             </div>
                                             <div class="visible-xs visible-sm hidden-md hidden-lg">
-                                                @if (item.IdMovimiento != -1)
+                                                @if (!string.Equals(item.IdMovimiento,"-1"))
                                                 {
                                                     if (item.IDTipoMovimiento == 2)
                                                     {

@@ -17,7 +17,7 @@
         else {
             document.getElementById("HttpImagen").dataset.imgbd = "1";
         }
-            
+
         $('#HttpImagen').fileinput({
             theme: 'fa',
             language: 'es',
@@ -28,7 +28,9 @@
             showUploadedThumbs: false,
             maxFileCount: 1,
             initialPreview: [
-                '<img class="file-preview-image" style="width: auto; height: auto; max-width: 100%; max-height: 100%;" src="data:' + ExtensionImagen + ';base64,' + ImagenServidor + '" />'
+                '<img class="file-preview-image" style="width: auto; height: auto; max-width: 100%; max-height: 100%;" src="' +
+                ImagenServidor +
+                '" />'
             ],
             initialPreviewConfig: [
                 { caption: 'Imagen del recibo' }
@@ -37,7 +39,7 @@
             showRemove: false,
             showClose: false,
             layoutTemplates: { actionDelete: '' },
-            allowedFileExtensions: ["png", "jpg", "png", "jpeg",]
+            allowedFileExtensions: ["png", "jpg", "png", "jpeg", "heic"]
         })
         $('#HttpImagen').on('fileclear', function (event) {
             document.getElementById("ImagenMostrar").value = "";
@@ -55,7 +57,7 @@
                 $('#divBancarizado').show(1000);
                 bancarizadoForm.value = true;
                 cuentaBeneficiante.rules("add", { required: true });
-                imagen.rules("add", { ImagenRequerida: ["ImagenServer"] });
+                imagen.rules("add", { ImagenRequerida: ["ImagenBase64"] });
                 PagarA.rules("add", { required:true });
             }
             else{
@@ -123,7 +125,7 @@
                 Id_formaPago: { required: true, min: 1 },
                 Monto: { required: true, min: 1 },
                 fecha: { required: true  },
-                "HttpImagen": { ImagenRequerida: ["ImagenServer"] },
+                "HttpImagen": { ImagenRequerida: ["ImagenBase64"] },
                 "Id_cuentaBancariaBeneficiante": { required: true },
                 PagarA: {required:true}
             },
@@ -131,7 +133,7 @@
                 Id_formaPago: { required: "Por favor, seleccione la forma de pago.", min: "Por favor, seleccione la forma de pago." },
                 Monto: { required: "Por favor, escriba el monto.", min: "Por favor, escriba el monto." },
                 fecha: { required: "Por favor, seleccione la fecha." },
-                HttpImagen: { required: "Por favor, ingrese una imagen" },
+                HttpImagen: { ImagenRequerida: "Por favor, ingrese una imagen" },
                 Id_cuentaBancariaBeneficiante: { required: "Por favor, seleccione una cuenta de banco de la empresa." },
                 PagarA: {required: "Por favor, ingrese el nombre de la persona a la cual saldrá el cheque."}
             },

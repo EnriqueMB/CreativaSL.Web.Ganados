@@ -350,6 +350,9 @@ namespace CreativaSL.Web.Ganados.Models
                     datos.Tolerancia = !dr.IsDBNull(dr.GetOrdinal("tolerancia")) ? dr.GetDecimal(dr.GetOrdinal("tolerancia")) : 0;
                     datos.TipoCliente = !dr.IsDBNull(dr.GetOrdinal("id_tipoCliente")) ? dr.GetInt32(dr.GetOrdinal("id_tipoCliente")) : 0;
                     datos.FotoPerfil = !dr.IsDBNull(dr.GetOrdinal("UrlFotoPerfil")) ? dr.GetString(dr.GetOrdinal("UrlFotoPerfil")) : string.Empty;
+
+                    datos.FotoPerfil =
+                        Auxiliar.ValidImageFormServer(datos.FotoPerfil, ProjectSettings.BaseDirClienteFotoPerfil);
                 }
                 dr.Close();
                 return datos;
@@ -431,6 +434,10 @@ namespace CreativaSL.Web.Ganados.Models
                     Item.NumCuenta = !Dr.IsDBNull(Dr.GetOrdinal("NumCuenta")) ? Dr.GetString(Dr.GetOrdinal("NumCuenta")) : string.Empty;
                     Item.FotoCuenta = !Dr.IsDBNull(Dr.GetOrdinal("FotoCuenta")) ? Dr.GetString(Dr.GetOrdinal("FotoCuenta")) : string.Empty;
                     Item.Clabe = !Dr.IsDBNull(Dr.GetOrdinal("Clabe")) ? Dr.GetString(Dr.GetOrdinal("Clabe")) : string.Empty;
+
+                    Item.FotoCuenta = Auxiliar.ValidImageFormServer(Item.FotoCuenta,
+                        ProjectSettings.BaseDirClienteCuentasBancarias);
+
                     Lista.Add(Item);
                 }
                 return Lista;
@@ -531,6 +538,9 @@ namespace CreativaSL.Web.Ganados.Models
                     datos.Clabe = !Dr.IsDBNull(Dr.GetOrdinal("Clabe")) ? Dr.GetString(Dr.GetOrdinal("Clabe")) : string.Empty;
                     datos.FotoCuenta= !Dr.IsDBNull(Dr.GetOrdinal("imagenUrl")) ? Dr.GetString(Dr.GetOrdinal("imagenUrl")) : string.Empty;
                     datos.Completado = true;
+
+                    datos.FotoCuenta = Auxiliar.ValidImageFormServer(datos.FotoCuenta,
+                        ProjectSettings.BaseDirClienteCuentasBancarias);
                 }
             }
             catch (Exception ex)
@@ -555,6 +565,7 @@ namespace CreativaSL.Web.Ganados.Models
                     if(Resultado == 1)
                     {
                         datos.Completado = true;
+                        datos.FotoCuenta = aux.ToString();
                     }
                 }
                 return datos;
@@ -697,6 +708,9 @@ namespace CreativaSL.Web.Ganados.Models
                         Datos.propietario = !dr.IsDBNull(dr.GetOrdinal("Propietario")) ? dr.GetString(dr.GetOrdinal("Propietario")) : string.Empty;
                         Datos.Imagen = !dr.IsDBNull(dr.GetOrdinal("imagenUPP")) ? dr.GetString(dr.GetOrdinal("imagenUPP")) : string.Empty;
                         Datos.ImagenServer = !dr.IsDBNull(dr.GetOrdinal("imagenServer")) ? dr.GetInt32(dr.GetOrdinal("imagenServer")) : 0;
+
+                        Datos.Imagen =
+                            Auxiliar.ValidImageFormServer(Datos.Imagen, ProjectSettings.BaseDirClienteUppPsg);
                     }
                 }
                 else
@@ -950,7 +964,10 @@ namespace CreativaSL.Web.Ganados.Models
                                 indexDto.IdTipoDocumentacionExtra = int.Parse(reader["IdTipoDocumentacionExtra"].ToString());
                                 indexDto.NombreTipoDocumentacionExtra = reader["NombreTipoDocumentacionExtra"].ToString();
                                 indexDto.IdCliente = reader["IdCliente"].ToString();
-                                indexDto.UrlArchivo = ProjectSettings.BaseDirClienteDocumentacionExtra + reader["UrlArchivo"];
+                                indexDto.UrlArchivo = reader["UrlArchivo"].ToString();
+
+                                indexDto.UrlArchivo = Auxiliar.ValidImageFormServer(indexDto.UrlArchivo,
+                                    ProjectSettings.BaseDirClienteDocumentacionExtra);
 
                                 indexDatatableDto.Data.Add(indexDto);
                             }
@@ -1042,9 +1059,12 @@ namespace CreativaSL.Web.Ganados.Models
                         while (reader.Read())
                         {
                             model.IdTipoDocumentacionExtra = int.Parse(reader["IdTipoDocumentacionExtra"].ToString());
-                            model.Archivo = ProjectSettings.BaseDirClienteDocumentacionExtra+ reader["UrlArchivo"];
+                            model.Archivo = reader["UrlArchivo"].ToString();
                             model.IdCliente = reader["IdCliente"].ToString();
                             model.IdDocumentacionExtra = reader["IdDocumentacionExtra"].ToString();
+
+                            model.Archivo = Auxiliar.ValidImageFormServer(model.Archivo,
+                                ProjectSettings.BaseDirClienteDocumentacionExtra);
                         }
                     }
 
@@ -1132,21 +1152,17 @@ namespace CreativaSL.Web.Ganados.Models
                             model.TipoCliente = reader["TipoCliente"].ToString();
                             model.Direccion = reader["direccion"].ToString();
                             model.Tolerancia = reader["tolerancia"].ToString() + " %";
-                           //model.Observacion = reader["observaciones"].ToString();
                             model.Telefonos = reader["Telefono"].ToString();
                             model.Email = reader["correo"].ToString();
-                            //model.IneBase64 = reader["imgINE"].ToString();
-                            //model.ManifestacionFierroBase64 = reader["imgManifestacionFierro"].ToString();
                             model.UppPsgBase64 = reader["imagenUPP"].ToString();
-
-                            /*if (!string.IsNullOrWhiteSpace(model.FotoPerfilUrl))
-                            {
-                                model.FotoPerfilUrl = ProjectSettings.BaseDirClienteFotoPerfil + model.FotoPerfilUrl;
-                            }*/
-
                             IFormatProvider culture = new CultureInfo("es-MX", true);
                             model.FechaIngreso = DateTime.ParseExact(reader["FechaIngreso"].ToString(), "dd/MM/yyyy hh:mm:ss tt",
                                 culture).ToString("dd/MM/yyyy", culture);
+
+                            model.UppPsgBase64 = Auxiliar.ValidImageFormServer(model.UppPsgBase64,
+                                ProjectSettings.BaseDirClienteUppPsg);
+                            model.FotoPerfilUrl = Auxiliar.ValidImageFormServer(model.FotoPerfilUrl,
+                                ProjectSettings.BaseDirClienteFotoPerfil);
                         }
                     }
 
@@ -1174,10 +1190,10 @@ namespace CreativaSL.Web.Ganados.Models
                     item.NumCuenta = !dr.IsDBNull(dr.GetOrdinal("NumeroCuenta")) ? dr.GetString(dr.GetOrdinal("NumeroCuenta")) : string.Empty;
                     item.Clabe = !dr.IsDBNull(dr.GetOrdinal("ClaveInterbancaria")) ? dr.GetString(dr.GetOrdinal("ClaveInterbancaria")) : string.Empty;
                     item.ImagenUrl = !dr.IsDBNull(dr.GetOrdinal("ImagenUrl")) ? dr.GetString(dr.GetOrdinal("ImagenUrl")) : string.Empty;
-                    /*if (!string.IsNullOrWhiteSpace(item.ImagenUrl))
-                    {
-                        item.ImagenUrl = ProjectSettings.BaseDirClienteCuentasBancarias + item.ImagenUrl;
-                    }*/
+
+                    item.ImagenUrl = Auxiliar.ValidImageFormServer(item.ImagenUrl,
+                        ProjectSettings.BaseDirClienteCuentasBancarias);
+
                     lista.Add(item);
                 }
                 dr.Close();

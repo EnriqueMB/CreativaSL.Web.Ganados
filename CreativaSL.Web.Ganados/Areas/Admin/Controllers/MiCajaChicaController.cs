@@ -25,9 +25,9 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             try
             {
                 _CajaChica_Datos regionDatos = new _CajaChica_Datos();
-                Int64 idCaja = regionDatos.ObtenerIdCajaChica(User.Identity.Name);
+                string idCaja = regionDatos.ObtenerIdCajaChica(User.Identity.Name);
                 //idCaja = 4;
-                if (idCaja > 0)
+                if (string.IsNullOrEmpty(idCaja) || idCaja.Trim() != "0")
                 {
                     List<MovimientosCajaChicaModels> Lista = regionDatos.ObtenerDetalleXIdCaja(idCaja);
                     ViewBag.IdCaja = idCaja;
@@ -50,7 +50,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
 
         // GET: Admin/MiCajaChica/Create
-        public ActionResult Create(Int64 id)
+        public ActionResult Create(string id)
         {
             try
             {
@@ -149,7 +149,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         }
 
         // GET: Admin/MiCajaChica/Edit
-        public ActionResult Edit(Int64 id)
+        public ActionResult Edit(string id)
         {
             try
             {
@@ -201,19 +201,19 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         {
                             if (bannerImage != null && bannerImage.ContentLength > 0)
                             {
-                                Stream s = bannerImage.InputStream;
-                                if (Path.GetExtension(bannerImage.FileName).ToLower() == ".heic")
-                                {
-                                    Image img = (Image)Auxiliar.ProcessFile(s);
-                                    Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
-                                    model.FotoCheque = image.ToBase64String(ImageFormat.Jpeg);
-                                }
-                                else
-                                {
-                                    Image img = new Bitmap(s);
-                                    Bitmap IMG3 = ComprimirImagen.SaveJpeg("", img, 50, false);
-                                    model.FotoCheque = IMG3.ToBase64String(img.RawFormat);
-                                }
+                                var uploadImageChequeComprobanteToserver = new UploadFileToServerModel();
+                                uploadImageChequeComprobanteToserver.FileBase = bannerImage;
+                                uploadImageChequeComprobanteToserver.BaseDir = ProjectSettings.BaseDirCajaChicaChequeComprobante;
+                                uploadImageChequeComprobanteToserver.FileName =
+                                    model.FotoCheque.Replace(ProjectSettings.BaseDirCajaChicaChequeComprobante,
+                                        string.Empty);
+
+                                CidFaresHelper.DeleteFileFromServer(uploadImageChequeComprobanteToserver);
+
+                                uploadImageChequeComprobanteToserver.FileName = Guid.NewGuid().ToString().ToUpper();
+
+                                CidFaresHelper.UploadFileToServer(uploadImageChequeComprobanteToserver);
+                                model.FotoCheque = uploadImageChequeComprobanteToserver.FileName;
                             }
                         }
                         else
@@ -268,26 +268,27 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
         // POST: Admin/MiCajaChica/Delete
         [HttpPost]
-        public ActionResult Delete(Int64 id)
+        public ActionResult Delete(string id)
         {
             _CajaChica_Datos datos = new _CajaChica_Datos();
             try
             {
                 int Resultado = datos.EliminarMovimiento(id, User.Identity.Name);
+                
                 if (Resultado == 1)
                 {
 
                     var cajaChica = new CajaChicaModels();
                     cajaChica.IdCaja = id;
 
-                    datos.ObtenerImagenCajaChica(cajaChica);
+                    datos.ObtenerImagenCajaChica(cajaChica, false);
                     var uploadFileToServer = new UploadFileToServerModel();
                     uploadFileToServer.BaseDir = ProjectSettings.BaseDirCajaChicaChequeComprobante;
                     uploadFileToServer.FileName =
                         cajaChica.ImagenCajaChica.Replace(ProjectSettings.BaseDirCajaChicaChequeComprobante,
                             string.Empty);
 
-                    CidFaresHelper.DeleteFileromServer(uploadFileToServer);
+                    CidFaresHelper.DeleteFileFromServer(uploadFileToServer);
 
                     return Json("true");
                 }
@@ -301,7 +302,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
         //POST: Admin/MiCajaChica/estatusCheque/3
         [HttpPost]
-        public ActionResult EstatusCheque(Int64 id)
+        public ActionResult EstatusCheque(string id)
         {
             _CajaChica_Datos datos = new _CajaChica_Datos();
             try
@@ -318,7 +319,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 return Json("false");
             }
         }
-        public ActionResult ModalTicket2(int ID)
+        public ActionResult ModalTicket2(string ID)
         {
             var Imagen = new CajaChicaModels();
             Imagen.IdCaja = ID;

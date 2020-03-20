@@ -10,6 +10,8 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using CreativaSL.Web.Ganados.Models.Helpers;
+using CreativaSL.Web.Ganados.Models.System;
 
 namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 {
@@ -83,25 +85,13 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         HttpPostedFileBase bannerImage = Request.Files[0] as HttpPostedFileBase;
                         if (bannerImage != null && bannerImage.ContentLength > 0)
                         {
-                            //Stream s = bannerImage.InputStream;
-                            //Image img = new Bitmap(s);
-                            //Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
-                            //Producto.Imagen = image.ToBase64String(img.RawFormat);
-
-                            Stream s = bannerImage.InputStream;
-
-                            if (Path.GetExtension(bannerImage.FileName).ToLower() == ".heic")
-                            {
-                                Image img = (Image)Auxiliar.ProcessFile(s);
-                                Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
-                                Producto.Imagen = image.ToBase64String(ImageFormat.Jpeg);
-                            }
-                            else
-                            {
-                                Image img = new Bitmap(s);
-                                Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
-                                Producto.Imagen = image.ToBase64String(img.RawFormat);
-                            }
+                            var fileName = Guid.NewGuid().ToString().ToUpper();
+                            var uploadImageToserver = new UploadFileToServerModel();
+                            uploadImageToserver.FileBase = bannerImage;
+                            uploadImageToserver.BaseDir = ProjectSettings.BaseDirCatProductoAlmacen;
+                            uploadImageToserver.FileName = fileName;
+                            CidFaresHelper.UploadFileToServer(uploadImageToserver);
+                            Producto.Imagen = uploadImageToserver.FileName;
                         }
 
                         Producto.Conexion = Conexion;
@@ -189,22 +179,20 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         {
                             if (bannerImage != null && bannerImage.ContentLength > 0)
                             {
-                                Stream s = bannerImage.InputStream;
+                                var fileName = Producto.Imagen?.Replace(ProjectSettings.BaseDirCatProductoAlmacen,
+                                    string.Empty);
+                                var uploadImageToserver = new UploadFileToServerModel();
+                                uploadImageToserver.BaseDir = ProjectSettings.BaseDirCatProductoAlmacen;
+                                uploadImageToserver.FileName = fileName;
+                                CidFaresHelper.DeleteFileFromServer(uploadImageToserver);
 
-                                if (Path.GetExtension(bannerImage.FileName).ToLower() == ".heic")
-                                {
-
-                                    Image img = (Image)Auxiliar.ProcessFile(s);
-                                    Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
-                                    Producto.Imagen = image.ToBase64String(ImageFormat.Jpeg);
-                                }
-                                else
-                                {
-                                    Image img = new Bitmap(s);
-                                    Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
-                                    Producto.Imagen = image.ToBase64String(img.RawFormat);
-                                }
-
+                                fileName = Guid.NewGuid().ToString().ToUpper();
+                                uploadImageToserver = new UploadFileToServerModel();
+                                uploadImageToserver.FileBase = bannerImage;
+                                uploadImageToserver.BaseDir = ProjectSettings.BaseDirCatProductoAlmacen;
+                                uploadImageToserver.FileName = fileName;
+                                CidFaresHelper.UploadFileToServer(uploadImageToserver);
+                                Producto.Imagen = uploadImageToserver.FileName;
                             }
                         }
                         else
@@ -268,8 +256,18 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Producto.IDProductoAlmacen = id;
                 Producto.Usuario = User.Identity.Name;
                 Producto = ProductoDatos.EliminarProductoAlmancen(Producto);
+
+
+                if (Producto.Completado)
+                {
+                    var uploadImageImagenBancoToserver = new UploadFileToServerModel();
+                    uploadImageImagenBancoToserver.BaseDir = ProjectSettings.BaseDirCatProductoAlmacen;
+                    uploadImageImagenBancoToserver.FileName = Producto.Imagen;
+
+                    CidFaresHelper.DeleteFileFromServer(uploadImageImagenBancoToserver);
+                }
+
                 return Json("");
-                // TODO: Add delete logic here
             }
             catch
             {

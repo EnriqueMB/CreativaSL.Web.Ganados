@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
+using CreativaSL.Web.Ganados.Models.System;
 
 namespace CreativaSL.Web.Ganados.Models
 {
@@ -84,7 +85,9 @@ namespace CreativaSL.Web.Ganados.Models
                     datos.IDUnidadMedida = !dr.IsDBNull(dr.GetOrdinal("id_unidadMedidaPrincipal")) ? dr.GetInt16(dr.GetOrdinal("id_unidadMedidaPrincipal")) : 0;
                     datos.IDTipoClasificacion = !dr.IsDBNull(dr.GetOrdinal("id_tipoClasificacion")) ? dr.GetInt16(dr.GetOrdinal("id_tipoClasificacion")) : 0;
                     datos.IdCheck = !dr.IsDBNull(dr.GetOrdinal("prestamo")) ? dr.GetBoolean(dr.GetOrdinal("prestamo")) : false;
-                    //datos.UltimoCosto = Convert.ToDecimal(dr["ultimoCosto"].ToString());
+
+                    datos.Imagen =
+                        Auxiliar.ValidImageFormServer(datos.Imagen, ProjectSettings.BaseDirCatProductoAlmacen);
                 }
                 dr.Close();
                 return datos;
@@ -106,15 +109,13 @@ namespace CreativaSL.Web.Ganados.Models
                 object Resultado = SqlHelper.ExecuteScalar(datos.Conexion, "spCSLDB_Catalogo_del_CatProductosAlmacen", parametros);
                 if (Resultado != null)
                 {
-                    if (!string.IsNullOrEmpty(datos.IDProductoAlmacen))
+                    var imagen = Resultado.ToString();
+
+                    if (!string.Equals(imagen, "0"))
                     {
                         datos.Completado = true;
+                        datos.Imagen = imagen;
                     }
-                    else
-                    {
-                        datos.Completado = false;
-                    }
-                    return datos;
                 }
                 return datos;
             }

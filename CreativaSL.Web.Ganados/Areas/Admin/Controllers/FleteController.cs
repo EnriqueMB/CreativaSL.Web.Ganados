@@ -12,6 +12,9 @@ using System.Web.UI.WebControls;
 using System.IO;
 using System.Drawing;
 using System.Drawing.Imaging;
+using CreativaSL.Web.Ganados.Models.Datatable;
+using CreativaSL.Web.Ganados.Models.Helpers;
+using CreativaSL.Web.Ganados.Models.System;
 
 namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 {
@@ -67,7 +70,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         #endregion
         #region Funcion Json Documentos
         [HttpPost]
-        public ActionResult TableJsonDocumentos(string Id_flete)
+        public ActionResult TableJsonDocumentos(DataTableAjaxPostModel dataTableAjaxPostModel, string Id_flete)
         {
             try
             {
@@ -76,7 +79,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Flete.Conexion = Conexion;
                 Flete.id_flete = Id_flete;
 
-                Flete.RespuestaAjax.Mensaje = FleteDatos.GetDocumentosDataTable(Flete);
+                Flete.RespuestaAjax.Mensaje = FleteDatos.GetDocumentosDataTable(dataTableAjaxPostModel, Flete);
                 Flete.RespuestaAjax.Success = true;
 
                 return Content(Flete.RespuestaAjax.Mensaje, "application/json");
@@ -681,12 +684,11 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             try
             {
                 Token.SaveToken();
-                _Flete_Datos FleteDatos = new _Flete_Datos();
-                EventoFleteModels EventoFlete = new EventoFleteModels();
+                var FleteDatos = new _Flete_Datos();
+                var EventoFlete = new EventoFleteModels();
                 EventoFlete.RespuestaAjax = new RespuestaAjax();
 
-                string Id_flete = string.IsNullOrEmpty(IDFlete) ? string.Empty : IDFlete;
-                //0 = nuevo, 36 = edit, si es diferente es un id no valido
+                var Id_flete = string.IsNullOrEmpty(IDFlete) ? string.Empty : IDFlete;
                 if (Id_flete.Length == 0 || Id_flete.Length == 36)
                 {
                     EventoFlete.Conexion = Conexion;
@@ -695,20 +697,9 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     EventoFlete = FleteDatos.GetFleteEvento(EventoFlete);
                     if (EventoFlete.RespuestaAjax.Success)
                     {
-                        if (string.IsNullOrEmpty(EventoFlete.ImagenBase64))
-                        {
-                            EventoFlete.ImagenMostrar = Auxiliar.SetDefaultImage();
-                        }
-                        else
-                        {
-                            EventoFlete.ImagenMostrar = EventoFlete.ImagenBase64;
-                        }
-                        EventoFlete.ExtensionImagenBase64 = Auxiliar.ObtenerExtensionImagenBase64(EventoFlete.ImagenMostrar);
-                        //aqui pondriamos alguna lista o valores de cargar si esta todo correcto
                         EventoFlete.ListaTiposEventos = FleteDatos.GetTiposEventos(EventoFlete);
 
-                        //EventoFlete.ListaDeTiposDeduccion = FleteDatos.GetTiposDeduccion(EventoFlete);
-                        _CatDeduccion_Datos oDatos = new _CatDeduccion_Datos();
+                        var oDatos = new _CatDeduccion_Datos();
                         ViewBag.ListaDeduccion = oDatos.SpCIDDB_Combo_get_CatDeduccion(Conexion);
                         ViewBag.ListaTiposConceptos = FleteDatos.GetTiposDeduccion(EventoFlete);
 
@@ -748,22 +739,27 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     EventoFlete.Usuario = User.Identity.Name;
                     if (EventoFlete.HttpImagen != null)
                     {
-                        //EventoFlete.ImagenBase64 = Auxiliar.ImageToBase64(EventoFlete.HttpImagen);
-                        Stream s = EventoFlete.HttpImagen.InputStream;
-                        
-                        if (Path.GetExtension(EventoFlete.HttpImagen.FileName).ToLower() == ".heic")
-                        {
-                            System.Drawing.Image img = (System.Drawing.Image)Auxiliar.ProcessFile(s);
-                            Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((System.Drawing.Image)img.Clone(), 35L));
-                            EventoFlete.ImagenBase64 = image.ToBase64String(ImageFormat.Jpeg);
-                        }
-                        else
-                        {
-                            System.Drawing.Image img = new Bitmap(s);
-                            Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((System.Drawing.Image)img.Clone(), 35L));
-                            EventoFlete.ImagenBase64 = image.ToBase64String(img.RawFormat);
-                        }
+                        var uploadImagenToserver = new UploadFileToServerModel();
+                        uploadImagenToserver.FileBase = EventoFlete.HttpImagen;
+                        uploadImagenToserver.BaseDir = ProjectSettings.BaseDirFleteEvento;
+                        uploadImagenToserver.FileName =
+                            EventoFlete.ImagenBase64?.Replace(
+                                ProjectSettings.BaseDirFleteEvento, string.Empty);
 
+                        CidFaresHelper.DeleteFileFromServer(uploadImagenToserver);
+
+                        uploadImagenToserver.FileName = Guid.NewGuid().ToString().ToUpper();
+                        CidFaresHelper.UploadFileToServer(uploadImagenToserver);
+                        EventoFlete.ImagenBase64 = uploadImagenToserver.FileName;
+                    }
+                    else
+                    {
+                        EventoFlete.ImagenBase64 =
+                            EventoFlete.ImagenBase64?.Replace(ProjectSettings.BaseDirFleteEvento,
+                                string.Empty);
+                        EventoFlete.ImagenBase64 =
+                            EventoFlete.ImagenBase64?.Replace(ProjectSettings.PathDefaultImage,
+                                string.Empty);
                     }
 
                     EventoFlete.RespuestaAjax = FleteDatos.AC_Evento(EventoFlete);
@@ -1051,7 +1047,13 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     if (DocumentoPorCobrarPago.RespuestaAjax.Success)
                     {
                         TempData["typemessage"] = "1";
-                        TempData["message"] = DocumentoPorCobrarPago.RespuestaAjax.Mensaje;
+                        TempData["message"] = "Registro eliminado correctamente";
+
+                        var uploadImagenToserver = new UploadFileToServerModel();
+                        uploadImagenToserver.BaseDir = ProjectSettings.BaseDirDocumentoPorCobrarPagoBancarizado;
+                        uploadImagenToserver.FileName = DocumentoPorCobrarPago.RespuestaAjax.Mensaje;
+
+                        CidFaresHelper.DeleteFileFromServer(uploadImagenToserver);
                     }
                     else
                     {
@@ -1269,13 +1271,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
                     if (DocumentoPorCobrarPago.RespuestaAjax.Success)
                     {
-                        if (string.IsNullOrEmpty(DocumentoPorCobrarPago.ImagenBase64))
-                        {
-                            DocumentoPorCobrarPago.ImagenBase64 = Auxiliar.SetDefaultImage();
-                        }
-                        
-                        DocumentoPorCobrarPago.ExtensionImagenBase64 = Auxiliar.ObtenerExtensionImagenBase64(DocumentoPorCobrarPago.ImagenBase64);
-
                         DocumentoPorCobrarPago.ListaFormaPagos = FleteDatos.GetListadoCFDIFormaPago(DocumentoPorCobrarPago);
                         DocumentoPorCobrarPago = FleteDatos.GetNombreEmpresaProveedorCliente(DocumentoPorCobrarPago);
                         DocumentoPorCobrarPago.TipoCuentaBancaria = 1;
@@ -1321,26 +1316,30 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     {
                         if (DocumentoPorCobrarPago.HttpImagen != null)
                         {
-                            //DocumentoPorCobrarPago.ImagenBase64 = Auxiliar.ImageToBase64(DocumentoPorCobrarPago.HttpImagen);
+                            var uploadImagenToserver = new UploadFileToServerModel();
+                            uploadImagenToserver.FileBase = DocumentoPorCobrarPago.HttpImagen;
+                            uploadImagenToserver.BaseDir = ProjectSettings.BaseDirDocumentoPorCobrarPagoBancarizado;
+                            uploadImagenToserver.FileName =
+                                DocumentoPorCobrarPago.ImagenBase64?.Replace(
+                                    ProjectSettings.BaseDirDocumentoPorCobrarPagoBancarizado, string.Empty);
 
-                            Stream s = DocumentoPorCobrarPago.HttpImagen.InputStream;
-                            
-                            if (Path.GetExtension(DocumentoPorCobrarPago.HttpImagen.FileName).ToLower() == ".heic")
-                            {
-                                System.Drawing.Image img = (System.Drawing.Image)Auxiliar.ProcessFile(s);
-                                Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((System.Drawing.Image)img.Clone(), 35L));
-                                DocumentoPorCobrarPago.ImagenBase64 = image.ToBase64String(ImageFormat.Jpeg);
-                            }
-                            else
-                            {
-                                System.Drawing.Image img = new Bitmap(s);
-                                Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((System.Drawing.Image)img.Clone(), 35L));
-                                DocumentoPorCobrarPago.ImagenBase64 = image.ToBase64String(img.RawFormat);
-                            }
+                            CidFaresHelper.DeleteFileFromServer(uploadImagenToserver);
 
+                            uploadImagenToserver.FileName = Guid.NewGuid().ToString().ToUpper();
+                            CidFaresHelper.UploadFileToServer(uploadImagenToserver);
+                            DocumentoPorCobrarPago.ImagenBase64 = uploadImagenToserver.FileName;
+                        }
+                        else
+                        {
+                            DocumentoPorCobrarPago.ImagenBase64 =
+                                DocumentoPorCobrarPago.ImagenBase64?.Replace(ProjectSettings.BaseDirDocumentoPorCobrarPagoBancarizado,
+                                    string.Empty);
+                            DocumentoPorCobrarPago.ImagenBase64 =
+                                DocumentoPorCobrarPago.ImagenBase64?.Replace(ProjectSettings.PathDefaultImage,
+                                    string.Empty);
                         }
                     }
-                    _Flete_Datos FleteDatos = new _Flete_Datos();
+                    var FleteDatos = new _Flete_Datos();
 
                     DocumentoPorCobrarPago = FleteDatos.AC_ComprobanteCobro(DocumentoPorCobrarPago);
 
@@ -1725,6 +1724,17 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         Evento.RespuestaAjax = new RespuestaAjax();
 
                         Evento = FleteDatos.DEL_Evento(Evento);
+
+                        if (Evento.RespuestaAjax.Success)
+                        {
+                            var uploadImagenToserver = new UploadFileToServerModel();
+                            uploadImagenToserver.BaseDir = ProjectSettings.BaseDirFleteEvento;
+                            uploadImagenToserver.FileName = Evento.RespuestaAjax.Mensaje;
+
+                            CidFaresHelper.DeleteFileFromServer(uploadImagenToserver);
+                            Evento.RespuestaAjax.Mensaje = "Registro eliminado correctamente.";
+                        }
+
                         Token.ResetToken();
                         Token.SaveToken();
                         return Content(Evento.RespuestaAjax.ToJSON(), "application/json");
@@ -2424,23 +2434,28 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
                         if (Documento.ImagenPost != null)
                         {
-                            //Documento.ImagenServer = Auxiliar.ImageToBase64(Documento.ImagenPost);
-                            Stream s = Documento.ImagenPost.InputStream;
+                            var uploadImageToserver = new UploadFileToServerModel();
+                            uploadImageToserver.BaseDir = ProjectSettings.BaseDirFleteDocumentoDetalle;
+                            uploadImageToserver.FileName =
+                                Documento.ImagenServer?.Replace(ProjectSettings.BaseDirFleteDocumentoDetalle,
+                                    string.Empty);
 
-                            if (Path.GetExtension(Documento.ImagenPost.FileName).ToLower() == ".heic")
-                            {
-                                System.Drawing.Image img = (System.Drawing.Image)Auxiliar.ProcessFile(s);
-                                Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((System.Drawing.Image)img.Clone(), 35L));
-                                Documento.ImagenServer = image.ToBase64String(ImageFormat.Jpeg);
-                            }
-                            else
-                            {
-                                System.Drawing.Image img = new Bitmap(s);
-                                Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((System.Drawing.Image)img.Clone(), 35L));
-                                Documento.ImagenServer = image.ToBase64String(img.RawFormat);
-                            }
+                            CidFaresHelper.DeleteFileFromServer(uploadImageToserver);
+
+                            uploadImageToserver.FileBase = Documento.ImagenPost;
+                            uploadImageToserver.FileName = Guid.NewGuid().ToString().ToUpper();
+
+                            CidFaresHelper.UploadFileToServer(uploadImageToserver);
+                            Documento.ImagenServer = uploadImageToserver.FileName;
 
                         }
+                        else
+                        {
+                            Documento.ImagenServer =
+                                Documento.ImagenServer.Replace(ProjectSettings.BaseDirFleteDocumentoDetalle,
+                                    string.Empty);
+                        }
+
                         Documento.RespuestaAjax = new RespuestaAjax();
                         Documento = FleteDatos.AC_Documento(Documento);
                         if (Documento.RespuestaAjax.Success)
@@ -2491,6 +2506,17 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         Documento.Conexion = Conexion;
                         Documento.Usuario = User.Identity.Name;
                         Documento = FleteDatos.DEL_DocumentoXIDDocumento(Documento);
+
+                        if (Documento.RespuestaAjax.Success)
+                        {
+                            var uploadImageToserver = new UploadFileToServerModel();
+                            uploadImageToserver.BaseDir = ProjectSettings.BaseDirFleteDocumentoDetalle;
+                            uploadImageToserver.FileName = Documento.RespuestaAjax.Mensaje;
+
+                            CidFaresHelper.DeleteFileFromServer(uploadImageToserver);
+                            Documento.RespuestaAjax.Mensaje = "Registro eliminado correctamente.";
+                        }
+
                         Token.ResetToken();
                         Token.SaveToken();
                         return Content(Documento.RespuestaAjax.ToJSON(), "application/json");
@@ -2704,7 +2730,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public ActionResult DatatableDocumentos(string Id_flete)
+        public ActionResult DatatableDocumentos(DataTableAjaxPostModel dataTableAjaxPostModel, string Id_flete)
         {
             try
             {
@@ -2713,7 +2739,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Flete.Conexion = Conexion;
                 Flete.id_flete = Id_flete;
                 Flete.RespuestaAjax = new RespuestaAjax();
-                Flete.RespuestaAjax.Mensaje = FleteDatos.GetDocumentosDataTable(Flete);
+                Flete.RespuestaAjax.Mensaje = FleteDatos.GetDocumentosDataTable(dataTableAjaxPostModel, Flete);
                 Flete.RespuestaAjax.Success = true;
 
                 return Content(Flete.RespuestaAjax.Mensaje, "application/json");
@@ -2749,16 +2775,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     EventoFlete = FleteDatos.GetFleteEvento(EventoFlete);
                     if (EventoFlete.RespuestaAjax.Success)
                     {
-                        if (string.IsNullOrEmpty(EventoFlete.ImagenBase64))
-                        {
-                            EventoFlete.ImagenMostrar = Auxiliar.SetDefaultImage();
-                        }
-                        else
-                        {
-                            EventoFlete.ImagenMostrar = EventoFlete.ImagenBase64;
-                        }
-                        EventoFlete.ExtensionImagenBase64 = Auxiliar.ObtenerExtensionImagenBase64(EventoFlete.ImagenMostrar);
-                        //aqui pondriamos alguna lista o valores de cargar si esta todo correcto
                         EventoFlete.ListaDeTiposDeduccion = FleteDatos.GetTiposDeduccion(EventoFlete);
                         EventoFlete.ListaTiposEventos = FleteDatos.GetTiposEventos(EventoFlete);
                         return View(EventoFlete);

@@ -12,32 +12,48 @@
     <link href="@Url.Content("~/Content/js/plugins/font-awesome.min.css")" rel="stylesheet" />
     <link href="@Url.Content("~/Content/js/plugins/select.bootstrap.min.css")" rel="stylesheet" />
     <link href="@Url.Content("~/Content/js/plugins/uploadFiles/theme.css")" rel="stylesheet" />
+    <link href="~/Content/css/datatable/jquery.dataTables.min.css" rel="stylesheet" />
 
     <style>
         .form-control[disabled], .form-control[readonly] {
             color: #000 !important;
         }
-        #carta_porte, #reporte_ganado{
+
+        #carta_porte, #reporte_ganado {
             text-decoration: none;
-            
         }
-        a:link {color:#ffffff;}
-        a:visited {color:#ffffff;}
-        a:active {color:#ffffff;}
-        a:hover {color:#ffffff;}
+
+        a:link {
+            color: #ffffff;
+        }
+
+        a:visited {
+            color: #ffffff;
+        }
+
+        a:active {
+            color: #ffffff;
+        }
+
+        a:hover {
+            color: #ffffff;
+        }
+
         div#validation_summary dd {
             color: #e80c4d !important;
         }
-        #btnGuardar{
+
+        #btnGuardar {
             background-color: #E04B4A;
             border-color: #E04B4A;
             color: #fff;
         }
-        #btnGuardar:hover {
-            background-color: #a43f3e;
-            border-color:  #a43f3e;
-            color: #fff;
-        }
+
+            #btnGuardar:hover {
+                background-color: #a43f3e;
+                border-color: #a43f3e;
+                color: #fff;
+            }
     </style>
 }
 
@@ -61,7 +77,7 @@
                 <li id="liDocumentacion" role="presentation" class="active"><a id="tabDocumentacion" class="pestaña" href="#documentacion" aria-controls="documentacion" role="tab" data-toggle="tab">Documentación</a></li>
                 <li id="liGenerar_documentos" role="presentation"><a id="tabGenerar_documentos" class="pestaña" href="#generar_documentos" aria-controls="generar_documentos" role="tab" data-toggle="tab">Generar Documentos</a></li>
             </ul>
-            <input type="hidden" id="id_flete" value="@Model.Id_servicio"/>
+            <input type="hidden" id="id_flete" value="@Model.Id_servicio" />
             <!-- Tab panes -->
             <div class="tab-content">
                 <div role="tabpanel" class="tab-pane active" id="documentacion">
@@ -148,26 +164,26 @@
                         </div>
                     </div>
                 </div>
-          
+
                 <div role="tabpanel" class="tab-pane" id="generar_documentos">
                     <div class="row">
                         <div class="panel panel-default">
                             <div class="panel-body">
                                 <div class="col-md-12">
-                                   
+
                                     <div class="">
                                         @*<div class="col-md-4">
-                                            <a id="carta_porte" class="tile tile-warning tile-valign2" href="@Url.Action("CartaPorte", "Flete", new { id = ViewBag.Id_flete })" target="_blank">
-                                                Carta Porte
-                                                <div class="informer informer-default dir-bl"><span class="icon-ocampo-head"></span> Grupo Ocampo</div>
-                                            </a>
-                                        </div>*@
+                                                <a id="carta_porte" class="tile tile-warning tile-valign2" href="@Url.Action("CartaPorte", "Flete", new { id = ViewBag.Id_flete })" target="_blank">
+                                                    Carta Porte
+                                                    <div class="informer informer-default dir-bl"><span class="icon-ocampo-head"></span> Grupo Ocampo</div>
+                                                </a>
+                                            </div>*@
                                         @*<div class="col-md-4">
-                                            <a id="reporte_ganado" class="tile tile-warning tile-valign2" href="@Url.Action("ReporteGanadoPropio", "Flete", new { id = Model.Id_servicio })" target="_blank">
-                                                Fierros ganado propio
-                                                <div class="informer informer-default dir-bl"><span class="icon-ocampo-head"></span> Grupo Ocampo</div>
-                                            </a>
-                                        </div>*@
+                                                <a id="reporte_ganado" class="tile tile-warning tile-valign2" href="@Url.Action("ReporteGanadoPropio", "Flete", new { id = Model.Id_servicio })" target="_blank">
+                                                    Fierros ganado propio
+                                                    <div class="informer informer-default dir-bl"><span class="icon-ocampo-head"></span> Grupo Ocampo</div>
+                                                </a>
+                                            </div>*@
                                         <div class="col-md-4">
                                             <a id="reporte_ganado" class="tile tile-warning tile-valign2" href="@Url.Action("ReporteGanadoPropioV2", "Flete", new { id = Model.Id_servicio })" target="_blank">
                                                 Fierros ganado propio
@@ -185,7 +201,7 @@
 
 
         <!--TERMINA TABS-->
-        
+
         <div id="ModalDocumento" class="modal fade" role="dialog" style="display:none" aria-hidden="true">
             <div class="modal-dialog modal-lg" id="ContenidoModalDocumento">
 
@@ -234,12 +250,12 @@
     <script src="@Url.Content("~/Content/js/plugins/uploadFiles/theme.js")" type="text/javascript"></script>
 
     <script>
-    jQuery(document).ready(function () {
+        jQuery(document).ready(function () {
 
-        Mensaje(message, typemessage);
+            Mensaje(message, typemessage);
 
-        FleteDocumentos.init();
-    });
+            FleteDocumentos.init();
+        });
     </script>
 }
 

@@ -25,6 +25,8 @@
                 @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
                 @Html.HiddenFor(model => model.IDCliente)
                 @Html.HiddenFor(model => model.IDDatosBancarios)
+                @Html.HiddenFor(model=>model.FotoCuenta)
+
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title"><strong>Información </strong> de la cuenta bancaria</h3>
@@ -152,7 +154,7 @@
             defaultPreviewContent: '<img src="/Content/img/GrupoOcampo.png" alt="Logo" style="width: auto; height: auto; max-width: 100%; max-height: 100%;">',
             showUploadedThumbs: false,
             initialPreview: [
-                '<img class="file-preview-image" style="width: auto; height: auto; max-width: 100%; max-height: 100%;" src="@Url.Content(string.IsNullOrEmpty(Model.FotoCuenta) ? "/Content/img/GrupoOcampo.png" : Model.FotoCuenta)" />'
+                '<img class="file-preview-image" style="width: auto; height: auto; max-width: 100%; max-height: 100%;" src="@Model.FotoCuenta" />'
             ],
             initialPreviewShowDelete: false,
             previewFileIcon: '<i class="fa fa-file"></i>',

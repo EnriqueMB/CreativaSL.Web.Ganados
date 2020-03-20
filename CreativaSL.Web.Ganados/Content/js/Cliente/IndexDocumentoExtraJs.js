@@ -39,13 +39,7 @@
                 {
                     "data": null,
                     "render": function (data, type, row) {
-
-                        var img =
-                            '<img class="vista_previa" src = "/Content/img/GrupoOcampo.png" alt = "Logo" style = "width: 150px; height: 150px" >';
-                        if (row["UrlArchivo"]) {
-                            img = '<img class="vista_previa" src = "' + row["UrlArchivo"] + '" alt = "Logo" style = "width: 150px; height: 150px" >';
-                        }
-                        return img;
+                        return '<img class="vista_previa" src = "' + row["UrlArchivo"] + '" alt = "Logo" style = "width: 150px; height: 150px" >';
                     }
                 },
                 {

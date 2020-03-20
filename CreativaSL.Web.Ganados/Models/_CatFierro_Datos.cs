@@ -1,34 +1,90 @@
 ﻿using Microsoft.ApplicationBlocks.Data;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.Linq;
-using System.Web;
+using System.IO;
+using System.Web.Hosting;
+using CreativaSL.Web.Ganados.Models.Datatable;
+using CreativaSL.Web.Ganados.Models.Dto.Base;
+using CreativaSL.Web.Ganados.Models.Dto.CatBancos;
+using CreativaSL.Web.Ganados.Models.Dto.CatFierros;
+using CreativaSL.Web.Ganados.Models.System;
+using Newtonsoft.Json;
 
 namespace CreativaSL.Web.Ganados.Models
 {
-    public class CatFierro_Datos
+    public class CatFierro_Datos : BaseSQL
     {
 
-        public string DatatableIndex(CatFierroModels fierro)
+        public string DatatableIndex(DataTableAjaxPostModel dataTableAjaxPostModel)
         {
             try
             {
-                SqlDataReader dr = null;
-                dr = SqlHelper.ExecuteReader(fierro.Conexion, "spCSLDB_Catalogo_get_CatFierro");
-                string datatable = Auxiliar.SqlReaderToJson(dr);
-                dr.Close();
-                return datatable;
+                var index = string.Empty;
+                using (var sqlcon = new SqlConnection(ConexionSql))
+                {
+                    using (var cmd = new SqlCommand("[dbo].[spCSLDB_Catalogo_get_CatFierro]", sqlcon))
+                    {
+                        //parametros de entrada
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        cmd.Parameters.Add("@Start", SqlDbType.Int).Value = dataTableAjaxPostModel.start;
+                        cmd.Parameters.Add("@Length", SqlDbType.Int).Value = dataTableAjaxPostModel.length;
+                        cmd.Parameters.Add("@SearchValue", SqlDbType.NVarChar).Value = dataTableAjaxPostModel.search.value;
+                        cmd.Parameters.Add("@Draw", SqlDbType.Int).Value = dataTableAjaxPostModel.draw;
+                        cmd.Parameters.Add("@ColumnNumber", SqlDbType.Int).Value = dataTableAjaxPostModel.order[0].column;
+                        cmd.Parameters.Add("@ColumnDir", SqlDbType.NVarChar).Value = dataTableAjaxPostModel.order[0].dir;
+
+                        // execute
+                        sqlcon.Open();
+
+                        var reader = cmd.ExecuteReader();
+
+                        var indexDatatableDto = new IndexDatatableDto();
+
+                        if (reader.HasRows)
+                        {
+                            indexDatatableDto.Data = new List<object>();
+                            bool firstData = true;
+
+                            while (reader.Read())
+                            {
+                                if (firstData)
+                                {
+                                    indexDatatableDto.Draw = int.Parse(reader["Draw"].ToString()); ;
+                                    indexDatatableDto.RecordsFiltered = int.Parse(reader["RecordsFiltered"].ToString());
+                                    indexDatatableDto.RecordsTotal = int.Parse(reader["RecordsTotal"].ToString());
+                                    firstData = false;
+                                }
+
+                                var item = new IndexCatFierrosDto();
+                                item.IDFierro = reader["IDFierro"].ToString();
+                                item.NombreFierro = reader["NombreFierro"].ToString();
+                                item.ImgFierro = reader["ImgFierro"].ToString();
+                                item.Observaciones = reader["Observaciones"].ToString();
+
+                                item.ImgFierro =
+                                    Auxiliar.ValidImageFormServer(item.ImgFierro, ProjectSettings.BaseDirCatFierro);
+
+                                indexDatatableDto.Data.Add(item);
+                            }
+                        }
+
+                        index = JsonConvert.SerializeObject(indexDatatableDto);
+
+                        reader.Close();
+                    }
+                }
+                return index;
             }
             catch (Exception ex)
             {
                 throw ex;
             }
         }
-
-
 
         /// <summary>
         /// Obtener la lista de todos los fierros activos y dibujarlos 
@@ -136,8 +192,15 @@ namespace CreativaSL.Web.Ganados.Models
                 {
                     datos.IDFierro, datos.Usuario
                 };
-                object aux = SqlHelper.ExecuteScalar(datos.Conexion, "spCSLDB_Catalogo_del_CatFierro", parametros);
-                datos.IDFierro = aux.ToString();
+                var dr = SqlHelper.ExecuteReader(datos.Conexion, "spCSLDB_Catalogo_del_CatFierro", parametros);
+
+                while (dr.Read())
+                {
+                    datos.IDFierro = !dr.IsDBNull(dr.GetOrdinal("IdFierro")) ? dr.GetString(dr.GetOrdinal("IdFierro")) : string.Empty;
+                    datos.ImgFierro = !dr.IsDBNull(dr.GetOrdinal("ImgFierro")) ? dr.GetString(dr.GetOrdinal("ImgFierro")) : string.Empty;
+                }
+                dr.Close();
+
                 if (!string.IsNullOrEmpty(datos.IDFierro))
                 {
                     datos.Completado = true;
@@ -146,6 +209,7 @@ namespace CreativaSL.Web.Ganados.Models
                 {
                     datos.Completado = false;
                 }
+
                 return datos;
             }
             catch (Exception ex)

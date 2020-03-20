@@ -7,16 +7,7 @@
     var imagen = $("#HttpImagen");
 
     var RunEventsComprobantePago = function () {
-        var ExtensionImagen = document.getElementById("ExtensionImagenBase64").value;
         var ImagenServidor = document.getElementById("ImagenBase64").value;
-
-        if (ImagenServidor === null || ImagenServidor.length == 0 || ImagenServidor == '') {
-            document.getElementById("HttpImagen").dataset.imgBD = "0";
-        }
-        else {
-            document.getElementById("HttpImagen").dataset.imgbd = "1";
-        }
-
 
         $('#HttpImagen').fileinput({
             theme: 'fa',
@@ -28,7 +19,7 @@
             showUploadedThumbs: false,
             maxFileCount: 1,
             initialPreview: [
-                '<img class="file-preview-image" style="width: auto; height: auto; max-width: 100%; max-height: 100%;" src="data:' + ExtensionImagen + ';base64,' + ImagenServidor + '" />'
+                '<img class="file-preview-image" style="width: auto; height: auto; max-width: 100%; max-height: 100%;" src="' + ImagenServidor + '" />'
             ],
             initialPreviewConfig: [
                 { caption: 'Imagen del recibo' }
@@ -69,8 +60,7 @@
                 $('#divBancarizado').show(1000);
                 bancarizadoForm.value = true;
                 cuentaBeneficiante.rules("add", { required: true });
-                //cuentaOrdenante.rules("add", { required: true });
-                imagen.rules("add", { ImagenRequerida: true, ImagenRequerida: ["ImagenServer"] });
+                imagen.rules("add", { ImagenRequerida: ["ImagenServer"] });
             }
             else {
                 $('#divBancarizado').hide(1000);
@@ -150,7 +140,6 @@
                     required: true
                 },
                 "HttpImagen": {
-                    ImagenRequerida: true,
                     ImagenRequerida: ["ImagenServer"]
                 },
                 //"Id_cuentaBancariaOrdenante": {

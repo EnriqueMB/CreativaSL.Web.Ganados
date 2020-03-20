@@ -83,6 +83,11 @@ $.validator.addMethod("ImagenRequerida", function (value, element, params) {
 
     if (element.value.length === 0) {
         var imagenServidor = document.getElementById(params[0]).value;
+
+        if (imagenServidor === '/Content/img/GrupoOcampo.png') {
+            return false;
+        }
+
         if (imagenServidor === "0" || !imagenServidor)
         {
             //validamos el defaultValue, nos sirve para el edit 

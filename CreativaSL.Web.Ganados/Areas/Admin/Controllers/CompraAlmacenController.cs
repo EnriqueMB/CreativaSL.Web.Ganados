@@ -465,37 +465,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             }
         }
 
-
-        //public ActionResult Process(string id)
-        //{
-        //    try
-        //    {
-        //        _CajaChica_Datos regionDatos = new _CajaChica_Datos();
-        //        Int64 idCaja = regionDatos.ObtenerIdCajaChica(User.Identity.Name);
-        //        if (idCaja > 0)
-        //        {
-        //            CompraAlmacenModels Compra = new CompraAlmacenModels();
-        //            _CompraAlmacen_Datos CompraDatos = new _CompraAlmacen_Datos();
-        //            Compra.Conexion = Conexion;
-        //            Compra.IDCompraAlmacen = id;
-        //            Compra.Usuario = User.Identity.Name;
-        //            CompraDatos.ProcesarCompraAlmacen(Compra);
-        //            if (Compra.Completado)
-        //                return Json("true");
-        //            else
-        //                return Json("");
-        //        }
-        //        else
-        //        {
-        //            return Json("Nocaja");
-        //        }
-        //    }
-        //    catch (Exception)
-        //    {
-        //        return Json("");
-        //    }
-        //}
-
         [HttpPost]
         public ActionResult Cancel(string id, CompraAlmacenModels Compra)
         {

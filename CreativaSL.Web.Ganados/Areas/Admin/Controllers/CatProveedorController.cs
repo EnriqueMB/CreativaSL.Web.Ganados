@@ -539,7 +539,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     var uploadImageToserver = new UploadFileToServerModel();
                     uploadImageToserver.BaseDir = file.BaseDir;
                     uploadImageToserver.FileName = file.FileName;
-                    CidFaresHelper.DeleteFileromServer(uploadImageToserver);
+                    CidFaresHelper.DeleteFileFromServer(uploadImageToserver);
                 }                
 
                 if (Proveedor.Completado)
@@ -1345,9 +1345,9 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         var uploadImageUppPsgToserver = new UploadFileToServerModel();
                         uploadImageUppPsgToserver.FileBase = uppPostedFileBase;
                         uploadImageUppPsgToserver.BaseDir = ProjectSettings.BaseDirProveedorUppPsg;
-                        uploadImageUppPsgToserver.FileName = uPPProvedor.ImagenHttp.Replace(ProjectSettings.BaseDirProveedorUppPsg, string.Empty);
+                        uploadImageUppPsgToserver.FileName = uPPProvedor.ImagenHttp?.Replace(ProjectSettings.BaseDirProveedorUppPsg, string.Empty);
 
-                        CidFaresHelper.DeleteFileromServer(uploadImageUppPsgToserver);
+                        CidFaresHelper.DeleteFileFromServer(uploadImageUppPsgToserver);
 
                         uploadImageUppPsgToserver.FileName = fileName;
                         CidFaresHelper.UploadFileToServer(uploadImageUppPsgToserver);
@@ -1517,7 +1517,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         var uploadFileToserver = new UploadFileToServerModel();
                         uploadFileToserver.FileBase = fotoPerfilPostedFileBase;
                         uploadFileToserver.BaseDir = ProjectSettings.BaseDirProveedorDocumentacionExtra;
-                        uploadFileToserver.FileName = DateTime.Now.ToString("MM_dd_yyyy_hh_mm_ss");
+                        uploadFileToserver.FileName = Guid.NewGuid().ToString().ToUpper();
 
                         if (fotoPerfilPostedFileBase != null && fotoPerfilPostedFileBase.ContentLength > 0)
                         {
@@ -1626,7 +1626,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                             CidFaresHelper.DeleteFilesWithOutExtensionFromServer(uploadFileToserver);
 
                             //generamos el nombre del nuevo archivo
-                            uploadFileToserver.FileName = DateTime.Now.ToString("MM_dd_yyyy_hh_mm_ss");
+                            uploadFileToserver.FileName = Guid.NewGuid().ToString().ToUpper();
                             CidFaresHelper.UploadFileToServer(uploadFileToserver);
 
                             if (!uploadFileToserver.Success)
@@ -1637,6 +1637,14 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
                             model.Archivo = uploadFileToserver.FileName;
                         }
+                        else
+                        {
+                            model.Archivo = model.Archivo.Replace(ProjectSettings.BaseDirProveedorDocumentacionExtra,
+                                string.Empty);
+                            model.Archivo = model.Archivo.Replace(ProjectSettings.PathDefaultImage, string.Empty);
+                        }
+
+
                         var proveedorDatos = new _CatProveedor_Datos();
                         var respuestaDb = proveedorDatos.GuardarDocumentoExtra(model);
 

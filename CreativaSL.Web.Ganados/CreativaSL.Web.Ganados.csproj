@@ -395,6 +395,7 @@
     <Content Include="Content\img\colorpicker\saturation.png" />
     <Content Include="Content\img\dropzone\spritemap%402x.png" />
     <Content Include="Content\img\dropzone\spritemap.png" />
+    <Content Include="Content\img\errorSaveFile.png" />
     <Content Include="Content\img\fileinput\loading.gif" />
     <Content Include="Content\img\filetree\application.png" />
     <Content Include="Content\img\filetree\code.png" />
@@ -1607,6 +1608,8 @@
     <Content Include="Areas\Admin\Views\CatCliente\ConfiguracionReporteCliente.cshtml" />
     <Content Include="Areas\Admin\Views\Ticket\AsignarSucursal.cshtml" />
     <Content Include="Areas\Admin\Views\CostoExtra\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Ticket\TablasBase64ToUrl.cshtml" />
+    <Content Include="Areas\Admin\Views\Ticket\RegistrosDeTablaBase64ToUrl.cshtml" />
     <Content Include="Areas\Admin\Views\CostoExtra\CostosExtra.cshtml" />
     <Content Include="Areas\Admin\Views\CostoExtra\CostoExtra_AC.cshtml" />
     <None Include="Properties\PublishProfiles\Ocampo.pubxml" />
@@ -1860,6 +1863,9 @@
     <Compile Include="Models\DocumentosPorCobrarDetallePagosModels.cs" />
     <Compile Include="Models\DocumentosPorCobrarModels.cs" />
     <Compile Include="Models\Dto\CajaChica\ReportCajaChicaImagenesDto.cs" />
+    <Compile Include="Models\Dto\CatBancos\CuentaBancariaDto.cs" />
+    <Compile Include="Models\Dto\CatEmpresas\CatEmpresaDeleteImagenesDto.cs" />
+    <Compile Include="Models\Dto\CatFierros\IndexCatFierrosDto.cs" />
     <Compile Include="Models\Dto\CatModulos\SelectCatModuloDto.cs" />
     <Compile Include="Models\Dto\CatTipoDocumentacionExtra\CreateEditCatTipoDocumentacionExtraDto.cs" />
     <Compile Include="Models\Dto\CatTipoDocumentacionExtra\IndexCatTipoDocumentacionExtraDto.cs" />
@@ -1870,6 +1876,9 @@
     <Compile Include="Models\Dto\Cliente\ReporteClienteDto.cs" />
     <Compile Include="Models\Dto\Compra\IndexCompraDto.cs" />
     <Compile Include="Models\Dto\Base\IndexDatatableDto.cs" />
+    <Compile Include="Models\Dto\Compra\IndexDocumentoCompraDetalleDto.cs" />
+    <Compile Include="Models\Dto\Configuracion\RegistrosDeTablaBase64ToUrlDto.cs" />
+    <Compile Include="Models\Dto\Flete\IndexDocumentoFleteDetalleDto.cs" />
     <Compile Include="Models\Dto\ProveedorGanado\ConfiguracionReporteProveedorGanadoDto.cs" />
     <Compile Include="Models\Dto\ProveedorGanado\ImagenesProveedorGanadoDto.cs" />
     <Compile Include="Models\Dto\ProveedorGanado\IndexProveedorGanadoDocumentacionExtraDto.cs" />

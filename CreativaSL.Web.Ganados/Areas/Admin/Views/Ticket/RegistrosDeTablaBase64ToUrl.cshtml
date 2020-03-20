@@ -1,0 +1,137 @@
+﻿@{
+    ViewBag.Title = "Tablas";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+@section css
+{
+    <link href="~/Content/css/datatable/jquery.dataTables.min.css" rel="stylesheet" />
+}
+@section featured{
+
+    @{
+        var message = TempData["message"] ?? string.Empty;
+        var typemessage = TempData["typemessage"] ?? string.Empty;
+    }
+    <div class="row">
+        <div id="Error" class="progress-bar progress-bar-striped active errorCSL" style="display:none; width:100%">
+            <h3></h3>
+        </div>
+        <div id="Success" class="progress-bar progress-bar-striped active successCSL" style="display:none; width:100%">
+            <h3></h3>
+        </div>
+        <div class="col-md-12">
+            @using (Html.BeginForm("RegistrosDeTablaBase64ToUrl", "Ticket", FormMethod.Post, new { @class = "form-horizontal", autocomplete = "off" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Por favor seleccione una tabla.</h3>
+
+                        <ul class="panel-controls">
+                            <li>
+                                <a class="btn btn-default btnCrear iniciar">
+                                    <span class="fa fa-play">
+                                    </span> Iniciar
+                                </a>
+                            </li>
+                            <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
+                            <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
+                        </ul>
+                    </div>
+
+                    <div class="panel-body">
+
+                        <table class="table" id="tbl">
+                            <thead>
+                            <tr>
+                                <th>Ids elaborados</th>
+                                <th>Imagen</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="panel-footer">
+                        <a href="@Url.Action("TablasBase64ToUrl", "Ticket")" class="btn btn-danger"><i class="icon-prev"></i>Regresar</a>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    <script>
+        var message = '@message';
+        var typemessage = '@typemessage';
+    </script>
+
+}
+@section script{
+    <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
+    <script>
+        jQuery(document).ready(function() {
+            Mensaje(message, typemessage);
+
+            var idTabla = @ViewBag.IdTabla;
+            var ids = "";
+            var continuar = true;
+
+            $(".iniciar").click(function() {
+                console.log("Inicia");
+
+                function ObtenerFilasBase64ToUrl() {
+                    $.ajax(
+                        {
+                            type: "POST",
+                            url: '/Admin/Ticket/ObtenerFilasBase64ToUrl/',
+                            data: {ids: ids, idTabla:idTabla},
+                            dataType: "json",
+                            cache: false,
+                            success: function(data) {
+
+                                var trHTML = '';
+
+                                $.each(data,
+                                    function(i, item) {
+                                    
+                                        trHTML +=
+                                            '<tr>' +
+                                            '<td>' +
+                                            item.Id +
+                                            '</td>' +
+                                            '<td>' +
+                                            '<img class="vista_previa" src = "' +
+                                            item.Imagen +
+                                            '" alt = "Logo" style = "width: 150px; height: 150px" >' +
+                                            '</td>' +
+                                            '</tr>';
+
+                                        ids += item.Id + ",";
+                                    });
+                                
+                                if (data.length === 0) {
+                                    continuar = false;
+                                    console.log("Termina, todos los registros llamados");
+                                }
+
+                                if(continuar)
+                                    ObtenerFilasBase64ToUrl();
+                                $('#tbl').append(trHTML);
+                                trHTML = '';
+                            },
+                            error: function (msg) {
+                                continuar = false;
+                                alert(msg.responseText);
+                            }
+                        });
+                }
+
+                ObtenerFilasBase64ToUrl();
+
+            });
+        });
+    </script>
+}

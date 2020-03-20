@@ -18,7 +18,7 @@
         else {
             document.getElementById("HttpImagen").dataset.imgbd = "1";
         }
-            
+
 
         $('#HttpImagen').fileinput({
             theme: 'fa',
@@ -30,7 +30,9 @@
             showUploadedThumbs: false,
             maxFileCount: 1,
             initialPreview: [
-                '<img class="file-preview-image" style="width: auto; height: auto; max-width: 100%; max-height: 100%;" src="data:' + ExtensionImagen + ';base64,' + ImagenServidor + '" />'
+                '<img class="file-preview-image" style="width: auto; height: auto; max-width: 100%; max-height: 100%;" src="' +
+                ImagenServidor +
+                '" />'
             ],
             initialPreviewConfig: [
                 { caption: 'Imagen del recibo' }
@@ -71,7 +73,7 @@
                 bancarizadoForm.value = true;
                 cuentaBeneficiante.rules("add", { required: true });
                 //cuentaOrdenante.rules("add", { required: true });
-                imagen.rules("add", { ImagenRequerida: true, ImagenRequerida: ["ImagenServer"] });
+                imagen.rules("add", { ImagenRequerida: ["ImagenBase64"] });
                 //folioINE.rules("add", { required: true });
                 //numeroAutorizacion.rules("add", { required: true });
             }
@@ -153,12 +155,8 @@
                     required: true
                 },
                 "HttpImagen":{
-                    ImagenRequerida: true,
-                    ImagenRequerida: ["ImagenServer"]
+                    ImagenRequerida: ["ImagenBase64"]
                 },
-                //"Id_cuentaBancariaOrdenante": {
-                //    required: true
-                //},
                 "Id_cuentaBancariaBeneficiante":{
                     required: true
                 }
@@ -179,7 +177,7 @@
                     required: "Seleccione la fecha"
                 },
                 HttpImagen: {
-                    required: "Ingrese una imagen"
+                    ImagenRequerida: "Ingrese una imagen"
                 },
                 //Id_cuentaBancariaOrdenante: {
                 //    required: "Seleccione una cuenta de banco de la empresa"

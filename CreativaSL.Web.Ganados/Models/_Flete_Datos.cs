@@ -2,13 +2,16 @@
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Globalization;
-using System.Linq;
-using System.Web;
+using CreativaSL.Web.Ganados.Models.System;
+using CreativaSL.Web.Ganados.Models.Datatable;
+using System.Data;
+using CreativaSL.Web.Ganados.Models.Dto.Base;
+using CreativaSL.Web.Ganados.Models.Dto.Flete;
+using Newtonsoft.Json;
 
 namespace CreativaSL.Web.Ganados.Models
 {
-    public class _Flete_Datos
+    public class _Flete_Datos : BaseSQL
     {
 
         public string GetFleteIndexDataTable(FleteModels Flete)
@@ -26,19 +29,68 @@ namespace CreativaSL.Web.Ganados.Models
                 throw ex;
             }
         }
-        public string GetDocumentosDataTable(FleteModels Flete)
+        public string GetDocumentosDataTable(DataTableAjaxPostModel dataTableAjaxPostModel, FleteModels Flete)
         {
-            object[] parametros =
-            {
-                Flete.id_flete
-            };
-
             try
             {
-                SqlDataReader dr = null;
-                dr = SqlHelper.ExecuteReader(Flete.Conexion, "spCSLDB_Flete_get_DocumentosXIDFlete", parametros);
-                string datatable = Auxiliar.SqlReaderToJson(dr);
-                dr.Close();
+                var datatable = string.Empty;
+                using (SqlConnection sqlcon = new SqlConnection(ConexionSql))
+                {
+                    using (SqlCommand cmd = new SqlCommand("spCSLDB_Flete_get_DocumentosXIDFlete", sqlcon))
+                    {
+                        //parametros de entrada
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        cmd.Parameters.Add("@id_flete", SqlDbType.Char).Value = Flete.id_flete;
+                        cmd.Parameters.Add("@Start", SqlDbType.Int).Value = dataTableAjaxPostModel.start;
+                        cmd.Parameters.Add("@Length", SqlDbType.Int).Value = dataTableAjaxPostModel.length;
+                        cmd.Parameters.Add("@SearchValue", SqlDbType.NVarChar).Value = dataTableAjaxPostModel.search.value;
+                        cmd.Parameters.Add("@Draw", SqlDbType.Int).Value = dataTableAjaxPostModel.draw;
+                        cmd.Parameters.Add("@ColumnNumber", SqlDbType.Int).Value = dataTableAjaxPostModel.order[0].column;
+                        cmd.Parameters.Add("@ColumnDir", SqlDbType.NVarChar).Value = dataTableAjaxPostModel.order[0].dir;
+
+                        // execute
+                        sqlcon.Open();
+
+                        var reader = cmd.ExecuteReader();
+
+                        var indexDatatableDto = new IndexDatatableDto();
+
+                        if (reader.HasRows)
+                        {
+                            indexDatatableDto.Data = new List<object>();
+                            bool firstData = true;
+
+                            while (reader.Read())
+                            {
+                                if (firstData)
+                                {
+                                    indexDatatableDto.Draw = int.Parse(reader["Draw"].ToString()); ;
+                                    indexDatatableDto.RecordsFiltered = int.Parse(reader["RecordsFiltered"].ToString());
+                                    indexDatatableDto.RecordsTotal = int.Parse(reader["RecordsTotal"].ToString());
+                                    firstData = false;
+                                }
+
+                                var item = new IndexDocumentoFleteDetalleDto();
+                                item.IdDocumentoFleteDetalle = reader["IdDocumentoFleteDetalle"].ToString();
+                                item.Clave = reader["Clave"].ToString();
+                                item.Imagen = reader["Imagen"].ToString();
+                                item.Descripcion = reader["Descripcion"].ToString();
+                                item.Imagen = Auxiliar.ValidImageFormServer(item.Imagen,
+                                    ProjectSettings.BaseDirFleteDocumentoDetalle);
+
+                                indexDatatableDto.Data.Add(item);
+                            }
+                        }
+
+                        var json = JsonConvert.SerializeObject(indexDatatableDto);
+
+                        reader.Close();
+
+                        return json;
+                    }
+                }
+
                 return datatable;
             }
             catch (Exception ex)
@@ -419,6 +471,7 @@ namespace CreativaSL.Web.Ganados.Models
             };
             SqlDataReader dr = null;
             dr = SqlHelper.ExecuteReader(EventoFlete.Conexion, "spCSLDB_Flete_get_FleteEventoXIDFlete", parametros);
+            EventoFlete.ImagenBase64 = ProjectSettings.PathDefaultImage;
 
             while (dr.Read())
             {
@@ -438,6 +491,8 @@ namespace CreativaSL.Web.Ganados.Models
                     EventoFlete.MontoDeduccion = !dr.IsDBNull(dr.GetOrdinal("deduccion")) ? dr.GetDecimal(dr.GetOrdinal("deduccion")) : 0;
                     EventoFlete.Id_TipoDeDeduccion = !dr.IsDBNull(dr.GetOrdinal("id_tipoDeduccion")) ? dr.GetInt32(dr.GetOrdinal("id_tipoDeduccion")) : 0;
                     EventoFlete.Id_conceptoDocumento = !dr.IsDBNull(dr.GetOrdinal("id_conceptoDocumento")) ? dr.GetInt32(dr.GetOrdinal("id_conceptoDocumento")) : 0;
+                    EventoFlete.ImagenBase64 =
+                        Auxiliar.ValidImageFormServer(EventoFlete.ImagenBase64, ProjectSettings.BaseDirFleteEvento);
                 }
                 else
                 {
@@ -489,6 +544,9 @@ namespace CreativaSL.Web.Ganados.Models
                         DocumentoPago.ImagenBase64 = !dr.IsDBNull(dr.GetOrdinal("imagen")) ? dr.GetString(dr.GetOrdinal("imagen")) : string.Empty;
                         DocumentoPago.ImagenServer = !dr.IsDBNull(dr.GetOrdinal("imagenServer")) ? dr.GetInt32(dr.GetOrdinal("imagenServer")) : 0;
                         DocumentoPago.pendiente = !dr.IsDBNull(dr.GetOrdinal("pendiente")) ? dr.GetDecimal(dr.GetOrdinal("pendiente")) : 0;
+
+                        DocumentoPago.ImagenBase64 = Auxiliar.ValidImageFormServer(DocumentoPago.ImagenBase64,
+                            ProjectSettings.BaseDirDocumentoPorCobrarPagoBancarizado);
                     }
                     else
                     {
@@ -2189,6 +2247,10 @@ namespace CreativaSL.Web.Ganados.Models
                 {
                     Item = new CatFierroModels();
                     Item.ImgFierro = !dr.IsDBNull(dr.GetOrdinal("fierro")) ? dr.GetString(dr.GetOrdinal("fierro")) : string.Empty;
+
+                    Item.ImgFierro =
+                        Auxiliar.ImagePathToBase64(Item.ImgFierro, ProjectSettings.BaseDirCatFierro);
+
                     Lista.Add(Item);
                 }
                 dr.Close();
@@ -2327,6 +2389,7 @@ namespace CreativaSL.Web.Ganados.Models
                 };
                 SqlDataReader dr = null;
                 dr = SqlHelper.ExecuteReader(Documento.Conexion, "spCSLDB_Flete_get_DocumentoXIDDocumento", parametros);
+                Documento.ImagenServer = ProjectSettings.PathDefaultImage;
 
                 while (dr.Read())
                 {
@@ -2334,18 +2397,11 @@ namespace CreativaSL.Web.Ganados.Models
                     Documento.Clave = !dr.IsDBNull(dr.GetOrdinal("clave")) ? dr.GetString(dr.GetOrdinal("clave")) : string.Empty;
                     //Solo para mostrar
                     Documento.ImagenServer = !dr.IsDBNull(dr.GetOrdinal("imagen")) ? dr.GetString(dr.GetOrdinal("imagen")) : string.Empty;
+
+                    Documento.ImagenServer = Auxiliar.ValidImageFormServer(Documento.ImagenServer,
+                        ProjectSettings.BaseDirFleteDocumentoDetalle);
                 }
-                if (string.IsNullOrEmpty(Documento.ImagenServer))
-                {
-                    //No hay imagen en el server
-                    Documento.MostrarImagen = Auxiliar.SetDefaultImage();
-                }
-                else
-                {
-                    //Guardamos el string de la imagen
-                    Documento.MostrarImagen = Documento.ImagenServer;
-                }
-                Documento.ExtensionImagenBase64 = Auxiliar.ObtenerExtensionImagenBase64(Documento.MostrarImagen);
+                
                 dr.Close();
 
                 return Documento;

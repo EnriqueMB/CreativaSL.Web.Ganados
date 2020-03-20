@@ -198,13 +198,13 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                                 var uploadImageToserver = new UploadFileToServerModel();
                                 uploadImageToserver.FileBase = fotoPerfilPostedFileBase;
                                 uploadImageToserver.BaseDir = ProjectSettings.BaseDirClienteFotoPerfil;
-                                uploadImageToserver.FileName = "fp_" + clienteID.IDCliente;
+                                uploadImageToserver.FileName = Guid.NewGuid().ToString().ToUpper();
                                 CidFaresHelper.UploadFileToServer(uploadImageToserver);
 
                                 if (uploadImageToserver.Success)
                                 {
                                     var responseDb = ClienteDatos.ActualizarFotoPerfil(clienteID.IDCliente,
-                                        User.Identity.Name, uploadImageToserver.UrlRelative, clienteID.Conexion);
+                                        User.Identity.Name, uploadImageToserver.FileName, clienteID.Conexion);
 
                                     if (!responseDb.Success)
                                     {
@@ -314,14 +314,20 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                             {
                                 var uploadImageToserver = new UploadFileToServerModel();
                                 uploadImageToserver.FileBase = fotoPerfilPostedFileBase;
-                                uploadImageToserver.BaseDir = "/Imagenes/Cliente/FotoPerfil/";
-                                uploadImageToserver.FileName = "fp_" + clienteID.IDCliente;
+                                uploadImageToserver.BaseDir = ProjectSettings.BaseDirClienteFotoPerfil;
+                                uploadImageToserver.FileName =
+                                    clienteID.FotoPerfil.Replace(ProjectSettings.BaseDirClienteFotoPerfil,
+                                        string.Empty);
+
+                                CidFaresHelper.DeleteFileFromServer(uploadImageToserver);
+
+                                uploadImageToserver.FileName = Guid.NewGuid().ToString().ToUpper();
                                 CidFaresHelper.UploadFileToServer(uploadImageToserver);
 
                                 if (uploadImageToserver.Success)
                                 {
                                     var responseDb = ClienteDatos.ActualizarFotoPerfil(clienteID.IDCliente,
-                                        User.Identity.Name, uploadImageToserver.UrlRelative, clienteID.Conexion);
+                                        User.Identity.Name, uploadImageToserver.FileName, clienteID.Conexion);
 
                                     if (!responseDb.Success)
                                     {
@@ -452,14 +458,14 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                             {
                                 var uploadImageToserver = new UploadFileToServerModel();
                                 uploadImageToserver.FileBase = fotoPerfilPostedFileBase;
-                                uploadImageToserver.BaseDir = "/Imagenes/Cliente/FotoCuentas/";
-                                uploadImageToserver.FileName = "fp_" + datosCuenta.IDDatosBancarios;
+                                uploadImageToserver.BaseDir = ProjectSettings.BaseDirClienteCuentasBancarias;
+                                uploadImageToserver.FileName = Guid.NewGuid().ToString().ToUpper();
                                 CidFaresHelper.UploadFileToServer(uploadImageToserver);
 
                                 if (uploadImageToserver.Success)
                                 {
                                     var responseDb = ClienteDatos.ActualizarFotoCuentas(datosCuenta.IDDatosBancarios,
-                                        User.Identity.Name, uploadImageToserver.UrlRelative, datosCuenta.Conexion);
+                                        User.Identity.Name, uploadImageToserver.FileName, datosCuenta.Conexion);
                                     if (!responseDb.Success)
                                     {
                                         TempData["typemessage"] = "2";
@@ -473,7 +479,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
                                 }
                             }
-                                Token.ResetToken();
+                            Token.ResetToken();
                             return RedirectToAction("Cuentas", new { id = cuentaID.IDCliente });
                         }
                         else
@@ -557,19 +563,25 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         {
                             TempData["typemessage"] = "1";
                             TempData["message"] = "Los datos se guardaron correctamente.";
-                            var fotoPerfilPostedFileBase = Request.Files["FotoCuenta"] as HttpPostedFileBase;
-                            if (fotoPerfilPostedFileBase != null && fotoPerfilPostedFileBase.ContentLength > 0)
+                            var postedFileBase = Request.Files["FotoCuenta"] as HttpPostedFileBase;
+                            if (postedFileBase != null && postedFileBase.ContentLength > 0)
                             {
                                 var uploadImageToserver = new UploadFileToServerModel();
-                                uploadImageToserver.FileBase = fotoPerfilPostedFileBase;
-                                uploadImageToserver.BaseDir = "/Imagenes/Cliente/FotoCuentas/";
-                                uploadImageToserver.FileName = "fp_" + cuentaID.IDDatosBancarios;
+                                uploadImageToserver.FileBase = postedFileBase;
+                                uploadImageToserver.BaseDir = ProjectSettings.BaseDirClienteCuentasBancarias;
+                                uploadImageToserver.FileName =
+                                    cuentaID.FotoCuenta.Replace(ProjectSettings.BaseDirClienteCuentasBancarias,
+                                        string.Empty);
+
+                                CidFaresHelper.DeleteFilesWithOutExtensionFromServer(uploadImageToserver);
+
+                                uploadImageToserver.FileName = Guid.NewGuid().ToString().ToUpper();
                                 CidFaresHelper.UploadFileToServer(uploadImageToserver);
 
                                 if (uploadImageToserver.Success)
                                 {
                                     var responseDb = ClienteDatos.ActualizarFotoCuentas(cuentaID.IDDatosBancarios,
-                                        User.Identity.Name, uploadImageToserver.UrlRelative, datosCuenta.Conexion);
+                                        User.Identity.Name, uploadImageToserver.FileName, datosCuenta.Conexion);
 
                                     if (!responseDb.Success)
                                     {
@@ -660,13 +672,12 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 CatCliente_Datos ClienteDatos = new CatCliente_Datos();
                 ClienteDatos.EliminarDatosBancarios(Datos);
                 var uploadImageToserver = new UploadFileToServerModel();
-                uploadImageToserver.BaseDir = "/Imagenes/Cliente/FotoCuentas/";
-                uploadImageToserver.FileName = "fp_" + IDCuenta;
+                uploadImageToserver.BaseDir = ProjectSettings.BaseDirClienteCuentasBancarias;
+                uploadImageToserver.FileName = Datos.FotoCuenta;
                 CidFaresHelper.DeleteFilesWithOutExtensionFromServer(uploadImageToserver);
                 if (Datos.Completado)
                 {
                     TempData["typemessage"] = "1";
-                 //   TempData["message"] = "El registro se ha eliminado correctamente";
                     return Json("");
                 }
                 else
@@ -1009,15 +1020,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 upp.listaEstado = ClienteDatos.obtenerListaEstados(upp);
                 upp.listaMunicipio = ClienteDatos.obtenerListaMunicipios(upp);
 
-                if (string.IsNullOrEmpty(upp.Imagen))
-                {
-                    upp.ImagenMostrar = Auxiliar.SetDefaultImage();
-                }
-                else
-                {
-                    upp.ImagenMostrar = upp.Imagen;
-                }
-
                 return View(upp);
             }
             catch (Exception)
@@ -1043,11 +1045,11 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         var uploadImageUppPsgToserver = new UploadFileToServerModel();
                         uploadImageUppPsgToserver.FileBase = uppPostedFileBase;
                         uploadImageUppPsgToserver.BaseDir = ProjectSettings.BaseDirClienteUppPsg;
-                        uploadImageUppPsgToserver.FileName = uppModel.ImagenHttp.Replace(ProjectSettings.BaseDirClienteUppPsg, string.Empty);
-                        CidFaresHelper.DeleteFileromServer(uploadImageUppPsgToserver);
+                        uploadImageUppPsgToserver.FileName = uppModel.Imagen.Replace(ProjectSettings.BaseDirClienteUppPsg, string.Empty);
+                        CidFaresHelper.DeleteFileFromServer(uploadImageUppPsgToserver);
                         uploadImageUppPsgToserver.FileName = fileName;
                         CidFaresHelper.UploadFileToServer(uploadImageUppPsgToserver);
-                        uppModel.Imagen = uploadImageUppPsgToserver.UrlRelative;
+                        uppModel.Imagen = uploadImageUppPsgToserver.FileName;
                     }
 
                     if (ModelState.IsValid)

@@ -7,8 +7,7 @@
         
     /*INICIA EVENTO*/
     var initFuncionesEvento = function () {
-        var Imagen = document.getElementById("ImagenMostrar").value;
-        var ExtensionImagen = document.getElementById("ExtensionImagenBase64").value;
+        var Imagen = document.getElementById("ImagenBase64").value;
 
         $('.Hora24hrs').timepicker({
             minuteStep: 1,
@@ -21,9 +20,9 @@
             maxFileCount: 1,
             overwriteInitial: true,
             showUploadedThumbs: false,
-            allowedFileExtensions: ['png', 'jpg', 'jpeg', 'bmp'],
+            allowedFileExtensions: ['png', 'jpg', 'jpeg', 'bmp', 'heic'],
             initialPreview: [
-                '<img class="file-preview-image"  style=" width: auto !important; height: auto; max-width: 100%; max-height: 100%;" src="data:' + ExtensionImagen + ' ;base64,' + Imagen + '" />'
+                '<img class="file-preview-image"  style=" width: auto !important; height: auto; max-width: 100%; max-height: 100%;" src="' + Imagen + '" />'
             ],
             initialPreviewConfig: [
                { caption: 'Imagen' }
@@ -32,7 +31,17 @@
             showRemove: false,
             showClose: false,
             showUpload: false,
-            layoutTemplates: { actionDelete: '' }
+            layoutTemplates: { actionDelete: '' },
+            previewFileIcon: '<i class="fa fa-file"></i>',
+            preferIconicPreview: true, // this will force thumbnails to display icons for following file extensions
+            previewFileIconSettings: { // configure your icon file extensions
+                'heic': '<i class="fa fa-file-text text-primary"></i>'
+            },
+            previewFileExtSettings: { // configure the logic for determining icon file extensions
+                'heic': function (ext) {
+                    return ext.match(/(heic)$/i);
+                }
+            }
         });
         $('#HttpImagen').on('fileclear', function (event) {
             document.getElementById("ImagenMostrar").value = "";

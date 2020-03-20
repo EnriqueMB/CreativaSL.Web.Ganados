@@ -2915,6 +2915,9 @@
                                 </TablixMembers>
                               </TablixRowHierarchy>
                               <DataSetName>ProveedoresDS</DataSetName>
+                              <PageBreak>
+                                <BreakLocation>End</BreakLocation>
+                              </PageBreak>
                               <Top>46.85031cm</Top>
                               <Left>0.31752cm</Left>
                               <Height>20.43605cm</Height>

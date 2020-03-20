@@ -76,5 +76,7 @@ namespace CreativaSL.Web.Ganados.Models
         public List<DocumentosPorCobrarDetallePagosModels> ListaPagosDocumento { get; set; }
         public string Descripcion { get; set; }
         public bool Completado { get; internal set; }
+
+        public string PagarA { get; set; }
     }
 }

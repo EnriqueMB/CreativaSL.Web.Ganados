@@ -1,13 +1,22 @@
 ﻿using Microsoft.ApplicationBlocks.Data;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Web;
+using System.Globalization;
+using System.IO;
+using System.Web.Hosting;
+using CreativaSL.Web.Ganados.Models.Datatable;
+using CreativaSL.Web.Ganados.Models.Dto.Base;
+using CreativaSL.Web.Ganados.Models.Dto.CatBancos;
+using CreativaSL.Web.Ganados.Models.Dto.CatEmpresas;
+using CreativaSL.Web.Ganados.Models.Dto.Compra;
+using CreativaSL.Web.Ganados.Models.System;
+using Newtonsoft.Json;
 
 namespace CreativaSL.Web.Ganados.Models
 {
-    public class _CatEmpresa_Datos
+    public class _CatEmpresa_Datos : BaseSQL
     {
         public List<CatEmpresaModels> GetListadoEmpresas(CatEmpresaModels Empresa)
         {
@@ -32,7 +41,9 @@ namespace CreativaSL.Web.Ganados.Models
                         HorarioAtencion = !dr.IsDBNull(dr.GetOrdinal("horarioAtencion")) ? dr.GetString(dr.GetOrdinal("horarioAtencion")) : string.Empty,
                         PermitirSucursales = !dr.IsDBNull(dr.GetOrdinal("permitirSucursales")) ? dr.GetBoolean(dr.GetOrdinal("permitirSucursales")) : false,
                     };
-                    ItemEmpresa.LogoEmpresa = ItemEmpresa.ValidarStringImage(ItemEmpresa.LogoEmpresa);
+
+                    ItemEmpresa.LogoEmpresa =
+                        Auxiliar.ValidImageFormServer(ItemEmpresa.LogoEmpresa, ProjectSettings.BaseDirCatEmpresa);
 
                     Empresa.ListaEmpresas.Add(ItemEmpresa);
                 }
@@ -78,8 +89,11 @@ namespace CreativaSL.Web.Ganados.Models
                     //No hay imgRFC en BD
                     Empresa.ImagBDRFC = (string.IsNullOrWhiteSpace(Empresa.LogoRFC)) ? false : true;
 
-                    Empresa.LogoEmpresa = Empresa.ValidarStringImage(Empresa.LogoEmpresa);
-                    Empresa.LogoRFC = Empresa.ValidarStringImage(Empresa.LogoRFC);
+                    Empresa.LogoEmpresa =
+                        Auxiliar.ValidImageFormServer(Empresa.LogoEmpresa, ProjectSettings.BaseDirCatEmpresa);
+
+                    Empresa.LogoRFC =
+                        Auxiliar.ValidImageFormServer(Empresa.LogoRFC, ProjectSettings.BaseDirCatEmpresa);
                 }
                 dr.Close();
                 return Empresa;
@@ -128,19 +142,81 @@ namespace CreativaSL.Web.Ganados.Models
             }
         }
 
-        public string GetCuentasBancarias(CatEmpresaModels Empresa)
+        public string GetCuentasBancarias(DataTableAjaxPostModel dataTableAjaxPostModel, CatEmpresaModels Empresa)
         {
             try
             {
-                object[] parametros =
+                var datatable = string.Empty;
+                using (SqlConnection sqlcon = new SqlConnection(ConexionSql))
                 {
-                    Empresa.IDEmpresa
-                };
-                SqlDataReader dr = null;
-                dr = SqlHelper.ExecuteReader(Empresa.Conexion, "spCSLDB_EMPRESA_get_CuentasBancarias", parametros);
-                string jsonDr = Auxiliar.SqlReaderToJson(dr);
-                dr.Close();
-                return jsonDr;
+                    using (SqlCommand cmd = new SqlCommand("spCSLDB_EMPRESA_get_CuentasBancarias", sqlcon))
+                    {
+                        //parametros de entrada
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        cmd.Parameters.Add("@id_empresa", SqlDbType.Char).Value = Empresa.IDEmpresa;
+                        cmd.Parameters.Add("@Start", SqlDbType.Int).Value = dataTableAjaxPostModel.start;
+                        cmd.Parameters.Add("@Length", SqlDbType.Int).Value = dataTableAjaxPostModel.length;
+                        cmd.Parameters.Add("@SearchValue", SqlDbType.NVarChar).Value = dataTableAjaxPostModel.search.value;
+                        cmd.Parameters.Add("@Draw", SqlDbType.Int).Value = dataTableAjaxPostModel.draw;
+                        cmd.Parameters.Add("@ColumnNumber", SqlDbType.Int).Value = dataTableAjaxPostModel.order[0].column;
+                        cmd.Parameters.Add("@ColumnDir", SqlDbType.NVarChar).Value = dataTableAjaxPostModel.order[0].dir;
+
+                        // execute
+                        sqlcon.Open();
+
+                        var reader = cmd.ExecuteReader();
+
+                        var indexDatatableDto = new IndexDatatableDto();
+
+                        if (reader.HasRows)
+                        {
+                            indexDatatableDto.Data = new List<object>();
+                            bool firstData = true;
+
+                            while (reader.Read())
+                            {
+                                if (firstData)
+                                {
+                                    indexDatatableDto.Draw = int.Parse(reader["Draw"].ToString()); ;
+                                    indexDatatableDto.RecordsFiltered = int.Parse(reader["RecordsFiltered"].ToString());
+                                    indexDatatableDto.RecordsTotal = int.Parse(reader["RecordsTotal"].ToString());
+                                    firstData = false;
+                                }
+
+                                var item = new CuentaBancariaDto();
+                                item.IdDatosBan = reader["IDDatosBan"].ToString();
+                                item.ImgBanco = reader["ImgBanco"].ToString();
+                                item.NomBanco = reader["NomBanco"].ToString();
+                                item.Titular = reader["Titular"].ToString();
+                                item.NumTarjeta = reader["NumTarjeta"].ToString();
+                                item.NumCuenta = reader["NumCuenta"].ToString();
+                                item.ClabeInter = reader["ClabeInter"].ToString();
+
+                                if (string.IsNullOrEmpty(item.ImgBanco))
+                                {
+                                    item.ImgBanco = ProjectSettings.PathDefaultImage;
+                                }
+                                else
+                                {
+                                    var pathRelative = ProjectSettings.BaseDirCatBanco + item.ImgBanco;
+                                    var path = HostingEnvironment.MapPath(pathRelative);
+                                    item.ImgBanco = File.Exists(path) ? pathRelative : ProjectSettings.PathDefaultImage;
+                                }
+
+                                indexDatatableDto.Data.Add(item);
+                            }
+                        }
+
+                        var json = JsonConvert.SerializeObject(indexDatatableDto);
+
+                        reader.Close();
+
+                        return json;
+                    }
+                }
+
+                return datatable;
             }
             catch (Exception ex)
             {
@@ -365,6 +441,34 @@ namespace CreativaSL.Web.Ganados.Models
                 }
                 dr.Close();
                 return respuesta;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public CatEmpresaDeleteImagenesDto ObtenerImagenes(string id)
+        {
+            try
+            {
+                CatEmpresaDeleteImagenesDto item = new CatEmpresaDeleteImagenesDto();
+                object[] parametros =
+                {
+                    id
+                };
+                SqlDataReader dr = null;
+
+                dr = SqlHelper.ExecuteReader(ConexionSql, "[dbo].[spCIDDB_CatEmpresa_ObtenerImagenes]", parametros);
+
+                while (dr.Read())
+                {
+                    item.LogoEmpresa = !dr.IsDBNull(dr.GetOrdinal("LogoEmpresa")) ? dr.GetString(dr.GetOrdinal("LogoEmpresa")) : string.Empty;
+                    item.LogoRfc = !dr.IsDBNull(dr.GetOrdinal("LogoRfc")) ? dr.GetString(dr.GetOrdinal("LogoRfc")) : string.Empty;
+                }
+                dr.Close();
+
+                return item;
             }
             catch (Exception ex)
             {

@@ -1,4 +1,5 @@
-﻿@model CreativaSL.Web.Ganados.Models.FleteDetallesModels
+﻿@using CreativaSL.Web.Ganados.Models.System
+@model CreativaSL.Web.Ganados.Models.FleteDetallesModels
 @{ 
     ViewBag.Title = "Detalles_Flete";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
@@ -529,6 +530,7 @@
                                                     <th>Lugar</th>
                                                     <th>Fecha</th>
                                                     <th>Hora</th>
+                                                    <th>Acción</th>
                                                 </tr>
                                             </thead>
                                             <tbody></tbody>
@@ -584,6 +586,8 @@
         jQuery(document).ready(function () {
             var Id_flete = $("#Id_flete").val();
             var Id_documentoPorCobrar = $("#Id_documentoPorCobrar").val();
+            var baseDirDocumentoPorCobrarPagoBancarizado = "@ProjectSettings.BaseDirDocumentoPorCobrarPagoBancarizado";
+            var baseDirFleteDocumentoDetalle = "@ProjectSettings.BaseDirFleteDocumentoDetalle";
 
             var tbl_generalGanado = $('#tbl_generalGanado').DataTable({
                 "language": {
@@ -760,40 +764,15 @@
                          "data": null,
                          "render": function (data, type, full) {
                              var imagen64 = full["Imagen"];
-
-                             var img = "";
-
+                             var imagen = baseDirDocumentoPorCobrarPagoBancarizado + imagen64;
+                            
                              if (imagen64) {
-                                 var extension = "";
-                                 var position = imagen64.indexOf("iVBOR");
-                                 //imagen png
-                                 if (position != -1)
-                                     extension = "image/png";
-
-                                 position = imagen64.indexOf("/9j/4");
-                                 if (position != -1)
-                                     extension = "image/jpeg";
-                                 //bmp de 256 colores
-                                 position = imagen64.indexOf("Qk3");
-                                 if (position == 0)
-                                     extension = "image/bmp";
-
-                                 //bmp de monocromatico colores
-                                 position = imagen64.indexOf("Qk2");
-                                 if (position == 0)
-                                     extension = "image/bmp";
-
-                                 //bmp de 16 colores
-                                 position = imagen64.indexOf("Qk1");
-                                 if (position == 0)
-                                     extension = "image/bmp";
-
-                                 img = "<img class='file-preview-image vista_previa' style='width: 150px; height: 150px;' src='data:" + extension + ";base64," + imagen64 + "' />";
+                                 return "<img class='file-preview-image vista_previa' style='width: 150px; height: 150px;' src='" +
+                                     imagen +
+                                     "'/>";
+                             } else {
+                                 return "<img class='file-preview-image vista_previa' style='width: 150px; height: 150px;' src='@ProjectSettings.PathDefaultImage' />";
                              }
-                             else {
-                                 img = "<img class='file-preview-image vista_previa' style='width: 150px; height: 150px;' src='/Content/img/GrupoOcampo.png' />";
-                             }
-                             return img;
                          }
                      },
                     {
@@ -816,6 +795,8 @@
                 "language": {
                     "url": "/Content/assets/json/Spanish.json"
                 },
+                "processing": true,
+                "serverSide": true,
                 responsive: true,
                 "ajax": {
                     "data": {
@@ -824,49 +805,24 @@
                     "url": "/Admin/Flete/DatatableDocumentos/",
                     "type": "POST",
                     "datatype": "json",
-                    "dataSrc": ''
+                    "dataSrc": function (json) {
+
+                        if (json.data === null)
+                            return [];
+                        else
+                            return json.data;
+                    }
                 },
                 "columns": [
-                    { "data": "descripcion" },
-                    { "data": "clave" },
+                    { "data": "Descripcion" },
+                    { "data": "Clave" },
                     {
                         "data": null,
                         "render": function (data, type, full) {
-                            var imagen64 = full["imagen"];
-                            var img = "";
-
-                            if (imagen64) {
-                                var extension = "";
-                                var position = imagen64.indexOf("iVBOR");
-                                //imagen png
-                                if (position != -1)
-                                    extension = "image/png";
-
-                                position = imagen64.indexOf("/9j/4");
-                                if (position != -1)
-                                    extension = "image/jpeg";
-                                //bmp de 256 colores
-                                position = imagen64.indexOf("Qk3");
-                                if (position == 0)
-                                    extension = "image/bmp";
-
-                                //bmp de monocromatico colores
-                                position = imagen64.indexOf("Qk2");
-                                if (position == 0)
-                                    extension = "image/bmp";
-
-                                //bmp de 16 colores
-                                position = imagen64.indexOf("Qk1");
-                                if (position == 0)
-                                    extension = "image/bmp";
-
-                                img = "<img class='file-preview-image vista_previa' style='width: 150px; height: 150px;' src='data:" + extension + ";base64," + imagen64 + "' />";
-                            }
-                            else {
-                                img = "<img class='file-preview-image vista_previa' style='width: 150px; height: 150px;' src='/Content/img/GrupoOcampo.png' />";
-                            }
-                            return img;
-                         }
+                            return "<img class='vista_previa' style='width: 100px; height: 100px; max-width: 100 %; max-height: 100 %;' src='" +
+                                full["Imagen"] +
+                                "' />";
+                        }
                     }
                 ],
                 "drawCallback": function (settings) {

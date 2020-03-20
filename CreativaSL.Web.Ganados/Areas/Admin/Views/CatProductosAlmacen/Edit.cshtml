@@ -32,14 +32,15 @@
                 @Html.AntiForgeryToken()
                 @*@Html.ValidationSummary(true)*@
                 @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
-                                                                                                                            <div id="validation_summary" class="field_error "></div> //JS
+                <div id="validation_summary" class="field_error "></div> //JS
 
                 @Html.HiddenFor(model => model.IDProductoAlmacen)
+                @Html.HiddenFor(model=>model.Imagen)
+
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title"><strong>Información</strong> del Producto </h3>
                         <ul class="panel-controls">
-                            @*<li><a href="#" class="panel-remove exsa"><span class="fa fa-times"></span></a></li>*@
                         </ul>
                     </div>                    
                     <div class="panel-body">
@@ -113,7 +114,6 @@
                             <label class="col-md-2 col-xs-12 control-label">Imagen del producto </label>
                             <div class="col-md-6 col-xs-12">
                                 <div class="input-group">
-                                    @*<span class="input-group-addon"><span class="fa fa-pencil"></span></span>*@
                                     @Html.TextBoxFor(model => model.Img2, new { id = "imagen2", @type = "file", @class = "form-control" })
                                 </div>
                                 @Html.ValidationMessageFor(model => model.Img2)
@@ -167,7 +167,7 @@
             overwriteInitial: true,
             showUploadedThumbs: false,
             initialPreview: [
-                '<img class="file-preview-image" style="width: auto; height: auto; max-width: 100%; max-height: 100%;" src="data:image/png;base64, @Model.Imagen" />'
+                '<img class="file-preview-image" style="width: auto; height: auto; max-width: 100%; max-height: 100%;" src="@Model.Imagen" />'
             ],
             initialCaption: 'producto almacen.png',
             initialPreviewConfig: [

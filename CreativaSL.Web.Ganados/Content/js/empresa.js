@@ -13,7 +13,7 @@
             showUploadedThumbs: false,
             maxFileCount: 1,
             initialPreview: [
-                '<img class="file-preview-image" style="width: auto; height: auto; max-width: 100%; max-height: 100%;" src="data:image/png;base64,' + LogoEmpresa + '" />'
+                '<img class="file-preview-image" style="width: auto; height: auto; max-width: 100%; max-height: 100%;" src="' + LogoEmpresa + '" />'
             ],
             initialPreviewConfig: [
                 { caption: 'Logo de la empresa' }
@@ -49,7 +49,7 @@
             showUploadedThumbs: false,
             maxFileCount: 1,
             initialPreview: [
-                '<img class="file-preview-image" style="width: auto; height: auto; max-width: 100%; max-height: 100%;" src="data:image/png;base64,' + LogoRFC + '" />'
+                '<img class="file-preview-image" style="width: auto; height: auto; max-width: 100%; max-height: 100%;" src="' + LogoRFC + '" />'
             ],
             initialPreviewConfig: [
                 { caption: 'Imagen del R.F.C.' }
@@ -72,7 +72,10 @@
         });
     };
     var LoadTableCuentasBancarias = function (IDEmpresa) {
+
         TblCuentasBancarias = $('#TblCuentasBancarias').DataTable({
+            "processing": true,
+            "serverSide": true,
             "language": {
                 "url": "/Content/assets/json/Spanish.json"
             },
@@ -84,13 +87,21 @@
                 "url": "/Admin/CatEmpresa/LoadTableCuentasBancarias/",
                 "type": "POST",
                 "datatype": "json",
-                "dataSrc": ''
+                "dataSrc": function (json) {
+
+                    if (json.data === null)
+                        return [];
+                    else
+                        return json.data;
+                }
             },
             "columns": [
                 {
                     "data": null,
                     "render": function (data, type, full) {
-                        return "<img style='width: 100px; height: 100px; max-width: 100 %; max-height: 100 %;' src='data: image/png; base64," + full["ImgBanco"] + "' />";
+                        return "<img style='width: 100px; height: 100px; max-width: 100 %; max-height: 100 %;' src='" +
+                            full["ImgBanco"] +
+                            "' />";
                     }
                 },
                 { "data": "NomBanco" },
@@ -103,8 +114,8 @@
                     "render": function (data, type, full) {
 
                         return "<div class='visible-md visible-lg hidden-sm hidden-xs'>" +
-                            "<a data-id='" + full["IDDatosBan"] + "' title='Editar' class='btn btn-yellow tooltips btn-sm editCuentaBancaria' data-placement='top' data-original-title='Edit'><i class='fa fa-edit'></i></a>" +
-                            "<a title='Eliminar' data-id='" + full["IDDatosBan"] + "' data-hrefa='/Admin/CatEmpresa/DeleteCuentaBancaria/" + full["IDDatosBan"] + "' class='btn btn-danger tooltips btn-sm deleteCuentaBancaria' data-placement='top' data-original-title='Eliminar'><i class='fa fa-trash-o'></i></a>" +
+                            "<a data-id='" + full["IdDatosBan"] + "' title='Editar' class='btn btn-yellow tooltips btn-sm editCuentaBancaria' data-placement='top' data-original-title='Edit'><i class='fa fa-edit'></i></a>" +
+                            "<a title='Eliminar' data-id='" + full["IdDatosBan"] + "' data-hrefa='/Admin/CatEmpresa/DeleteCuentaBancaria/" + full["IdDatosBan"] + "' class='btn btn-danger tooltips btn-sm deleteCuentaBancaria' data-placement='top' data-original-title='Eliminar'><i class='fa fa-trash-o'></i></a>" +
                             "</div>" +
                             "<div class='visible-xs visible-sm hidden-md hidden-lg'>" +
                             "<div class='btn-group'>" +
@@ -113,12 +124,12 @@
                             "</a>" +
                             "<ul role='menu' class='dropdown-menu pull-right dropdown-dark'>" +
                             "<li>" +
-                            "<a  data-id='" + full["IDDatosBan"] + "' class='editCuentaBancaria' role='menuitem' tabindex='-1'>" +
+                            "<a  data-id='" + full["IdDatosBan"] + "' class='editCuentaBancaria' role='menuitem' tabindex='-1'>" +
                             "<i class='fa fa-edit'></i> Editar" +
                             "</a>" +
                             "</li>" +
                             "<li>" +
-                            "<a class='deleteCuentaBancaria' role='menuitem' tabindex='-1'  data-id='" + full["IDDatosBan"] + "' data-hrefa='/Admin/CatEmpresa/DeleteCuentaBancaria/" + full["IDDatosBan"] + "'>" +
+                            "<a class='deleteCuentaBancaria' role='menuitem' tabindex='-1'  data-id='" + full["IdDatosBan"] + "' data-hrefa='/Admin/CatEmpresa/DeleteCuentaBancaria/" + full["IDDatosBan"] + "'>" +
                             "<i class='fa fa-trash-o'></i> Eliminar" +
                             "</a>" +
                             "</li>" +
@@ -131,13 +142,14 @@
             //Para agregar algún evento a la tabla se puede poner aquí
             "drawCallback": function (settings) {
                 $(".editCuentaBancaria").on("click", function () {
-                    var IDCuentaBancaria = $(this).data("id")
+                    var IDCuentaBancaria = $(this).data("id");
                     ModalCuentaBancaria(IDCuentaBancaria, IDEmpresa);
                 });
                 $(".deleteCuentaBancaria").on("click", function () {
                     var url = $(this).attr('data-hrefa');
                     var row = $(this).attr('data-id');
                     var box = $("#mb-remove-row");
+
                     box.addClass("open");
                     box.find(".mb-control-yes").on("click", function () {
                         box.removeClass("open");
@@ -145,6 +157,8 @@
                             url: url,
                             type: 'POST',
                             dataType: 'json',
+                            data: { imagen: imagen },
+
                             success: function (result) {
                                 if (result.Success) {
                                     box.find(".mb-control-yes").prop('onclick', null).off('click');
@@ -313,11 +327,9 @@
                     maxlength: 100
                 },
                 LogoEmpresaHttp: {
-                    ImagenRequerida: true,
                     ImagenRequerida: ["LogoEmpresa"]
                 },
                 LogoRFCHttp: {
-                    ImagenRequerida: true,
                     ImagenRequerida: ["ImagBDRFC"]
                 },
                 PSGEmpresa: {
