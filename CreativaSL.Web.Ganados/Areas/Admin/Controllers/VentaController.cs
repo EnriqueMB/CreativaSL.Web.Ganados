@@ -784,16 +784,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     Venta = VentaDatos.GetVentaEvento(Venta);
                     if (Venta.RespuestaAjax.Success)
                     {
-                        if (string.IsNullOrEmpty(Venta.EventoVenta.ImagenBase64))
-                        {
-                            Venta.EventoVenta.ImagenMostrar = Auxiliar.SetDefaultImage();
-                        }
-                        else
-                        {
-                            Venta.EventoVenta.ImagenMostrar = Venta.EventoVenta.ImagenBase64;
-                        }
-                        Venta.EventoVenta.ExtensionImagenBase64 = Auxiliar.ObtenerExtensionImagenBase64(Venta.EventoVenta.ImagenMostrar);
-                        //aqui pondriamos alguna lista o valores de cargar si esta todo correcto
                         Venta.EventoVenta.ListaDeTiposDeduccion = VentaDatos.GetTiposDeduccionVentaGanado(Venta);
                         Venta.EventoVenta.ListaTiposEventos = VentaDatos.GetTiposEventos(Venta);
                         _CatDeduccion_Datos oDatos = new _CatDeduccion_Datos();
@@ -834,21 +824,27 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     Evento.Usuario = User.Identity.Name;
                     if (Evento.HttpImagen != null)
                     {
-                        //Evento.ImagenBase64 = Auxiliar.ImageToBase64(Evento.HttpImagen);
-                        Stream s = Evento.HttpImagen.InputStream;
+                        var uploadImagenToserver = new UploadFileToServerModel();
+                        uploadImagenToserver.FileBase = Evento.HttpImagen;
+                        uploadImagenToserver.BaseDir = ProjectSettings.BaseDirVentaEvento;
+                        uploadImagenToserver.FileName =
+                            Evento.ImagenBase64?.Replace(
+                                ProjectSettings.BaseDirVentaEvento, string.Empty);
 
-                        if (Path.GetExtension(Evento.HttpImagen.FileName).ToLower() == ".heic")
-                        {
-                            System.Drawing.Image img = (System.Drawing.Image)Auxiliar.ProcessFile(s);
-                            Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((System.Drawing.Image)img.Clone(), 35L));
-                            Evento.ImagenBase64 = image.ToBase64String(ImageFormat.Jpeg);
-                        }
-                        else
-                        {
-                            System.Drawing.Image img = new Bitmap(s);
-                            Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((System.Drawing.Image)img.Clone(), 35L));
-                            Evento.ImagenBase64 = image.ToBase64String(img.RawFormat);
-                        }
+                        CidFaresHelper.DeleteFileFromServer(uploadImagenToserver);
+
+                        uploadImagenToserver.FileName = Guid.NewGuid().ToString().ToUpper();
+                        CidFaresHelper.UploadFileToServer(uploadImagenToserver);
+                        Evento.ImagenBase64 = uploadImagenToserver.FileName;
+                    }
+                    else
+                    {
+                        Evento.ImagenBase64 =
+                            Evento.ImagenBase64?.Replace(ProjectSettings.BaseDirVentaEvento,
+                                string.Empty);
+                        Evento.ImagenBase64 =
+                            Evento.ImagenBase64?.Replace(ProjectSettings.PathDefaultImage,
+                                string.Empty);
                     }
 
                     Evento.RespuestaAjax = VentaDatos.AC_Evento(Evento);
@@ -902,7 +898,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Venta.EventoVenta = new EventoVentaModels();
                 Venta.EventoVenta.RespuestaAjax = new RespuestaAjax();
 
-                //no puede ser null o vacio y debe de tener una longitud de 36, si no marcar error
                 if (string.IsNullOrEmpty(IDVenta) || IDVenta.Length != 36)
                 {
                     Venta.EventoVenta.RespuestaAjax = new RespuestaAjax();
@@ -918,6 +913,16 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     Venta.EventoVenta.Usuario = User.Identity.Name;
                     Venta.EventoVenta.Conexion = Conexion;
                     Venta.EventoVenta.RespuestaAjax = VentaDatos.Del_Evento(Venta.EventoVenta);
+
+                    if (Venta.EventoVenta.RespuestaAjax.Success)
+                    {
+                        var uploadImagenToserver = new UploadFileToServerModel();
+                        uploadImagenToserver.BaseDir = ProjectSettings.BaseDirVentaEvento;
+                        uploadImagenToserver.FileName = Venta.EventoVenta.RespuestaAjax.Mensaje;
+                        
+                        CidFaresHelper.DeleteFileFromServer(uploadImagenToserver);
+                        Venta.EventoVenta.RespuestaAjax.Mensaje = "Registro eliminado correctamente.";
+                    }
 
                     return Content(Venta.EventoVenta.RespuestaAjax.ToJSON(), "application/json");
                 }
@@ -2337,16 +2342,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     Venta = VentaDatos.GetVentaEvento(Venta);
                     if (Venta.RespuestaAjax.Success)
                     {
-                        if (string.IsNullOrEmpty(Venta.EventoVenta.ImagenBase64))
-                        {
-                            Venta.EventoVenta.ImagenMostrar = Auxiliar.SetDefaultImage();
-                        }
-                        else
-                        {
-                            Venta.EventoVenta.ImagenMostrar = Venta.EventoVenta.ImagenBase64;
-                        }
-                        Venta.EventoVenta.ExtensionImagenBase64 = Auxiliar.ObtenerExtensionImagenBase64(Venta.EventoVenta.ImagenMostrar);
-                        //aqui pondriamos alguna lista o valores de cargar si esta todo correcto
                         Venta.EventoVenta.ListaDeTiposDeduccion = VentaDatos.GetTiposDeduccionVentaGanado(Venta);
                         Venta.EventoVenta.ListaTiposEventos = VentaDatos.GetTiposEventos(Venta);
                         _CatDeduccion_Datos oDatos = new _CatDeduccion_Datos();

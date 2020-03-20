@@ -56,7 +56,7 @@
             }
         });
     };
-    var RunEventsDocumento = function () {
+    var RunEventsDocumento = function() {
         var Imagen = document.getElementById("ImagenServer").value;
 
         $('#ImagenPost').fileinput({
@@ -69,7 +69,9 @@
             showUploadedThumbs: false,
             maxFileCount: 1,
             initialPreview: [
-                '<img class="file-preview-image" style="width: auto; height: auto; max-width: 100%; max-height: 100%;" src="' + Imagen + '" />'
+                '<img class="file-preview-image" style="width: auto; height: auto; max-width: 100%; max-height: 100%;" src="' +
+                Imagen +
+                '" />'
             ],
             initialPreviewConfig: [
                 { caption: 'Imagen del documento' }
@@ -87,12 +89,12 @@
                 'heic': '<i class="fa fa-file-text text-primary"></i>'
             },
             previewFileExtSettings: { // configure the logic for determining icon file extensions
-                'heic': function (ext) {
+                'heic': function(ext) {
                     return ext.match(/(heic)$/i);
                 }
             }
-        })
-    }
+        });
+    };
     return {
         init: function () {
             runValidator1();

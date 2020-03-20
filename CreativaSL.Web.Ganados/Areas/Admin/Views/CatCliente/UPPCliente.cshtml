@@ -181,13 +181,13 @@
             UPPCliente.init();
 
             $('#ImagenHttp').fileinput({
-                theme: 'fa',
-                language: 'es',
-                maxFileCount: 1,
-                overwriteInitial: true,
-                showUploadedThumbs: false,
-                initialPreview: [
-                '<img class="file-preview-image"  style=" width: auto !important; height: auto; max-width: 100%; max-height: 100%;" src="@Url.Content(string.IsNullOrEmpty(Model.ImagenMostrar) ? "/Content/img/GrupoOcampo.png" : Model.ImagenMostrar)" />'
+                    theme: 'fa',
+                    language: 'es',
+                    maxFileCount: 1,
+                    overwriteInitial: true,
+                    showUploadedThumbs: false,
+                    initialPreview: [
+                        '<img class="file-preview-image"  style=" width: auto !important; height: auto; max-width: 100%; max-height: 100%;" src="@Model.Imagen" />'
                 ],
                 initialPreviewConfig: [
                    { caption: 'Imagen' }

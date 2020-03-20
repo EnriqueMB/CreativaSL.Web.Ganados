@@ -34,6 +34,7 @@
         @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
         @Html.HiddenFor(model => model.IdProveedor)
         @Html.HiddenFor(model => model.IdDocumentacionExtra)
+        @Html.HiddenFor(model=>model.Archivo)
 
         <div id="validation_summary" class="field_error "></div> //JS
         <div class="panel panel-default">

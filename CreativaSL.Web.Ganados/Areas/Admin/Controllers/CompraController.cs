@@ -35,16 +35,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         {
             try
             {
-                //var idSucursalAsignada = Auxiliar.IdSucursalAsignada;
-                //var sucursales = new List<string> { idSucursalAsignada };
-
-                //if (string.IsNullOrEmpty(idSucursalAsignada))
-                //{
-                //    TempData["typemessage"] = "2";
-                //    TempData["message"] = "Verifique sus datos.";
-                //    return View("Index");
-                //}
-                
                 Token.SaveToken();
                 Compra = new CompraModels();
                 CompraDatos = new _Compra_Datos();
@@ -2692,7 +2682,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     {
                         if (DocumentoPorPagarPago.HttpImagen != null)
                         {
-
                             var uploadImagenToserver = new UploadFileToServerModel();
                             uploadImagenToserver.FileBase = DocumentoPorPagarPago.HttpImagen;
                             uploadImagenToserver.BaseDir = ProjectSettings.BaseDirDocumentoPorPagarPagoBancarizado;
@@ -3206,14 +3195,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     Evento = CompraDatos.GetEventoCompra(Evento);
                     Evento.ListaTiposEventos = CompraDatos.GetListaEventos(Conexion);
 
-                    if (string.IsNullOrEmpty(Evento.ImagenBase64))
-                    {
-                        Evento.ImagenMostrar = Auxiliar.SetDefaultImage();
-                    }
-                    else
-                    {
-                        Evento.ImagenMostrar = Evento.ImagenBase64;
-                    }
                     Token.SaveToken();
                     return View(Evento);
                 }
@@ -3245,23 +3226,30 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
                     if (Evento.HttpImagen != null)
                     {
-                        Stream s = Evento.HttpImagen.InputStream;
-
-                        if (Path.GetExtension(Evento.HttpImagen.FileName).ToLower() == ".heic")
+                        if (Evento.HttpImagen != null)
                         {
-                            Image img = (Image)Auxiliar.ProcessFile(s);
-                            Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
-                            Evento.ImagenBase64 = image.ToBase64String(ImageFormat.Jpeg);
+                            var uploadImagenToserver = new UploadFileToServerModel();
+                            uploadImagenToserver.FileBase = Evento.HttpImagen;
+                            uploadImagenToserver.BaseDir = ProjectSettings.BaseDirCompraEvento;
+                            uploadImagenToserver.FileName =
+                                Evento.ImagenBase64?.Replace(
+                                    ProjectSettings.BaseDirCompraEvento, string.Empty);
+
+                            CidFaresHelper.DeleteFileFromServer(uploadImagenToserver);
+
+                            uploadImagenToserver.FileName = Guid.NewGuid().ToString().ToUpper();
+                            CidFaresHelper.UploadFileToServer(uploadImagenToserver);
+                            Evento.ImagenBase64 = uploadImagenToserver.FileName;
                         }
                         else
                         {
-                            Image img = new Bitmap(s);
-                            Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
-                            Evento.ImagenBase64 = image.ToBase64String(img.RawFormat);
+                            Evento.ImagenBase64 =
+                                Evento.ImagenBase64?.Replace(ProjectSettings.BaseDirCompraEvento,
+                                    string.Empty);
+                            Evento.ImagenBase64 =
+                                Evento.ImagenBase64?.Replace(ProjectSettings.PathDefaultImage,
+                                    string.Empty);
                         }
-
-
-                        Evento.ImagenBase64 = Auxiliar.ImageToBase64(Evento.HttpImagen);
                     }
 
                     Evento = CompraDatos.Compra_a_Evento(Evento);
@@ -3324,6 +3312,18 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         Evento.IDCompra = IDCompra;
                         Evento.RespuestaAjax = new RespuestaAjax();
                         Evento = CompraDatos.DEL_Evento(Evento);
+
+                        if (Evento.RespuestaAjax.Success)
+                        {
+                            var uploadImagenToserver = new UploadFileToServerModel();
+                            uploadImagenToserver.BaseDir = ProjectSettings.BaseDirCompraEvento;
+                            uploadImagenToserver.FileName = Evento.RespuestaAjax.Mensaje;
+
+                            CidFaresHelper.DeleteFileFromServer(uploadImagenToserver);
+
+                            Evento.RespuestaAjax.Mensaje = "Registro eliminado correctamente.";
+                        }
+
                         Token.ResetToken();
                         Token.SaveToken();
 

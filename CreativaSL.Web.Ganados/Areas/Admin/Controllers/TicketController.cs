@@ -225,6 +225,21 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 case 15:
                     baseDir = ProjectSettings.BaseDirEntregaCombustible;
                     break;
+                case 16:
+                    baseDir = ProjectSettings.BaseDirCompraEvento;
+                    break;
+                case 17:
+                    baseDir = ProjectSettings.BaseDirFleteEvento;
+                    break;
+                case 18:
+                    baseDir = ProjectSettings.BaseDirVentaEvento;
+                    break;
+                case 19:
+                    baseDir = ProjectSettings.BaseDirClienteUppPsg;
+                    break;
+                case 20:
+                    baseDir = ProjectSettings.BaseDirProveedorUppPsg;
+                    break;
             }
 
             var json = datos.ObtenerRegistrosTablaBase64ToUrl(idTabla, dataTableAjaxPostModel, baseDir);
@@ -283,6 +298,21 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     break;
                 case 15:
                     baseDir = ProjectSettings.BaseDirEntregaCombustible;
+                    break;
+                case 16:
+                    baseDir = ProjectSettings.BaseDirCompraEvento;
+                    break;
+                case 17:
+                    baseDir = ProjectSettings.BaseDirFleteEvento;
+                    break;
+                case 18:
+                    baseDir = ProjectSettings.BaseDirVentaEvento;
+                    break;
+                case 19:
+                    baseDir = ProjectSettings.BaseDirClienteUppPsg;
+                    break;
+                case 20:
+                    baseDir = ProjectSettings.BaseDirProveedorUppPsg;
                     break;
             }
 

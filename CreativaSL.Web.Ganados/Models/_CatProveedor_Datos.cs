@@ -568,10 +568,10 @@ namespace CreativaSL.Web.Ganados.Models
                     item.NumCuenta = !dr.IsDBNull(dr.GetOrdinal("NumeroCuenta")) ? dr.GetString(dr.GetOrdinal("NumeroCuenta")) : string.Empty;
                     item.Clabe = !dr.IsDBNull(dr.GetOrdinal("ClaveInterbancaria")) ? dr.GetString(dr.GetOrdinal("ClaveInterbancaria")) : string.Empty;
                     item.ImagenUrl = !dr.IsDBNull(dr.GetOrdinal("ImagenUrl")) ? dr.GetString(dr.GetOrdinal("ImagenUrl")) : string.Empty;
-                    if (!string.IsNullOrWhiteSpace(item.ImagenUrl))
-                    {
-                        item.ImagenUrl = ProjectSettings.BaseDirProveedorCuentasBancarias + item.ImagenUrl;
-                    }
+
+                    item.ImagenUrl = Auxiliar.ValidImageFormServer(item.ImagenUrl,
+                        ProjectSettings.BaseDirProveedorCuentasBancarias);
+
                     lista.Add(item);
                 }
                 dr.Close();
@@ -1325,14 +1325,18 @@ namespace CreativaSL.Web.Ganados.Models
                             model.ManifestacionFierroBase64 = reader["imgManifestacionFierro"].ToString();
                             model.UppPsgBase64 = reader["imagenUPP"].ToString();
 
-                            if (!string.IsNullOrWhiteSpace(model.FotoPerfilUrl))
-                            {
-                                model.FotoPerfilUrl = ProjectSettings.BaseDirProveedorFotoPerfil + model.FotoPerfilUrl;
-                            }
-                            
                             IFormatProvider culture = new CultureInfo("es-MX", true);
                             model.FechaIngreso = DateTime.ParseExact(reader["FechaIngreso"].ToString(), "dd/MM/yyyy hh:mm:ss tt",
                                 culture).ToString("dd/MM/yyyy", culture);
+
+                            model.FotoPerfilUrl = Auxiliar.ValidImageFormServer(model.FotoPerfilUrl,
+                                ProjectSettings.BaseDirProveedorFotoPerfil);
+                            model.IneBase64 =
+                                Auxiliar.ValidImageFormServer(model.IneBase64, ProjectSettings.BaseDirProveedorINE);
+                            model.UppPsgBase64 = Auxiliar.ValidImageFormServer(model.UppPsgBase64,
+                                ProjectSettings.BaseDirProveedorUppPsg);
+                            model.ManifestacionFierroBase64 = Auxiliar.ValidImageFormServer(model.ManifestacionFierroBase64,
+                                ProjectSettings.BaseDirProveedorManifestacionFierro);
                         }
                     }
 

@@ -471,6 +471,7 @@ namespace CreativaSL.Web.Ganados.Models
             };
             SqlDataReader dr = null;
             dr = SqlHelper.ExecuteReader(EventoFlete.Conexion, "spCSLDB_Flete_get_FleteEventoXIDFlete", parametros);
+            EventoFlete.ImagenBase64 = ProjectSettings.PathDefaultImage;
 
             while (dr.Read())
             {
@@ -490,6 +491,8 @@ namespace CreativaSL.Web.Ganados.Models
                     EventoFlete.MontoDeduccion = !dr.IsDBNull(dr.GetOrdinal("deduccion")) ? dr.GetDecimal(dr.GetOrdinal("deduccion")) : 0;
                     EventoFlete.Id_TipoDeDeduccion = !dr.IsDBNull(dr.GetOrdinal("id_tipoDeduccion")) ? dr.GetInt32(dr.GetOrdinal("id_tipoDeduccion")) : 0;
                     EventoFlete.Id_conceptoDocumento = !dr.IsDBNull(dr.GetOrdinal("id_conceptoDocumento")) ? dr.GetInt32(dr.GetOrdinal("id_conceptoDocumento")) : 0;
+                    EventoFlete.ImagenBase64 =
+                        Auxiliar.ValidImageFormServer(EventoFlete.ImagenBase64, ProjectSettings.BaseDirFleteEvento);
                 }
                 else
                 {

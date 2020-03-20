@@ -1231,6 +1231,7 @@ namespace CreativaSL.Web.Ganados.Models
             };
             SqlDataReader dr = null;
             dr = SqlHelper.ExecuteReader(Venta.Conexion, "spCSLDB_Venta_get_VentaEventoXIDVenta", parametros);
+            Venta.EventoVenta.ImagenBase64 = ProjectSettings.PathDefaultImage;
 
             while (dr.Read())
             {
@@ -1250,10 +1251,14 @@ namespace CreativaSL.Web.Ganados.Models
                     Venta.EventoVenta.MontoDeduccion = !dr.IsDBNull(dr.GetOrdinal("deduccion")) ? dr.GetDecimal(dr.GetOrdinal("deduccion")) : 0;
                     Venta.EventoVenta.Id_TipoDeDeduccion = !dr.IsDBNull(dr.GetOrdinal("id_deduccion")) ? dr.GetInt32(dr.GetOrdinal("id_deduccion")) : 0;
                     Venta.EventoVenta.Id_conceptoDocumento = !dr.IsDBNull(dr.GetOrdinal("id_conceptoDocumento")) ? dr.GetInt32(dr.GetOrdinal("id_conceptoDocumento")) : 0;
+                    Venta.EventoVenta.ImagenBase64 =
+                        Auxiliar.ValidImageFormServer(Venta.EventoVenta.ImagenBase64, ProjectSettings.BaseDirVentaEvento);
                 }
                 else
                 {
-                    Venta.RespuestaAjax.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
+                    Venta.RespuestaAjax.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje"))
+                        ? dr.GetString(dr.GetOrdinal("mensaje"))
+                        : string.Empty;
                 }
             }
             dr.Close();

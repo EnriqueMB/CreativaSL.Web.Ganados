@@ -59,12 +59,12 @@ namespace CreativaSL.Web.Ganados.Models
                                 }
 
                                 var item = new IndexDocumentoCompraDetalleDto();
-                                item.IdDocumentoCompraDetalle = reader["IdDocumentoFleteDetalle"].ToString();
+                                item.IdDocumentoCompraDetalle = reader["IdDocumentoCompraDetalle"].ToString();
                                 item.Clave = reader["Clave"].ToString();
                                 item.Imagen = reader["Imagen"].ToString();
                                 item.Descripcion = reader["Descripcion"].ToString();
                                 item.Imagen = Auxiliar.ValidImageFormServer(item.Imagen,
-                                    ProjectSettings.BaseDirFleteDocumentoDetalle);
+                                    ProjectSettings.BaseDirCompraDocumentoDetalle);
 
                                 indexDatatableDto.Data.Add(item);
                             }
@@ -3565,6 +3565,7 @@ namespace CreativaSL.Web.Ganados.Models
                 {
                     Evento.FechaDeteccion = DateTime.Today;
                     Evento.HoraDeteccion = DateTime.Now.TimeOfDay;
+                    Evento.ImagenBase64 = ProjectSettings.PathDefaultImage;
                 }
                 else
                 {
@@ -3576,6 +3577,9 @@ namespace CreativaSL.Web.Ganados.Models
                         Evento.HoraDeteccion = !dr.IsDBNull(dr.GetOrdinal("horaDeteccion")) ? dr.GetTimeSpan(dr.GetOrdinal("horaDeteccion")) : DateTime.Today.TimeOfDay;
                         Evento.Observacion = !dr.IsDBNull(dr.GetOrdinal("observacion")) ? dr.GetString(dr.GetOrdinal("observacion")) : string.Empty;
                         Evento.ImagenBase64 = !dr.IsDBNull(dr.GetOrdinal("imagenBase64")) ? dr.GetString(dr.GetOrdinal("imagenBase64")) : string.Empty;
+
+                        Evento.ImagenBase64 =
+                            Auxiliar.ValidImageFormServer(Evento.ImagenBase64, ProjectSettings.BaseDirCompraEvento);
                     }
                 }
 

@@ -684,12 +684,11 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             try
             {
                 Token.SaveToken();
-                _Flete_Datos FleteDatos = new _Flete_Datos();
-                EventoFleteModels EventoFlete = new EventoFleteModels();
+                var FleteDatos = new _Flete_Datos();
+                var EventoFlete = new EventoFleteModels();
                 EventoFlete.RespuestaAjax = new RespuestaAjax();
 
-                string Id_flete = string.IsNullOrEmpty(IDFlete) ? string.Empty : IDFlete;
-                //0 = nuevo, 36 = edit, si es diferente es un id no valido
+                var Id_flete = string.IsNullOrEmpty(IDFlete) ? string.Empty : IDFlete;
                 if (Id_flete.Length == 0 || Id_flete.Length == 36)
                 {
                     EventoFlete.Conexion = Conexion;
@@ -698,20 +697,9 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     EventoFlete = FleteDatos.GetFleteEvento(EventoFlete);
                     if (EventoFlete.RespuestaAjax.Success)
                     {
-                        if (string.IsNullOrEmpty(EventoFlete.ImagenBase64))
-                        {
-                            EventoFlete.ImagenMostrar = Auxiliar.SetDefaultImage();
-                        }
-                        else
-                        {
-                            EventoFlete.ImagenMostrar = EventoFlete.ImagenBase64;
-                        }
-                        EventoFlete.ExtensionImagenBase64 = Auxiliar.ObtenerExtensionImagenBase64(EventoFlete.ImagenMostrar);
-                        //aqui pondriamos alguna lista o valores de cargar si esta todo correcto
                         EventoFlete.ListaTiposEventos = FleteDatos.GetTiposEventos(EventoFlete);
 
-                        //EventoFlete.ListaDeTiposDeduccion = FleteDatos.GetTiposDeduccion(EventoFlete);
-                        _CatDeduccion_Datos oDatos = new _CatDeduccion_Datos();
+                        var oDatos = new _CatDeduccion_Datos();
                         ViewBag.ListaDeduccion = oDatos.SpCIDDB_Combo_get_CatDeduccion(Conexion);
                         ViewBag.ListaTiposConceptos = FleteDatos.GetTiposDeduccion(EventoFlete);
 
@@ -751,22 +739,27 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     EventoFlete.Usuario = User.Identity.Name;
                     if (EventoFlete.HttpImagen != null)
                     {
-                        //EventoFlete.ImagenBase64 = Auxiliar.ImageToBase64(EventoFlete.HttpImagen);
-                        Stream s = EventoFlete.HttpImagen.InputStream;
-                        
-                        if (Path.GetExtension(EventoFlete.HttpImagen.FileName).ToLower() == ".heic")
-                        {
-                            System.Drawing.Image img = (System.Drawing.Image)Auxiliar.ProcessFile(s);
-                            Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((System.Drawing.Image)img.Clone(), 35L));
-                            EventoFlete.ImagenBase64 = image.ToBase64String(ImageFormat.Jpeg);
-                        }
-                        else
-                        {
-                            System.Drawing.Image img = new Bitmap(s);
-                            Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((System.Drawing.Image)img.Clone(), 35L));
-                            EventoFlete.ImagenBase64 = image.ToBase64String(img.RawFormat);
-                        }
+                        var uploadImagenToserver = new UploadFileToServerModel();
+                        uploadImagenToserver.FileBase = EventoFlete.HttpImagen;
+                        uploadImagenToserver.BaseDir = ProjectSettings.BaseDirFleteEvento;
+                        uploadImagenToserver.FileName =
+                            EventoFlete.ImagenBase64?.Replace(
+                                ProjectSettings.BaseDirFleteEvento, string.Empty);
 
+                        CidFaresHelper.DeleteFileFromServer(uploadImagenToserver);
+
+                        uploadImagenToserver.FileName = Guid.NewGuid().ToString().ToUpper();
+                        CidFaresHelper.UploadFileToServer(uploadImagenToserver);
+                        EventoFlete.ImagenBase64 = uploadImagenToserver.FileName;
+                    }
+                    else
+                    {
+                        EventoFlete.ImagenBase64 =
+                            EventoFlete.ImagenBase64?.Replace(ProjectSettings.BaseDirFleteEvento,
+                                string.Empty);
+                        EventoFlete.ImagenBase64 =
+                            EventoFlete.ImagenBase64?.Replace(ProjectSettings.PathDefaultImage,
+                                string.Empty);
                     }
 
                     EventoFlete.RespuestaAjax = FleteDatos.AC_Evento(EventoFlete);
@@ -1731,6 +1724,17 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         Evento.RespuestaAjax = new RespuestaAjax();
 
                         Evento = FleteDatos.DEL_Evento(Evento);
+
+                        if (Evento.RespuestaAjax.Success)
+                        {
+                            var uploadImagenToserver = new UploadFileToServerModel();
+                            uploadImagenToserver.BaseDir = ProjectSettings.BaseDirFleteEvento;
+                            uploadImagenToserver.FileName = Evento.RespuestaAjax.Mensaje;
+
+                            CidFaresHelper.DeleteFileFromServer(uploadImagenToserver);
+                            Evento.RespuestaAjax.Mensaje = "Registro eliminado correctamente.";
+                        }
+
                         Token.ResetToken();
                         Token.SaveToken();
                         return Content(Evento.RespuestaAjax.ToJSON(), "application/json");
@@ -2771,16 +2775,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     EventoFlete = FleteDatos.GetFleteEvento(EventoFlete);
                     if (EventoFlete.RespuestaAjax.Success)
                     {
-                        if (string.IsNullOrEmpty(EventoFlete.ImagenBase64))
-                        {
-                            EventoFlete.ImagenMostrar = Auxiliar.SetDefaultImage();
-                        }
-                        else
-                        {
-                            EventoFlete.ImagenMostrar = EventoFlete.ImagenBase64;
-                        }
-                        EventoFlete.ExtensionImagenBase64 = Auxiliar.ObtenerExtensionImagenBase64(EventoFlete.ImagenMostrar);
-                        //aqui pondriamos alguna lista o valores de cargar si esta todo correcto
                         EventoFlete.ListaDeTiposDeduccion = FleteDatos.GetTiposDeduccion(EventoFlete);
                         EventoFlete.ListaTiposEventos = FleteDatos.GetTiposEventos(EventoFlete);
                         return View(EventoFlete);
