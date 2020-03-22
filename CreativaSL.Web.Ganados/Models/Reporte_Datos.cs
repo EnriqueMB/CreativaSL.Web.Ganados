@@ -126,6 +126,16 @@ namespace CreativaSL.Web.Ganados.Models
                     item.TotalGanado = !dr.IsDBNull(dr.GetOrdinal("TotalGanado")) ? dr.GetInt32(dr.GetOrdinal("TotalGanado")) : 0;
                     item.TotalKilos = !dr.IsDBNull(dr.GetOrdinal("TotalKilos")) ? dr.GetInt32(dr.GetOrdinal("TotalKilos")) : 0;
                     item.PrecioGanado = !dr.IsDBNull(dr.GetOrdinal("PrecioGanado")) ? dr.GetDecimal(dr.GetOrdinal("PrecioGanado")) : 0;
+                    item.ImporteGanadoMachos = !dr.IsDBNull(dr.GetOrdinal("ImporteGanadoMachos"))
+                        ? dr.GetDecimal(dr.GetOrdinal("ImporteGanadoMachos"))
+                        : 0;
+                    item.ImporteGanadoHembras = !dr.IsDBNull(dr.GetOrdinal("ImporteGanadoHembras"))
+                        ? dr.GetDecimal(dr.GetOrdinal("ImporteGanadoHembras"))
+                        : 0;
+                    item.ImporteGanadoTotal = !dr.IsDBNull(dr.GetOrdinal("ImporteGanadoTotal"))
+                        ? dr.GetDecimal(dr.GetOrdinal("ImporteGanadoTotal"))
+                        : 0;
+
                     lista.Add(item);
                 }
                 dr.Close();

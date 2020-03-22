@@ -20,6 +20,11 @@ namespace CreativaSL.Web.Ganados.Models
             _DatosEmpresa = new DatosEmpresaViewModels();
             _IdSucursal = string.Empty;
         }
+
+       public decimal ImporteGanadoMachos { get; set; }
+       public decimal ImporteGanadoHembras { get; set; }
+       public decimal ImporteGanadoTotal { get; set; }
+
         private string _IdSucursal;
 
         public string IdSucursal
