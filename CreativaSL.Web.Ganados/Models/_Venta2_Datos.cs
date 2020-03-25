@@ -2522,6 +2522,9 @@ namespace CreativaSL.Web.Ganados.Models
                     Item.TotalPorCobrarGanado = !dr.IsDBNull(dr.GetOrdinal("TotalPorCobrarGanado")) ? dr.GetDecimal(dr.GetOrdinal("TotalPorCobrarGanado")) : 0;
                     Item.CostoFlete = !dr.IsDBNull(dr.GetOrdinal("costoFlete")) ? dr.GetDecimal(dr.GetOrdinal("costoFlete")) : 0;
                     Item.ElaboradoPor = !dr.IsDBNull(dr.GetOrdinal("elaboradoPor")) ? dr.GetString(dr.GetOrdinal("elaboradoPor")) : string.Empty;
+
+                    Item.LogoEmpresa =
+                        Auxiliar.ImagePathToBase64(Item.LogoEmpresa, ProjectSettings.BaseDirCatEmpresa);
                 }
                 dr.Close();
                 return Item;
@@ -2769,7 +2772,7 @@ namespace CreativaSL.Web.Ganados.Models
             return costoExtra;
         }
 
-        private List<CostoExtra> GetAllCostosExtrasXIdVenta(string idVenta, string conexion)
+        public List<CostoExtra> GetAllCostosExtrasXIdVenta(string idVenta, string conexion)
         {
             List<CostoExtra> lista = new List<CostoExtra>();
             
@@ -2842,9 +2845,17 @@ namespace CreativaSL.Web.Ganados.Models
 
             while (sqlDataReader.Read())
             {
-                respuestaAjax.Success = !sqlDataReader.IsDBNull(sqlDataReader.GetOrdinal("Success")) ? sqlDataReader.GetBoolean(sqlDataReader.GetOrdinal("Success")) : false;
-                respuestaAjax.Mensaje = !sqlDataReader.IsDBNull(sqlDataReader.GetOrdinal("Mensaje")) ? sqlDataReader.GetString(sqlDataReader.GetOrdinal("Mensaje")) : string.Empty;
-                respuestaAjax.MensajeErrorSQL = !sqlDataReader.IsDBNull(sqlDataReader.GetOrdinal("MensajeErrorSQL")) ? sqlDataReader.GetString(sqlDataReader.GetOrdinal("MensajeErrorSQL")) : string.Empty;
+                respuestaAjax.Success = !sqlDataReader.IsDBNull(sqlDataReader.GetOrdinal("Success"))
+                    ? sqlDataReader.GetBoolean(sqlDataReader.GetOrdinal("Success"))
+                    : false;
+
+                respuestaAjax.Mensaje = !sqlDataReader.IsDBNull(sqlDataReader.GetOrdinal("Mensaje"))
+                    ? sqlDataReader.GetString(sqlDataReader.GetOrdinal("Mensaje"))
+                    : string.Empty;
+
+                respuestaAjax.MensajeErrorSQL = !sqlDataReader.IsDBNull(sqlDataReader.GetOrdinal("MensajeErrorSQL"))
+                    ? sqlDataReader.GetString(sqlDataReader.GetOrdinal("MensajeErrorSQL"))
+                    : string.Empty;
             }
 
             sqlDataReader.Close();

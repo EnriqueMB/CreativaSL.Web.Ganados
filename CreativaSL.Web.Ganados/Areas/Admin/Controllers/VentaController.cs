@@ -2475,6 +2475,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 List<ComprobanteVentaDetallesDeduccionesModels> ListaComprobanteVentaDetallesDeducciones = new List<ComprobanteVentaDetallesDeduccionesModels>();
                 List<ComprobanteGanadoModels> ListaComprobanteGanadoMachos = new List<ComprobanteGanadoModels>();
                 List<ComprobanteGanadoModels> ListaComprobanteGanadoHembras = new List<ComprobanteGanadoModels>();
+                var ListaCostosExtras = new List<CostoExtra>();
 
                 _Venta2_Datos Datos = new _Venta2_Datos();
                 _Comprobante_Datos oDatosComprobante = new _Comprobante_Datos();
@@ -2490,6 +2491,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 ListaComprobanteVentaDetallesDeducciones = Datos.GetComprobanteVentaDetallesDeducciones(Venta);
                 ListaComprobanteGanadoMachos = oDatosComprobante.Comprobante_spCIDDB_get_detallesGanados(true, 2, id, Conexion);
                 ListaComprobanteGanadoHembras = oDatosComprobante.Comprobante_spCIDDB_get_detallesGanados(false, 2, id, Conexion);
+                ListaCostosExtras = Datos.GetAllCostosExtrasXIdVenta(Venta.Id_venta, Venta.Conexion);
 
                 LocalReport Rtp = new LocalReport();
                 Rtp.EnableExternalImages = true;
@@ -2526,6 +2528,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Rtp.DataSources.Add(new ReportDataSource("ListaDetallesDeducciones", ListaComprobanteVentaDetallesDeducciones));
                 Rtp.DataSources.Add(new ReportDataSource("ComprobanteVentaGanadoMachos", ListaComprobanteGanadoMachos));
                 Rtp.DataSources.Add(new ReportDataSource("ComprobanteVentaGanadoHembras", ListaComprobanteGanadoHembras));
+                Rtp.DataSources.Add(new ReportDataSource("ListaCostosExtras", ListaCostosExtras));
 
                 string reportType = "PDF";
                 string mimeType;

@@ -3354,6 +3354,9 @@ namespace CreativaSL.Web.Ganados.Models
                     Item.AnnoImpresion = !dr.IsDBNull(dr.GetOrdinal("anno")) ? dr.GetString(dr.GetOrdinal("anno")) : string.Empty;
                     Item.MesImpresion = !dr.IsDBNull(dr.GetOrdinal("mes")) ? dr.GetString(dr.GetOrdinal("mes")) : string.Empty;
                     Item.DiaImpresion = !dr.IsDBNull(dr.GetOrdinal("dia")) ? dr.GetString(dr.GetOrdinal("dia")) : string.Empty;
+
+                    Item.UrlLogo =
+                        Auxiliar.ImagePathToBase64(Item.UrlLogo, ProjectSettings.BaseDirCatEmpresa);
                 }
                 dr.Close();
                 return Item;
