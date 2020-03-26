@@ -4,32 +4,80 @@ using System.Data;
 using Microsoft.ApplicationBlocks.Data;
 using System.Data.SqlClient;
 using System.Globalization;
-using System.Text;
-using System.IO;
 using CreativaSL.Web.Ganados.Models.Datatable;
-using CreativaSL.Web.Ganados.Models.Dto;
 using CreativaSL.Web.Ganados.Models.Dto.Base;
 using CreativaSL.Web.Ganados.Models.Dto.Compra;
+using CreativaSL.Web.Ganados.Models.System;
 using Newtonsoft.Json;
+
 
 namespace CreativaSL.Web.Ganados.Models
 {
-    public class _Compra_Datos
+    public class _Compra_Datos : BaseSQL
     {
         #region Json Datatables
-        public string GetDocumentosDataTable(CompraModels Compra)
+        public string GetDocumentosDataTable(DataTableAjaxPostModel dataTableAjaxPostModel, CompraModels Compra)
         {
-            object[] parametros =
-            {
-                Compra.IDCompra
-            };
-
             try
             {
-                SqlDataReader dr = null;
-                dr = SqlHelper.ExecuteReader(Compra.Conexion, "spCSLDB_Compra_get_DocumentosXIDCompra", parametros);
-                string datatable = Auxiliar.SqlReaderToJson(dr);
-                dr.Close();
+                var datatable = string.Empty;
+                using (SqlConnection sqlcon = new SqlConnection(ConexionSql))
+                {
+                    using (SqlCommand cmd = new SqlCommand("spCSLDB_Compra_get_DocumentosXIDCompra", sqlcon))
+                    {
+                        //parametros de entrada
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        cmd.Parameters.Add("@id_compra", SqlDbType.Char).Value = Compra.IDCompra;
+                        cmd.Parameters.Add("@Start", SqlDbType.Int).Value = dataTableAjaxPostModel.start;
+                        cmd.Parameters.Add("@Length", SqlDbType.Int).Value = dataTableAjaxPostModel.length;
+                        cmd.Parameters.Add("@SearchValue", SqlDbType.NVarChar).Value = dataTableAjaxPostModel.search.value;
+                        cmd.Parameters.Add("@Draw", SqlDbType.Int).Value = dataTableAjaxPostModel.draw;
+                        cmd.Parameters.Add("@ColumnNumber", SqlDbType.Int).Value = dataTableAjaxPostModel.order[0].column;
+                        cmd.Parameters.Add("@ColumnDir", SqlDbType.NVarChar).Value = dataTableAjaxPostModel.order[0].dir;
+
+                        // execute
+                        sqlcon.Open();
+
+                        var reader = cmd.ExecuteReader();
+
+                        var indexDatatableDto = new IndexDatatableDto();
+
+                        if (reader.HasRows)
+                        {
+                            indexDatatableDto.Data = new List<object>();
+                            bool firstData = true;
+
+                            while (reader.Read())
+                            {
+                                if (firstData)
+                                {
+                                    indexDatatableDto.Draw = int.Parse(reader["Draw"].ToString()); ;
+                                    indexDatatableDto.RecordsFiltered = int.Parse(reader["RecordsFiltered"].ToString());
+                                    indexDatatableDto.RecordsTotal = int.Parse(reader["RecordsTotal"].ToString());
+                                    firstData = false;
+                                }
+
+                                var item = new IndexDocumentoCompraDetalleDto();
+                                item.IdDocumentoCompraDetalle = reader["IdDocumentoCompraDetalle"].ToString();
+                                item.Clave = reader["Clave"].ToString();
+                                item.Imagen = reader["Imagen"].ToString();
+                                item.Descripcion = reader["Descripcion"].ToString();
+                                item.Imagen = Auxiliar.ValidImageFormServer(item.Imagen,
+                                    ProjectSettings.BaseDirCompraDocumentoDetalle);
+
+                                indexDatatableDto.Data.Add(item);
+                            }
+                        }
+
+                        var json = JsonConvert.SerializeObject(indexDatatableDto);
+
+                        reader.Close();
+
+                        return json;
+                    }
+                }
+
                 return datatable;
             }
             catch (Exception ex)
@@ -1748,24 +1796,19 @@ namespace CreativaSL.Web.Ganados.Models
                 SqlDataReader dr = null;
                 dr = SqlHelper.ExecuteReader(Documento.Conexion, "spCSLDB_Compra_get_DocumentoXIDDocumento", parametros);
 
+                Documento.ImagenServer = ProjectSettings.PathDefaultImage;
+
                 while (dr.Read())
                 {
                     Documento.IDTipoDocumento = !dr.IsDBNull(dr.GetOrdinal("id_tipoDocumento")) ? dr.GetInt16(dr.GetOrdinal("id_tipoDocumento")) : 0;
                     Documento.Clave = !dr.IsDBNull(dr.GetOrdinal("clave")) ? dr.GetString(dr.GetOrdinal("clave")) : string.Empty;
                     //Solo para mostrar
                     Documento.ImagenServer = !dr.IsDBNull(dr.GetOrdinal("imagen")) ? dr.GetString(dr.GetOrdinal("imagen")) : string.Empty;
+                    
+                    Documento.ImagenServer = Auxiliar.ValidImageFormServer(Documento.ImagenServer,
+                        ProjectSettings.BaseDirCompraDocumentoDetalle);
                 }
-                if (string.IsNullOrEmpty(Documento.ImagenServer))
-                {
-                    //No hay imagen en el server
-                    Documento.MostrarImagen = Auxiliar.SetDefaultImage();
-                }
-                else
-                {
-                    //Guardamos el string de la imagen
-                    Documento.MostrarImagen = Documento.ImagenServer;
-                }
-                Documento.ExtensionImagenBase64 = Auxiliar.ObtenerExtensionImagenBase64(Documento.MostrarImagen);
+                
                 dr.Close();
 
                 return Documento;
@@ -2695,6 +2738,9 @@ namespace CreativaSL.Web.Ganados.Models
                 {
                     RespuestaAjax.Success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : false;
                     RespuestaAjax.Mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
+
+                    RespuestaAjax.Mensaje =
+                        Auxiliar.ValidImageFormServer(RespuestaAjax.Mensaje, ProjectSettings.BaseDirCatFierro);
                 }
                 dr.Close();
                 return RespuestaAjax;
@@ -2724,14 +2770,16 @@ namespace CreativaSL.Web.Ganados.Models
                     if (success)
                     {
                         string imgBase64 = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
-                        Fierro.ImagenContruida = "data:image/jpg;base64," + imgBase64;
+
+                        Fierro.ImagenContruida =
+                            Auxiliar.ValidImageFormServer(imgBase64, ProjectSettings.BaseDirCatFierro);
                     }
                 }
                 dr.Close();
 
                 if (string.IsNullOrEmpty(Fierro.ImagenContruida))
                 {
-                    Fierro.ImagenContruida = "data:image/jpg;base64,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";
+                    Fierro.ImagenContruida = ProjectSettings.PathDefaultImage;
                 }
 
                 return Fierro;
@@ -2992,6 +3040,9 @@ namespace CreativaSL.Web.Ganados.Models
                         DocumentoPago.Celular = !dr.IsDBNull(dr.GetOrdinal("celular")) ? dr.GetString(dr.GetOrdinal("celular")) : string.Empty;
                         DocumentoPago.pendiente = !dr.IsDBNull(dr.GetOrdinal("pendiente")) ? dr.GetDecimal(dr.GetOrdinal("pendiente")) : 0;
                         DocumentoPago.PagarA = !dr.IsDBNull(dr.GetOrdinal("PagarA")) ? dr.GetString(dr.GetOrdinal("PagarA")) : string.Empty;
+
+                        DocumentoPago.ImagenBase64 = Auxiliar.ValidImageFormServer(DocumentoPago.ImagenBase64,
+                            ProjectSettings.BaseDirDocumentoPorPagarPagoBancarizado);
                     }
                     else
                     {
@@ -3303,6 +3354,9 @@ namespace CreativaSL.Web.Ganados.Models
                     Item.AnnoImpresion = !dr.IsDBNull(dr.GetOrdinal("anno")) ? dr.GetString(dr.GetOrdinal("anno")) : string.Empty;
                     Item.MesImpresion = !dr.IsDBNull(dr.GetOrdinal("mes")) ? dr.GetString(dr.GetOrdinal("mes")) : string.Empty;
                     Item.DiaImpresion = !dr.IsDBNull(dr.GetOrdinal("dia")) ? dr.GetString(dr.GetOrdinal("dia")) : string.Empty;
+
+                    Item.UrlLogo =
+                        Auxiliar.ImagePathToBase64(Item.UrlLogo, ProjectSettings.BaseDirCatEmpresa);
                 }
                 dr.Close();
                 return Item;
@@ -3514,6 +3568,7 @@ namespace CreativaSL.Web.Ganados.Models
                 {
                     Evento.FechaDeteccion = DateTime.Today;
                     Evento.HoraDeteccion = DateTime.Now.TimeOfDay;
+                    Evento.ImagenBase64 = ProjectSettings.PathDefaultImage;
                 }
                 else
                 {
@@ -3525,6 +3580,9 @@ namespace CreativaSL.Web.Ganados.Models
                         Evento.HoraDeteccion = !dr.IsDBNull(dr.GetOrdinal("horaDeteccion")) ? dr.GetTimeSpan(dr.GetOrdinal("horaDeteccion")) : DateTime.Today.TimeOfDay;
                         Evento.Observacion = !dr.IsDBNull(dr.GetOrdinal("observacion")) ? dr.GetString(dr.GetOrdinal("observacion")) : string.Empty;
                         Evento.ImagenBase64 = !dr.IsDBNull(dr.GetOrdinal("imagenBase64")) ? dr.GetString(dr.GetOrdinal("imagenBase64")) : string.Empty;
+
+                        Evento.ImagenBase64 =
+                            Auxiliar.ValidImageFormServer(Evento.ImagenBase64, ProjectSettings.BaseDirCompraEvento);
                     }
                 }
 
@@ -3583,6 +3641,10 @@ namespace CreativaSL.Web.Ganados.Models
                 item.IDFierro = !dr.IsDBNull(dr.GetOrdinal("ID")) ? dr.GetString(dr.GetOrdinal("ID")) : string.Empty;
                 item.NombreFierro = !dr.IsDBNull(dr.GetOrdinal("Nombre")) ? dr.GetString(dr.GetOrdinal("Nombre")) : string.Empty;
                 item.NombreArchivo = !dr.IsDBNull(dr.GetOrdinal("NombreImagen")) ? dr.GetString(dr.GetOrdinal("NombreImagen")) : string.Empty;
+
+                item.NombreArchivo =
+                    Auxiliar.ValidImageFormServer(item.NombreArchivo, ProjectSettings.BaseDirCatFierro);
+
                 lista.Add(item);
             }
             dr.Close();
@@ -3613,6 +3675,10 @@ namespace CreativaSL.Web.Ganados.Models
                             Item.NombreFierro = !DTRD.IsDBNull(DTRD.GetOrdinal("nombreFierro")) ? DTRD.GetString(DTRD.GetOrdinal("nombreFierro")) : string.Empty;
                             Item.Observacion = !DTRD.IsDBNull(DTRD.GetOrdinal("observacion")) ? DTRD.GetString(DTRD.GetOrdinal("observacion")) : string.Empty;
                             Item.NombreImagen = !DTRD.IsDBNull(DTRD.GetOrdinal("nombreImagen")) ? DTRD.GetString(DTRD.GetOrdinal("nombreImagen")) : "sin_imagen.jpg";
+
+                            Item.NombreImagen =
+                                Auxiliar.ValidImageFormServer(Item.NombreImagen, ProjectSettings.BaseDirCatFierro);
+
                             ListaFierros.Add(Item);
                         }
                         Datos.ListaFierroCompra = ListaFierros;
@@ -3627,6 +3693,10 @@ namespace CreativaSL.Web.Ganados.Models
                             Item1.IdCompraFierro = !DTR.IsDBNull(DTR.GetOrdinal("id_compraFierro")) ? DTR.GetString(DTR.GetOrdinal("id_compraFierro")) : string.Empty;
                             Item1.NombreFierro = !DTR.IsDBNull(DTR.GetOrdinal("nombreFierro")) ? DTR.GetString(DTR.GetOrdinal("nombreFierro")) : string.Empty;
                             Item1.NombreImagen = !DTR.IsDBNull(DTR.GetOrdinal("nombreImagen")) ? DTR.GetString(DTR.GetOrdinal("nombreImagen")) : "sin_imagen.jpg";
+
+                            Item1.NombreImagen =
+                                Auxiliar.ValidImageFormServer(Item1.NombreImagen, ProjectSettings.BaseDirCatFierro);
+
                             ListaFierroCompra.Add(Item1);
                         }
                         Datos.ListaFierroXCompra = ListaFierroCompra;

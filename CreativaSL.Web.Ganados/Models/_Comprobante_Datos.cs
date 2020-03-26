@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
+using CreativaSL.Web.Ganados.Models.System;
 
 namespace CreativaSL.Web.Ganados.Models
 {
@@ -29,6 +30,8 @@ namespace CreativaSL.Web.Ganados.Models
                     Item.MesImpresion = !dr.IsDBNull(dr.GetOrdinal("mesComprobante")) ? dr.GetString(dr.GetOrdinal("mesComprobante")) : string.Empty;
                     Item.DiaImpresion = !dr.IsDBNull(dr.GetOrdinal("diaComprobante")) ? dr.GetString(dr.GetOrdinal("diaComprobante")) : string.Empty;
                     Item.Folio = !dr.IsDBNull(dr.GetOrdinal("folio")) ? dr.GetString(dr.GetOrdinal("folio")) : string.Empty;
+
+                    Item.LogoEmpresa = Auxiliar.ImagePathToBase64(Item.LogoEmpresa, ProjectSettings.BaseDirCatEmpresa);
 
                     if (modulo == 1) //pesajeGanado
                     {

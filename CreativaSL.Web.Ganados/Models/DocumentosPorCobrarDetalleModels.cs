@@ -60,7 +60,7 @@ namespace CreativaSL.Web.Ganados.Models
         public string nombreRazonSocial { get;  set; }
         public int ganadoTotal { get;  set; }
         public decimal kiloTotal { get;  set; }
-        public long Folio { get;  set; }
+        public string Folio { get;  set; }
         public DateTime FechaVenta { get;  set; }
         public object TipoFlete { get;  set; }
         public DateTime FechaEmbarque { get;  set; }

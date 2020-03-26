@@ -243,13 +243,26 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
-CreativaSL.Web.Ganados/Imagenes/Cliente/FotoPerfil/fp_5A4DC233-7E54-4C8C-9090-DFA40FADE763.jpg
-CreativaSL.Web.Ganados/Imagenes/Proveedor/FotoPerfil/fp_6997BF6C-7372-4694-AAA7-EA52815D0998.jpg
-CreativaSL.Web.Ganados/Imagenes/Proveedor/FotoPerfil/fp_6997BF6C-7372-4694-AAA7-EA52815D0998.png
-CreativaSL.Web.Ganados/Imagenes/Cliente/FotoCuentas/fp_47966F4C-532B-4AA4-8CB4-AE753B1465F6.jpg
+
 CreativaSL.Web.Ganados/Imagenes/Cliente/FotoCuentas/
 CreativaSL.Web.Ganados/Imagenes/Cliente/
 CreativaSL.Web.Ganados/Imagenes/CajaChica/ChequeComprobante/
 CreativaSL.Web.Ganados/Imagenes/Proveedor/FotoPerfil/
 CreativaSL.Web.Ganados/Imagenes/Proveedor/INE/
 CreativaSL.Web.Ganados/Imagenes/Proveedor/ManifestacionFierro/
+
+CreativaSL.Web.Ganados/Imagenes/Catalogos/Banco/
+CreativaSL.Web.Ganados/Imagenes/Catalogos/Empresa/
+CreativaSL.Web.Ganados/Imagenes/Catalogos/Fierro/
+CreativaSL.Web.Ganados/Imagenes/Catalogos/ProductoAlmacen/
+CreativaSL.Web.Ganados/Imagenes/Catalogos/Vehiculo/
+CreativaSL.Web.Ganados/Imagenes/Compra/DocumentoDetalle/
+CreativaSL.Web.Ganados/Imagenes/DocumentoPorCobrar/PagoBancarizado/
+CreativaSL.Web.Ganados/Imagenes/Flete/DocumentoDetalle/
+CreativaSL.Web.Ganados/Imagenes/DocumentoPorPagar/PagoBancarizado/
+CreativaSL.Web.Ganados/Imagenes/EntregaCombustible/
+CreativaSL.Web.Ganados/Imagenes/Venta/DocumentoDetalle/
+CreativaSL.Web.Ganados/Imagenes/Flete/Eventos/
+CreativaSL.Web.Ganados/Imagenes/Proveedor/CuentasBancarias/
+CreativaSL.Web.Ganados/Imagenes/Proveedor/UppPsg/
+CreativaSL.Web.Ganados/Imagenes/Venta/Eventos/

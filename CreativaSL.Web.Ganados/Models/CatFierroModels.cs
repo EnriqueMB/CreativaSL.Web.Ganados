@@ -87,9 +87,8 @@ namespace CreativaSL.Web.Ganados.Models
         }
 
         private HttpPostedFileBase _foto;
-        [Required(ErrorMessage = "La Imagen es obligatorio")]
         [Display(Name = "Imagen")]
-        [FileExtensions(Extensions = "png,jpg,jpeg", ErrorMessage = "Solo imagenes")]
+        [FileExtensions(Extensions = "png,jpg,jpeg,heic", ErrorMessage = "Solo imagenes")]
         public HttpPostedFileBase foto
         {
             get { return _foto; }

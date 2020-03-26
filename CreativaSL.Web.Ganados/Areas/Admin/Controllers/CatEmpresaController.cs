@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
 using System.Net;
 using System.Web.Mvc;
 using CreativaSL.Web.Ganados.Filters;
@@ -10,6 +8,9 @@ using CreativaSL.Web.Ganados.App_Start;
 using System.IO;
 using System.Drawing;
 using System.Drawing.Imaging;
+using CreativaSL.Web.Ganados.Models.Datatable;
+using CreativaSL.Web.Ganados.Models.Helpers;
+using CreativaSL.Web.Ganados.Models.System;
 
 namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 {
@@ -79,39 +80,61 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     {
                         EmpresaDatos = new _CatEmpresa_Datos();
 
+                        var imagenes = EmpresaDatos.ObtenerImagenes(Empresa.IDEmpresa);
+
                         if (Empresa.LogoEmpresaHttp != null)
                         {
-                            Stream oStreamLogoEmpresa = Empresa.LogoEmpresaHttp.InputStream;
 
-                            if (Path.GetExtension(Empresa.LogoEmpresaHttp.FileName).ToLower() == ".heic")
-                            {
+                            var uploadLogoEmpresaToserver = new UploadFileToServerModel();
+                            uploadLogoEmpresaToserver.FileBase = Empresa.LogoEmpresaHttp;
+                            uploadLogoEmpresaToserver.BaseDir = ProjectSettings.BaseDirCatEmpresa;
+                            uploadLogoEmpresaToserver.FileName = 
+                                string.IsNullOrEmpty(Empresa.LogoEmpresa) || string.IsNullOrEmpty(Empresa.LogoEmpresa.Replace(ProjectSettings.PathDefaultImage, string.Empty)) || string.IsNullOrEmpty(Empresa.LogoEmpresa.Replace(ProjectSettings.BaseDirCatEmpresa, string.Empty))
+                                ? Guid.NewGuid().ToString().ToUpper()
+                                : Path.GetFileNameWithoutExtension(Empresa.LogoEmpresa.Replace(ProjectSettings.BaseDirCatEmpresa, string.Empty));
 
-                                Image img = (Image)Auxiliar.ProcessFile(oStreamLogoEmpresa);
-                                Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
-                                Empresa.LogoEmpresa = image.ToBase64String(ImageFormat.Jpeg);
-                            }
-                            else
+                            CidFaresHelper.UploadFileToServer(uploadLogoEmpresaToserver);
+                            Empresa.LogoEmpresa = uploadLogoEmpresaToserver.FileName;
+
+                            if (!string.Equals(Empresa.LogoEmpresa, imagenes.LogoEmpresa))
                             {
-                                Empresa.LogoEmpresa = Auxiliar.ImageToBase64(Empresa.LogoEmpresaHttp);
+                                uploadLogoEmpresaToserver.FileName = imagenes.LogoEmpresa;
+                                CidFaresHelper.DeleteFileFromServer(uploadLogoEmpresaToserver);
                             }
                             
+                        }
+                        else
+                        {
+                            Empresa.LogoEmpresa =
+                                Empresa.LogoEmpresa?.Replace(ProjectSettings.PathDefaultImage, string.Empty);
+                            Empresa.LogoEmpresa =
+                                Empresa.LogoEmpresa?.Replace(ProjectSettings.BaseDirCatEmpresa, string.Empty);
                         }
 
                         if (Empresa.LogoRFCHttp != null)
                         {
-                            Stream oStreamLogoRFC = Empresa.LogoRFCHttp.InputStream;
+                            var uploadLogoEmpresaToserver = new UploadFileToServerModel();
+                            uploadLogoEmpresaToserver.FileBase = Empresa.LogoRFCHttp;
+                            uploadLogoEmpresaToserver.BaseDir = ProjectSettings.BaseDirCatEmpresa;
+                            uploadLogoEmpresaToserver.FileName = 
+                                string.IsNullOrEmpty(Empresa.LogoRFC) || string.IsNullOrEmpty(Empresa.LogoRFC.Replace(ProjectSettings.PathDefaultImage, string.Empty)) || string.IsNullOrEmpty(Empresa.LogoRFC.Replace(ProjectSettings.BaseDirCatEmpresa, string.Empty))
+                                ? Guid.NewGuid().ToString().ToUpper()
+                                : Path.GetFileNameWithoutExtension(Empresa.LogoRFC.Replace(ProjectSettings.BaseDirCatEmpresa, string.Empty));
 
-                            if (Path.GetExtension(Empresa.LogoRFCHttp.FileName).ToLower() == ".heic")
-                            {
+                            CidFaresHelper.UploadFileToServer(uploadLogoEmpresaToserver);
+                            Empresa.LogoRFC = uploadLogoEmpresaToserver.FileName;
 
-                                Image img = (Image)Auxiliar.ProcessFile(oStreamLogoRFC);
-                                Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
-                                Empresa.LogoRFC = image.ToBase64String(ImageFormat.Jpeg);
-                            }
-                            else
+                            if (!string.Equals(Empresa.LogoRFC, imagenes.LogoRfc))
                             {
-                                Empresa.LogoRFC = Auxiliar.ImageToBase64(Empresa.LogoRFCHttp);
+                                uploadLogoEmpresaToserver.FileName = imagenes.LogoRfc;
+                                CidFaresHelper.DeleteFileFromServer(uploadLogoEmpresaToserver);
                             }
+
+                        }
+                        else
+                        {
+                            Empresa.LogoRFC = Empresa.LogoRFC?.Replace(ProjectSettings.PathDefaultImage, string.Empty);
+                            Empresa.LogoRFC = Empresa.LogoRFC?.Replace(ProjectSettings.BaseDirCatEmpresa, string.Empty);
                         }
 
                         Empresa.Conexion = Conexion;
@@ -142,7 +165,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public ActionResult LoadTableCuentasBancarias(string IDEmpresa)
+        public ActionResult LoadTableCuentasBancarias(DataTableAjaxPostModel dataTableAjaxPostModel, string IDEmpresa)
         {
             try
             {
@@ -152,7 +175,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     IDEmpresa = IDEmpresa
                 };
                 EmpresaDatos = new _CatEmpresa_Datos();
-                Empresa.TablaCuentasBancarias = EmpresaDatos.GetCuentasBancarias(Empresa);
+                Empresa.TablaCuentasBancarias = EmpresaDatos.GetCuentasBancarias(dataTableAjaxPostModel, Empresa);
 
                 return Content(Empresa.TablaCuentasBancarias, "application/json");
             }
@@ -232,7 +255,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public ActionResult DeleteCuentaBancaria(string id)
+        public ActionResult DeleteCuentaBancaria(string id, string imagen)
         {
             try
             {

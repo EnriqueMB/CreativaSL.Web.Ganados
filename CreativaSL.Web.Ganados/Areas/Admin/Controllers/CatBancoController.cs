@@ -1,8 +1,6 @@
 ﻿using System.Configuration;
 using System;
-using System.Collections.Generic;
 using CreativaSL.Web.Ganados.Models;
-using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using CreativaSL.Web.Ganados.Filters;
@@ -10,6 +8,8 @@ using System.Drawing;
 using System.IO;
 using System.Drawing.Imaging;
 using CreativaSL.Web.Ganados.App_Start;
+using CreativaSL.Web.Ganados.Models.Helpers;
+using CreativaSL.Web.Ganados.Models.System;
 
 namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 {
@@ -66,27 +66,27 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 if (Token.IsTokenValid())
                 {
                     HttpPostedFileBase bannerImage = Request.Files[0] as HttpPostedFileBase;
-                    if (!string.IsNullOrEmpty(bannerImage.FileName))
+                    if (bannerImage != null && bannerImage.ContentLength > 0)
                     {
-                        if (bannerImage != null && bannerImage.ContentLength > 0)
-                        {
-                            Stream s = bannerImage.InputStream;
+                        var uploadImageImagenBancoToserver = new UploadFileToServerModel();
+                        uploadImageImagenBancoToserver.FileBase = bannerImage;
+                        uploadImageImagenBancoToserver.BaseDir = ProjectSettings.BaseDirCatBanco;
+                        uploadImageImagenBancoToserver.FileName =
+                            Banco.Imagen?.Replace(ProjectSettings.BaseDirCatBanco, string.Empty);
 
-                            if (Path.GetExtension(bannerImage.FileName).ToLower() == ".heic")
-                            {
-                                
-                                Image img = (Image)Auxiliar.ProcessFile(s);
-                                Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
-                                Banco.Imagen = image.ToBase64String(ImageFormat.Jpeg);
-                            }
-                            else
-                            {
-                                Image img = new Bitmap(s);
-                                Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
-                                Banco.Imagen = image.ToBase64String(img.RawFormat);
-                            }
-                            
-                            
+                        CidFaresHelper.DeleteFileFromServer(uploadImageImagenBancoToserver);
+
+                        uploadImageImagenBancoToserver.FileName = Guid.NewGuid().ToString().ToUpper();
+                        CidFaresHelper.UploadFileToServer(uploadImageImagenBancoToserver);
+                        Banco.Imagen = uploadImageImagenBancoToserver.FileName;
+
+                        if (!uploadImageImagenBancoToserver.Success)
+                        {
+                            //borramos en caso que se halla subido y marque error
+                            CidFaresHelper.DeleteFilesWithOutExtensionFromServer(uploadImageImagenBancoToserver);
+                            TempData["typemessage"] = "2";
+                            TempData["message"] =
+                                "Ha ocurrido un error al guardar la imagen del banco, intenlo subir de nuevo o contacte con soporte técnico.";
                         }
                     }
                     else
@@ -169,28 +169,30 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         Banco.IDBanco = id;
                         Banco.Opcion = 2;
                         Banco.Usuario = User.Identity.Name;
-                        // Banco.Descripcion = collection["Descripcion"];
 
-                        HttpPostedFileBase bannerImage = Request.Files[0] as HttpPostedFileBase;
-                        if (!string.IsNullOrEmpty(bannerImage.FileName))
+                        var  bannerImage = Request.Files[0] as HttpPostedFileBase;
+
+                        if (bannerImage != null && bannerImage.ContentLength > 0)
                         {
-                            if (bannerImage != null && bannerImage.ContentLength > 0)
+                            var uploadImageImagenBancoToserver = new UploadFileToServerModel();
+                            uploadImageImagenBancoToserver.FileBase = bannerImage;
+                            uploadImageImagenBancoToserver.BaseDir = ProjectSettings.BaseDirCatBanco;
+                            uploadImageImagenBancoToserver.FileName =
+                                Banco.Imagen?.Replace(ProjectSettings.BaseDirCatBanco, string.Empty);
+
+                            CidFaresHelper.DeleteFileFromServer(uploadImageImagenBancoToserver);
+
+                            uploadImageImagenBancoToserver.FileName = Guid.NewGuid().ToString().ToUpper();
+                            CidFaresHelper.UploadFileToServer(uploadImageImagenBancoToserver);
+                            Banco.Imagen = uploadImageImagenBancoToserver.FileName;
+
+                            if (!uploadImageImagenBancoToserver.Success)
                             {
-                                Stream s = bannerImage.InputStream;
-
-                                if (Path.GetExtension(bannerImage.FileName).ToLower() == ".heic")
-                                {
-
-                                    Image img = (Image)Auxiliar.ProcessFile(s);
-                                    Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
-                                    Banco.Imagen = image.ToBase64String(ImageFormat.Jpeg);
-                                }
-                                else
-                                {
-                                    Image img = new Bitmap(s);
-                                    Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
-                                    Banco.Imagen = image.ToBase64String(img.RawFormat);
-                                }
+                                //borramos en caso que se halla subido y marque error
+                                CidFaresHelper.DeleteFilesWithOutExtensionFromServer(uploadImageImagenBancoToserver);
+                                TempData["typemessage"] = "2";
+                                TempData["message"] =
+                                    "Ha ocurrido un error al guardar la imagen del banco, intenlo subir de nuevo o contacte con soporte técnico.";
                             }
                         }
                         else
@@ -248,14 +250,17 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Banco.IDBanco = id;
                 Banco.Usuario = User.Identity.Name;
                 Banco = BancoDatos.EliminarCatBanco(Banco);
-                //if (Banco.Completado == true)
-                //{
-                //    TempData["typemessage"] = "1";
-                //    TempData["message"] = "El registro se ha eliminado correctamente";
-                //}
+                
+                if (Banco.Completado)
+                {
+                    var uploadImageImagenBancoToserver = new UploadFileToServerModel();
+                    uploadImageImagenBancoToserver.BaseDir = ProjectSettings.BaseDirCatBanco;
+                    uploadImageImagenBancoToserver.FileName = Banco.Imagen;
+
+                    CidFaresHelper.DeleteFileFromServer(uploadImageImagenBancoToserver);
+                }
+
                 return Json("");
-
-
             }
             catch
             {

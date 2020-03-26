@@ -6,8 +6,7 @@
 
     /*INICIA EVENTO*/
     var initFuncionesEvento = function () {
-        var Imagen = document.getElementById("ImagenMostrar").value;
-        var ExtensionImagen = document.getElementById("ExtensionImagenBase64").value;
+        var Imagen = document.getElementById("ImagenBase64").value;
 
         $('.Hora24hrs').timepicker({
             minuteStep: 1,
@@ -19,9 +18,9 @@
             maxFileCount: 1,
             overwriteInitial: true,
             showUploadedThumbs: false,
-            allowedFileExtensions: ['png','jpg','jpeg','bmp'],
+            allowedFileExtensions: ['png','jpg','jpeg','bmp', 'heic'],
             initialPreview: [
-                '<img class="file-preview-image"  style=" width: auto !important; height: auto; max-width: 100%; max-height: 100%;" src="data:' + ExtensionImagen + ' ;base64,' + Imagen + '" />'
+                '<img class="file-preview-image"  style=" width: auto !important; height: auto; max-width: 100%; max-height: 100%;" src="' + Imagen + '" />'
             ],
             initialPreviewConfig: [
                { caption: 'Imagen' }

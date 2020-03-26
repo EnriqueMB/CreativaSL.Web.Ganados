@@ -11,6 +11,8 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using CreativaSL.Web.Ganados.Models.Helpers;
+using CreativaSL.Web.Ganados.Models.System;
 
 namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 {
@@ -305,7 +307,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 documentoPago.fecha = DateTime.Now;
                 documentoPago.Bancarizado = false;
 
-                documentoPago.ImagenBase64 = Auxiliar.SetDefaultImage();
+                documentoPago.ImagenBase64 = ProjectSettings.PathDefaultImage;
                 documentoPago.ExtensionImagenBase64 = Auxiliar.ObtenerExtensionImagenBase64(documentoPago.ImagenBase64);
                 return View(documentoPago);
             }
@@ -332,8 +334,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 documentoPago.fecha = DateTime.Now;
                 documentoPago.Bancarizado = false;
 
-                documentoPago.ImagenBase64 = Auxiliar.SetDefaultImage();
-                documentoPago.ExtensionImagenBase64 = Auxiliar.ObtenerExtensionImagenBase64(documentoPago.ImagenBase64);
+                documentoPago.ImagenBase64 = ProjectSettings.PathDefaultImage;
                 TempData["typemessage"] = "2";
                 TempData["message"] = "No se puede cargar la vista";
                 return View(documentoPago);
@@ -358,23 +359,37 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         {
                             if (DocumentoPorCobrarPago.HttpImagen != null)
                             {
-                                //DocumentoPorCobrarPago.ImagenBase64 = Auxiliar.ImageToBase64(DocumentoPorCobrarPago.HttpImagen);
+                                var uploadImagenToserver = new UploadFileToServerModel();
+                                uploadImagenToserver.FileBase = DocumentoPorCobrarPago.HttpImagen;
+                                uploadImagenToserver.BaseDir = ProjectSettings.BaseDirDocumentoPorCobrarPagoBancarizado;
+                                uploadImagenToserver.FileName =
+                                    DocumentoPorCobrarPago.ImagenBase64?.Replace(
+                                        ProjectSettings.BaseDirDocumentoPorCobrarPagoBancarizado, string.Empty);
 
-                                Stream s = DocumentoPorCobrarPago.HttpImagen.InputStream;
+                                CidFaresHelper.DeleteFileFromServer(uploadImagenToserver);
 
-                                if (Path.GetExtension(DocumentoPorCobrarPago.HttpImagen.FileName).ToLower() == ".heic")
-                                {
-                                    Image img = (Image)Auxiliar.ProcessFile(s);
-                                    Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
-                                    DocumentoPorCobrarPago.ImagenBase64 = image.ToBase64String(ImageFormat.Jpeg);
-                                }
-                                else
-                                {
-                                    Image img = new Bitmap(s);
-                                    Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
-                                    DocumentoPorCobrarPago.ImagenBase64 = image.ToBase64String(img.RawFormat);
-                                }
+                                uploadImagenToserver.FileName = Guid.NewGuid().ToString().ToUpper();
+                                CidFaresHelper.UploadFileToServer(uploadImagenToserver);
+                                DocumentoPorCobrarPago.ImagenBase64 = uploadImagenToserver.FileName;
                             }
+                            else
+                            {
+                                DocumentoPorCobrarPago.ImagenBase64 =
+                                    DocumentoPorCobrarPago.ImagenBase64?.Replace(ProjectSettings.BaseDirDocumentoPorCobrarPagoBancarizado,
+                                        string.Empty);
+                                DocumentoPorCobrarPago.ImagenBase64 =
+                                    DocumentoPorCobrarPago.ImagenBase64?.Replace(ProjectSettings.PathDefaultImage,
+                                        string.Empty);
+                            }
+                        }
+                        else
+                        {
+                            DocumentoPorCobrarPago.ImagenBase64 =
+                                DocumentoPorCobrarPago.ImagenBase64?.Replace(ProjectSettings.BaseDirDocumentoPorCobrarPagoBancarizado,
+                                    string.Empty);
+                            DocumentoPorCobrarPago.ImagenBase64 =
+                                DocumentoPorCobrarPago.ImagenBase64?.Replace(ProjectSettings.PathDefaultImage,
+                                    string.Empty);
                         }
                         DocumentoPorCobrarPago = DocumentoDatos.AC_ComprobanteCompra(DocumentoPorCobrarPago);
                         if (DocumentoPorCobrarPago.Completado == true)
@@ -440,8 +455,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         documentoPago.fecha = DateTime.Now;
                         documentoPago.Bancarizado = false;
 
-                        documentoPago.ImagenBase64 = Auxiliar.SetDefaultImage();
-                        documentoPago.ExtensionImagenBase64 = Auxiliar.ObtenerExtensionImagenBase64(documentoPago.ImagenBase64);
+                        documentoPago.ImagenBase64 = ProjectSettings.PathDefaultImage;
                         return View(documentoPago);
                     }
                 }
@@ -472,8 +486,8 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 documentoPago.fecha = DateTime.Now;
                 documentoPago.Bancarizado = false;
 
-                documentoPago.ImagenBase64 = Auxiliar.SetDefaultImage();
-                documentoPago.ExtensionImagenBase64 = Auxiliar.ObtenerExtensionImagenBase64(documentoPago.ImagenBase64);
+                documentoPago.ImagenBase64 = ProjectSettings.PathDefaultImage;
+                
                 TempData["typemessage"] = "2";
                 TempData["message"] = "Ocurrio un error contacte a soporte tecnico";
                 return RedirectToAction("DetallePagos", new { id = DocumentoPorCobrarPago.Id_documentoPorCobrar ,id2= DocumentoPorCobrarPago.id_status });
@@ -498,14 +512,6 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 
                 if (DocumentoPagarDetPago.TipoServicio == 1 || DocumentoPagarDetPago.TipoServicio == 2)
                     DocumentoPagarDetPago.Id_compra = DocumentoPagarDetPago.ListaAsignar[0].Id_2;
-
-
-                if (string.IsNullOrEmpty(DocumentoPagarDetPago.ImagenBase64))
-                {
-                    DocumentoPagarDetPago.ImagenBase64 = Auxiliar.SetDefaultImage();
-                }
-                
-                DocumentoPagarDetPago.ExtensionImagenBase64 = Auxiliar.ObtenerExtensionImagenBase64(DocumentoPagarDetPago.ImagenBase64);
 
 
                 DocumentoPagarDetPago.ListaFormaPagos = DocCobrarDatos.GetListadoCFDIFormaPago(DocumentoPagarDetPago);
@@ -540,23 +546,29 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         {
                             if (DocumentoPorCobrarPago.HttpImagen != null)
                             {
-                                //DocumentoPorCobrarPago.ImagenBase64 = Auxiliar.ImageToBase64(DocumentoPorCobrarPago.HttpImagen);
+                                var uploadImagenToserver = new UploadFileToServerModel();
+                                uploadImagenToserver.FileBase = DocumentoPorCobrarPago.HttpImagen;
+                                uploadImagenToserver.BaseDir = ProjectSettings.BaseDirDocumentoPorCobrarPagoBancarizado;
+                                uploadImagenToserver.FileName =
+                                    DocumentoPorCobrarPago.ImagenBase64?.Replace(
+                                        ProjectSettings.BaseDirDocumentoPorCobrarPagoBancarizado, string.Empty);
 
-                                Stream s = DocumentoPorCobrarPago.HttpImagen.InputStream;
+                                CidFaresHelper.DeleteFileFromServer(uploadImagenToserver);
 
-                                if (Path.GetExtension(DocumentoPorCobrarPago.HttpImagen.FileName).ToLower() == ".heic")
-                                {
-                                    Image img = (Image)Auxiliar.ProcessFile(s);
-                                    Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
-                                    DocumentoPorCobrarPago.ImagenBase64 = image.ToBase64String(ImageFormat.Jpeg);
-                                }
-                                else
-                                {
-                                    Image img = new Bitmap(s);
-                                    Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
-                                    DocumentoPorCobrarPago.ImagenBase64 = image.ToBase64String(img.RawFormat);
-                                }
+                                uploadImagenToserver.FileName = Guid.NewGuid().ToString().ToUpper();
+                                CidFaresHelper.UploadFileToServer(uploadImagenToserver);
+                                DocumentoPorCobrarPago.ImagenBase64 = uploadImagenToserver.FileName;
                             }
+                            else
+                            {
+                                DocumentoPorCobrarPago.ImagenBase64 =
+                                    DocumentoPorCobrarPago.ImagenBase64?.Replace(ProjectSettings.BaseDirDocumentoPorCobrarPagoBancarizado,
+                                        string.Empty);
+                                DocumentoPorCobrarPago.ImagenBase64 =
+                                    DocumentoPorCobrarPago.ImagenBase64?.Replace(ProjectSettings.PathDefaultImage,
+                                        string.Empty);
+                            }
+
                         }
                         DocumentoPorCobrarPago = DocumentoDatos.AC_ComprobanteCompra(DocumentoPorCobrarPago);
                         if (DocumentoPorCobrarPago.Completado == true)
@@ -593,8 +605,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                             documentoPago.fecha = DateTime.Now;
                             documentoPago.Bancarizado = false;
 
-                            documentoPago.ImagenBase64 = Auxiliar.SetDefaultImage();
-                            documentoPago.ExtensionImagenBase64 = Auxiliar.ObtenerExtensionImagenBase64(documentoPago.ImagenBase64);
+                            documentoPago.ImagenBase64 = ProjectSettings.PathDefaultImage;
                             TempData["typemessage"] = "2";
                             TempData["message"] = "Ocurrio un error al intentar guardar";
                             return View(documentoPago);
@@ -622,8 +633,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         documentoPago.fecha = DateTime.Now;
                         documentoPago.Bancarizado = false;
 
-                        documentoPago.ImagenBase64 = Auxiliar.SetDefaultImage();
-                        documentoPago.ExtensionImagenBase64 = Auxiliar.ObtenerExtensionImagenBase64(documentoPago.ImagenBase64);
+                        documentoPago.ImagenBase64 = ProjectSettings.PathDefaultImage;
                         return View(documentoPago);
                     }
                 }
@@ -654,8 +664,7 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 documentoPago.fecha = DateTime.Now;
                 documentoPago.Bancarizado = false;
 
-                documentoPago.ImagenBase64 = Auxiliar.SetDefaultImage();
-                documentoPago.ExtensionImagenBase64 = Auxiliar.ObtenerExtensionImagenBase64(documentoPago.ImagenBase64);
+                documentoPago.ImagenBase64 = ProjectSettings.PathDefaultImage;
                 TempData["typemessage"] = "2";
                 TempData["message"] = "Ocurrio un error contacte a soporte tecnico";
                 return RedirectToAction("DetallePagos", new { id = DocumentoPorCobrarPago.Id_documentoPorCobrar, id2 = DocumentoPorCobrarPago.id_status });
@@ -675,19 +684,30 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     Usuario = User.Identity.Name
                 };
                                                                                                                                                                                               _DocumentoXCobrar_Datos DocDatos = new _DocumentoXCobrar_Datos();
-                DocDatos.EliminarPagoDocumentoPorCobrar(Datos);
-                if (Datos.Completado)
+                var respuestaDb = DocDatos.EliminarPagoDocumentoPorCobrar(Datos);
+                if (respuestaDb.Success)
                 {
+
                     TempData["typemessage"] = "1";
                     TempData["message"] = "El registro se ha eliminado correctamente";
-                    return Json("");
+
+                    var uploadImagenToserver = new UploadFileToServerModel();
+                    uploadImagenToserver.BaseDir = ProjectSettings.BaseDirDocumentoPorCobrarPagoBancarizado;
+                    uploadImagenToserver.FileName = respuestaDb.Mensaje;
+
+                    CidFaresHelper.DeleteFileFromServer(uploadImagenToserver);
                 }
                 else
-                { return Json(""); }
+                {
+                    TempData["typemessage"] = "2";
+                    TempData["message"] = respuestaDb.Mensaje;
+                }
+
+                return Json("");
             }
             catch
             {
-                return View();
+                return Json("");
             }
         }
         #region JSON tablas

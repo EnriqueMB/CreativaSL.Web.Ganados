@@ -13,16 +13,9 @@
             maxFileCount: 1,
             initialPreview: [
                 function () {
-                    var img = "";
-                    if (archivo) {
-                        img = '<img class="file-preview-image" style="width: auto; height: auto; max-width: 100%; max-height: 100%;" src="' +
-                            archivo +
-                            '">';
-                    }
-                    else {
-                        img = '<img src="/Content/img/GrupoOcampo.png" alt="Logo" style="width: auto; height: auto; max-width: 100%; max-height: 100%;">';
-                    }
-                    return img;
+                    return '<img class="file-preview-image" style="width: auto; height: auto; max-width: 100%; max-height: 100%;" src="' +
+                        archivo +
+                        '">';
                 }
             ],
             initialPreviewShowDelete: false,

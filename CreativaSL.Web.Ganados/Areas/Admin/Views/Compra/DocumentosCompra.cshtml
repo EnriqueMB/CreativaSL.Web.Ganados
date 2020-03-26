@@ -11,6 +11,7 @@
     <link href="@Url.Content("~/Content/js/plugins/font-awesome.min.css")" rel="stylesheet" />
     <link href="@Url.Content("~/Content/js/plugins/select.bootstrap.min.css")" rel="stylesheet" />
     <link href="@Url.Content("~/Content/js/plugins/uploadFiles/theme.css")" rel="stylesheet" />
+    <link href="~/Content/css/datatable/jquery.dataTables.min.css" rel="stylesheet" />
 
     <style>
         .form-control[disabled], .form-control[readonly] {
@@ -261,9 +262,9 @@
                                         <div class="gallery" id="links">
                                             @foreach (var item in Model.ListaFierro.ListaFierroCompra)
                                             {
-                                                <a class="gallery-item" refitem="@item.IdFierro" href="@Url.Content("~/Imagenes/Fierro/" + item.NombreImagen + "")" title="@item.NombreFierro" data-gallery>
+                                                <a class="gallery-item" refitem="@item.IdFierro" href="@Url.Content(item.NombreImagen)" title="@item.NombreFierro" data-gallery>
                                                     <div class="image">
-                                                        <img src="@Url.Content("~/Imagenes/Fierro/" + item.NombreImagen + "")" alt="@item.NombreFierro" />
+                                                        <img src="@Url.Content(item.NombreImagen)" alt="@item.NombreFierro" />
                                                         <ul class="gallery-item-controls">
                                                             <li><label class="check"><input name="@item.IdFierro" type="checkbox" class="icheckbox" /></label></li>
 
@@ -279,12 +280,6 @@
                                         </div>
 
                                         <ul class="pagination pagination-sm pull-right push-down-20 push-up-20">
-                                            @*<li class="disabled"><a href="#">«</a></li>
-                                                <li class="active"><a href="#">1</a></li>
-                                                <li><a href="#">2</a></li>
-                                                <li><a href="#">3</a></li>
-                                                <li><a href="#">4</a></li>
-                                                <li><a href="#">»</a></li>*@
                                             @{
                                                 double numeroPagina = 0;
                                                 try
@@ -343,7 +338,7 @@
             <div imageref="@item.IdCompraFierro" class="gItem">
                 <div class="gModalBody">
                     <figure>
-                        <img src="@Url.Content("~/Imagenes/Fierro/" + item.NombreImagen + "")" alt="@item.NombreFierro" />
+                        <img src="@Url.Content(item.NombreImagen)" alt="@item.NombreFierro" />
                     </figure>
                 </div>
                 <div class="gModalFooter">

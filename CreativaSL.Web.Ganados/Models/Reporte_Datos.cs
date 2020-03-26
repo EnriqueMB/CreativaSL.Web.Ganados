@@ -28,6 +28,9 @@ namespace CreativaSL.Web.Ganados.Models
                     Datos.NumTelefonico2 = !Dr.IsDBNull(Dr.GetOrdinal("NumTelefono2")) ? Dr.GetString(Dr.GetOrdinal("NumTelefono2")) : string.Empty;
                     Datos.Email = !Dr.IsDBNull(Dr.GetOrdinal("Correo")) ? Dr.GetString(Dr.GetOrdinal("Correo")) : string.Empty;
                     Datos.HorarioAtencion = !Dr.IsDBNull(Dr.GetOrdinal("HorarioAtencion")) ? Dr.GetString(Dr.GetOrdinal("HorarioAtencion")) : string.Empty;
+
+                    Datos.LogoEmpresa =
+                        Auxiliar.ImagePathToBase64(Datos.LogoEmpresa, ProjectSettings.BaseDirCatEmpresa);
                 }
                 Dr.Close();
                 return Datos;
@@ -55,9 +58,8 @@ namespace CreativaSL.Web.Ganados.Models
                     Datos.NumTelefonico2 = !Dr.IsDBNull(Dr.GetOrdinal("NumTelefono2")) ? Dr.GetString(Dr.GetOrdinal("NumTelefono2")) : string.Empty;
                     Datos.Email = !Dr.IsDBNull(Dr.GetOrdinal("Correo")) ? Dr.GetString(Dr.GetOrdinal("Correo")) : string.Empty;
                     Datos.HorarioAtencion = !Dr.IsDBNull(Dr.GetOrdinal("HorarioAtencion")) ? Dr.GetString(Dr.GetOrdinal("HorarioAtencion")) : string.Empty;
-                    //Datos.NombreSucursal = !Dr.IsDBNull(Dr.GetOrdinal("NombreSucursal")) ? Dr.GetString(Dr.GetOrdinal("NombreSucursal")) : string.Empty;
-                    //Bitmap bmpFromString = Datos.DatosEmpresa.LogoEmpresa.Base64StringToBitmap();
-                    //Datos.DatosEmpresa.ImagenContruida = bmpFromString.ToBase64ImageReport(ImageFormat.Png);
+                    Datos.LogoEmpresa =
+                        Auxiliar.ImagePathToBase64(Datos.LogoEmpresa, ProjectSettings.BaseDirCatEmpresa);
                 }
                 Dr.Close();
                 return Datos;
@@ -87,6 +89,9 @@ namespace CreativaSL.Web.Ganados.Models
                     Datos.Email = !Dr.IsDBNull(Dr.GetOrdinal("Correo")) ? Dr.GetString(Dr.GetOrdinal("Correo")) : string.Empty;
                     Datos.HorarioAtencion = !Dr.IsDBNull(Dr.GetOrdinal("HorarioAtencion")) ? Dr.GetString(Dr.GetOrdinal("HorarioAtencion")) : string.Empty;
                     Datos.NombreSucursal = !Dr.IsDBNull(Dr.GetOrdinal("NombreSucursal")) ? Dr.GetString(Dr.GetOrdinal("NombreSucursal")) : string.Empty;
+
+                    Datos.LogoEmpresa =
+                        Auxiliar.ImagePathToBase64(Datos.LogoEmpresa, ProjectSettings.BaseDirCatEmpresa);
                     break;
                 }
                 Dr.Close();
@@ -121,6 +126,16 @@ namespace CreativaSL.Web.Ganados.Models
                     item.TotalGanado = !dr.IsDBNull(dr.GetOrdinal("TotalGanado")) ? dr.GetInt32(dr.GetOrdinal("TotalGanado")) : 0;
                     item.TotalKilos = !dr.IsDBNull(dr.GetOrdinal("TotalKilos")) ? dr.GetInt32(dr.GetOrdinal("TotalKilos")) : 0;
                     item.PrecioGanado = !dr.IsDBNull(dr.GetOrdinal("PrecioGanado")) ? dr.GetDecimal(dr.GetOrdinal("PrecioGanado")) : 0;
+                    item.ImporteGanadoMachos = !dr.IsDBNull(dr.GetOrdinal("ImporteGanadoMachos"))
+                        ? dr.GetDecimal(dr.GetOrdinal("ImporteGanadoMachos"))
+                        : 0;
+                    item.ImporteGanadoHembras = !dr.IsDBNull(dr.GetOrdinal("ImporteGanadoHembras"))
+                        ? dr.GetDecimal(dr.GetOrdinal("ImporteGanadoHembras"))
+                        : 0;
+                    item.ImporteGanadoTotal = !dr.IsDBNull(dr.GetOrdinal("ImporteGanadoTotal"))
+                        ? dr.GetDecimal(dr.GetOrdinal("ImporteGanadoTotal"))
+                        : 0;
+
                     lista.Add(item);
                 }
                 dr.Close();

@@ -368,7 +368,7 @@
                 browseLabel: '',
                 removeLabel: '',
                 defaultPreviewContent:
-                    '<img class="file-preview-image vista_previa" style="width: auto; height: auto; max-width: 100%; max-height: 100%;" src="@Url.Content(string.IsNullOrEmpty(Model.FotoPerfilUrl) ? "/Content/img/GrupoOcampo.png" : Model.FotoPerfilUrl)" />',
+                    '<img class="file-preview-image vista_previa" style="width: auto; height: auto; max-width: 100%; max-height: 100%;" src="@Model.FotoPerfilUrl" />',
                 showUploadedThumbs: false,
                 preferIconicPreview: true,
                 fileActionSettings: {
@@ -387,7 +387,7 @@
                 browseLabel: '',
                 removeLabel: '',
                 defaultPreviewContent:
-                    '<img class="file-preview-image vista_previa" style="width: auto; height: auto; max-width: 100%; max-height: 100%;" src="@Url.Content(string.IsNullOrEmpty(Model.IneBase64) ? "/Content/img/GrupoOcampo.png" : "data:image/png;base64," + Model.IneBase64)" />',
+                    '<img class="file-preview-image vista_previa" style="width: auto; height: auto; max-width: 100%; max-height: 100%;" src="@Model.IneBase64" />',
                 showUploadedThumbs: false,
                 preferIconicPreview: true,
                 fileActionSettings: {
@@ -406,7 +406,7 @@
                 browseLabel: '',
                 removeLabel: '',
                 defaultPreviewContent:
-                    '<img class="file-preview-image vista_previa" style="width: auto; height: auto; max-width: 100%; max-height: 100%;" src="@Url.Content(string.IsNullOrEmpty(Model.ManifestacionFierroBase64) ? "/Content/img/GrupoOcampo.png" : "data:image/png;base64," + Model.ManifestacionFierroBase64)" />',
+                    '<img class="file-preview-image vista_previa" style="width: auto; height: auto; max-width: 100%; max-height: 100%;" src="@Model.ManifestacionFierroBase64" />',
                 showUploadedThumbs: false,
                 preferIconicPreview: true,
                 fileActionSettings: {
@@ -425,7 +425,7 @@
                 browseLabel: '',
                 removeLabel: '',
                 defaultPreviewContent:
-                    '<img class="file-preview-image vista_previa" style="width: auto; height: auto; max-width: 100%; max-height: 100%;" src="@Url.Content(string.IsNullOrEmpty(Model.UppPsgBase64) ? "/Content/img/GrupoOcampo.png" : "data:image/png;base64," + Model.UppPsgBase64)" />',
+                    '<img class="file-preview-image vista_previa" style="width: auto; height: auto; max-width: 100%; max-height: 100%;" src="@Model.UppPsgBase64" />',
                 showUploadedThumbs: false,
                 preferIconicPreview: true,
                 fileActionSettings: {
@@ -468,14 +468,9 @@
                         "data": null,
                         "render": function(data, type, row) {
 
-                            var img =
-                                '<img class="vista_previa" src = "/Content/img/GrupoOcampo.png" alt = "Logo" style = "width: 150px; height: 150px" >';
-                            if (row["UrlArchivo"]) {
-                                img = '<img class="vista_previa" src = "' +
+                                return '<img class="vista_previa" src = "' +
                                     row["UrlArchivo"] +
                                     '" alt = "Logo" style = "width: 150px; height: 150px" >';
-                            }
-                            return img;
                         }
                     }
                 ]

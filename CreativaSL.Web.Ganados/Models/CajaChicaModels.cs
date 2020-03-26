@@ -11,7 +11,14 @@ namespace CreativaSL.Web.Ganados.Models
     {
         public string ImagenCajaChica { get; set; }//propiedad para la imagen
 
-        public Int64 IdCaja { get; set; }                   //propiedad utilizado para la imagen
+        private string _idCaja;
+
+        public string IdCaja
+        {
+            get { return _idCaja; }
+            set { _idCaja = value.Trim(); }
+        }
+
         public DateTime FechaApertura { get; set; }
         public string NombreEmpleado { get; set; }
         [Required(ErrorMessage = "Ingrese el monto de apertura.")]

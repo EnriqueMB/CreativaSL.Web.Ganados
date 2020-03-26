@@ -30,7 +30,7 @@ namespace CreativaSL.Web.Ganados.Models.Helpers
             }
         }
 
-        public static void DeleteFileromServer(UploadFileToServerModel uploadFileToServer)
+        public static void DeleteFileFromServer(UploadFileToServerModel uploadFileToServer)
         {
             try
             {
@@ -272,7 +272,7 @@ namespace CreativaSL.Web.Ganados.Models.Helpers
                 using (var g = Graphics.FromImage(bmp))
                 {
                     g.Clear(Color.White);
-                    g.DrawImage(image, 0,0, image.Width, image.Height);
+                    g.DrawImage(image, 0, 0, image.Width, image.Height);
                 }
 
                 bmp.Save(url, jpgEncoder, codecParameter);

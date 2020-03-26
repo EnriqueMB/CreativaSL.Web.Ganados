@@ -30,7 +30,7 @@
             showUploadedThumbs: false,
             maxFileCount: 1,
             initialPreview: [
-                '<img class="file-preview-image" style="width: auto; height: auto; max-width: 100%; max-height: 100%;" src="data:' + ExtensionImagen + ';base64,' + ImagenServidor + '" />'
+                '<img class="file-preview-image" style="width: auto; height: auto; max-width: 100%; max-height: 100%;" src="' + ImagenServidor + '" />'
             ],
             initialPreviewConfig: [
                 { caption: 'Imagen del recibo' }
@@ -172,7 +172,6 @@
                     required: true
                 },
                 "HttpImagen": {
-                    ImagenRequerida: true,
                     ImagenRequerida: ["ImagenServer"]
                 },
                 "Id_cuentaBancariaBeneficiante": {

@@ -5,10 +5,11 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
+using CreativaSL.Web.Ganados.Models.System;
 
 namespace CreativaSL.Web.Ganados.Models
 {
-    public class _VentaGeneral_Datos
+    public class _VentaGeneral_Datos : BaseSQL
     {
         public string VentaGeneral_spCIDDB_index(string conexion)
         {
@@ -252,6 +253,9 @@ namespace CreativaSL.Web.Ganados.Models
                         DocumentoPago.ImagenBase64 = !dr.IsDBNull(dr.GetOrdinal("imagen")) ? dr.GetString(dr.GetOrdinal("imagen")) : string.Empty;
                         DocumentoPago.ImagenServer = !dr.IsDBNull(dr.GetOrdinal("imagenServer")) ? dr.GetInt32(dr.GetOrdinal("imagenServer")) : 0;
                         DocumentoPago.pendiente = !dr.IsDBNull(dr.GetOrdinal("pendiente")) ? dr.GetDecimal(dr.GetOrdinal("pendiente")) : 0;
+
+                        DocumentoPago.ImagenBase64 = Auxiliar.ValidImageFormServer(DocumentoPago.ImagenBase64,
+                            ProjectSettings.BaseDirDocumentoPorCobrarPagoBancarizado);
                     }
                     else
                     {
@@ -480,6 +484,39 @@ namespace CreativaSL.Web.Ganados.Models
             {
                 throw ex;
             }
+        }
+
+        public List<string> ObtenerImagenesDocumentosPorCobrarDetallePagoBancarizado(string id)
+        {
+            var list = new List<string>();
+            try
+            {
+
+                object[] parametros = { id };
+                SqlDataReader dr = null;
+                dr = SqlHelper.ExecuteReader(ConexionSql, "[ventaGeneral].[ObtenerImagenesDocumentosPorCobrarDetallePagoBancarizado]", parametros);
+                while (dr.Read())
+                {
+                    var success = !dr.IsDBNull(dr.GetOrdinal("success")) ? dr.GetBoolean(dr.GetOrdinal("success")) : false;
+
+                    if (success)
+                    {
+                        var item = !dr.IsDBNull(dr.GetOrdinal("Imagen")) ? dr.GetString(dr.GetOrdinal("Imagen")) : string.Empty;
+                        list.Add(item);
+                    }
+                    else
+                    {
+                        var mensaje = !dr.IsDBNull(dr.GetOrdinal("mensaje")) ? dr.GetString(dr.GetOrdinal("mensaje")) : string.Empty;
+                    }
+                }
+                dr.Close();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return list;
         }
     }
 }

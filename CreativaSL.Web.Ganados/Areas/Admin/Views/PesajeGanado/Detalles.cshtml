@@ -1,4 +1,5 @@
-﻿@model CreativaSL.Web.Ganados.Models.PesajeGanadoDetalleModels
+﻿@using CreativaSL.Web.Ganados.Models.System
+@model CreativaSL.Web.Ganados.Models.PesajeGanadoDetalleModels
 @{
     ViewBag.Title = "Detalles";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
@@ -331,7 +332,9 @@
     <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
 
     <script>
-        jQuery(document).ready(function () {
+        jQuery(document).ready(function() {
+            var baseDirDocumentoPorCobrarPagoBancarizado = "@ProjectSettings.BaseDirDocumentoPorCobrarPagoBancarizado";
+
             var Id = $("#Id").val();
             var Id_documentoCobrar = $("#Id_documentoCobrar").val();
 
@@ -342,7 +345,8 @@
                 responsive: true,
                 "ajax": {
                     "data": {
-                        "Id": Id, "Id_documentoCobrar": Id_documentoCobrar
+                        "Id": Id,
+                        "Id_documentoCobrar": Id_documentoCobrar
                     },
                     "url": "/Admin/PesajeGanado/DTDetallesDocumentoPorCobrarPesajeGanado/",
                     "type": "POST",
@@ -392,7 +396,7 @@
                     { "data": "Observacion" },
                     {
                         "data": "Fecha",
-                        "render": function (data, type, row) {
+                        "render": function(data, type, row) {
                             var fecha;
                             if (data === null)
                                 fecha = "Sin dato";
@@ -409,58 +413,34 @@
                             return fecha;
                         }
                     },
-                     {
-                         "data": null,
-                         "render": function (data, type, full) {
-                             var imagen64 = full["Imagen"];
+                    {
+                        "data": null,
+                        "render": function(data, type, full) {
+                            var imagen64 = full["Imagen"];
 
-                             var img = "";
-
-                             if (imagen64) {
-                                 var extension = "";
-                                 var position = imagen64.indexOf("iVBOR");
-                                 //imagen png
-                                 if (position != -1)
-                                     extension = "image/png";
-
-                                 position = imagen64.indexOf("/9j/4");
-                                 if (position != -1)
-                                     extension = "image/jpeg";
-                                 //bmp de 256 colores
-                                 position = imagen64.indexOf("Qk3");
-                                 if (position == 0)
-                                     extension = "image/bmp";
-
-                                 //bmp de monocromatico colores
-                                 position = imagen64.indexOf("Qk2");
-                                 if (position == 0)
-                                     extension = "image/bmp";
-
-                                 //bmp de 16 colores
-                                 position = imagen64.indexOf("Qk1");
-                                 if (position == 0)
-                                     extension = "image/bmp";
-
-                                 img = "<img class='file-preview-image vista_previa' style='width: 150px; height: 150px;' src='data:" + extension + ";base64," + imagen64 + "' />";
-                             }
-                             else {
-                                 img = "<img class='file-preview-image vista_previa' style='width: 150px; height: 150px;' src='/Content/img/GrupoOcampo.png' />";
-                             }
-                             return img;
-                         }
-                     },
+                            if (imagen64) {
+                                return "<img class='file-preview-image vista_previa' style='width: 150px; height: 150px;' src='" +
+                                    baseDirDocumentoPorCobrarPagoBancarizado +
+                                    imagen64 +
+                                    "' />";
+                            } else {
+                                return "<img class='file-preview-image vista_previa' style='width: 150px; height: 150px;' src='@ProjectSettings.PathDefaultImage'/>";
+                            }
+                        }
+                    },
                     {
                         "data": "Cantidad",
                         "render": $.fn.dataTable.render.number(',', '.', 2, '$'),
                     }
                 ],
-                "drawCallback": function (settings) {
+                "drawCallback": function(settings) {
 
-                    $('img.vista_previa').on('click', function () {
-                        var src_image = $(this).attr('src');
-                        $("#imagen_previa").attr("src", src_image);
-                        $("#modalImagen").modal();
-                    });
+                    $('img.vista_previa').on('click',
+                        function() {
+                            var src_image = $(this).attr('src');
+                            $("#imagen_previa").attr("src", src_image);
+                            $("#modalImagen").modal();
+                        });
 
                 }
             });

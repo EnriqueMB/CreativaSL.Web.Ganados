@@ -4,7 +4,7 @@ namespace CreativaSL.Web.Ganados.Models.Dto.CajaChica
 {
     public class ReportCajaChicaImagenesDto
     {
-        public Int64 IdCajaChicaDetalle { get; set; }
+        public string IdCajaChicaDetalle { get; set; }
         public string ConceptoSalida { get; set; }
         public string Descripcion { get; set; }
         public string FechaHora { get; set; }

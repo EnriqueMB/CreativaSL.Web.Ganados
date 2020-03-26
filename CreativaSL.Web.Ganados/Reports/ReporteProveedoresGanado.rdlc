@@ -3240,7 +3240,7 @@
                                 <VerticalAlign>Bottom</VerticalAlign>
                               </Style>
                             </Tablix>
-                            <Tablix Name="Tablix12">
+                            <Tablix Name="TablixVentas">
                               <TablixBody>
                                 <TablixColumns>
                                   <TablixColumn>
@@ -3356,6 +3356,7 @@
                                             </Style>
                                           </Textbox>
                                           <ColSpan>7</ColSpan>
+                                          <rd:Selected>true</rd:Selected>
                                         </CellContents>
                                       </TablixCell>
                                       <TablixCell />
@@ -3976,21 +3977,21 @@
                                     <TablixCells>
                                       <TablixCell>
                                         <CellContents>
-                                          <Textbox Name="Textbox199">
+                                          <Textbox Name="Textbox2">
                                             <CanGrow>true</CanGrow>
                                             <KeepTogether>true</KeepTogether>
                                             <Paragraphs>
                                               <Paragraph>
                                                 <TextRuns>
                                                   <TextRun>
-                                                    <Value />
+                                                    <Value>=RowNumber("IdProveedor")</Value>
                                                     <Style />
                                                   </TextRun>
                                                 </TextRuns>
                                                 <Style />
                                               </Paragraph>
                                             </Paragraphs>
-                                            <rd:DefaultName>Textbox199</rd:DefaultName>
+                                            <rd:DefaultName>Textbox2</rd:DefaultName>
                                             <Style>
                                               <Border>
                                                 <Color>LightGrey</Color>
@@ -4018,21 +4019,21 @@
                                       </TablixCell>
                                       <TablixCell>
                                         <CellContents>
-                                          <Textbox Name="Textbox203">
+                                          <Textbox Name="Textbox1">
                                             <CanGrow>true</CanGrow>
                                             <KeepTogether>true</KeepTogether>
                                             <Paragraphs>
                                               <Paragraph>
                                                 <TextRuns>
                                                   <TextRun>
-                                                    <Value />
+                                                    <Value>=Ceiling(RowNumber("IdProveedor")/3)</Value>
                                                     <Style />
                                                   </TextRun>
                                                 </TextRuns>
                                                 <Style />
                                               </Paragraph>
                                             </Paragraphs>
-                                            <rd:DefaultName>Textbox203</rd:DefaultName>
+                                            <rd:DefaultName>Textbox1</rd:DefaultName>
                                             <Style>
                                               <Border>
                                                 <Color>LightGrey</Color>
@@ -4078,21 +4079,21 @@
                                       </TablixCell>
                                       <TablixCell>
                                         <CellContents>
-                                          <Textbox Name="Textbox202">
+                                          <Textbox Name="Textbox3">
                                             <CanGrow>true</CanGrow>
                                             <KeepTogether>true</KeepTogether>
                                             <Paragraphs>
                                               <Paragraph>
                                                 <TextRuns>
                                                   <TextRun>
-                                                    <Value />
+                                                    <Value>=Ceiling(Ceiling(RowNumber("IdProveedor")/3)/3)</Value>
                                                     <Style />
                                                   </TextRun>
                                                 </TextRuns>
                                                 <Style />
                                               </Paragraph>
                                             </Paragraphs>
-                                            <rd:DefaultName>Textbox202</rd:DefaultName>
+                                            <rd:DefaultName>Textbox3</rd:DefaultName>
                                             <Style>
                                               <Border>
                                                 <Color>LightGrey</Color>
@@ -6042,86 +6043,87 @@
                                     </SortExpressions>
                                     <TablixMembers>
                                       <TablixMember>
-                                        <Group Name="BreakPageGroup">
+                                        <Group Name="CompraId">
                                           <GroupExpressions>
-                                            <GroupExpression>=Ceiling(RowNumber("IdProveedor")/3)</GroupExpression>
+                                            <GroupExpression>=Ceiling(Ceiling(RowNumber("IdProveedor")/3)/3)</GroupExpression>
                                           </GroupExpressions>
                                           <PageBreak>
                                             <BreakLocation>Between</BreakLocation>
                                           </PageBreak>
                                         </Group>
+                                        <SortExpressions>
+                                          <SortExpression>
+                                            <Value>=Fields!CompraId.Value</Value>
+                                          </SortExpression>
+                                        </SortExpressions>
                                         <TablixMembers>
                                           <TablixMember>
-                                            <Group Name="CompraId">
+                                            <Group Name="Detalles">
                                               <GroupExpressions>
+                                                <GroupExpression>=Fields!IdProveedor.Value</GroupExpression>
                                                 <GroupExpression>=Fields!CompraId.Value</GroupExpression>
                                               </GroupExpressions>
                                             </Group>
                                             <TablixMembers>
                                               <TablixMember>
-                                                <Group Name="Detalles" />
-                                                <TablixMembers>
-                                                  <TablixMember>
-                                                    <Visibility>
-                                                      <Hidden>=IIF(Fields!MostrarTablaCompras.Value, False, True)</Hidden>
-                                                    </Visibility>
-                                                  </TablixMember>
-                                                  <TablixMember>
-                                                    <Visibility>
-                                                      <Hidden>=IIF(Fields!MostrarTablaCompras.Value, False, True)</Hidden>
-                                                    </Visibility>
-                                                  </TablixMember>
-                                                  <TablixMember>
-                                                    <Visibility>
-                                                      <Hidden>=IIF(Fields!MostrarTablaCompras.Value, False, True)</Hidden>
-                                                    </Visibility>
-                                                  </TablixMember>
-                                                  <TablixMember>
-                                                    <Visibility>
-                                                      <Hidden>=IIF(Fields!MostrarTablaCompras.Value, False, True)</Hidden>
-                                                    </Visibility>
-                                                  </TablixMember>
-                                                  <TablixMember>
-                                                    <Visibility>
-                                                      <Hidden>=IIF(Fields!MostrarTablaCompras.Value, False, True)</Hidden>
-                                                    </Visibility>
-                                                  </TablixMember>
-                                                  <TablixMember>
-                                                    <Visibility>
-                                                      <Hidden>=IIF(Fields!MostrarTablaCompras.Value, False, True)</Hidden>
-                                                    </Visibility>
-                                                  </TablixMember>
-                                                  <TablixMember>
-                                                    <Visibility>
-                                                      <Hidden>=IIF(Fields!MostrarTablaCompras.Value, False, True)</Hidden>
-                                                    </Visibility>
-                                                  </TablixMember>
-                                                  <TablixMember>
-                                                    <Visibility>
-                                                      <Hidden>=IIF(Fields!MostrarTablaCompras.Value, False, True)</Hidden>
-                                                    </Visibility>
-                                                  </TablixMember>
-                                                  <TablixMember>
-                                                    <Visibility>
-                                                      <Hidden>=IIF(Fields!MostrarTablaCompras.Value, False, True)</Hidden>
-                                                    </Visibility>
-                                                  </TablixMember>
-                                                  <TablixMember>
-                                                    <Visibility>
-                                                      <Hidden>=IIF(Fields!MostrarTablaCompras.Value, False, True)</Hidden>
-                                                    </Visibility>
-                                                  </TablixMember>
-                                                  <TablixMember>
-                                                    <Visibility>
-                                                      <Hidden>=IIF(Fields!MostrarTablaCompras.Value, False, True)</Hidden>
-                                                    </Visibility>
-                                                  </TablixMember>
-                                                  <TablixMember>
-                                                    <Visibility>
-                                                      <Hidden>=IIF(Fields!MostrarTablaCompras.Value, False, True)</Hidden>
-                                                    </Visibility>
-                                                  </TablixMember>
-                                                </TablixMembers>
+                                                <Visibility>
+                                                  <Hidden>=IIF(Fields!MostrarTablaCompras.Value, False, True)</Hidden>
+                                                </Visibility>
+                                              </TablixMember>
+                                              <TablixMember>
+                                                <Visibility>
+                                                  <Hidden>=IIF(Fields!MostrarTablaCompras.Value, False, True)</Hidden>
+                                                </Visibility>
+                                              </TablixMember>
+                                              <TablixMember>
+                                                <Visibility>
+                                                  <Hidden>=IIF(Fields!MostrarTablaCompras.Value, False, True)</Hidden>
+                                                </Visibility>
+                                              </TablixMember>
+                                              <TablixMember>
+                                                <Visibility>
+                                                  <Hidden>=IIF(Fields!MostrarTablaCompras.Value, False, True)</Hidden>
+                                                </Visibility>
+                                              </TablixMember>
+                                              <TablixMember>
+                                                <Visibility>
+                                                  <Hidden>=IIF(Fields!MostrarTablaCompras.Value, False, True)</Hidden>
+                                                </Visibility>
+                                              </TablixMember>
+                                              <TablixMember>
+                                                <Visibility>
+                                                  <Hidden>=IIF(Fields!MostrarTablaCompras.Value, False, True)</Hidden>
+                                                </Visibility>
+                                              </TablixMember>
+                                              <TablixMember>
+                                                <Visibility>
+                                                  <Hidden>=IIF(Fields!MostrarTablaCompras.Value, False, True)</Hidden>
+                                                </Visibility>
+                                              </TablixMember>
+                                              <TablixMember>
+                                                <Visibility>
+                                                  <Hidden>=IIF(Fields!MostrarTablaCompras.Value, False, True)</Hidden>
+                                                </Visibility>
+                                              </TablixMember>
+                                              <TablixMember>
+                                                <Visibility>
+                                                  <Hidden>=IIF(Fields!MostrarTablaCompras.Value, False, True)</Hidden>
+                                                </Visibility>
+                                              </TablixMember>
+                                              <TablixMember>
+                                                <Visibility>
+                                                  <Hidden>=IIF(Fields!MostrarTablaCompras.Value, False, True)</Hidden>
+                                                </Visibility>
+                                              </TablixMember>
+                                              <TablixMember>
+                                                <Visibility>
+                                                  <Hidden>=IIF(Fields!MostrarTablaCompras.Value, False, True)</Hidden>
+                                                </Visibility>
+                                              </TablixMember>
+                                              <TablixMember>
+                                                <Visibility>
+                                                  <Hidden>=IIF(Fields!MostrarTablaCompras.Value, False, True)</Hidden>
+                                                </Visibility>
                                               </TablixMember>
                                             </TablixMembers>
                                           </TablixMember>

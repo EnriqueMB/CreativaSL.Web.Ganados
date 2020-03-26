@@ -77,7 +77,7 @@
                                     <div class="col-md-12 col-xs-12">
                                         <div class="input-group">
                                             <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                            @Html.TextBoxFor(model => model.Cantidad, new { @class = "form-control mskNumber eventSubtotal" })
+                                            @Html.TextBoxFor(model => model.Cantidad, "{0:f2}",new { @class = "form-control mskNumber eventSubtotal" })
                                         </div>
                                         @Html.ValidationMessageFor(model => model.Cantidad)
                                         <span class="help-block">Escriba una cantidad</span>
@@ -90,7 +90,7 @@
                                     <div class="col-md-12 col-xs-12">
                                         <div class="input-group">
                                             <span class="input-group-addon"><span class="fa fa-usd"></span></span>
-                                            @Html.TextBoxFor(model => model.PrecioUnitario, new { @class = "form-control mskMoney eventSubtotal" })
+                                            @Html.TextBoxFor(model => model.PrecioUnitario, "{0:f2}",new { @class = "form-control mskMoney eventSubtotal" })
                                         </div>
                                         @Html.ValidationMessageFor(model => model.PrecioUnitario)
                                         <span class="help-block">Escriba el precio unitario </span>
@@ -103,7 +103,7 @@
                                     <div class="col-md-12 col-xs-12">
                                         <div class="input-group">
                                             <span class="input-group-addon"><span class="fa fa-usd"></span></span>
-                                            @Html.TextBoxFor(model => model.Subtotal, new { @class = "form-control mskMoney", disabled = "disabled" })
+                                            @Html.TextBoxFor(model => model.Subtotal, "{0:f2}",new { @class = "form-control mskMoney", disabled = "disabled" })
                                         </div>
                                         @Html.ValidationMessageFor(model => model.Subtotal)
                                         <span class="help-block">Campo calculado </span>

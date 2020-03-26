@@ -18,6 +18,21 @@ namespace CreativaSL.Web.Ganados.Models.System
         public const string BaseDirProveedorManifestacionFierro = "/Imagenes/Proveedor/ManifestacionFierro/";
         public const string BaseDirProveedorUppPsg = "/Imagenes/Proveedor/UppPsg/";
         public const string BaseDirCajaChicaChequeComprobante = "/Imagenes/CajaChica/ChequeComprobante/";
+        public const string BaseDirCatBanco = "/Imagenes/Catalogos/Banco/";
+        public const string BaseDirCatEmpresa = "/Imagenes/Catalogos/Empresa/";
+        public const string BaseDirCatFierro = "/Imagenes/Catalogos/Fierro/";
+        public const string BaseDirCatProductoAlmacen = "/Imagenes/Catalogos/ProductoAlmacen/";
+        public const string BaseDirCatVehiculo = "/Imagenes/Catalogos/Vehiculo/";
+        public const string BaseDirCompraDocumentoDetalle = "/Imagenes/Compra/DocumentoDetalle/";
+        public const string BaseDirFleteDocumentoDetalle = "/Imagenes/Flete/DocumentoDetalle/";
+        public const string BaseDirDocumentoPorCobrarPagoBancarizado = "/Imagenes/DocumentoPorCobrar/PagoBancarizado/";
+        public const string BaseDirDocumentoPorPagarPagoBancarizado = "/Imagenes/DocumentoPorPagar/PagoBancarizado/";
+        public const string BaseDirVentaDocumentoDetalle = "/Imagenes/Venta/DocumentoDetalle/";
+        public const string BaseDirEntregaCombustible = "/Imagenes/EntregaCombustible/";
+        public const string BaseDirCompraEvento = "/Imagenes/Compra/Eventos/";
+        public const string BaseDirFleteEvento = "/Imagenes/Flete/Eventos/";
+        public const string BaseDirVentaEvento = "/Imagenes/Venta/Eventos/";
+
         public const string PathDefaultImage = "/Content/img/GrupoOcampo.png";
     }
 }

@@ -232,7 +232,7 @@
               </TablixColumns>
               <TablixRows>
                 <TablixRow>
-                  <Height>77.3155cm</Height>
+                  <Height>75.48988cm</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
@@ -2915,6 +2915,9 @@
                                 </TablixMembers>
                               </TablixRowHierarchy>
                               <DataSetName>ProveedoresDS</DataSetName>
+                              <PageBreak>
+                                <BreakLocation>End</BreakLocation>
+                              </PageBreak>
                               <Top>46.85031cm</Top>
                               <Left>0.31752cm</Left>
                               <Height>20.43605cm</Height>
@@ -6197,98 +6200,82 @@
                                     </SortExpressions>
                                     <TablixMembers>
                                       <TablixMember>
-                                        <Group Name="BreakPageGroup">
+                                        <Group Name="Detalles2">
                                           <GroupExpressions>
-                                            <GroupExpression>=Ceiling(RowNumber("IdCliente")/3)</GroupExpression>
+                                            <GroupExpression>=Fields!IdCliente.Value</GroupExpression>
+                                            <GroupExpression>=Fields!VentaId.Value</GroupExpression>
                                           </GroupExpressions>
-                                          <PageBreak>
-                                            <BreakLocation>Between</BreakLocation>
-                                          </PageBreak>
                                         </Group>
                                         <TablixMembers>
                                           <TablixMember>
-                                            <Group Name="VentaId">
-                                              <GroupExpressions>
-                                                <GroupExpression>=Fields!VentaId.Value</GroupExpression>
-                                              </GroupExpressions>
-                                            </Group>
-                                            <TablixMembers>
-                                              <TablixMember>
-                                                <Group Name="Detalles2" />
-                                                <TablixMembers>
-                                                  <TablixMember>
-                                                    <Visibility>
-                                                      <Hidden>=IIF(Fields!MostrarTablaVentas.Value, False, True)</Hidden>
-                                                    </Visibility>
-                                                  </TablixMember>
-                                                  <TablixMember>
-                                                    <Visibility>
-                                                      <Hidden>=IIF(Fields!MostrarTablaVentas.Value, False, True)</Hidden>
-                                                    </Visibility>
-                                                  </TablixMember>
-                                                  <TablixMember>
-                                                    <Visibility>
-                                                      <Hidden>=IIF(Fields!MostrarTablaVentas.Value, False, True)</Hidden>
-                                                    </Visibility>
-                                                  </TablixMember>
-                                                  <TablixMember>
-                                                    <Visibility>
-                                                      <Hidden>=IIF(Fields!MostrarTablaVentas.Value, False, True)</Hidden>
-                                                    </Visibility>
-                                                  </TablixMember>
-                                                  <TablixMember>
-                                                    <Visibility>
-                                                      <Hidden>=IIF(Fields!MostrarTablaVentas.Value, False, True)</Hidden>
-                                                    </Visibility>
-                                                  </TablixMember>
-                                                  <TablixMember>
-                                                    <Visibility>
-                                                      <Hidden>=IIF(Fields!MostrarTablaVentas.Value, False, True)</Hidden>
-                                                    </Visibility>
-                                                  </TablixMember>
-                                                  <TablixMember>
-                                                    <Visibility>
-                                                      <Hidden>=IIF(Fields!MostrarTablaVentas.Value, False, True)</Hidden>
-                                                    </Visibility>
-                                                  </TablixMember>
-                                                  <TablixMember>
-                                                    <Visibility>
-                                                      <Hidden>=IIF(Fields!MostrarTablaVentas.Value, False, True)</Hidden>
-                                                    </Visibility>
-                                                  </TablixMember>
-                                                  <TablixMember>
-                                                    <Visibility>
-                                                      <Hidden>=IIF(Fields!MostrarTablaVentas.Value, False, True)</Hidden>
-                                                    </Visibility>
-                                                  </TablixMember>
-                                                  <TablixMember>
-                                                    <Visibility>
-                                                      <Hidden>=IIF(Fields!MostrarTablaVentas.Value, False, True)</Hidden>
-                                                    </Visibility>
-                                                  </TablixMember>
-                                                  <TablixMember>
-                                                    <Visibility>
-                                                      <Hidden>=IIF(Fields!MostrarTablaVentas.Value, False, True)</Hidden>
-                                                    </Visibility>
-                                                  </TablixMember>
-                                                  <TablixMember>
-                                                    <Visibility>
-                                                      <Hidden>=IIF(Fields!MostrarTablaVentas.Value, False, True)</Hidden>
-                                                    </Visibility>
-                                                  </TablixMember>
-                                                  <TablixMember>
-                                                    <Visibility>
-                                                      <Hidden>=IIF(Fields!MostrarTablaVentas.Value, False, True)</Hidden>
-                                                    </Visibility>
-                                                  </TablixMember>
-                                                  <TablixMember>
-                                                    <Visibility>
-                                                      <Hidden>=IIF(Fields!MostrarTablaVentas.Value, False, True)</Hidden>
-                                                    </Visibility>
-                                                  </TablixMember>
-                                                </TablixMembers>
-                                              </TablixMember>
-                                            </TablixMembers>
+                                            <Visibility>
+                                              <Hidden>=IIF(Fields!MostrarTablaVentas.Value, False, True)</Hidden>
+                                            </Visibility>
+                                          </TablixMember>
+                                          <TablixMember>
+                                            <Visibility>
+                                              <Hidden>=IIF(Fields!MostrarTablaVentas.Value, False, True)</Hidden>
+                                            </Visibility>
+                                          </TablixMember>
+                                          <TablixMember>
+                                            <Visibility>
+                                              <Hidden>=IIF(Fields!MostrarTablaVentas.Value, False, True)</Hidden>
+                                            </Visibility>
+                                          </TablixMember>
+                                          <TablixMember>
+                                            <Visibility>
+                                              <Hidden>=IIF(Fields!MostrarTablaVentas.Value, False, True)</Hidden>
+                                            </Visibility>
+                                          </TablixMember>
+                                          <TablixMember>
+                                            <Visibility>
+                                              <Hidden>=IIF(Fields!MostrarTablaVentas.Value, False, True)</Hidden>
+                                            </Visibility>
+                                          </TablixMember>
+                                          <TablixMember>
+                                            <Visibility>
+                                              <Hidden>=IIF(Fields!MostrarTablaVentas.Value, False, True)</Hidden>
+                                            </Visibility>
+                                          </TablixMember>
+                                          <TablixMember>
+                                            <Visibility>
+                                              <Hidden>=IIF(Fields!MostrarTablaVentas.Value, False, True)</Hidden>
+                                            </Visibility>
+                                          </TablixMember>
+                                          <TablixMember>
+                                            <Visibility>
+                                              <Hidden>=IIF(Fields!MostrarTablaVentas.Value, False, True)</Hidden>
+                                            </Visibility>
+                                          </TablixMember>
+                                          <TablixMember>
+                                            <Visibility>
+                                              <Hidden>=IIF(Fields!MostrarTablaVentas.Value, False, True)</Hidden>
+                                            </Visibility>
+                                          </TablixMember>
+                                          <TablixMember>
+                                            <Visibility>
+                                              <Hidden>=IIF(Fields!MostrarTablaVentas.Value, False, True)</Hidden>
+                                            </Visibility>
+                                          </TablixMember>
+                                          <TablixMember>
+                                            <Visibility>
+                                              <Hidden>=IIF(Fields!MostrarTablaVentas.Value, False, True)</Hidden>
+                                            </Visibility>
+                                          </TablixMember>
+                                          <TablixMember>
+                                            <Visibility>
+                                              <Hidden>=IIF(Fields!MostrarTablaVentas.Value, False, True)</Hidden>
+                                            </Visibility>
+                                          </TablixMember>
+                                          <TablixMember>
+                                            <Visibility>
+                                              <Hidden>=IIF(Fields!MostrarTablaVentas.Value, False, True)</Hidden>
+                                            </Visibility>
+                                          </TablixMember>
+                                          <TablixMember>
+                                            <Visibility>
+                                              <Hidden>=IIF(Fields!MostrarTablaVentas.Value, False, True)</Hidden>
+                                            </Visibility>
                                           </TablixMember>
                                         </TablixMembers>
                                       </TablixMember>
@@ -6343,7 +6330,7 @@
             </TablixRowHierarchy>
             <DataSetName>ClientesDS</DataSetName>
             <Top>0.34078cm</Top>
-            <Height>77.3155cm</Height>
+            <Height>75.48988cm</Height>
             <Width>16.99725cm</Width>
             <Style>
               <Border>
@@ -6352,7 +6339,7 @@
             </Style>
           </Tablix>
         </ReportItems>
-        <Height>30.61153in</Height>
+        <Height>29.9657in</Height>
         <Style />
       </Body>
       <Width>6.69183in</Width>

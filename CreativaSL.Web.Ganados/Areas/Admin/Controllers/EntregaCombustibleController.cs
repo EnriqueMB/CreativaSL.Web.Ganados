@@ -10,6 +10,8 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using CreativaSL.Web.Ganados.Models.Helpers;
+using CreativaSL.Web.Ganados.Models.System;
 
 namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 {
@@ -134,25 +136,12 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                         HttpPostedFileBase bannerImage = Request.Files[0] as HttpPostedFileBase;
                         if (bannerImage != null && bannerImage.ContentLength > 0)
                         {
-                            //Stream s = bannerImage.InputStream;
-                            //Bitmap img = new Bitmap(s);
-                            //Entrega.UrlImagen64 = img.ToBase64String(ImageFormat.Png);
-
-                            Stream s = bannerImage.InputStream;
-
-                            if (Path.GetExtension(bannerImage.FileName).ToLower() == ".heic")
-                            {
-                                Image img = (Image)Auxiliar.ProcessFile(s);
-                                Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
-                                Entrega.UrlImagen64 = image.ToBase64String(ImageFormat.Jpeg);
-                            }
-                            else
-                            {
-                                Image img = new Bitmap(s);
-                                Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
-                                Entrega.UrlImagen64 = image.ToBase64String(img.RawFormat);
-                            }
-
+                            var uploadImagenToserver = new UploadFileToServerModel();
+                            uploadImagenToserver.FileBase = bannerImage;
+                            uploadImagenToserver.BaseDir = ProjectSettings.BaseDirEntregaCombustible;
+                            uploadImagenToserver.FileName = Guid.NewGuid().ToString().ToUpper();
+                            CidFaresHelper.UploadFileToServer(uploadImagenToserver);
+                            Entrega.UrlImagen64 = uploadImagenToserver.FileName;
                         }
                         else
                         {
@@ -226,15 +215,15 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
             try
             {
                 Token.SaveToken();
-                EntregaCombustibleModels Entrega = new EntregaCombustibleModels();
-                _EntregaCombustible_Datos EntregaCombustibleDatos = new _EntregaCombustible_Datos();
-                _Combos_Datos Datos = new _Combos_Datos();
+                var Entrega = new EntregaCombustibleModels();
+                var EntregaCombustibleDatos = new _EntregaCombustible_Datos();
+                var Datos = new _Combos_Datos();
                
                 Entrega.IDEntregaCombustible = id;
                 Entrega.Conexion = Conexion;
                 Entrega = EntregaCombustibleDatos.ObtenerDetalleEntregaCombustible(Entrega);
 
-                EntregaCombustibleViewModels Model = new EntregaCombustibleViewModels
+                var Model = new EntregaCombustibleViewModels
                 {
                     IDEntregaCombustible = Entrega.IDEntregaCombustible,
                     IDSucursal = Entrega.IDSucursal,
@@ -278,38 +267,36 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 {
                     // TODO: Add insert logic here
                     ModelState.Remove("ImgTicket");
+                    ModelState.Remove("ImgTicket2");
                     if (ModelState.IsValid)
                     {
                         EntregaCombustibleModels Entrega = Model.ObtenerModeloPersistencia();
                         HttpPostedFileBase bannerImage = Request.Files[0] as HttpPostedFileBase;
-                        if (!string.IsNullOrEmpty(bannerImage.FileName))
+                        
+                        if (bannerImage != null && bannerImage.ContentLength > 0)
                         {
-                            if (bannerImage != null && bannerImage.ContentLength > 0)
-                            {
-                                //Stream s = bannerImage.InputStream;
-                                //Bitmap img = new Bitmap(s);
-                                //Entrega.UrlImagen64 = img.ToBase64String(ImageFormat.Png);
+                            var uploadImagenToserver = new UploadFileToServerModel();
+                            uploadImagenToserver.FileBase = bannerImage;
+                            uploadImagenToserver.BaseDir = ProjectSettings.BaseDirEntregaCombustible;
+                            uploadImagenToserver.FileName =
+                                Entrega.UrlImagen64?.Replace(
+                                    ProjectSettings.BaseDirEntregaCombustible, string.Empty);
 
-                                Stream s = bannerImage.InputStream;
-                                
-                                if (Path.GetExtension(bannerImage.FileName).ToLower() == ".heic")
-                                {
-                                    Image img = (Image)Auxiliar.ProcessFile(s);
-                                    Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
-                                    Entrega.UrlImagen64 = image.ToBase64String(ImageFormat.Jpeg);
-                                }
-                                else
-                                {
-                                    Image img = new Bitmap(s);
-                                    Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
-                                    Entrega.UrlImagen64 = image.ToBase64String(img.RawFormat);
-                                }
+                            CidFaresHelper.DeleteFileFromServer(uploadImagenToserver);
 
-                            }
+                            uploadImagenToserver.FileName = Guid.NewGuid().ToString().ToUpper();
+                            CidFaresHelper.UploadFileToServer(uploadImagenToserver);
+                            Entrega.UrlImagen64 = uploadImagenToserver.FileName;
                         }
                         else
                         {
                             Entrega.BandImg = true;
+                            Entrega.UrlImagen64 =
+                                Entrega.UrlImagen64?.Replace(ProjectSettings.BaseDirEntregaCombustible,
+                                    string.Empty);
+                            Entrega.UrlImagen64 =
+                                Entrega.UrlImagen64?.Replace(ProjectSettings.PathDefaultImage,
+                                    string.Empty);
                         }
                         Entrega.Conexion = Conexion;
                         Entrega.Precio = Entrega.Total / Entrega.Litros;
@@ -465,11 +452,21 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 Entrega.IDEntregaCombustible = id;
                 Entrega.Usuario = User.Identity.Name;
                 Entrega = EntregaCombustibleDatos.EliminarEntregaCombustible(Entrega);
-                if (Entrega.Completado)
-                    return Json("true");
-                else
+
+                if (string.IsNullOrEmpty(Entrega.UrlImagen64) || string.Equals(Entrega.UrlImagen64, "0"))
+                {
                     return Json("false");
-                // TODO: Add delete logic here
+                }
+                else
+                {
+                    var uploadImageToserver = new UploadFileToServerModel();
+                    uploadImageToserver.BaseDir = ProjectSettings.BaseDirEntregaCombustible;
+                    uploadImageToserver.FileName = Entrega.UrlImagen64;
+                    CidFaresHelper.DeleteFileFromServer(uploadImageToserver);
+
+                    return Json("true");
+                }
+                
             }
             catch
             {

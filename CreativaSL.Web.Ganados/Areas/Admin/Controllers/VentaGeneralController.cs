@@ -10,6 +10,8 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using CreativaSL.Web.Ganados.Models.Helpers;
+using CreativaSL.Web.Ganados.Models.System;
 
 namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
 {
@@ -257,21 +259,24 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                     {
                         if (DocumentoPorCobrarPago.HttpImagen != null)
                         {
-                            //DocumentoPorCobrarPago.ImagenBase64 = Auxiliar.ImageToBase64(DocumentoPorCobrarPago.HttpImagen);
-                            Stream s = DocumentoPorCobrarPago.HttpImagen.InputStream;
+                            var uploadImageToserver = new UploadFileToServerModel();
+                            uploadImageToserver.FileBase = DocumentoPorCobrarPago.HttpImagen;
+                            uploadImageToserver.BaseDir = ProjectSettings.BaseDirDocumentoPorCobrarPagoBancarizado;
+                            uploadImageToserver.FileName =
+                                DocumentoPorCobrarPago.ImagenBase64?.Replace(
+                                    ProjectSettings.BaseDirDocumentoPorCobrarPagoBancarizado, string.Empty);
 
-                            if (Path.GetExtension(DocumentoPorCobrarPago.HttpImagen.FileName).ToLower() == ".heic")
-                            {
-                                Image img = (Image)Auxiliar.ProcessFile(s);
-                                Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
-                                DocumentoPorCobrarPago.ImagenBase64 = image.ToBase64String(ImageFormat.Jpeg);
-                            }
-                            else
-                            {
-                                Image img = new Bitmap(s);
-                                Bitmap image = new Bitmap(ComprimirImagen.VaryQualityLevel((Image)img.Clone(), 35L));
-                                DocumentoPorCobrarPago.ImagenBase64 = image.ToBase64String(img.RawFormat);
-                            }
+                            CidFaresHelper.DeleteFileFromServer(uploadImageToserver);
+
+                            uploadImageToserver.FileName = Guid.NewGuid().ToString().ToUpper();
+                            CidFaresHelper.UploadFileToServer(uploadImageToserver);
+                            DocumentoPorCobrarPago.ImagenBase64 = uploadImageToserver.FileName;
+                        }
+                        else
+                        {
+                            DocumentoPorCobrarPago.ImagenBase64 =
+                                DocumentoPorCobrarPago.ImagenBase64.Replace(
+                                    ProjectSettings.BaseDirDocumentoPorCobrarPagoBancarizado, string.Empty);
                         }
                     }
                     _VentaGeneral_Datos oDatosVentaGeneral = new _VentaGeneral_Datos();
@@ -324,15 +329,22 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 string usuario = User.Identity.Name;
                 respuesta = oDatosVentaGeneral.VentaGeneral_spCIDDB_del_cobro(id_documentoPorCobrar, id_documentoPorCobrarDetallePagos, usuario, conexion);
 
-                TempData["message"] = respuesta.Mensaje;
-
                 if (respuesta.Success)
                 {
+                    var uploadImageToserver = new UploadFileToServerModel();
+                    uploadImageToserver.BaseDir = ProjectSettings.BaseDirDocumentoPorCobrarPagoBancarizado;
+                    uploadImageToserver.FileName = respuesta.Mensaje;
+
+                    CidFaresHelper.DeleteFileFromServer(uploadImageToserver);
+
                     TempData["typemessage"] = "1";
+                    TempData["message"] = "Registro eliminado correctamente.";
+
                 }
                 else
                 {
                     TempData["typemessage"] = "2";
+                    TempData["message"] = respuesta.Mensaje;
                 }
 
                 return Content(respuesta.ToJSON(), "application/json");
@@ -494,6 +506,19 @@ namespace CreativaSL.Web.Ganados.Areas.Admin.Controllers
                 _VentaGeneral_Datos oDatosVentaGeneral = new _VentaGeneral_Datos();
                 string usuario = User.Identity.Name;
                 respuesta = oDatosVentaGeneral.VentaGeneral_spCIDDB_del(id.Value, conexion, usuario);
+
+                if (respuesta.Success)
+                {
+                    var imagenes = oDatosVentaGeneral.ObtenerImagenesDocumentosPorCobrarDetallePagoBancarizado(id.Value.ToString());
+                    foreach (var imagen in imagenes)
+                    {
+                        var uploadImageToserver = new UploadFileToServerModel();
+                        uploadImageToserver.BaseDir = ProjectSettings.BaseDirDocumentoPorCobrarPagoBancarizado;
+                        uploadImageToserver.FileName = imagen;
+
+                        CidFaresHelper.DeleteFileFromServer(uploadImageToserver);
+                    }
+                }
 
                 return Content(respuesta.ToJSON(), "application/json");
             }

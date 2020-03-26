@@ -26,6 +26,7 @@
             {
                 @Html.AntiForgeryToken()
                 @Html.HiddenFor(model => model.IDCliente)
+                @Html.HiddenFor(model=>model.FotoPerfil)
                 @Html.ValidationSummary(false, "Hay errores en la captura de información:", new { @class = "text-danger" }) //Server
                 <div id="validation_summary" class="field_error "></div> //JS
                 <div class="panel panel-default tabs">
