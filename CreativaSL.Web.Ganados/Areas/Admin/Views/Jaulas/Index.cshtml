@@ -1,0 +1,253 @@
+﻿@{
+    ViewBag.title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+@section css
+{
+    <link href="~/Content/css/datatable/jquery.dataTables.min.css" rel="stylesheet" />
+    <style>
+        table.tVenta td {
+            border-color: #E5E5E5 !important;
+            border: 1px solid #E5E5E5;
+        }
+
+        table.tVenta > thead > tr > th {
+            background: #f1f5f9;
+            color: #56688A;
+            font-size: 12px;
+            border: 1px solid #E5E5E5;
+            text-align: center;
+            vertical-align: middle;
+            padding: 8px;
+        }
+
+        td {
+            vertical-align: middle;
+            text-align: center;
+        }
+    </style>
+}
+
+@section featured
+{
+    @{
+        var message = TempData["message"] ?? string.Empty;
+        var typemessage = TempData["typemessage"] ?? string.Empty;
+    }
+    <div id="Error" class="progress-bar progress-bar-striped active errorCSL" style="display:none; width:100%">
+        <h3></h3>
+    </div>
+    <div id="Success" class="progress-bar progress-bar-striped active successCSL" style="display:none; width:100%">
+        <h3></h3>
+    </div>
+    <div class="page-title">
+        <h2><span class="fa fa-arrow-circle-o-left"></span> Jaulas </h2>
+    </div>
+
+    <!-- END PAGE TITLE -->
+    <div class="page-content-wrap">
+        <div class="row">
+            <div class="col-md-12">
+                <!-- START DEFAULT DATATABLE -->
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"></h3>
+                        <ul class="panel-controls">
+                            <li><a href="@Url.Action("Create","Jaulas")" class="btn btn-default btnCrear"><span class="fa fa-plus"></span> Nueva Jaula</a></li>
+                            <li><a href="#" class="panel-collapse exsa"><span class="fa fa-angle-down"></span></a></li>
+                            <li><a href="#" class="panel-fullscreen exsa"><span class="fa fa-expand"></span></a></li>
+                        </ul>
+                    </div>
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            <table id="tblJaula" class="tVenta table">
+                                <thead>
+                                    <tr>
+                                        <th rowspan="3">Folio</th>
+                                        <th rowspan="3">Sucursal</th>
+                                        <th rowspan="3">Fecha</th>
+                                        <th rowspan="3">Hora</th>                                        
+                                        <th colspan="6">Ganado</th>
+                                        <th rowspan="3">Acción</th>
+                                    </tr>
+                                    <tr>
+                                        <th colspan="2"> Machos </th>
+                                        <th colspan="2"> Hembras </th>
+                                        <th rowspan="2"> Total ganado </th>
+                                        <th rowspan="2"> Total kg. </th>
+                                    </tr>
+                                    <tr>
+                                        <th>Cant.</th>
+                                        <th>Kg.</th>
+                                        <th>Cant.</th>
+                                        <th>Kg.</th>
+                                    </tr>
+
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- END DEFAULT DATATABLE -->
+            </div>
+        </div>
+    </div>
+    <!-- PAGE CONTENT WRAPPER -->
+    <div class="message-box animated fadeIn" data-sound="alert" id="mb-remove-row">
+        <div class="mb-container">
+            <div class="mb-middle">
+                <div class="mb-title"><span class="fa fa-times"></span> Eliminar <strong>Registro</strong> ?</div>
+                <div class="mb-content">
+                    <p>¿Seguro que quieres eliminar esta fila?</p>
+                    <p>Presione "sí" si está seguro.</p>
+                </div>
+                <div class="mb-footer">
+                    <div class="pull-right">
+                        <button class="btn btn-success btn-lg mb-control-yes">Si</button>
+                        <button class="btn btn-default btn-lg mb-control-close">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="message-box animated fadeIn" data-sound="alert" id="mb-eliminar">
+        <div class="mb-container">
+            <div class="mb-middle">
+                <div class="mb-title"><span class="fa fa-mail-forward"></span><strong>¿Seguro que desea eliminar esta venta?</strong></div>
+                <div class="mb-content">
+                    <p>¿Desea eliminar esta venta?</p>
+                    <p>Presione "sí" si está seguro.</p>
+                </div>
+                <div class="mb-footer">
+                    <div class="pull-right">
+                        <button class="btn btn-success btn-lg mb-control-yes">Si</button>
+                        <button class="btn btn-default btn-lg mb-control-close">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+    var message = '@message';
+    var typemessage = '@typemessage';
+    </script>
+
+}
+@section script
+{
+    <script type="text/javascript" src="@Url.Content("~/Content/js/demo_tables.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/plugins/datatables/jquery.dataTables.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/mensajeDeError.js")"></script>
+    <script>
+        jQuery(document).ready(function () {
+            Mensaje(message, typemessage);
+
+            var tblJaula = $("#tblJaula").DataTable({
+                "processing": true,
+                "serverSide": true,
+                "language": {
+                    "url": "/Content/assets/json/Spanish.json"
+                },
+                "ajax": {
+                    "url": "/Admin/Jaulas/DatatableIndex/",
+                    "method": "POST",
+                    "dataType": "json",
+                    "dataSrc": function (json) {
+
+                        if (json.data === null)
+                            return [];
+                        else
+                            return json.data;
+                    }
+                },
+                "columns": [
+                    { "data": "folio" },
+                    { "data": "nombreSucursal" },
+                    {
+                        "data": "fecha",
+                        "render": function (data, type, row) {
+                            var fecha = row["fecha"];
+                            if (!fecha || fecha === "")
+                                fecha = "Sin dato";
+                            else {
+                                var dateSplit = fecha.split('/');
+                                var dia = dateSplit[0];
+                                var mes = dateSplit[1];
+                                var añoSplit = dateSplit[2].split(' ');
+                                var año = añoSplit[0];
+                                fecha = dia + '-' + mes + '-' + año;
+                            }
+
+                            return fecha;
+                        }
+                    },
+                    {
+
+                        "data": null,
+                        "render": function (data, type, row) {
+                            var hora = row["fecha"];
+                            if (!hora || hora === "")
+                                hora = "Sin Hora";
+                            else {
+
+                                var dateSplit = hora.split('/');
+                                var dia = dateSplit[2];
+                                dia = dia.split(' ');
+                                dia = dia[1];
+                                console.log(dia);
+                                var S = dia.split(':');
+                                var H = S[0];
+                                var M = S[1];
+                                hora = H + ':' + M + ' Horas';
+                            }
+                            return hora;
+                        }
+                    }, //hora                   
+                    { "data": "cantidadGanadoMachos" }, //cantidad machos
+                    {
+                        "data": "kilosGanadoMachos",
+                        "render": $.fn.dataTable.render.number(',', '.', 0, '', ' kg.')
+                    }, //kilos machos
+                    { "data": "cantidadGanadoHembras" }, //cantidad machos
+                    {
+                        "data": "kilosGanadoHembras",
+                        "render": $.fn.dataTable.render.number(',', '.', 0, '', ' kg.')
+                    }, //kilos machos
+                    { "data": "totalGanado" }, //cantidad total
+                    {
+                        "data": "kilosGanadoTotal",
+                        "render": $.fn.dataTable.render.number(',', '.', 0, '', ' kg.')
+                    }, //kilos
+                    {
+                        "data": null,
+                        "render": function (data, type, full) {
+                            var botones = "<div class='hidden-md hidden-sm'>";
+                            botones = botones +                                 
+                                "<a data-id='" + full["id_jaula"] + "' class='btn btn-info tooltips costoExtra btnMargin' title='Jaula'  data-placement='top' data-original-title='Costo extra'><i class='fa fa-search-plus'></i></a>" +
+                                "<a data-id='" + full["id_jaula"] + "' class='btn btn-yellow tooltips edit btnMargin' title='Edit'  data-placement='top' data-original-title='Edit'><i class='fa fa-edit'></i></a>" +
+                                "<a data-id='" + full["id_jaula"] + "' data-hrefa='/Admin/Jaulas/DEL_JAULA/' class='btn btn-danger tooltips eliminar btnMargin' data-placement='top' data-original-title='Eliminar' title='Eliminar' ><i class='fa fa-trash-o'></i></a>" +
+                                "</div>"
+
+                            return botones;
+                        }
+                    } //accion
+                ],
+                responsive: true,
+                "drawCallback": function (settings) {
+                   $(".edit").on("click", function () {
+                        //edito el estado actual de la compra
+                        var IDJaula = $(this).data("id");                       
+                        window.location.href = '/Admin/Jaulas/Edit?IdJaula=' + IDJaula;
+                    });
+                   /* $(".costoExtra").on("click", function () {
+                        var id = $(this).data("id")
+                        window.location.href = '/Admin/Jaula/JaulaSome?IdJaula=' + id;
+                    });*/
+
+                },
+                "order": [[0, "desc"]]
+            });
+        });
+    </script>
+}

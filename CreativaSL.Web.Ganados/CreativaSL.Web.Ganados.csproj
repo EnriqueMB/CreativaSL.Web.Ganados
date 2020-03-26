@@ -470,6 +470,7 @@
     <Content Include="Content\img\themes\brown.jpg" />
     <Content Include="Content\img\themes\default.jpg" />
     <Content Include="Content\img\themes\light.jpg" />
+    <Content Include="Content\JaulaJS.js" />
     <Content Include="Content\js\actions.js" />
     <Content Include="Content\js\AddDeduccion.js" />
     <Content Include="Content\js\addProductoServicio.js" />
@@ -498,6 +499,7 @@
     <Content Include="Content\js\catDocumentos.js" />
     <Content Include="Content\js\catFierro.js" />
     <Content Include="Content\js\CatFierroSubir.js" />
+    <Content Include="Content\js\Jaula\JaulaJS.js" />
     <Content Include="Content\js\MetaXSucursal.js" />
     <Content Include="Content\js\plugins\nvd3\src\models\backup\bullet.js" />
     <Content Include="Content\js\PrestamoHerramientasDetalle.js" />
@@ -1609,6 +1611,9 @@
     <Content Include="Areas\Admin\Views\CostoExtra\Index.cshtml" />
     <Content Include="Areas\Admin\Views\CostoExtra\CostosExtra.cshtml" />
     <Content Include="Areas\Admin\Views\CostoExtra\CostoExtra_AC.cshtml" />
+    <Content Include="Areas\Admin\Views\Jaulas\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Jaulas\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Jaulas\Edit.cshtml" />
     <None Include="Properties\PublishProfiles\Ocampo.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\js\compra.js" />
@@ -1654,6 +1659,7 @@
     <Compile Include="Areas\Admin\Controllers\CuentaUserController.cs" />
     <Compile Include="Areas\Admin\Controllers\ErrorController.cs" />
     <Compile Include="Areas\Admin\Controllers\HistorialCajaChicaController.cs" />
+    <Compile Include="Areas\Admin\Controllers\JaulasController.cs" />
     <Compile Include="Areas\Admin\Controllers\MiCajaChicaController.cs" />
     <Compile Include="Areas\Admin\Controllers\PesajeGanadoController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReporteTipoFleteController.cs" />
@@ -1870,6 +1876,7 @@
     <Compile Include="Models\Dto\Cliente\ReporteClienteDto.cs" />
     <Compile Include="Models\Dto\Compra\IndexCompraDto.cs" />
     <Compile Include="Models\Dto\Base\IndexDatatableDto.cs" />
+    <Compile Include="Models\Dto\Jaula\IndexJaulaDto.cs" />
     <Compile Include="Models\Dto\ProveedorGanado\ConfiguracionReporteProveedorGanadoDto.cs" />
     <Compile Include="Models\Dto\ProveedorGanado\ImagenesProveedorGanadoDto.cs" />
     <Compile Include="Models\Dto\ProveedorGanado\IndexProveedorGanadoDocumentacionExtraDto.cs" />
@@ -1877,6 +1884,8 @@
     <Compile Include="Models\Dto\ProveedorGanado\ReporteProveedorGanadoDto.cs" />
     <Compile Include="Models\Dto\ProveedorGanado\PathFileXModuloDto.cs" />
     <Compile Include="Models\Dto\Reporte\ReportePagosChequeDto.cs" />
+    <Compile Include="Models\JaulaModels.cs" />
+    <Compile Include="Models\JaulaVentas.cs" />
     <Compile Include="Models\System\Base64Model.cs" />
     <Compile Include="Models\Dto\Venta\IndexVentaDto.cs" />
     <Compile Include="Models\EntradaAlmacenDetalleModels.cs" />
@@ -2074,6 +2083,7 @@
     <Compile Include="Models\_EntregaCombustible_Datos.cs" />
     <Compile Include="Models\_FleteImpuesto_Datos.cs" />
     <Compile Include="Models\_Flete_Datos.cs" />
+    <Compile Include="Models\_Jaula_Datos.cs" />
     <Compile Include="Models\_Login_Datos.cs" />
     <Compile Include="Models\_Menu_Datos.cs" />
     <Compile Include="Models\_NominaDiasFestivos_Datos.cs" />
